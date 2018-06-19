@@ -2,23 +2,30 @@ from psychopy import event, sound
 import numpy as np
 import string
 from copy import deepcopy
+import time
 
-def drawResponses(responses,respStim,numCharsWanted,drawBlanks):
+def drawResponses(responses,respStim,numCharsWanted,changeToUpperCase,drawBlanks):
     '''Draw the letters the user has entered
     drawBlanks is whether to show empty spaces with _, that's why numCharsWanted would be needed
     '''
     respStr = ''.join(responses) #converts list of characters (responses) into string
     #print 'responses=',responses,' respStr = ', respStr #debugOFF
+    if changeToUpperCase:
+        respStr = respStr.upper()
     if drawBlanks:
         blanksNeeded = numCharsWanted - len(respStr)
         respStr = respStr + '_'*blanksNeeded
     respStim.setText(respStr,log=False)
     respStim.draw(); 
         
-def collectStringResponse(numCharsWanted,respPromptStim,respStim,acceptTextStim,myWin,clickSound,badKeySound,requireAcceptance,autopilot,responseDebug=False): 
-    '''respPromptStim should be a stimulus with a draw() method
+def collectStringResponse(numCharsWanted,x,respPromptStim,respStim,acceptTextStim,fixation,myWin,
+                                               clickSound,badKeySound,requireAcceptance,autopilot,changeToUpperCase,responseDebug=False): 
+    '''respPromptStim should be a stimulus with a draw() method, could be something like 'Enter your 3-character response')
+      respStim is a textStim in the location you want the participant's response to appear
+      acceptTextStim where you want a message to appear, like 'Hit ENTER to accept. Backspace to edit'
     '''
     event.clearEvents() #clear the keyboard buffer
+    respStim.setPos([x,0])
     drawBlanks = True
     expStop = False
     passThisTrial = False
@@ -27,42 +34,44 @@ def collectStringResponse(numCharsWanted,respPromptStim,respStim,acceptTextStim,
     accepted = True
     if requireAcceptance: #require user to hit ENTER to finalize response
         accepted = False
-
     while not expStop and (numResponses < numCharsWanted or not accepted):
-    # (numResponses < numCharsWanted and not expStop) or not accepted:
-    #while (numResponses < numCharsWanted and not expStop) or not accepted:
-        print 'numResponses=', numResponses #debugOFF
-        print 'expStop=',expStop
-        print 'accepted=',accepted
         noResponseYet = True
         thisResponse=''
         while noResponseYet: #loop until a valid key is hit
+           if fixation is not None:
+                fixation.draw()
            respPromptStim.draw()
-           drawResponses(responses,respStim,numCharsWanted,drawBlanks)
+           drawResponses(responses,respStim,numCharsWanted,changeToUpperCase,drawBlanks)
            myWin.flip()
            click =  False
-           keysPressed = event.getKeys();            #print 'keysPressed = ', keysPressed
+           if autopilot: #need to wait otherwise dont have chance to press a key 
+                for f in range(20): time.sleep(.01) #core.wait(1.0/60) #myWin.flip()
+           keysPressed = event.getKeys()
+           if changeToUpperCase:
+                keysPressed = [key.upper() for key in keysPressed] #transform to uppercase
+           else:
+                keysPressed = [key for key in keysPressed] 
            if autopilot:
                noResponseYet = False
+               numResponses = numCharsWanted
                if 'ESCAPE' in keysPressed:
                    expStop = True
            elif len(keysPressed) > 0:
                 key = keysPressed[-1] #process only the last key, it being the most recent. In theory person could type more than one key between window flips, 
                 #but that might be hard to handle.
-                key = key.upper()
                 thisResponse = key
-                if key in ['ESCAPE']:
+                if key.upper() in ['ESCAPE']:
                      expStop = True
                      noResponseYet = False
 #                  if key in ['SPACE']: #observer opting out because think they moved their eyes
 #                      passThisTrial = True
 #                      noResponseYet = False
-                elif key in string.ascii_letters:
+                elif key.upper() in string.ascii_letters:
                     noResponseYet = False
                     responses.append(thisResponse)
                     numResponses += 1 #not just using len(responses) because want to work even when autopilot, where thisResponse is null
                     click = True
-                elif key in ['BACKSPACE','DELETE']:
+                elif key.upper() in ['BACKSPACE','DELETE']:
                     if len(responses) >0:
                         responses.pop()
                         numResponses -= 1
@@ -71,32 +80,34 @@ def collectStringResponse(numCharsWanted,respPromptStim,respStim,acceptTextStim,
 
         if click and (click is not None):
             clickSound.play()
-        drawResponses(responses,respStim,numCharsWanted,drawBlanks)
+        drawResponses(responses,respStim,numCharsWanted,changeToUpperCase,drawBlanks)
         myWin.flip() #draw again, otherwise won't draw the last key
         
         if (numResponses == numCharsWanted) and requireAcceptance:  #ask participant to HIT ENTER TO ACCEPT
             waitingForAccept = True
             while waitingForAccept and not expStop:
+                if fixation is not None:
+                    fixation.draw()
                 acceptTextStim.draw()
                 respStim.draw()
                 for key in event.getKeys():
-                    key = key.upper()
-                    if key in ['ESCAPE']:
+                    if key.upper() in ['ESCAPE']:
                         expStop = True
                         #noResponseYet = False
-                    elif key in ['ENTER','RETURN']:
+                    elif key.upper() in ['ENTER','RETURN']:
                         waitingForAccept = False
                         accepted = True
-                    elif key in ['BACKSPACE','DELETE']:
+                    elif key.upper() in ['BACKSPACE','DELETE']:
                         waitingForAccept = False
                         numResponses -= 1
                         responses.pop()
-                        drawResponses(responses,respStim,numCharsWanted,drawBlanks)
+                        drawResponses(responses,respStim,numCharsWanted,changeToUpperCase,drawBlanks)
                         myWin.flip() #draw again, otherwise won't draw the last key
                 myWin.flip() #end of waitingForAccept loop
           #end of waiting until response is finished, all keys and acceptance if required
           
     responsesAutopilot = np.array(   numCharsWanted*list([('A')])   )
+    responses = [response.upper() for response in responses] 
     responses=np.array( responses )
     #print 'responses=', responses,' responsesAutopilot=', responsesAutopilot #debugOFF
     return expStop,passThisTrial,responses,responsesAutopilot
@@ -138,11 +149,14 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     respStim = visual.TextStim(window,pos=(0,0),colorSpace='rgb',color=(1,1,0),alignHoriz='center', alignVert='center',height=.16,units='norm',autoLog=autoLogging)
 
     responseDebug=False; responses = list(); responsesAutopilot = list();
-    numCharsWanted = 2
+    numCharsWanted = 5
     respPromptStim.setText('Enter your ' + str(numCharsWanted) + '-character response')
     requireAcceptance = True
+    x=-.2 #x offset relative to centre of screen
+    changeToUpper = True
     expStop,passThisTrial,responses,responsesAutopilot = \
-                collectStringResponse(numCharsWanted,respPromptStim,respStim,acceptTextStim,window,clickSound,badKeySound,requireAcceptance,autopilot,responseDebug=True)
+                collectStringResponse(numCharsWanted,x,respPromptStim,respStim,acceptTextStim,None,window,clickSound,badKeySound,requireAcceptance,autopilot,
+                                                        changeToUpper, responseDebug=True)
     print('responses=',responses)
     print('expStop=',expStop,' passThisTrial=',passThisTrial,' responses=',responses, ' responsesAutopilot =', responsesAutopilot)
     print('Finished') 
