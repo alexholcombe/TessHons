@@ -1,5 +1,5 @@
 #Alex Holcombe alex.holcombe@sydney.edu.au
-#See the github repository for more information: https://github.com/alexholcombe/twoWords, in particular RansleySingleShotVersion
+#See the github repository for more information: https://github.com/alexholcombe/PSYC1002
 from __future__ import print_function
 from psychopy import monitors, visual, event, data, logging, core, sound, gui
 import psychopy.info
@@ -46,6 +46,7 @@ if demo:
    refreshRate = 60.;  #100
 
 numWordsInStream = 1
+myFont =  'Arial' # 'Sloan' # 
 
 # reads stimuli in from external source
 
@@ -76,7 +77,7 @@ cueRadius = 7 #6 deg in Goodbourn & Holcombe
 widthPix= 1600 #monitor width in pixels of Agosta  [1280]
 heightPix= 900 #800 #monitor height in pixels [800]
 monitorwidth = 60 #38.7 #monitor width in cm [was 38.7]
-scrn=1 #0 to use main screen, 1 to use external screen connected to computer
+scrn=0 #0 to use main screen, 1 to use external screen connected to computer
 fullscr=True #True to use fullscreen, False to not. Timing probably won't be quite right if fullscreen = False
 allowGUI = False
 if demo: monitorwidth = 23#18.0
@@ -303,8 +304,8 @@ def calcAndPredrawStimuli(stimList,i,j):
    stim1string = stimList[ i ]
    stim2string = stimList[ j ]
    print('stim1string=',stim1string, 'stim2string=',stim2string)
-   textStimulus1 = visual.TextStim(myWin,text=stim1string,height=ltrHeight,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
-   textStimulus2 = visual.TextStim(myWin,text=stim2string,height=ltrHeight,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
+   textStimulus1 = visual.TextStim(myWin,text=stim1string,height=ltrHeight,font=myFont,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
+   textStimulus2 = visual.TextStim(myWin,text=stim2string,height=ltrHeight,font=myFont,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
 
    textStimulus1.setPos([-wordEccentricity,0]) #left
    stimuliStream1.append(textStimulus1)
@@ -320,8 +321,8 @@ except: #in case file missing, create inferiro click manually
     click=sound.Sound('D',octave=4, sampleRate=22050, secs=0.015, bits=8)
 
 if showRefreshMisses:
-    fixSizePix = 26 #2.6  #make fixation bigger so flicker more conspicuous
-else: fixSizePix = 26
+    fixSizePix = 36 #2.6  #make fixation bigger so flicker more conspicuous
+else: fixSizePix = 36
 fixColor = [1,1,1]
 if exportImages: fixColor= [0,0,0]
 fixatnNoiseTexture = np.round( np.random.rand(fixSizePix/4,fixSizePix/4) ,0 )   *2.0-1 #Can counterphase flicker  noise texture to create salient flicker if you break fixation
@@ -644,7 +645,7 @@ def do_RSVP_stim(thisTrial, seq1, seq2, proportnNoise,trialN,thisProbe):
     
     return cuesPos,ts
 
-def handleAndScoreResponse(passThisTrial,response,responseAutopilot,task,cuePos,correctAnswerIdx,stimList):
+def handleAndScoreResponse(passThisTrial,response,responseAutopilot,task,correctAnswer):
     #Handle response, calculate whether correct, ########################################
     #responses are actual characters
     #correctAnswer is index into stimSequence
@@ -655,10 +656,8 @@ def handleAndScoreResponse(passThisTrial,response,responseAutopilot,task,cuePos,
     #approxCorrect = 0
     #posOfResponse = -999
     #responsePosRelative = -999
-    idx = correctAnswerIdx
-    print("thisidxs=",idx)
-    print("this stimList=",stimList)
-    correctAnswer = stimList.upper()
+
+    correctAnswer = correctAnswer.upper()
     responseString= ''.join(['%s' % char for char in response])
     responseString= responseString.upper()
     print('correctAnswer=',correctAnswer ,' responseString=',responseString)
@@ -668,30 +667,11 @@ def handleAndScoreResponse(passThisTrial,response,responseAutopilot,task,cuePos,
     
     #responseWordIdx = wordToIdx(responseString,stimList)
     
-    #if responseWordIdx is None: #response is not in the wordList
-     #   posOfResponse = -999
-      #  logging.warn('Response was not present in the stimulus stream')
-    #else:
-     #   posOfResponse= np.where( responseWordIdx==stimSequence )
-      #  posOfResponse= posOfResponse[0] #list with two entries, want first which will be array of places where the response was found in the sequence
-       # if len(posOfResponse) > 1:
-        #    logging.error('Expected response to have occurred in only one position in stream')
-       # posOfResponse = posOfResponse[0] #first element of list (should be only one element long 
-       # responsePosRelative = posOfResponse - cuePos
-       # approxCorrect = abs(responsePosRelative)<= 3 #Vul efficacy measure of getting it right to within plus/minus
-    #print('wordToIdx(',responseString,',',wordList,')=',responseWordIdx,' stimSequence=',stimSequence,'\nposOfResponse = ',posOfResponse) #debugON
-    #print response stuff to dataFile
-    #header was answerPos0, answer0, response0, correct0, responsePosRelative0
-#    print(cuePos,'\t', end='', file=dataFile)
     print(correctAnswer, '\t', end='', file=dataFile) #answer0
     print(responseString, '\t', end='', file=dataFile) #response0
     print(correct, '\t', end='',file=dataFile) 
-    #print(probe, '\t', end='',file=dataFile)#correct0
-   # print(responsePosRelative, '\t', end='',file=dataFile) #responsePosRelative0
-
     return correct
     #end handleAndScoreResponses
-    staircase1.addResponse(correct)
 def play_high_tone_correct_low_incorrect(correct, passThisTrial=False):
     highA = sound.Sound('G',octave=5, sampleRate=6000, secs=.3, bits=8)
     low = sound.Sound('F',octave=3, sampleRate=6000, secs=.3, bits=8)
@@ -769,6 +749,7 @@ if doStaircase:
                 break #break out of the trials loop
         #print('staircaseTrialN=',staircaseTrialN)
         calcAndPredrawStimuli(stimList)
+
         cuesPos,ts  = \
                                         do_RSVP_stim(cuePos, idxsStream1, idxsStream2, noisePercent/100.,staircaseTrialN)
         speedupMessages = [   'time after mask until left do_RSVP_stim' +  str( debugClock.getTime() )   ]
@@ -850,6 +831,9 @@ else: #not staircase
     whichStim0 = np.random.randint(0, len(stimList) )
     whichStim1 = np.random.randint(0, len(stimList) )
     calcAndPredrawStimuli(stimList,whichStim0,whichStim1)
+    #stimuliStream1[0].draw; stimuliStream2[0].draw() #debug
+    #myWin.flip()
+    #event.waitKeys()
     while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
         if nDoneMain==0:
             msg='Starting main (non-staircase) part of experiment'
@@ -895,9 +879,10 @@ else: #not staircase
             #expStop,passThisTrial,responses,buttons,responsesAutopilot = \
             #        letterLineupResponse.doLineup(myWin,bgColor,myMouse,clickSound,badKeySound,possibleResps,showBothSides,sideFirstLeftRightCentral,autopilot) #CAN'T YET HANDLE MORE THAN 2 LINEUPS
             i = 0
+            changeToUpper = True
             expStop[i],passThisTrial[i],responses[i],responsesAutopilot[i] = stringResponse.collectStringResponse(
                                         numCharsInResponse,x,respPromptStim,respStim,acceptTextStim,fixationPoint,myWin,clickSound,badKeySound,
-                                                                                   requireAcceptance,autopilot,responseDebug=True) 
+                                                                                   requireAcceptance,autopilot,changeToUpper,responseDebug=True) 
             speedupMessages.append([   'collectStringResponse:' +  str( 1000*debugClock.getTime() )   ])
             debugClock.reset()
             expStop = np.array(expStop).any(); passThisTrial = np.array(passThisTrial).any()
@@ -917,14 +902,15 @@ else: #not staircase
                 for i in [0,1]:#range(numRespsWanted): #scored and printed to dataFile in left first, right second order even if collected in different order
                     if i==0:
                         print("i=",i)
-                        sequenceStream = idxsStream1; correctAnswerIdxs = correctAnswerIdxsStream1
-                    else: sequenceStream = idxsStream2; correctAnswerIdxs = correctAnswerIdxsStream2
+                        sequenceStream = idxsStream1; correctAnswerIdx = whichStim0
+                    else: sequenceStream = idxsStream2; correctAnswerIdx = whichStim1
                     print ("sequenceStream = ",sequenceStream)
-                    print ("correctAnswerIdxs = ", correctAnswerIdxs)
-                    print ("stimList = ", stimList)
+                    print ("correctAnswerIdx = ", correctAnswerIdx)
+                    print ("stimList = ", stimList, " correctAnswer = stimList[correctAnswerIdx] = ",stimList[correctAnswerIdx])
                     print ("responses = ", responses)
+
                     correct = (
-                            handleAndScoreResponse(passThisTrial,responses[i],responsesAutopilot,task,thisTrial['cuePos'],correctAnswerIdxs,stimList[correctAnswerIdxs] ) )
+                            handleAndScoreResponse(passThisTrial,responses[i],responsesAutopilot,task,stimList[correctAnswerIdx] ) )
                     #eachCorrect[i] = correct
         
 
