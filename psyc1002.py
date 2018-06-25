@@ -7,7 +7,7 @@ import scipy
 import numpy as np
 from math import atan, log, ceil
 import copy
-import time, sys, os #, pylab
+import time, sys, os, string
 try:
     from noiseStaircaseHelpers import printStaircase, toStaircase, outOfStaircase, createNoise, plotDataAndPsychometricCurve
 except ImportError:
@@ -48,27 +48,28 @@ if demo:
 numWordsInStream = 1
 myFont =  'Arial' # 'Sloan' # 
 
-# reads stimuli in from external source
+#reads stimuli in from external source
+conditionsList = ['word','letter','digit']
+condition = conditionsList[1]
 
-stimList = list()
-#if subject number corresponds to word participant,
-#read word list
-#f = open("DavisBowersWL.txt")
-f = open("BrysbaertNew2009_3ltrWords_don_deleted.txt")
-eachLine = f.readlines()
-numWordsWanted = 24
-if len(eachLine) < numWordsWanted:
-    print("ERROR file doesn't have as many lines as expected, wanted more words.")
-for l in range(1,numWordsWanted):#skip first, header line, therefore start with line 1
-    line = eachLine[l]
-    values = line.split() #splits on tabs or whitespaces and trims leading,following including newlines
-    word = values[0]
-    stimList.append( word )
-    print(word,'\t')
-#stimList = [x.rstrip() for x in stimList.readlines()]  #entire line except spaces
-
-#for i in range(len(stimList)):
-#   stimList[i] = stimList[i].replace(" ", "") #delete spaces
+numStimsWanted = 26
+if condition == 'letter':
+    stimList = list(string.ascii_lowercase)
+elif condition == 'word':
+    stimList = list()
+    #read word list
+    stimDir = 'inputFiles'
+    stimFilename = os.path.join(stimDir,"BrysbaertNew2009_3ltrWords_don_deleted.txt")
+    f = open(stimFilename)
+    eachLine = f.readlines()
+    if len(eachLine) < numStimsWanted:
+        print("ERROR file doesn't have as many lines as expected, wanted more words.")
+    for l in range(1,numStimsWanted):#skip first, header line, therefore start with line 1
+        line = eachLine[l]
+        values = line.split() #splits on tabs or whitespaces and trims leading,following including newlines
+        word = values[0]
+        stimList.append( word )
+        print(word,'\t')
 
 bgColor = [-.7,-.7,-.7] # [-1,-1,-1]
 cueColor = [-.7,-.7,-.7] #originally [1.,1.,1.]
@@ -95,19 +96,9 @@ viewdist = 57 #50. #cm
 pixelperdegree = widthPix/ (atan(monitorwidth/viewdist) /np.pi*180)
 print('pixelperdegree=',pixelperdegree)
     
-# create a dialog from dictionary 
-infoFirst = { 'Fullscreen (timing errors if not)': False, 'Screen refresh rate': 60 }
-OK = gui.DlgFromDict(dictionary=infoFirst, 
-    title='PSYC1002', 
-    order=[  'Fullscreen (timing errors if not)'], 
-    #tip={'Check refresh etc': 'To confirm refresh rate and that can keep up, at least when drawing a grating'},
-    #fixed=['Check refresh etc'])#this attribute can't be changed by the user
-    )
-if not OK.OK:
-    print('User cancelled from dialog box'); core.quit()
 doStaircase = False
 checkRefreshEtc = False
-fullscr = infoFirst['Fullscreen (timing errors if not)']
+fullscr = False 
 if checkRefreshEtc:
     quitFinder = True 
 if quitFinder:
@@ -294,6 +285,13 @@ if fullscr and not demo and not exportImages:
     logging.info(runInfo)
 logging.flush()
 
+def calcStimPos(trial,i):
+    if trial['horizVert']:            # bottom,           top
+        positions = [ [0,-wordEccentricity], [0,wordEccentricity] ]
+    else:                                   #left      ,        right 
+        positions = [ [-wordEccentricity,0], [wordEccentricity,0] ]
+    return positions[i]
+
 stimuliStream1 = list()
 stimuliStream2 = list() #used for second, simultaneous RSVP stream
 def calcAndPredrawStimuli(stimList,i,j):
@@ -307,9 +305,9 @@ def calcAndPredrawStimuli(stimList,i,j):
    textStimulus1 = visual.TextStim(myWin,text=stim1string,height=ltrHeight,font=myFont,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
    textStimulus2 = visual.TextStim(myWin,text=stim2string,height=ltrHeight,font=myFont,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
 
-   textStimulus1.setPos([-wordEccentricity,0]) #left
+   #textStimulus1.setPos([-wordEccentricity,0]) #left
    stimuliStream1.append(textStimulus1)
-   textStimulus2.setPos([wordEccentricity,0]) #right
+   #textStimulus2.setPos([wordEccentricity,0]) #right
    stimuliStream2.append(textStimulus2)
    #end calcAndPredrawStimuli
    
@@ -325,9 +323,6 @@ if showRefreshMisses:
 else: fixSizePix = 36
 fixColor = [1,1,1]
 if exportImages: fixColor= [0,0,0]
-fixatnNoiseTexture = np.round( np.random.rand(fixSizePix/4,fixSizePix/4) ,0 )   *2.0-1 #Can counterphase flicker  noise texture to create salient flicker if you break fixation
-fixation= visual.PatchStim(myWin, tex=fixatnNoiseTexture, size=(fixSizePix,fixSizePix), units='pix', mask='circle', interpolate=False, autoLog=False)
-fixationBlank= visual.PatchStim(myWin, tex= -1*fixatnNoiseTexture, size=(fixSizePix,fixSizePix), units='pix', mask='circle', interpolate=False, autoLog=False) #reverse contrast
 fixationPoint= visual.PatchStim(myWin,tex='none',colorSpace='rgb',color=(1,1,1),size=4,units='pix',autoLog=autoLogging)
 
 respPromptStim = visual.TextStim(myWin,pos=(0, -.9),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.05,units='norm',autoLog=autoLogging)
@@ -346,9 +341,11 @@ cuePositions =  np.array([0]) # [4,10,16,22] used in Martini E2, group 2
 for cuePos in cuePositions:
    for rightResponseFirst in [False,True]:
       for bothWordsFlipped in [False]:
-        for probe in ['both']:
-            for indication in [False]:
-                conditionsList.append( {'cuePos':cuePos, 'rightResponseFirst':rightResponseFirst, 'leftStreamFlip':bothWordsFlipped, 'rightStreamFlip':bothWordsFlipped, 'probe':probe, 'indication':indication} )
+        for horizVert in [True]:
+          for probe in ['both']:
+            for indication in [False]: #pre stimulus indicator of locations
+                conditionsList.append( {'cuePos':cuePos, 'rightResponseFirst':rightResponseFirst, 'leftStreamFlip':bothWordsFlipped,
+                                                       'horizVert':horizVert, 'rightStreamFlip':bothWordsFlipped, 'probe':probe, 'indication':indication} )
 
 trials = data.TrialHandler(conditionsList,trialsPerCondition) #constant stimuli method
 trialsForPossibleStaircase = data.TrialHandler(conditionsList,trialsPerCondition) #independent randomization, just to create random trials for staircase phase
@@ -433,8 +430,10 @@ def  oneFrameOfStim( n,cue,seq1,seq2,cueDurFrames,letterDurFrames,ISIframes,this
 
   if timeToShowStim: #time to show critical stimulus
     #print('thisStimIdx=',thisStimIdx, ' seq1 = ', seq1, ' stimN=',stimN)
+    stimuliStream1[thisStimIdx].setPos( calcStimPos(thisTrial,0) )
     stimuliStream1[thisStimIdx].setColor( letterColor )
     stimuliStream2[thisStim2Idx].setColor( letterColor )
+    stimuliStream2[thisStim2Idx].setPos( calcStimPos(thisTrial,1) )
   else: 
     stimuliStream1[thisStimIdx].setColor( bgColor )
     stimuliStream2[thisStim2Idx].setColor( bgColor )

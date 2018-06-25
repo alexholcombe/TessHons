@@ -20,9 +20,9 @@ info = {'Observer':'unikey',
         ['No','Not quite','Sort of','Yes','I cannot say that this is the case','Dont care','Not really','Whatever','Nope']
     }
 infoDlg = gui.DlgFromDict(dictionary=info, title='TestExperiment',
-    order=['The first language you learned to read', 'Observer'],
-    tip={'Observer': 'trained visual observer, initials'},
-    fixed=['ExpVersion'])  # this attribute can't be changed by the user
+    order=['The first language you learned to read', 'Your age'],
+    #tip={'Your ag': 'trained visual observer, initials'},
+    )
 if infoDlg.OK:  # this will be True (user hit OK) or False (cancelled)
     print(info)
 else:
