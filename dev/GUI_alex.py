@@ -17,7 +17,7 @@ info = {'Observer':'unikey',
     'Which is your dominant hand, i.e. which\nhand do you favour for common tasks like\nwriting, throwing, and brushing your teeth?':['Left','Right','Neither (able to use both hands equally well'],
     'The first language you learned to read':[ 'English','Arabic','Pali','Hebrew','Farsi','Chinese','Korean','Japanese','Other'],
     'Did you take this seriously - \n(would you use the data, if you did this research?)':
-        ['No','Not quite','Sort of','Yes','I cannot say that this is the case','Dont care','Not really','Whatever','Nope']
+        ['No','Definitely not','Not really','Yes','Nope']
     }
 infoDlg = gui.DlgFromDict(dictionary=info, title='TestExperiment',
     order=['The first language you learned to read', 'Your age'],

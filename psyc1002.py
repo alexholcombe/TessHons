@@ -175,74 +175,23 @@ else: #checkRefreshEtc
     myWinRes = myWin.size
     myWin.allowGUI =True
 
-### 
 
 myWin.close() #have to close window to show dialog box
 
 defaultNoiseLevel = 0 #to use if no staircase, can be set by user
 trialsPerCondition = 20 #default value
-dlgLabelsOrdered = list()
-if doStaircase:
-    myDlg = gui.Dlg(title="Staircase to find appropriate noisePercent", pos=(200,400))
-else: 
-    myDlg = gui.Dlg(title="experiment", pos=(200,400))
-if not autopilot:
-    myDlg.addField('Subject name (default="Hubert"):', 'Hubert', tip='or subject code')
-    dlgLabelsOrdered.append('subject')
-if doStaircase:
-    prefaceStaircaseTrialsN = 5
-    easyTrialsCondText = 'Num preassigned noise trials to preface staircase with (default=' + str(prefaceStaircaseTrialsN) + '):'
-    myDlg.addField(easyTrialsCondText, tip=str(prefaceStaircaseTrialsN))
-    dlgLabelsOrdered.append('easyTrials')
-    myDlg.addField('Staircase trials (default=' + str(staircaseTrials) + '):', tip="Staircase will run until this number is reached or it thinks it has precise estimate of threshold")
-    dlgLabelsOrdered.append('staircaseTrials')
-    pctCompletedBreak = 101
-else:
-    myDlg.addField('\tPercent noise dots=',  defaultNoiseLevel, tip=str(defaultNoiseLevel))
-    dlgLabelsOrdered.append('defaultNoiseLevel')
-    myDlg.addField('Trials per condition (default=' + str(trialsPerCondition) + '):', trialsPerCondition, tip=str(trialsPerCondition))
-    dlgLabelsOrdered.append('trialsPerCondition')
-    pctCompletedBreak = 50
-    
-myDlg.addText(refreshMsg1, color='Black')
-if refreshRateWrong:
-    myDlg.addText(refreshMsg2, color='Red')
+ 
 if refreshRateWrong:
     logging.error(refreshMsg1+refreshMsg2)
 else: logging.info(refreshMsg1+refreshMsg2)
 
 if checkRefreshEtc and (not demo) and (myWinRes != [widthPix,heightPix]).any():
     msgWrongResolution = 'Screen apparently NOT the desired resolution of '+ str(widthPix)+'x'+str(heightPix)+ ' pixels!!'
-    myDlg.addText(msgWrongResolution, color='Red')
     logging.error(msgWrongResolution)
     print(msgWrongResolution)
-myDlg.addText('Note: to abort press ESC at a trials response screen', color='DimGrey') #color names stopped working along the way, for unknown reason
-myDlg.show()
 
-if myDlg.OK: #unpack information from dialogue box
-   thisInfo = myDlg.data #this will be a list of data returned from each field added in order
-   if not autopilot:
-       name=thisInfo[dlgLabelsOrdered.index('subject')]
-       if len(name) > 0: #if entered something
-         subject = name #change subject default name to what user entered
-   if doStaircase:
-       if len(thisInfo[dlgLabelsOrdered.index('staircaseTrials')]) >0:
-           staircaseTrials = int( thisInfo[ dlgLabelsOrdered.index('staircaseTrials') ] ) #convert string to integer
-           print('staircaseTrials entered by user=',staircaseTrials)
-           logging.info('staircaseTrials entered by user=',staircaseTrials)
-       if len(thisInfo[dlgLabelsOrdered.index('easyTrials')]) >0:
-           prefaceStaircaseTrialsN = int( thisInfo[ dlgLabelsOrdered.index('easyTrials') ] ) #convert string to integer
-           print('prefaceStaircaseTrialsN entered by user=',thisInfo[dlgLabelsOrdered.index('easyTrials')])
-           logging.info('prefaceStaircaseTrialsN entered by user=',prefaceStaircaseTrialsN)
-   else: #not doing staircase
-       trialsPerCondition = int( thisInfo[ dlgLabelsOrdered.index('trialsPerCondition') ] ) #convert string to integer
-       print('trialsPerCondition=',trialsPerCondition)
-       logging.info('trialsPerCondition =',trialsPerCondition)
-       defaultNoiseLevel = int (thisInfo[ dlgLabelsOrdered.index('defaultNoiseLevel') ])
-else: 
-   print('User cancelled from dialog box.')
-   logging.flush()
-   core.quit()
+trialsPerCondition = 1
+defaultNoiseLevel = 0
 if not demo: 
     allowGUI = False
 
@@ -451,7 +400,6 @@ def  oneFrameOfStim( n,cue,seq1,seq2,cueDurFrames,letterDurFrames,ISIframes,this
   if proportnNoise>0:
     noise.draw()
   return True
-
 # #######End of function definition that displays the stimuli!!!! #####################################
 #############################################################################################################################
   thisProbe = thisTrial['probe']
@@ -538,13 +486,15 @@ def do_RSVP_stim(thisTrial, seq1, seq2, proportnNoise,trialN,thisProbe):
     myWin.flip(); myWin.flip()
     
     noiseTexture = scipy.random.rand(128,128)*2.0-1
-    myNoise1 = visual.GratingStim(myWin, tex=noiseTexture, pos=(1, 0),        
+    myNoise1 = visual.GratingStim(myWin, tex=noiseTexture,
              size=(1.5,1), units='deg',
              interpolate=False,
+             pos = calcStimPos(thisTrial,0),
              autoLog=False)#this stim changes too much for autologging to be useful
-    myNoise2 = visual.GratingStim(myWin, tex=noiseTexture, pos=(-1, 0),        
+    myNoise2 = visual.GratingStim(myWin, tex=noiseTexture,
              size=(1.5,1), units='deg',
              interpolate=False,
+             pos = calcStimPos(thisTrial,1),
              autoLog=False)
     #end preparation of stimuli
     
@@ -606,7 +556,6 @@ def do_RSVP_stim(thisTrial, seq1, seq2, proportnNoise,trialN,thisProbe):
 
     #draw the noise mask
     thisProbe = thisTrial['probe']
-    
     if thisProbe == 'long':
         noiseMaskMin = 0.8 #.2
     else: noiseMaskMin = 0.8 # .2
@@ -614,7 +563,6 @@ def do_RSVP_stim(thisTrial, seq1, seq2, proportnNoise,trialN,thisProbe):
     noiseMaskFrames = int(noiseMaskMin *refreshRate)
     #myPatch1.phase += (1 / 128.0, 0.5 / 128.0)  # increment by (1, 0.5) pixels per frame
     #myPatch2.phase += (1 / 128.0, 0.5 / 128.0)  # increment by (1, 0.5) pixels per frame
-    
     #myPatch1 = visual.TextStim(myWin, text = u"####",pos=(wordEccentricity, 0),height=ltrHeight,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging )
     #myPatch2 = visual.TextStim(myWin, text = u"####",pos=(-wordEccentricity, 0),height=ltrHeight,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
     for i in range(noiseMaskFrames):
@@ -854,14 +802,18 @@ else: #not staircase
             print('responseOrder=',responseOrder)
             
             for respI in [0,1]:
-                side = responseOrder[respI] * 2 -1  #-1 for left, 1 for right
-                x = 2*wordEccentricity * side #put it farther out than stimulus, so participant is sure which is left and which right
-                respStim.setPos([x,0])
+                side = responseOrder[respI] * 2 -1  #-1 for left/top, 1 for right/bottom
+                dev = 2*wordEccentricity * side #put it farther out than stimulus, so participant is sure which is left and which right
+                if thisTrial['horizVert']:
+                    x=0; y=dev
+                else:
+                    x=dev; y=0
+                respStim.setPos([x,y])
                 #expStop,passThisTrial,responses,buttons,responsesAutopilot = \
                 #        letterLineupResponse.doLineup(myWin,bgColor,myMouse,clickSound,badKeySound,possibleResps,showBothSides,sideFirstLeftRightCentral,autopilot) #CAN'T YET HANDLE MORE THAN 2 LINEUPS
                 changeToUpper = False
                 expStop[respI],passThisTrial[respI],responses[respI],responsesAutopilot[respI] = stringResponse.collectStringResponse(
-                                        numCharsInResponse,x,respPromptStim,respStim,acceptTextStim,fixationPoint,myWin,clickSound,badKeySound,
+                                        numCharsInResponse,x,y,respPromptStim,respStim,acceptTextStim,fixationPoint,myWin,clickSound,badKeySound,
                                                                                    requireAcceptance,autopilot,changeToUpper,responseDebug=True) 
             expStop = np.array(expStop).any(); passThisTrial = np.array(passThisTrial).any()
         
