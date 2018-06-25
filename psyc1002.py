@@ -1,6 +1,6 @@
 #Alex Holcombe alex.holcombe@sydney.edu.au
 #See the github repository for more information: https://github.com/alexholcombe/PSYC1002
-from __future__ import print_function
+from __future__ import print_function, division
 from psychopy import monitors, visual, event, data, logging, core, sound, gui
 import psychopy.info
 import scipy
@@ -432,7 +432,7 @@ def  oneFrameOfStim( n,cue,seq1,seq2,cueDurFrames,letterDurFrames,ISIframes,this
          cue.setLineColor( cueColor )
 
   if timeToShowStim: #time to show critical stimulus
-    print('thisStimIdx=',thisStimIdx, ' seq1 = ', seq1, ' stimN=',stimN)
+    #print('thisStimIdx=',thisStimIdx, ' seq1 = ', seq1, ' stimN=',stimN)
     stimuliStream1[thisStimIdx].setColor( letterColor )
     stimuliStream2[thisStim2Idx].setColor( letterColor )
   else: 
@@ -517,14 +517,12 @@ numTrialsCorrect = 0;
 numTrialsApproxCorrect = 0;
 numTrialsEachCorrect= np.zeros( maxNumRespsWanted )
 numTrialsEachApproxCorrect= np.zeros( maxNumRespsWanted )
-debugClock = core.Clock()
 
 def do_RSVP_stim(thisTrial, seq1, seq2, proportnNoise,trialN,thisProbe):
     #relies on global variables:
     #   textStimuli, logging, bgColor
     #  thisTrial should have 'cuePos'
     global framesSaved #because change this variable. Can only change a global variable if you declare it
-    global debugClock
     cuesPos = [] #will contain the positions in the stream of all the cues (targets)
 
     cuesPos.append(thisTrial['cuePos'])
@@ -626,7 +624,6 @@ def do_RSVP_stim(thisTrial, seq1, seq2, proportnNoise,trialN,thisProbe):
          fixationPoint.draw()
          myWin.flip()
     #myWin.flip() #Need this
-    debugClock.reset()
     if thisProbe == 'long':
         probeDelay = 1.5
     else: probeDelay = 0.0
@@ -650,12 +647,11 @@ def handleAndScoreResponse(passThisTrial,response,responseAutopilot,task,correct
     #responses are actual characters
     #correctAnswer is index into stimSequence
     #autopilot is global variable
+    print('response=',response)
     if autopilot or passThisTrial:
         response = responseAutopilot
     correct = 0
     #approxCorrect = 0
-    #posOfResponse = -999
-    #responsePosRelative = -999
 
     correctAnswer = correctAnswer.upper()
     responseString= ''.join(['%s' % char for char in response])
@@ -752,19 +748,13 @@ if doStaircase:
 
         cuesPos,ts  = \
                                         do_RSVP_stim(cuePos, idxsStream1, idxsStream2, noisePercent/100.,staircaseTrialN)
-        speedupMessages = [   'time after mask until left do_RSVP_stim' +  str( debugClock.getTime() )   ]
-        debugClock.reset()
         numCasesInterframeLong = timingCheckAndLog(ts,staircaseTrialN)
-        speedupMessages.append([   'timingCheckAndLog:' +  str( debugClock.getTime() )   ])
-        debugClock.reset()
         #expStop,passThisTrial,responses,buttons,responsesAutopilot = \
         #      letterLineupResponse.doLineup(myWin,bgColor,myMouse,clickSound,badKeySound,possibleResps,showBothSides,sideFirstLeftRightCentral,autopilot) #CAN'T YET HANDLE MORE THAN 2 LINEUPS
         expStop,passThisTrial,responses,responsesAutopilot = \
                 stringResponse.collectStringResponse(numRespsWanted,respPromptStim,respStim,acceptTextStim,myWin,clickSound,badKeySound,
                                                                                requireAcceptance,autopilot,responseDebug=False)
         print(responses)
-        speedupMessages.append([   'collectStringResponse:' +  str( debugClock.getTime() )   ])
-        debugClock.reset()
 
         if not expStop:
             if mainStaircaseGoing:
@@ -776,11 +766,7 @@ if doStaircase:
             print(subject,'\t',task,'\t', round(noisePercent,2),'\t', end='', file=dataFile)
             correct,approxCorrect,responsePosRelative= handleAndScoreResponse(
                                                 passThisTrial,responses,responseAutopilot,task,sequenceLeft,cuesPos[0],correctAnswerIdx,wordList )
-            speedupMessages.append([   'handleAndScoreResponse:' +  str( debugClock.getTime() )   ])
-            debugClock.reset()
             print(numCasesInterframeLong, file=dataFile) #timingBlips, last thing recorded on each line of dataFile
-            speedupMessages.append([   'printing of numCasesInterframeLong to file:' +  str( debugClock.getTime() )   ])
-            debugClock.reset()
             core.wait(.06)
             if feedback: 
                 play_high_tone_correct_low_incorrect(correct, passThisTrial=False)
@@ -790,7 +776,6 @@ if doStaircase:
                 staircase.addResponse(T1approxCorrect, intensity = 100-noisePercent) #Add a 1 or 0 to signify a correct/detected or incorrect/missed trial
                 #print('Have added an intensity of','{:.3f}'.format(100-noisePercent), 'T1approxCorrect =', T1approxCorrect, ' to staircase') #debugON
     #ENDING STAIRCASE PHASE
-    #print(speedupMessages)
     if staircaseTrialN+1 < len(prefaceStaircaseNoise) and (staircaseTrialN>=0): #exp stopped before got through staircase preface trials, so haven't imported yet
         print('Importing ',corrEachTrial,' and intensities ',prefaceStaircaseNoise[0:staircaseTrialN+1])
         staircase.importData(100-prefaceStaircaseNoise[0:staircaseTrialN], np.array(corrEachTrial)) 
@@ -828,13 +813,14 @@ else: #not staircase
     phasesMsg = 'Experiment will have '+str(trials.nTotal)+' trials. Letters will be drawn with superposed noise of ' + "{:.2%}".format(defaultNoiseLevel)
     print(phasesMsg); logging.info(phasesMsg)
     nDoneMain =0
-    whichStim0 = np.random.randint(0, len(stimList) )
-    whichStim1 = np.random.randint(0, len(stimList) )
-    calcAndPredrawStimuli(stimList,whichStim0,whichStim1)
-    #stimuliStream1[0].draw; stimuliStream2[0].draw() #debug
-    #myWin.flip()
-    #event.waitKeys()
+
     while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
+        whichStim0 = np.random.randint(0, len(stimList) )
+        whichStim1 = np.random.randint(0, len(stimList) )
+        calcAndPredrawStimuli(stimList,whichStim0,whichStim1)
+        #stimuliStream1[0].draw; stimuliStream2[0].draw() #debug
+        #myWin.flip()
+        #event.waitKeys()
         if nDoneMain==0:
             msg='Starting main (non-staircase) part of experiment'
             logging.info(msg); print(msg)
@@ -848,15 +834,7 @@ else: #not staircase
         idxsStream1 = [0]
         idxsStream2 = [0] 
         cuesPos, ts  =  do_RSVP_stim(thisTrial, idxsStream1, idxsStream2, noisePercent/100.,nDoneMain,thisProbe)
-        if nDoneMain>0:
-                speedupMessages.append([   'from end of trial to beginning of next:' +  str( 1000*debugClock.getTime() )   ])
-                debugClock.reset()
-                #print(speedupMessages)
-        speedupMessages = [   'time after mask until left do_RSVP_stim' +  str( 1000*debugClock.getTime() )   ]
-        debugClock.reset()
         numCasesInterframeLong = timingCheckAndLog(ts,nDoneMain)
-        speedupMessages.append([   'timingCheckAndLog:' +  str( 1000*debugClock.getTime() )   ])
-        debugClock.reset()
         #call for each response
         myMouse = event.Mouse()
         #alphabet = list(string.ascii_lowercase)
@@ -872,19 +850,20 @@ else: #not staircase
         if thisProbe == 'both':
             print("Doing both sides")
             responseOrder = [0,1]
-
             if thisTrial['rightResponseFirst']: #change order of indices depending on rightResponseFirst. response0, answer0 etc refer to which one had to be reported first
                     responseOrder.reverse()
-            x = 2* wordEccentricity*(i*2-1) #put it 3 times farther out than stimulus, so participant is sure which is left and which right
-            #expStop,passThisTrial,responses,buttons,responsesAutopilot = \
-            #        letterLineupResponse.doLineup(myWin,bgColor,myMouse,clickSound,badKeySound,possibleResps,showBothSides,sideFirstLeftRightCentral,autopilot) #CAN'T YET HANDLE MORE THAN 2 LINEUPS
-            i = 0
-            changeToUpper = True
-            expStop[i],passThisTrial[i],responses[i],responsesAutopilot[i] = stringResponse.collectStringResponse(
+            print('responseOrder=',responseOrder)
+            
+            for respI in [0,1]:
+                side = responseOrder[respI] * 2 -1  #-1 for left, 1 for right
+                x = 2*wordEccentricity * side #put it farther out than stimulus, so participant is sure which is left and which right
+                respStim.setPos([x,0])
+                #expStop,passThisTrial,responses,buttons,responsesAutopilot = \
+                #        letterLineupResponse.doLineup(myWin,bgColor,myMouse,clickSound,badKeySound,possibleResps,showBothSides,sideFirstLeftRightCentral,autopilot) #CAN'T YET HANDLE MORE THAN 2 LINEUPS
+                changeToUpper = False
+                expStop[respI],passThisTrial[respI],responses[respI],responsesAutopilot[respI] = stringResponse.collectStringResponse(
                                         numCharsInResponse,x,respPromptStim,respStim,acceptTextStim,fixationPoint,myWin,clickSound,badKeySound,
                                                                                    requireAcceptance,autopilot,changeToUpper,responseDebug=True) 
-            speedupMessages.append([   'collectStringResponse:' +  str( 1000*debugClock.getTime() )   ])
-            debugClock.reset()
             expStop = np.array(expStop).any(); passThisTrial = np.array(passThisTrial).any()
         
         if not expStop:
@@ -898,24 +877,24 @@ else: #not staircase
                 i = 0
                 eachCorrect = np.ones(numRespsWanted)*-999
 
-                print("numRespsWanted = ",numRespsWanted)
-                for i in [0,1]:#range(numRespsWanted): #scored and printed to dataFile in left first, right second order even if collected in different order
-                    if i==0:
-                        print("i=",i)
+                print("numRespsWanted = ",numRespsWanted, 'getting ready to score response')
+                for streami in [0,1]:#range(numRespsWanted): #scored and printed to dataFile in left first, right second order even if collected in different order
+                    if streami==0:
+                        print("streami=",i)
                         sequenceStream = idxsStream1; correctAnswerIdx = whichStim0
                     else: sequenceStream = idxsStream2; correctAnswerIdx = whichStim1
                     print ("sequenceStream = ",sequenceStream)
                     print ("correctAnswerIdx = ", correctAnswerIdx)
                     print ("stimList = ", stimList, " correctAnswer = stimList[correctAnswerIdx] = ",stimList[correctAnswerIdx])
-                    print ("responses = ", responses)
-
-                    correct = (
-                            handleAndScoreResponse(passThisTrial,responses[i],responsesAutopilot,task,stimList[correctAnswerIdx] ) )
-                    #eachCorrect[i] = correct
+                    #Find which response is the one to this stream using where
+                    respThisStreamI = responseOrder.index(streami)
+                    respThisStream = responses[respThisStreamI] 
+                    print ("responses = ", responses, 'respThisStream = ', respThisStream)   #responseOrder
+                    correct = ( handleAndScoreResponse(passThisTrial,respThisStream,responsesAutopilot,task,stimList[correctAnswerIdx]) )
+                    eachCorrect[streami] = correct
         
-
                 print(numCasesInterframeLong, file=dataFile) #timingBlips, last thing recorded on each line of dataFile
-                #print('correct=',correct,'eachCorrect=',eachCorrect)
+                print('correct=',correct,'eachCorrect=',eachCorrect)
                 numTrialsCorrect += eachCorrect.all() #so count -1 as 0
                 numTrialsEachCorrect += eachCorrect #list numRespsWanted long
                     
@@ -927,8 +906,6 @@ else: #not staircase
                 #core.wait(.1)
                 if feedback: play_high_tone_correct_low_incorrect(correct, passThisTrial=False)
                 nDoneMain+=1
-                speedupMessages.append([   'end of trial:' +  str( 1000*debugClock.getTime() )   ])
-                debugClock.reset()
                 #dataFile.flush(); logging.flush()
                 #print('nDoneMain=', nDoneMain,' trials.nTotal=',trials.nTotal) #' trials.thisN=',trials.thisN
                 if (trials.nTotal > 6 and nDoneMain > 2 and nDoneMain %
@@ -949,8 +926,6 @@ else: #not staircase
                                  if key in ['ESCAPE']:
                                     expStop = True
                         myWin.clearBuffer()
-                speedupMessages.append([   '*definitely* the end of  the trial:' +  str( 1000*debugClock.getTime() )   ])
-                debugClock.reset()
                 core.wait(.1);  time.sleep(.1)
             #end main trials loop
     timeAndDateStr = time.strftime("%H:%M on %d %b %Y", time.localtime())
