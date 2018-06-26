@@ -88,7 +88,7 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,OKtext
    xStart = -.7
    #Need to maintain a list of selected. Draw those in another color
    selected = [0] * len(possibleResps)
-   selectedColor = (1,1,-1)
+   selectedColor = (1,1,-.5)
 
    while state != 'finished' and not expStop:
         #draw everything corresponding to this state
