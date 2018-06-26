@@ -6,6 +6,7 @@ import psychopy.info
 import scipy
 import numpy as np
 from math import atan, log, ceil
+import shutil
 import copy
 import time, sys, os, string
 try:
@@ -205,8 +206,13 @@ if doStaircase:
 fileName = os.path.join(dataDir, subject + '_' + infix+ timeAndDateStr)
 if not demo and not exportImages:
     dataFile = open(fileName+'.txt', 'w')
-    saveCodeCmd = 'cp \'' + sys.argv[0] + '\' '+ fileName + '.py'
-    os.system(saveCodeCmd)  #save a copy of the code as it was when that subject was run
+    #save copy of this script so no mistaking the version of the code run by this subject
+    #saveCodeCmd = 'cp \'' + sys.argv[0] + '\' '+ fileName + '.py'    #only works on OSX
+    #os.system(saveCodeCmd)  #save a copy of the code as it was when that subject was run   #only works on OSX
+    thisScriptName = sys.argv[0]
+    scriptDestination = os.path.join(fileName + '.py')
+    #print('thisScriptName=', thisScriptName, 'scriptDestination=',scriptDestination)
+    shutil.copyfile(thisScriptName, scriptDestination)
     logFname = fileName+'.log'
     ppLogF = logging.LogFile(logFname, 
         filemode='w',#if you set this to 'a' it will append instead of overwriting

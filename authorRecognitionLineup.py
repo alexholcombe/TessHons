@@ -126,17 +126,20 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,OKtext
                 if OK:
                     state = 'finished'
             if not OK: #didn't click OK. Check whether clicked near a response array item
-                topmostCoord, topmostW, topmostH =  calcRespYandBoundingBox( possibleResps, 0) #determine bounds of adjacent option
-                topmostX = xStart
+                #First calculate the entire array of response regions and see if falls within that
+                #calculate top-most box
+                x,topmostCoord, topmostW, topmostH =  calcRespYandBoundingBox( possibleResps, 0) #determine bounds of adjacent option
+                topmostX = x
                 topmostY = topmostCoord
-                btmmostCoord, btmmostW, btmmostH =  calcRespYandBoundingBox(possibleResps, len(possibleResps)-1)
-                btmmostX = xStart
+                #calculate bottom-most box
+                x,btmmostCoord, btmmostW, btmmostH =  calcRespYandBoundingBox(possibleResps, len(possibleResps)-1)
+                btmmostX = x
                 btmmostY = btmmostCoord
                 w = topmostW
                 h = topmostH
-                horizBounds = [ xStart-w/2, xStart+w/2 ]
+                horizBounds = [ x-w/2, x+w/2 ]
                 vertBounds = [btmmostY - h/2, topmostY + h/2]
-                #print("horizBounds=",horizBounds," vertBounds=",vertBounds)
+                print("horizBounds=",horizBounds," vertBounds=",vertBounds)
                 xValid = horizBounds[0] <= mousePos[0] <= horizBounds[1]  #clicked in a valid x-position
                 yValid = vertBounds[0] <= mousePos[1] <= vertBounds[1]  #clicked in a valid y-position
                 if xValid and yValid: #clicked near a response array item
