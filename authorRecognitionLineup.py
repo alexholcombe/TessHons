@@ -1,4 +1,4 @@
-from __future__ import print_function
+from __future__ import print_function, division
 from psychopy import event, sound, logging
 from psychopy import visual, event, sound, tools
 import numpy as np
@@ -7,42 +7,43 @@ from math import floor
 from copy import deepcopy
 
 def calcRespYandBoundingBox(possibleResps, i):
+    x = -.8
     spacingCtrToCtr = 2.0 / len(possibleResps)
-    charHeight = spacingCtrToCtr
-    startCoordinate = 1-charHeight/2 #top , to bottom
+    charHeight = spacingCtrToCtr/2
+    startY = 1-charHeight/2 #top , to bottom
     increment = i*spacingCtrToCtr
     increment*=- 1 #go down from top
-    coordinate = startCoordinate + increment
-    boxWidth = spacingCtrToCtr #0.1
+    y = startY + increment
+    boxWidth = .2 #0.1
     boxHeight = spacingCtrToCtr
-    return coordinate, boxWidth, boxHeight
+    return x,y, boxWidth, boxHeight
 
 def drawRespOption(myWin,bgColor,xStart,color,drawBoundingBox,relativeSize,possibleResps,i):
         #relativeSize multiplied by standard size to get desired size
-        coord, w, h = calcRespYandBoundingBox( possibleResps, i )
-        x = xStart
-        y = coord
+        x,y, w, h = calcRespYandBoundingBox( possibleResps, i )
+        alignHoriz = 'left'
+        if alignHoriz == 'left':
+            rectX= x+w/2
         if relativeSize != 1: #erase bounding box so erase old letter before drawing new differently-sized letter 
             print('drawing to erase')
-            boundingBox = visual.Rect(myWin,width=w,height=h, pos=(x,y), fillColor=bgColor, lineColor=None, units='norm' ,autoLog=False) 
+            boundingBox = visual.Rect(myWin,width=w,height=h, pos=(rectX,y), fillColor=bgColor, lineColor='red', units='norm' ,autoLog=False) 
             boundingBox.draw()
-        option = visual.TextStim(myWin,colorSpace='rgb',color=color,alignHoriz='center', alignVert='center',
+        option = visual.TextStim(myWin,colorSpace='rgb',color=color,alignHoriz=alignHoriz, alignVert='center',
                                                                     height=h*relativeSize,units='norm',autoLog=False)
         option.setText(possibleResps[i])
         option.pos = (x, y)
         option.draw()
         if drawBoundingBox:
-            boundingBox = visual.Rect(myWin,width=w,height=h, pos=(x,y))
+            boundingBox = visual.Rect(myWin,width=w,height=h, pos=(rectX,y), units='norm')
             boundingBox.draw()
         
 def drawResponseArray(myWin,bgColor,xStart,possibleResps,selected,selectedColor):
     '''selected indicated whether each is selected or not
     possibleResps is array of all the authors to populate the screen with.
     '''
-    #print("leftRight=",leftRight, "xOffset=",xOffset)
     numResps = len(possibleResps)
     dimRGB = -.3
-    drawBoundingBox = False #to debug to visualise response regions, make True
+    drawBoundingBox = True #to debug to visualise response regions, make True
 
     #Draw it vertically, from top to bottom
     for i in xrange(len(possibleResps)):
@@ -50,7 +51,8 @@ def drawResponseArray(myWin,bgColor,xStart,possibleResps,selected,selectedColor)
             color = selectedColor
         else: 
             color = (1,1,1)
-        drawRespOption(myWin,bgColor,xStart,color,drawBoundingBox,1,possibleResps,i)
+        relativeHeight = .3
+        drawRespOption(myWin,bgColor,xStart,color,drawBoundingBox,relativeHeight,possibleResps,i)
 
 def checkForOKclick(mousePos,respZone):
     OK = False
@@ -83,7 +85,7 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,OKtext
    #waitingForAnotherSelection means OK is  not on the screen, so must click a lineup item
    #'finished' exit this lineup, choice has been made
    expStop = False
-   xStart = -.9
+   xStart = -.7
    #Need to maintain a list of selected. Draw those in another color
    selected = [0] * len(possibleResps)
    selectedColor = (1,1,-1)
@@ -169,7 +171,7 @@ def doLineup(myWin,bgColor,myMouse,clickSound,badClickSound,possibleResps,bothSi
     expStop = False
     passThisTrial = False
     minMustClick = 2   #len(possibleResps)[2]
-    maxCanClick = 9
+    maxCanClick = 3
     selectedAutopilot = [0]*len(responses)
     if not autopilot: #I haven't bothered to make autopilot display the response screen
         OKrespZone = visual.GratingStim(myWin, tex="sin", mask="gauss", texRes=64, units='norm', size=[.5, .5], sf=[0, 0], name='OKrespZone')
@@ -215,6 +217,8 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     clickSound, badClickSound = setupSoundsForResponse()
     alphabet = list(string.ascii_uppercase)
     possibleResps = alphabet
+    possibleResps = [ 'V.C. Andrews','Lauren Adamson', 'Eric Amsel', 'Carter Anvari', 'Isaac Asimov', 'Margaret Atwood','Russell Banks', 'David Baldacci', 'Carol Berg', 'Pierre Berton', 'Maeve Binchy', 'Judy Blume', 'Dan Brown','Agatha Christie', 'Robertson Davies','Charles Dickens' ]
+    realAuthor =  [                   1,                     0,                      1       ]
     #possibleResps.remove('C'); possibleResps.remove('V') #per Goodbourn & Holcombe, including backwards-ltrs experiments
     myWin.flip()
     passThisTrial = False
@@ -230,5 +234,9 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
                 doLineup(myWin, bgColor,myMouse, clickSound, badClickSound, possibleResps, bothSides, leftRightFirst, autopilot)
 
     print('expStop=',expStop,' passThisTrial=',passThisTrial,' selected=',selected, ' selectedAutopilot =', selectedAutopilot)
-    
+    print('Names of selected=',end='')
+    for i in xrange(len(selected)):
+        if selected[i]:
+            print(possibleResps[i],end=',')
+    print('')
     print('Finished') 
