@@ -32,8 +32,10 @@ demo=False #False
 exportImages= False #quits after one trial
 subject='Hubert' #user is prompted to enter true subject name
 if autopilot: subject='auto'
-if os.path.isdir('.'+os.sep+'dataRaw'):
-    dataDir='dataRaw'
+cwd = os.getcwd()
+print('current working directory =',cwd)
+if os.path.isdir('.'+os.sep+'Submission'):
+    dataDir='Submission'
 else:
     print('"dataRaw" directory does not exist, so saving data in present working directory')
     dataDir='.'
@@ -121,7 +123,7 @@ ISIframes = int( np.floor(ISIms / (1000./refreshRate)) )
 rateInfo = 'total SOA=' + str(round(  (ISIframes + letterDurFrames)*1000./refreshRate, 2)) + ' or ' + str(ISIframes + letterDurFrames) + ' frames, comprising\n'
 rateInfo+=  'ISIframes ='+str(ISIframes)+' or '+str(ISIframes*(1000./refreshRate))+' ms and letterDurFrames ='+str(letterDurFrames)+' or '+str(round( letterDurFrames*(1000./refreshRate), 2))+'ms'
 logging.info(rateInfo); print(rateInfo)
-
+logging.info(cwd)
 trialDurFrames = int( numWordsInStream*(ISIframes+letterDurFrames) ) #trial duration in frames
 
 monitorname = 'testmonitor'

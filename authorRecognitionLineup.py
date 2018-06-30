@@ -7,10 +7,13 @@ from math import floor
 from copy import deepcopy
 
 def calcRespYandBoundingBox(possibleResps, i):
-    x = -.8
+    x = -.95
     spacingCtrToCtr = 2.0 / len(possibleResps)
     charHeight = spacingCtrToCtr/2
     startY = 1-charHeight/2 #top , to bottom
+    makeWayForInstructions = True
+    if makeWayForInstructions:
+        startY -= .1
     increment = i*spacingCtrToCtr
     increment*=- 1 #go down from top
     y = startY + increment
@@ -25,7 +28,6 @@ def drawRespOption(myWin,bgColor,xStart,color,drawBoundingBox,relativeSize,possi
         if alignHoriz == 'left':
             rectX= x+w/2
         if relativeSize != 1: #erase bounding box so erase old letter before drawing new differently-sized letter 
-            print('drawing to erase')
             boundingBox = visual.Rect(myWin,width=w,height=h, pos=(rectX,y), fillColor=bgColor, lineColor='red', units='norm' ,autoLog=False) 
             boundingBox.draw()
         option = visual.TextStim(myWin,colorSpace='rgb',color=color,alignHoriz=alignHoriz, alignVert='center',
@@ -77,7 +79,7 @@ def convertXYtoNormUnits(XY,currUnits,win):
             #print("Converted ",XY," from ",currUnits," units first to pixels: ",xPix,yPix," then to norm: ",xNorm,yNorm)
     return xNorm, yNorm
 
-def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,OKtextStim,OKrespZone,mustDeselectMsgStim,possibleResps,clickSound,badClickSound):
+def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instructionStim,OKtextStim,OKrespZone,mustDeselectMsgStim,possibleResps,clickSound,badClickSound):
    
    myMouse.clickReset()
    whichResp = -1
@@ -86,6 +88,9 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,OKtext
    #'finished' exit this lineup, choice has been made
    expStop = False
    xStart = -.7
+   #Calculate how many names in a column
+   namesPerColumn = 16
+   numColumns = len(possibleResps) / namesPerColumn
    #Need to maintain a list of selected. Draw those in another color
    selected = [0] * len(possibleResps)
    selectedColor = (1,1,-.5)
@@ -93,7 +98,8 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,OKtext
    while state != 'finished' and not expStop:
         #draw everything corresponding to this state
         #draw selecteds in selectedColor, remainder in white
-        print('state = ',state)
+        instructionStim.draw()
+        #print('state = ',state)
         drawResponseArray(myWin,bgColor,xStart,possibleResps,selected,selectedColor)
         if state == 'waitingForAnotherSelection':
             #buttonThis = np.where(pressed)[0] #assume only one button can be recorded as pressed
@@ -137,7 +143,7 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,OKtext
                 btmmostY = btmmostCoord
                 w = topmostW
                 h = topmostH
-                horizBounds = [ x-w/2, x+w/2 ]
+                horizBounds = [ x, x+w ] #because words are left-justified, they begin at x
                 vertBounds = [btmmostY - h/2, topmostY + h/2]
                 print("horizBounds=",horizBounds," vertBounds=",vertBounds)
                 xValid = horizBounds[0] <= mousePos[0] <= horizBounds[1]  #clicked in a valid x-position
@@ -180,10 +186,15 @@ def doLineup(myWin,bgColor,myMouse,clickSound,badClickSound,possibleResps,bothSi
         OKrespZone = visual.GratingStim(myWin, tex="sin", mask="gauss", texRes=64, units='norm', size=[.5, .5], sf=[0, 0], name='OKrespZone')
         OKtextStim = visual.TextStim(myWin,pos=(0, 0),colorSpace='rgb',color=(-1,-1,-1),alignHoriz='center', alignVert='center',height=.13,units='norm',autoLog=False)
         OKtextStim.setText('OK')
-        mustDeselectMsgStim = visual.TextStim(myWin,pos=(0, .5),colorSpace='rgb',color=(-1,-1,-1),alignHoriz='center', alignVert='center',height=.13,units='norm',autoLog=False)
-        mustDeselectMsgStim.setText('You\'ve already selected the maximum. You must deselect an author in order to select another.')
+        instructionStim = visual.TextStim(myWin,pos=(0, .95),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',
+                                        height=.06,wrapWidth=3,font='Times',units='norm',autoLog=False)
+        instructionStim.setText('Half of these are published authors. Select them with the mouse. When you\'re not sure, guess.')
+        instructionStim.draw()
+
+        mustDeselectMsgStim = visual.TextStim(myWin,pos=(0, .5),colorSpace='rgb',color=(0,-.9,-.9),alignHoriz='center', alignVert='center',height=.13,units='norm',autoLog=False)
+        mustDeselectMsgStim.setText('You\'ve already selected half. You must deselect an author in order to select another.')
         selected, expStop = \
-                collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,OKtextStim,OKrespZone,mustDeselectMsgStim,possibleResps,clickSound,badClickSound)
+                collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instructionStim,OKtextStim,OKrespZone,mustDeselectMsgStim,possibleResps,clickSound,badClickSound)
 
     return expStop,passThisTrial,selected,selectedAutopilot
 
@@ -211,7 +222,7 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     monitorname = 'testmonitor'
     mon = monitors.Monitor(monitorname,width=40.5, distance=57)
     windowUnits = 'deg' #purely to make sure lineup array still works when windowUnits are something different from norm units
-    bgColor = [-.7,-.7,-.7] 
+    bgColor = [-1,-1,-1] 
     myWin = visual.Window(monitor=mon,colorSpace='rgb',color=bgColor,units=windowUnits)
     #myWin = visual.Window(monitor=mon,size=(widthPix,heightPix),allowGUI=allowGUI,units=units,color=bgColor,colorSpace='rgb',fullscr=fullscr,screen=scrn,waitBlanking=waitBlank) #Holcombe lab monitor
 
@@ -220,6 +231,7 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     clickSound, badClickSound = setupSoundsForResponse()
     alphabet = list(string.ascii_uppercase)
     possibleResps = alphabet
+    
     possibleResps = [ 'V.C. Andrews','Lauren Adamson', 'Eric Amsel', 'Carter Anvari', 'Isaac Asimov', 'Margaret Atwood','Russell Banks', 'David Baldacci', 'Carol Berg', 'Pierre Berton', 'Maeve Binchy', 'Judy Blume', 'Dan Brown','Agatha Christie', 'Robertson Davies','Charles Dickens' ]
     realAuthor =  [                   1,                     0,                      1       ]
     #possibleResps.remove('C'); possibleResps.remove('V') #per Goodbourn & Holcombe, including backwards-ltrs experiments
