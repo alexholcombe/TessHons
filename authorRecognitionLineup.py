@@ -6,6 +6,8 @@ import string
 from math import floor, ceil
 from copy import deepcopy
 
+#Add something so that if the user gets 'stuck', with bad clicks enough times, program assumes they're done and records the data
+
 def calcXYstartWidthHeightSpacing(namesPerColumn, possibleResps):
     numColumns = ceil( len(possibleResps) / namesPerColumn )
     xStart = -.95
@@ -56,39 +58,57 @@ def calcRespXYandBoundingBox(namesPerColumn,possibleResps, i):
         x= x+boxWidth/2    
     return x,y, boxWidth, boxHeight
 
-def drawRespOption(myWin,bgColor,xStart,namesPerColumn,color,drawBoundingBox,relativeSize,possibleResps,i):
+#In the first instance want to create all the textStims,
+#later will just draw one 
+def drawRespOption(myWin,bgColor,xStart,namesPerColumn,color,drawBoundingBox,relativeSize,authorStims,i):
         #relativeSize multiplied by standard size to get desired size
         x, y, w, h = calcRespXYandBoundingBox( namesPerColumn,possibleResps, i )
-
-        if relativeSize != 1: #erase bounding box so erase old letter before drawing new differently-sized letter 
-            boundingBox = visual.Rect(myWin,width=w,height=h, pos=(x,y), fillColor=bgColor, lineColor='red', units='norm' ,autoLog=False) 
-            boundingBox.draw()
+        if drawBoundingBox:
+            boundingBox = visual.Rect(myWin,width=w,height=h, pos=(x,y), units='norm')
+            boundingBox.draw() 
+            
+        option = authorStims[i]
+        option.setText(possibleResps[i])
+        option.setColor(color)
+        option.pos = (x-w/2, y)
+        option.draw()
+            
+def drawAllRespOptions(myWin,bgColor,xStart,namesPerColumn,color,drawBoundingBox,relativeSize):
+    #relativeSize multiplied by standard size to get desired size
+    authorStims = list()
+    for i in xrange(len(possibleResps)):
+        x, y, w, h = calcRespXYandBoundingBox( namesPerColumn,possibleResps, i )
         option = visual.TextStim(myWin,colorSpace='rgb',color=color,alignHoriz=alignHorizOption, alignVert='center',
-                                                                    height=h*relativeSize,units='norm',autoLog=False)
+                                                                height=h*relativeSize,units='norm',autoLog=False)
         option.setText(possibleResps[i])
         option.pos = (x-w/2, y)
         option.draw()
+        authorStims.append(option)
         if drawBoundingBox:
             boundingBox = visual.Rect(myWin,width=w,height=h, pos=(x,y), units='norm')
-            boundingBox.draw()
-        
-def drawResponseArray(myWin,bgColor,xStart,namesPerColumn,possibleResps,selected,selectedColor,todraw):
+            boundingBox.draw()            
+    return authorStims
+     
+def drawResponseArray(myWin,bgColor,xStart,namesPerColumn,possibleResps,selected,selectedColor,todraw,authorStims,firsttime):
     '''selected indicated whether each is selected or not
     possibleResps is array of all the authors to populate the screen with.
     '''
     numResps = len(possibleResps)
     dimRGB = -.3
-    drawBoundingBox = True #to debug to visualise response regions, make True
-    relativeHeight = .32
-
-    #Draw it vertically, from top to bottom
+    drawBoundingBox = False #to debug to visualise response regions, make True, but slows thigns down
+    relativeHeight = .28
+    if firsttime:
+        authorStims = drawAllRespOptions(myWin,bgColor,xStart,namesPerColumn,(1,1,1),drawBoundingBox,relativeHeight)
+    myWin.flip()
+    #Draw it vertically, from top to bottom, and left to right
     for i in xrange(len(possibleResps)):
         if todraw[i]: #only draw those that need drawing, otherwise this code takes too long
             if selected[i]:
                 color = selectedColor
             else: 
                 color = (1,1,1)
-            drawRespOption(myWin,bgColor,xStart,namesPerColumn,color,drawBoundingBox,relativeHeight,possibleResps,i)
+            drawRespOption(myWin,bgColor,xStart,namesPerColumn,color,drawBoundingBox,relativeHeight,authorStims,i)
+    return authorStims
 
 def checkForOKclick(mousePos,respZone):
     OK = False
@@ -113,12 +133,13 @@ def convertXYtoNormUnits(XY,currUnits,win):
             #print("Converted ",XY," from ",currUnits," units first to pixels: ",xPix,yPix," then to norm: ",xNorm,yNorm)
     return xNorm, yNorm
 
-def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instructionStim,OKtextStim,OKrespZone,mustDeselectMsgStim,possibleResps,clickSound,badClickSound):
+def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instructionStim,OKtextStim,OKrespZone,continueTextStim,mustDeselectMsgStim,possibleResps,clickSound,badClickSound):
    myMouse.clickReset()
    state = 'waitingForAnotherSelection' 
-   #waitingForAnotherSelection means OK is  not on the screen, so must click a lineup item
-   #'finished' exit this lineup, choice has been made
-   expStop = False
+   #waitingForAnotherSelection means Finished is  not on the screen, so must click a lineup item
+   expStop = False; 
+   successiveBadClicks = 0; successiveBadClicksLimit = 4
+   firstTimeHitMax = True
    xStart = -.7
    #Calculate how many names in a column
    namesPerColumn = 15
@@ -127,21 +148,28 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instru
    #Need to maintain a list of selected. Draw those in another color
    selected = [0] * len(possibleResps)
    selectedColor = (1,1,-.5)
-   
+   authorStims = list()
    #redraw indicates for each option whether it is time to redraw it. 
    todraw = [1] * len(possibleResps) #Set all to true initially so that initial draw is done
-   drawResponseArray(myWin,bgColor,xStart,namesPerColumn,possibleResps,selected,selectedColor,todraw)
-   todraw = [0] * len(possibleResps) #Set all to false
-   while state != 'finished' and not expStop:
+   authorStims = drawResponseArray(myWin,bgColor,xStart,namesPerColumn,possibleResps,selected,selectedColor,todraw,authorStims,firsttime=True)
+   #todraw = [0] * len(possibleResps) #Set all to false
+   while state != 'finished' and not expStop and not successiveBadClicks == successiveBadClicksLimit:
         #draw everything corresponding to this state
         #draw selecteds in selectedColor, remainder in white
-        instructionStim.draw()
         #print('state = ',state)
-        drawResponseArray(myWin,bgColor,xStart,namesPerColumn,possibleResps,selected,selectedColor,todraw)
-        todraw =  [0] * len(possibleResps) #set all to false again
+        authorStims = drawResponseArray(myWin,bgColor,xStart,namesPerColumn,possibleResps,selected,selectedColor,todraw,authorStims,firsttime=False)
+        if (sum(selected) == maxCanClick): #hit max allowed
+                if firstTimeHitMax:
+                    firstTimeHitMax = False
+                else:
+                    mustDeselectMsgStim.draw()
+        instructionStim.draw()
+        if any(selected) and sum(selected) < maxCanClick:
+            continueTextStim.draw()
+        #todraw =  [0] * len(possibleResps) #set all to false again
         if state == 'waitingForAnotherSelection':            
             #assume half are authors, therefore when have clicked half, have option to finish
-            print('Summing selected, ',selected, ' minMustClick=',minMustClick)
+            #print('Summing selected, ',selected, ' minMustClick=',minMustClick)
             if sum(selected) >= minMustClick:
                 print('drawing OKrespZone')
                 OKrespZone.draw()
@@ -161,7 +189,7 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instru
         if any(pressed):
             if state == 'waitingForAnotherSelection':
                 OK = False
-                print('selected=',selected)
+                #print('selected=',selected)
                 if sum(selected) >= minMustClick:
                     OK = checkForOKclick(mousePos,OKrespZone)
                 if OK:
@@ -172,8 +200,13 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instru
                 print("clickedAnOption=",clickedAnOption," which=",which)
                 if not clickedAnOption:
                         badClickSound.play()
+                        successiveBadClicks += 1
                 else: #clickedAnOption == TRUE
+                    successiveBadClicks = 0
                     if (sum(selected) >= maxCanClick)   &   (selected[which]==0): #Clicked on one that is already selected but already hit max allowed
+                        if firstTimeHitMax:
+                            pass
+                        else:
                             badClickSound.play()
                             mustDeselectMsgStim.draw()
                     else:
@@ -184,15 +217,16 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instru
                         print("which clicked = ",which, " About to redraw")
                         lastValidClickButtons = deepcopy(pressed) #record which buttons pressed. Have to make copy, otherwise will change when pressd changes later
 
-            for key in event.getKeys(): #only checking keyboard if mouse was clicked, hoping to improve performance
-                key = key.upper()
-                if key in ['ESCAPE']:
-                    expStop = True
-                    #noResponseYet = False
+            #for key in event.getKeys(): #only checking keyboard if mouse was clicked, hoping to improve performance
+            #    key = key.upper()
+             #   if key in ['ESCAPE']:
+             #       expStop = True
+             #       #noResponseYet = False
    
    print('Returning with selected=',selected,' expStop=',expStop)
    return selected, expStop
         
+
 def doLineup(myWin,bgColor,myMouse,clickSound,badClickSound,possibleResps,bothSides,leftRightCentral,autopilot):
     expStop = False
     passThisTrial = False
@@ -200,19 +234,21 @@ def doLineup(myWin,bgColor,myMouse,clickSound,badClickSound,possibleResps,bothSi
     maxCanClick = 3
     selectedAutopilot = [0]*len(responses)
     if not autopilot: #I haven't bothered to make autopilot display the response screen
-        OKrespZone = visual.GratingStim(myWin, tex="sin", mask="gauss", texRes=64, units='norm', size=[.5, .5], sf=[0, 0], name='OKrespZone')
-        OKtextStim = visual.TextStim(myWin,pos=(0, 0),colorSpace='rgb',color=(-1,-1,-1),alignHoriz='center', alignVert='center',height=.13,units='norm',autoLog=False)
-        OKtextStim.setText('OK')
+        OKrespZone = visual.GratingStim(myWin, tex="sin", mask="gauss", texRes=256, color=[1,1,1], units='norm', size=[2, .2], sf=[0, 0], pos=(0,.88), name='OKrespZone')
+        OKtextStim = visual.TextStim(myWin,pos=(0, .88),colorSpace='rgb',color=(.5,-1,-1),alignHoriz='center', alignVert='center',height=.10,units='norm',autoLog=False)
+        OKtextStim.setText('Click here if finished')
+        continueTextStim = visual.TextStim(myWin,pos=(-.85, .88),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.06,units='norm',autoLog=False)
+        continueTextStim.setText('Click another!')
         instructionStim = visual.TextStim(myWin,pos=(0, .95),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',
                                         height=.06,wrapWidth=3,font='Times',units='norm',autoLog=False)
-        instructionStim.setText('Click on alll the names that are the names of published authors. When not sure, guess.')
+        instructionStim.setText('Click on the names that are names of published authors. When not sure, guess.')
         instructionStim.draw()
 
         mustDeselectMsgStim = visual.TextStim(myWin,pos=(0, .5),colorSpace='rgb',color=(0,-.9,-.9),alignHoriz='center', alignVert='center',height=.13,units='norm',autoLog=False)
-        mustDeselectMsgStim.setText('You\'ve already selected half. You must deselect an author in order to select another.')
+        mustDeselectMsgStim.setText('You\'ve already selected half. You must unselect an author (by clicking on it) to click another.')
         selected, expStop = \
-                collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instructionStim,OKtextStim,OKrespZone,mustDeselectMsgStim,possibleResps,clickSound,badClickSound)
-
+                collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instructionStim,
+                                                        OKtextStim,OKrespZone,continueTextStim,mustDeselectMsgStim,possibleResps,clickSound,badClickSound)
     return expStop,passThisTrial,selected,selectedAutopilot
 
 def setupSoundsForResponse():
@@ -240,7 +276,7 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     mon = monitors.Monitor(monitorname,width=40.5, distance=57)
     windowUnits = 'deg' #purely to make sure lineup array still works when windowUnits are something different from norm units
     bgColor = [-1,-1,-1] 
-    myWin = visual.Window(monitor=mon,colorSpace='rgb',color=bgColor,units=windowUnits)
+    myWin = visual.Window(fullscr=True,monitor=mon,colorSpace='rgb',color=bgColor,units=windowUnits)
     #myWin = visual.Window(monitor=mon,size=(widthPix,heightPix),allowGUI=allowGUI,units=units,color=bgColor,colorSpace='rgb',fullscr=fullscr,screen=scrn,waitBlanking=waitBlank) #Holcombe lab monitor
 
     logging.console.setLevel(logging.WARNING)
