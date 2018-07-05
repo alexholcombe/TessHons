@@ -72,22 +72,23 @@ def drawRespOption(myWin,bgColor,xStart,namesPerColumn,color,drawBoundingBox,rel
             boundingBox = visual.Rect(myWin,width=w,height=h, pos=(x,y), units='norm')
             boundingBox.draw()
         
-def drawResponseArray(myWin,bgColor,xStart,namesPerColumn,possibleResps,selected,selectedColor):
+def drawResponseArray(myWin,bgColor,xStart,namesPerColumn,possibleResps,selected,selectedColor,todraw):
     '''selected indicated whether each is selected or not
     possibleResps is array of all the authors to populate the screen with.
     '''
     numResps = len(possibleResps)
     dimRGB = -.3
     drawBoundingBox = True #to debug to visualise response regions, make True
+    relativeHeight = .32
 
     #Draw it vertically, from top to bottom
     for i in xrange(len(possibleResps)):
-        if selected[i]:
-            color = selectedColor
-        else: 
-            color = (1,1,1)
-        relativeHeight = .32
-        drawRespOption(myWin,bgColor,xStart,namesPerColumn,color,drawBoundingBox,relativeHeight,possibleResps,i)
+        if todraw[i]: #only draw those that need drawing, otherwise this code takes too long
+            if selected[i]:
+                color = selectedColor
+            else: 
+                color = (1,1,1)
+            drawRespOption(myWin,bgColor,xStart,namesPerColumn,color,drawBoundingBox,relativeHeight,possibleResps,i)
 
 def checkForOKclick(mousePos,respZone):
     OK = False
@@ -126,13 +127,18 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instru
    #Need to maintain a list of selected. Draw those in another color
    selected = [0] * len(possibleResps)
    selectedColor = (1,1,-.5)
-
+   
+   #redraw indicates for each option whether it is time to redraw it. 
+   todraw = [1] * len(possibleResps) #Set all to true initially so that initial draw is done
+   drawResponseArray(myWin,bgColor,xStart,namesPerColumn,possibleResps,selected,selectedColor,todraw)
+   todraw = [0] * len(possibleResps) #Set all to false
    while state != 'finished' and not expStop:
         #draw everything corresponding to this state
         #draw selecteds in selectedColor, remainder in white
         instructionStim.draw()
         #print('state = ',state)
-        drawResponseArray(myWin,bgColor,xStart,namesPerColumn,possibleResps,selected,selectedColor)
+        drawResponseArray(myWin,bgColor,xStart,namesPerColumn,possibleResps,selected,selectedColor,todraw)
+        todraw =  [0] * len(possibleResps) #set all to false again
         if state == 'waitingForAnotherSelection':            
             #assume half are authors, therefore when have clicked half, have option to finish
             print('Summing selected, ',selected, ' minMustClick=',minMustClick)
@@ -173,6 +179,7 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instru
                     else:
                         clickSound.play()
                         selected[which] = -1 * selected[which] + 1 #change 0 to 1 and 1 to 0.   Can't use not because can't sum true/false
+                        todraw[which] = 1
                         print('Changed selected #',which,', selected=',selected)
                         print("which clicked = ",which, " About to redraw")
                         lastValidClickButtons = deepcopy(pressed) #record which buttons pressed. Have to make copy, otherwise will change when pressd changes later
