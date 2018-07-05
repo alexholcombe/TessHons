@@ -3,43 +3,76 @@ from psychopy import event, sound, logging
 from psychopy import visual, event, sound, tools
 import numpy as np
 import string
-from math import floor
+from math import floor, ceil
 from copy import deepcopy
 
-def calcRespYandBoundingBox(possibleResps, i):
-    x = -.95
-    spacingCtrToCtr = 2.0 / len(possibleResps)
-    charHeight = spacingCtrToCtr/2
-    startY = 1-charHeight/2 #top , to bottom
+def calcXYstartWidthHeightSpacing(namesPerColumn, possibleResps):
+    numColumns = ceil( len(possibleResps) / namesPerColumn )
+    xStart = -.95
+    screenHeight = 2.0 #because screen is 2.0 norm units high
+    usableScreenHeight = screenHeight - .07 #Otherwise bottom author will be centered on bottom
+    spacingCtrToCtrY = usableScreenHeight / namesPerColumn 
+    spacingCtrToCtrX = (xStart*-1 - xStart) / numColumns
+    charHeight = spacingCtrToCtrY/2
+    yStart = 1-charHeight/2 #top , to bottom
     makeWayForInstructions = True
     if makeWayForInstructions:
-        startY -= .1
-    increment = i*spacingCtrToCtr
-    increment*=- 1 #go down from top
-    y = startY + increment
+        yStart -= .1
+        
+    return xStart, yStart, spacingCtrToCtrX, spacingCtrToCtrY
+
+def calcWhichClicked(namesPerColumn,possibleResps,x,y):
+    #Go through every box, check if coordinates inside it
+    foundOne = False
+    which = -999
+    i  = 0
+    while (not foundOne) and i < len(possibleResps):
+        xCtr,yCtr,boxWidth,boxHeight = calcRespXYandBoundingBox(namesPerColumn,possibleResps, i)
+        l = xCtr - boxWidth/2.
+        r = xCtr + boxWidth/2.
+        t = yCtr + boxHeight/2.
+        b = yCtr - boxHeight/2.
+        if x >= l and x <= r:
+            if y >= b and y <= t:
+                foundOne = True
+                which = i
+        i += 1
+    return foundOne, which
+
+alignHorizOption = 'left'
+
+def calcRespXYandBoundingBox(namesPerColumn,possibleResps, i):
+    column = floor( i / namesPerColumn )
+    row = i % namesPerColumn
+    xStart, yStart, spacingCtrToCtrX, spacingCtrToCtrY = calcXYstartWidthHeightSpacing(namesPerColumn, possibleResps)
+    incrementX = column * spacingCtrToCtrX
+    x = xStart + incrementX
+    incrementY = row*spacingCtrToCtrY
+    incrementY*= -1 #go down from top
+    y = yStart + incrementY
     boxWidth = .2 #0.1
-    boxHeight = spacingCtrToCtr
+    boxHeight = spacingCtrToCtrY
+    if alignHorizOption == 'left':
+        x= x+boxWidth/2    
     return x,y, boxWidth, boxHeight
 
-def drawRespOption(myWin,bgColor,xStart,color,drawBoundingBox,relativeSize,possibleResps,i):
+def drawRespOption(myWin,bgColor,xStart,namesPerColumn,color,drawBoundingBox,relativeSize,possibleResps,i):
         #relativeSize multiplied by standard size to get desired size
-        x,y, w, h = calcRespYandBoundingBox( possibleResps, i )
-        alignHoriz = 'left'
-        if alignHoriz == 'left':
-            rectX= x+w/2
+        x, y, w, h = calcRespXYandBoundingBox( namesPerColumn,possibleResps, i )
+
         if relativeSize != 1: #erase bounding box so erase old letter before drawing new differently-sized letter 
-            boundingBox = visual.Rect(myWin,width=w,height=h, pos=(rectX,y), fillColor=bgColor, lineColor='red', units='norm' ,autoLog=False) 
+            boundingBox = visual.Rect(myWin,width=w,height=h, pos=(x,y), fillColor=bgColor, lineColor='red', units='norm' ,autoLog=False) 
             boundingBox.draw()
-        option = visual.TextStim(myWin,colorSpace='rgb',color=color,alignHoriz=alignHoriz, alignVert='center',
+        option = visual.TextStim(myWin,colorSpace='rgb',color=color,alignHoriz=alignHorizOption, alignVert='center',
                                                                     height=h*relativeSize,units='norm',autoLog=False)
         option.setText(possibleResps[i])
-        option.pos = (x, y)
+        option.pos = (x-w/2, y)
         option.draw()
         if drawBoundingBox:
-            boundingBox = visual.Rect(myWin,width=w,height=h, pos=(rectX,y), units='norm')
+            boundingBox = visual.Rect(myWin,width=w,height=h, pos=(x,y), units='norm')
             boundingBox.draw()
         
-def drawResponseArray(myWin,bgColor,xStart,possibleResps,selected,selectedColor):
+def drawResponseArray(myWin,bgColor,xStart,namesPerColumn,possibleResps,selected,selectedColor):
     '''selected indicated whether each is selected or not
     possibleResps is array of all the authors to populate the screen with.
     '''
@@ -54,7 +87,7 @@ def drawResponseArray(myWin,bgColor,xStart,possibleResps,selected,selectedColor)
         else: 
             color = (1,1,1)
         relativeHeight = .3
-        drawRespOption(myWin,bgColor,xStart,color,drawBoundingBox,relativeHeight,possibleResps,i)
+        drawRespOption(myWin,bgColor,xStart,namesPerColumn,color,drawBoundingBox,relativeHeight,possibleResps,i)
 
 def checkForOKclick(mousePos,respZone):
     OK = False
@@ -80,17 +113,16 @@ def convertXYtoNormUnits(XY,currUnits,win):
     return xNorm, yNorm
 
 def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instructionStim,OKtextStim,OKrespZone,mustDeselectMsgStim,possibleResps,clickSound,badClickSound):
-   
    myMouse.clickReset()
-   whichResp = -1
    state = 'waitingForAnotherSelection' 
    #waitingForAnotherSelection means OK is  not on the screen, so must click a lineup item
    #'finished' exit this lineup, choice has been made
    expStop = False
    xStart = -.7
    #Calculate how many names in a column
-   namesPerColumn = 16
+   namesPerColumn = 15
    numColumns = len(possibleResps) / namesPerColumn
+   print('numColumns = ',numColumns)
    #Need to maintain a list of selected. Draw those in another color
    selected = [0] * len(possibleResps)
    selectedColor = (1,1,-.5)
@@ -100,11 +132,8 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instru
         #draw selecteds in selectedColor, remainder in white
         instructionStim.draw()
         #print('state = ',state)
-        drawResponseArray(myWin,bgColor,xStart,possibleResps,selected,selectedColor)
-        if state == 'waitingForAnotherSelection':
-            #buttonThis = np.where(pressed)[0] #assume only one button can be recorded as pressed
-            #drawRespOption(myWin,bgColor,constCoord,selectedColor,False,1.5,possibleResps,whichResp)
-            
+        drawResponseArray(myWin,bgColor,xStart,namesPerColumn,possibleResps,selected,selectedColor)
+        if state == 'waitingForAnotherSelection':            
             #assume half are authors, therefore when have clicked half, have option to finish
             print('Summing selected, ',selected, ' minMustClick=',minMustClick)
             if sum(selected) >= minMustClick:
@@ -133,40 +162,22 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instru
                     state = 'finished'
             if not OK: #didn't click OK. Check whether clicked near a response array item
                 #First calculate the entire array of response regions and see if falls within that
-                #calculate top-most box
-                x,topmostCoord, topmostW, topmostH =  calcRespYandBoundingBox( possibleResps, 0) #determine bounds of adjacent option
-                topmostX = x
-                topmostY = topmostCoord
-                #calculate bottom-most box
-                x,btmmostCoord, btmmostW, btmmostH =  calcRespYandBoundingBox(possibleResps, len(possibleResps)-1)
-                btmmostX = x
-                btmmostY = btmmostCoord
-                w = topmostW
-                h = topmostH
-                horizBounds = [ x, x+w ] #because words are left-justified, they begin at x
-                vertBounds = [btmmostY - h/2, topmostY + h/2]
-                print("horizBounds=",horizBounds," vertBounds=",vertBounds)
-                xValid = horizBounds[0] <= mousePos[0] <= horizBounds[1]  #clicked in a valid x-position
-                yValid = vertBounds[0] <= mousePos[1] <= vertBounds[1]  #clicked in a valid y-position
-                if xValid and yValid: #clicked near a response array item
-                    relToBtm = mousePos[1] - vertBounds[0] #mouse coordinates go up from -1 to +1
-                    relToLeft = mousePos[0] - horizBounds[0]
-                    whichResp = int (relToBtm / h)
-                    #change from relToBtm to relative to top
-                    whichResp = len(possibleResps) - 1- whichResp
-                    if (sum(selected) >= maxCanClick)   &   (selected[whichResp]==0): #Clicked on one that is already selected but already hit max allowed
+                clickedAnOption, which = calcWhichClicked(namesPerColumn,possibleResps,mousePos[0],mousePos[1])
+                print("clickedAnOption=",clickedAnOption," which=",which)
+                if not clickedAnOption:
                         badClickSound.play()
-                        mustDeselectMsgStim.draw()
+                else: #clickedAnOption == TRUE
+                    if (sum(selected) >= maxCanClick)   &   (selected[which]==0): #Clicked on one that is already selected but already hit max allowed
+                            badClickSound.play()
+                            mustDeselectMsgStim.draw()
                     else:
                         clickSound.play()
-                        selected[whichResp] = -1 * selected[whichResp] + 1 #change 0 to 1 and 1 to 0.   Can't use not because can't sum true/false
-                        print('Changed selected #',whichResp,', selected=',selected)
-                        print("whichResp from top = ",whichResp, " About to redraw")
+                        selected[which] = -1 * selected[which] + 1 #change 0 to 1 and 1 to 0.   Can't use not because can't sum true/false
+                        print('Changed selected #',which,', selected=',selected)
+                        print("which clicked = ",which, " About to redraw")
                         lastValidClickButtons = deepcopy(pressed) #record which buttons pressed. Have to make copy, otherwise will change when pressd changes later
-                        print('lastValidClickButtons=',lastValidClickButtons)
-                    #state = 'waitingForAnotherSelection' 
-                else: 
-                    badClickSound.play()
+                        #print('lastValidClickButtons=',lastValidClickButtons)
+
             for key in event.getKeys(): #only checking keyboard if mouse was clicked, hoping to improve performance
                 key = key.upper()
                 if key in ['ESCAPE']:
@@ -235,6 +246,7 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     possibleResps = [ 'V.C. Andrews','Lauren Adamson', 'Eric Amsel', 'Carter Anvari', 'Isaac Asimov', 'Margaret Atwood','Russell Banks', 'David Baldacci', 'Carol Berg', 'Pierre Berton', 'Maeve Binchy', 'Judy Blume', 'Dan Brown','Agatha Christie', 'Robertson Davies','Charles Dickens' ]
     realAuthor =  [                   1,                     0,                      1       ]
     #possibleResps.remove('C'); possibleResps.remove('V') #per Goodbourn & Holcombe, including backwards-ltrs experiments
+    print('num authors = ',len(possibleResps))
     myWin.flip()
     passThisTrial = False
     myMouse = event.Mouse()
