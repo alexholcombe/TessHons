@@ -14,7 +14,8 @@ def drawResponses(responses,respStim,numCharsWanted,changeToUpperCase,drawBlanks
         respStr = respStr.upper()
     if drawBlanks:
         blanksNeeded = numCharsWanted - len(respStr)
-        respStr = respStr + '_'*blanksNeeded
+        #add blanks
+        respStr = respStr + '_' * blanksNeeded
     respStim.setText(respStr,log=False)
     respStim.draw();
         
