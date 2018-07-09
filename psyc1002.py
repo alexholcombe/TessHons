@@ -21,6 +21,11 @@ try:
     import letterLineupResponse
 except ImportError:
     print('Could not import letterLineupResponse.py (you need that file to be in the same directory)')
+try:
+    from authorRecognitionLineup import doAuthorLineup
+except ImportError:
+    print('Could not import authorRecognitionLineup.py (you need that file to be in the same directory)')
+
 
 wordEccentricity=  0.9 #4
 tasks=['T1']; task = tasks[0]
@@ -39,7 +44,7 @@ if os.path.isdir('.'+os.sep+'Submission'):
 else:
     print('"Submission" directory does not exist, so saving data in present working directory')
     dataDir='.'
-timeAndDateStr = time.strftime("%d%b%Y_%H-%M", time.localtime())
+timeDateStart = time.strftime("%d%b%Y_%H-%M", time.localtime())
 
 showRefreshMisses=True #flicker fixation at refresh rate, to visualize if frames missed
 feedback=True 
@@ -205,7 +210,7 @@ myWin = openMyStimWindow()
 infix = ''
 if doStaircase:
     infix = 'staircase_'
-fileName = os.path.join(dataDir, subject + '_' + infix+ timeAndDateStr)
+fileName = os.path.join(dataDir, subject + '_' + infix+ timeDateStart)
 if not demo and not exportImages:
     dataFile = open(fileName+'.txt', 'w')
     #save copy of this script so no mistaking the version of the code run by this subject
@@ -270,11 +275,16 @@ def calcAndPredrawStimuli(stimList,i,j):
    
 #create click sound for keyboard
 try:
-    click=sound.Sound('406__tictacshutup__click-1-d.wav')
+    clickSound=sound.Sound('406__tictacshutup__click-1-d.wav')
 except: #in case file missing, create inferiro click manually
     logging.warn('Could not load the desired click sound file, instead using manually created inferior click')
-    click=sound.Sound('D',octave=4, sampleRate=22050, secs=0.015, bits=8)
-
+    clickSound=sound.Sound('D',octave=4, sampleRate=22050, secs=0.015, bits=8)
+try:
+    badSound = sound.Sound('A',octave=5, sampleRate=22050, secs=0.08, bits=8)
+except:
+    badSound = None
+    print('Could not create an invalid key sound for typing feedback')
+        
 if showRefreshMisses:
     fixSizePix = 36 #2.6  #make fixation bigger so flicker more conspicuous
 else: fixSizePix = 36
@@ -286,7 +296,7 @@ respPromptStim = visual.TextStim(myWin,pos=(0, -.9),colorSpace='rgb',color=(1,1,
 acceptTextStim = visual.TextStim(myWin,pos=(0, -.8),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.05,units='norm',autoLog=autoLogging)
 acceptTextStim.setText('Hit ENTER to accept. Backspace to edit')
 respStim = visual.TextStim(myWin,pos=(0,0),colorSpace='rgb',color=(1,1,0),alignHoriz='center', alignVert='center',height=1,units='deg',autoLog=autoLogging)
-clickSound, badKeySound = stringResponse.setupSoundsForResponse()
+#clickSound, badSound = stringResponse.setupSoundsForResponse()
 requireAcceptance = False
 nextText = visual.TextStim(myWin,pos=(0, .1),colorSpace='rgb',color = (1,1,1),alignHoriz='center', alignVert='center',height=.1,units='norm',autoLog=autoLogging)
 NextRemindCountText = visual.TextStim(myWin,pos=(0,.2),colorSpace='rgb',color= (1,1,1),alignHoriz='center', alignVert='center',height=.1,units='norm',autoLog=autoLogging)
@@ -637,23 +647,22 @@ def play_high_tone_correct_low_incorrect(correct, passThisTrial=False):
     else: #incorrect
         low.play()
 
-def doAuthorRecognitionTest():
+def doAuthorRecognitionTest(autopilot):
     oneThirtyEight = ['Agatha Christie', 'Aimee Dorr', 'Alex Lumsden', 'Alice Munro', 'Alvin Toffler', 'Amy Tan', 'Andrew Greeley', 'Ann Marie McDonald', 'Anne Rice', 'Arthur C. Clarke', 'Barbara Cartland', 'Brian Bigelow', 'C.S. Lewis', 'Caleb Lim', 'Carl Corter', 'Carla Grinton', 'Carol Berg', 'Carol Shields', 'Carter Anvari', 'Charles Condie', 'Christopher Barr', 'Christopher Moore', 'Dale Blyth', 'Dan Brown', 'Daniel Quinn', 'Danielle Steel', 'David Baldacci', 'David Perry', 'David Singer', 'Dean Koontz', 'Denise Daniels', 'Devon Chang', 'Diana Gabaldon', 'Diane Cuneo', 'Edward Cornell', 'Elizabeth George', 'Elliot Blass', 'Eric Amsel', 'Erica Jong', 'Frances Fincham', 'Frank Gresham', 'Frank Herbert', 'Frank Kiel', 'Frank Manis', 'Gary Beauchamp', 'George R.R. Martin', 'Geraldine Dawson', 'Harrison Boldt', 'Hilda Borko', 'Hugh Lytton', 'Isaac Asimov', 'Jackie Collins', 'James Clavell', 'James Michener', 'James Morgan', 'Janet Evanovich', 'Janice Taught', 'Jean M. Auel', 'Jeffery Eugenides', 'Jennifer Butterworth', 'Jennifer Marshal', 'John Condry', 'John Grisham', 'John Jakes', 'Judith Krantz', 'Judy Blume', 'Julia Connerty', 'K. Warner Schaie', 'Kate Grenville', 'Kate Pullinger', 'Katherine Carpenter', 'Kirby Kavanagh', 'Lauren Benjamin', 'Laurie King', 'Lena Johns', 'Lilly Jack', "Louis L'Amour", 'Lynn Liben', 'M. Scott Peck', 'Maeve Binchy', 'Margaret Atwood', 'Margaret Laurence', 'Margarita Azmitia', 'Mark Elder', 'Mark Strauss', 'Martin Ford', 'Michael Moore', 'Mimi Hall', 'Miriam Sexton', 'Miriam Toews', 'Mordecai Richler', 'Morton Mendelson', 'Naomi Choy', 'Naomi Klein', 'Noam Chomsky', 'Oscar Barbary', 'Patricia Cornwell', 'Peter Rigg', 'Pierre Berton', 'Pricilla Levy', 'Reed Larson', 'Reuben Baron', 'Richard Passman', 'Robert Emery', 'Robert Fulghum', 'Robert Inness', 'Robert J. Sawyer', 'Robert Jordan', 'Robert Ludlum', 'Robert Siegler', 'Robertson Davies', 'Rohinton Mistry', 'Russell Banks', 'Ryan Gilbertson', 'Ryan Morris', 'S.E. Hinton', 'Samuel Paige', 'Scott Paris', 'Sheryl Green', 'Sidney Sheldon', 'Sophia Martin', 'Sophie Kinsella', 'Stephen Coonts', 'Stephen J. Gould', 'Stephen King', 'Stirling King', 'Sue Grafton', 'Susan Kormer', 'Suzanne Clarkson', 'Thomas Bever', 'Timothy Findley', 'Tom Clancy', 'Tracy Tomes', 'Ursula LeGuin', 'V.C. Andrews', 'W. Patrick Dickson', 'Wayne Johnston', 'Wayson Choy']
     oneThirtyFive = oneThirtyEight[0:-3]
     possibleResps = oneThirtyFive #oneThirtyEight #sixteen
     print('num authors = ',len(possibleResps))
     myWin.flip()
     passThisTrial = False
-    myMouse = event.Mouse()
-
-    #Do vertical lineups
-    responseDebug=False; responses = list(); responsesAutopilot = list();
     expStop = False
     
     bothSides = True
     leftRightFirst = False
+
     expStop,passThisTrial,selected,selectedAutopilot = \
-                doLineup(myWin, bgColor,myMouse, clickSound, badClickSound, possibleResps, bothSides, leftRightFirst, autopilot)
+                doAuthorLineup(myWin, bgColor,myMouse, clickSound, badSound, possibleResps, autopilot)
+    if autopilot:
+        selected = selectedAutopilot
     return expStop,selected
 
 expStop=False
@@ -727,9 +736,9 @@ if doStaircase:
                                         do_RSVP_stim(cuePos, idxsStream1, idxsStream2, noisePercent/100.,staircaseTrialN)
         numCasesInterframeLong = timingCheckAndLog(ts,staircaseTrialN)
         #expStop,passThisTrial,responses,buttons,responsesAutopilot = \
-        #      letterLineupResponse.doLineup(myWin,bgColor,myMouse,clickSound,badKeySound,possibleResps,showBothSides,sideFirstLeftRightCentral,autopilot) #CAN'T YET HANDLE MORE THAN 2 LINEUPS
+        #      letterLineupResponse.doLineup(myWin,bgColor,myMouse,clickSound,badSound,possibleResps,showBothSides,sideFirstLeftRightCentral,autopilot) #CAN'T YET HANDLE MORE THAN 2 LINEUPS
         expStop,passThisTrial,responses,responsesAutopilot = \
-                stringResponse.collectStringResponse(numRespsWanted,respPromptStim,respStim,acceptTextStim,myWin,clickSound,badKeySound,
+                stringResponse.collectStringResponse(numRespsWanted,respPromptStim,respStim,acceptTextStim,myWin,clickSound,badSound,
                                                                                requireAcceptance,autopilot,responseDebug=False)
         print(responses)
 
@@ -834,7 +843,7 @@ else: #not staircase
             for respI in [0,1]:
                 side = responseOrder[respI] * 2 -1  #-1 for left/top, 1 for right/bottom
                 dev = 2*wordEccentricity * side #put it farther out than stimulus, so participant is sure which is left and which right
-                locations = [ 'the right', 'the left',  'the bottom','top' ]
+                locations = [ 'the left', 'the right',  'the bottom','top' ]
                 location     = locations[      thisTrial['horizVert'] * 2  +   respI      ]
                 respPromptString = 'Type the letter that was on ' +  location
                 respPromptStim.setText(respPromptString,log=False)
@@ -847,10 +856,10 @@ else: #not staircase
                 respPromptStim.setPos([xPrompt, y*2])
 
                 #expStop,passThisTrial,responses,buttons,responsesAutopilot = \
-                #        letterLineupResponse.doLineup(myWin,bgColor,myMouse,clickSound,badKeySound,possibleResps,showBothSides,sideFirstLeftRightCentral,autopilot) #CAN'T YET HANDLE MORE THAN 2 LINEUPS
+                #        letterLineupResponse.doLineup(myWin,bgColor,myMouse,clickSound,badSound,possibleResps,showBothSides,sideFirstLeftRightCentral,autopilot) #CAN'T YET HANDLE MORE THAN 2 LINEUPS
                 changeToUpper = False
                 expStop[respI],passThisTrial[respI],responses[respI],responsesAutopilot[respI] = stringResponse.collectStringResponse(
-                                        numCharsInResponse,x,y,respPromptStim,respStim,acceptTextStim,fixationPoint,myWin,clickSound,badKeySound,
+                                        numCharsInResponse,x,y,respPromptStim,respStim,acceptTextStim,fixationPoint,myWin,clickSound,badSound,
                                                                                    requireAcceptance,autopilot,changeToUpper,responseDebug=True) 
             expStop = np.array(expStop).any(); passThisTrial = np.array(passThisTrial).any()
         
@@ -927,6 +936,19 @@ else: #not staircase
         print('Of ',nDoneMain,' trials, on ',numTrialsCorrect*1.0/nDoneMain*100., '% of all trials all targets reported exactly correct',sep='')
         for i in range(numRespsWanted):
             print('stream',i,': ',round(numTrialsEachCorrect[i]*1.0/nDoneMain*100.,2), '% correct',sep='')
-    dataFile.flush()
-    logging.flush(); dataFile.close()
-    myWin.close() #have to close window if want to show a plot
+    dataFile.flush(); logging.flush(); dataFile.close()
+
+    expStop,selected = doAuthorRecognitionTest(autopilot)
+    #save authors file, in json format
+    infix = 'authors'
+    authorsFileName = os.path.join(dataDir, subject + '_' + timeDateStart + infix + '.json')
+    import json
+    data = {}  
+    data['selected'] = selected
+    data['expStop'] = expStop
+
+    with open(authorsFileName, 'w') as outfile:  
+        json.dump(data, outfile)
+
+    
+    
