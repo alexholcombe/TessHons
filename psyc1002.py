@@ -128,7 +128,7 @@ ISIframes = int( np.floor(ISIms / (1000./refreshRate)) )
 rateInfo = 'total SOA=' + str(round(  (ISIframes + letterDurFrames)*1000./refreshRate, 2)) + ' or ' + str(ISIframes + letterDurFrames) + ' frames, comprising\n'
 rateInfo+=  'ISIframes ='+str(ISIframes)+' or '+str(ISIframes*(1000./refreshRate))+' ms and letterDurFrames ='+str(letterDurFrames)+' or '+str(round( letterDurFrames*(1000./refreshRate), 2))+'ms'
 logging.info(rateInfo); print(rateInfo)
-logging.info(cwd)
+logging.info('current working directory is ' + cwd)
 trialDurFrames = int( numWordsInStream*(ISIframes+letterDurFrames) ) #trial duration in frames
 
 monitorname = 'testmonitor'
@@ -303,20 +303,17 @@ NextRemindCountText = visual.TextStim(myWin,pos=(0,.2),colorSpace='rgb',color= (
 screenshot= False; screenshotDone = False
 conditionsList = []
 #SETTING THE CONDITIONS
-cuePositions =  np.array([0]) # [4,10,16,22] used in Martini E2, group 2
 #Implement the fully factorial part of the design by creating every combination of the following conditions
-for cuePos in cuePositions:
-   for rightResponseFirst in [False,True]:
+for rightResponseFirst in [False,True]:
       for bothWordsFlipped in [False]:
         for horizVert in [False]:
           for probe in ['both']:
             for indication in [False]: #pre stimulus indicator of locations
-                conditionsList.append( {'cuePos':cuePos, 'rightResponseFirst':rightResponseFirst, 'leftStreamFlip':bothWordsFlipped,
+                conditionsList.append( {'rightResponseFirst':rightResponseFirst, 'leftStreamFlip':bothWordsFlipped,
                                                        'horizVert':horizVert, 'rightStreamFlip':bothWordsFlipped, 'probe':probe, 'indication':indication} )
 
 trials = data.TrialHandler(conditionsList,trialsPerCondition) #constant stimuli method
 trialsForPossibleStaircase = data.TrialHandler(conditionsList,trialsPerCondition) #independent randomization, just to create random trials for staircase phase
-numRightWrongEachCuepos = np.zeros([ len(cuePositions), 1 ]); #summary results to print out at end
 
 logging.info( 'numtrials=' + str(trials.nTotal) + ' and each trialDurFrames='+str(trialDurFrames)+' or '+str(trialDurFrames*(1000./refreshRate))+ \
                ' ms' + '  task=' + task)
@@ -362,7 +359,6 @@ print('experimentPhase\ttrialnum\tsubject\ttask\t',file=dataFile,end='')
 print('noisePercent\tleftStreamFlip\trightStreamFlip\trightResponseFirst\tprobe\t',end='',file=dataFile)
 
 for i in range(maxNumRespsWanted):
-#   dataFile.write('cuePos'+str(i)+'\t')   #have to use write to avoid ' ' between successive text, at least until Python 3
    dataFile.write('answer'+str(i)+'\t')
    dataFile.write('response'+str(i)+'\t')
    dataFile.write('correct'+str(i)+'\t')
@@ -378,7 +374,7 @@ def  oneFrameOfStim( n,cue,seq1,seq2,cueDurFrames,letterDurFrames,ISIframes,this
 #seq1 is an array of indices corresponding to the appropriate pre-drawn stimulus, contained in textStimuli
   
   SOAframes = letterDurFrames+ISIframes
-  cueFrames = thisTrial['cuePos']*SOAframes  #cuesPos is global variable
+  cueFrames = 0 
   stimN = int( np.floor(n/SOAframes) )
   frameOfThisLetter = n % SOAframes #earvery SOAframes, new letter
   timeToShowStim = frameOfThisLetter < letterDurFrames #if true, it's not time for the blank ISI.  it's still time to draw the letter
@@ -486,11 +482,9 @@ numTrialsEachApproxCorrect= np.zeros( maxNumRespsWanted )
 def do_RSVP_stim(thisTrial, seq1, seq2, proportnNoise,trialN,thisProbe):
     #relies on global variables:
     #   textStimuli, logging, bgColor
-    #  thisTrial should have 'cuePos'
     global framesSaved #because change this variable. Can only change a global variable if you declare it
     cuesPos = [] #will contain the positions in the stream of all the cues (targets)
-
-    cuesPos.append(thisTrial['cuePos'])
+    cuesPos.append(0)
     cuesPos = np.array(cuesPos)
     noise = None; allFieldCoords=None; numNoiseDots=0
     if proportnNoise > 0: #gtenerating noise is time-consuming, so only do it once per trial. Then shuffle noise coordinates for each letter
@@ -605,7 +599,7 @@ def do_RSVP_stim(thisTrial, seq1, seq2, proportnNoise,trialN,thisProbe):
         respPromptStim.setText('What was the underlined word?',log=False)   
     else: respPromptStim.setText('Error: unexpected task',log=False)
     
-    return cuesPos,ts
+    return ts
 
 def handleAndScoreResponse(passThisTrial,response,responseAutopilot,task,correctAnswer):
     #Handle response, calculate whether correct, ########################################
@@ -732,7 +726,7 @@ if doStaircase:
         #print('staircaseTrialN=',staircaseTrialN)
         calcAndPredrawStimuli(stimList)
 
-        cuesPos,ts  = \
+        ts  = \
                                         do_RSVP_stim(cuePos, idxsStream1, idxsStream2, noisePercent/100.,staircaseTrialN)
         numCasesInterframeLong = timingCheckAndLog(ts,staircaseTrialN)
         #expStop,passThisTrial,responses,buttons,responsesAutopilot = \
@@ -751,7 +745,7 @@ if doStaircase:
             print(staircaseTrialN,'\t', end='', file=dataFile) #first thing printed on each line of dataFile
             print(subject,'\t',task,'\t', round(noisePercent,2),'\t', end='', file=dataFile)
             correct,approxCorrect,responsePosRelative= handleAndScoreResponse(
-                                                passThisTrial,responses,responseAutopilot,task,sequenceLeft,cuesPos[0],correctAnswerIdx,wordList )
+                                                passThisTrial,responses,responseAutopilot,task,sequenceLeft,0,correctAnswerIdx,wordList )
             print(numCasesInterframeLong, file=dataFile) #timingBlips, last thing recorded on each line of dataFile
             core.wait(.06)
             if feedback: 
@@ -819,7 +813,7 @@ else: #not staircase
         #Determine which words will be drawn
         idxsStream1 = [0]
         idxsStream2 = [0] 
-        cuesPos, ts  =  do_RSVP_stim(thisTrial, idxsStream1, idxsStream2, noisePercent/100.,nDoneMain,thisProbe)
+        ts  =  do_RSVP_stim(thisTrial, idxsStream1, idxsStream2, noisePercent/100.,nDoneMain,thisProbe)
         numCasesInterframeLong = timingCheckAndLog(ts,nDoneMain)
         #call for each response
         myMouse = event.Mouse()
@@ -949,6 +943,6 @@ else: #not staircase
 
     with open(authorsFileName, 'w') as outfile:  
         json.dump(data, outfile)
-
     
+    logging.info("Terminated normally.")
     
