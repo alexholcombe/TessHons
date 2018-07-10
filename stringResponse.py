@@ -19,7 +19,7 @@ def drawResponses(responses,respStim,numCharsWanted,changeToUpperCase,drawBlanks
     respStim.setText(respStr,log=False)
     respStim.draw();
         
-def collectStringResponse(numCharsWanted,x,y,respPromptStim,respStim,acceptTextStim,fixation,myWin,
+def collectStringResponse(numCharsWanted,x,y,respPromptStim,respStim,acceptTextStim,fixation,letterOrDigit,myWin,
                                                clickSound,badKeySound,requireAcceptance,autopilot,changeToUpperCase,responseDebug=False): 
     '''respPromptStim should be a stimulus with a draw() method, could be something like 'Enter your 3-character response')
       respStim is a textStim in the location you want the participant's response to appear
@@ -67,7 +67,7 @@ def collectStringResponse(numCharsWanted,x,y,respPromptStim,respStim,acceptTextS
 #                  if key in ['SPACE']: #observer opting out because think they moved their eyes
 #                      passThisTrial = True
 #                      noResponseYet = False
-                elif key.upper() in string.ascii_letters:
+                elif key.upper() in (string.digits if letterOrDigit else string.ascii_letters):
                     noResponseYet = False
                     responses.append(thisResponse)
                     numResponses += 1 #not just using len(responses) because want to work even when autopilot, where thisResponse is null
@@ -148,16 +148,18 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     acceptTextStim = visual.TextStim(window,pos=(0, -.8),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.1,units='norm',autoLog=autoLogging)
     acceptTextStim.setText('Hit ENTER to accept. Backspace to edit')
     respStim = visual.TextStim(window,pos=(0,0),colorSpace='rgb',color=(1,1,0),alignHoriz='center', alignVert='center',height=.16,units='norm',autoLog=autoLogging)
-
+    letterOrDigit = 1
     responseDebug=False; responses = list(); responsesAutopilot = list();
     numCharsWanted = 5
-    respPromptStim.setText('Enter your ' + str(numCharsWanted) + '-character response')
+    respPromptStim.setText('Enter your ' + str(numCharsWanted) + '-' + ('digit' if letterOrDigit else 'letter') + ' response')
     requireAcceptance = True
     x=-.2 #x offset relative to centre of screen
+    y=0
     changeToUpper = True
+    responseDebug = True
     expStop,passThisTrial,responses,responsesAutopilot = \
-                collectStringResponse(numCharsWanted,x,respPromptStim,respStim,acceptTextStim,None,window,clickSound,badKeySound,requireAcceptance,autopilot,
-                                                        changeToUpper, responseDebug=True)
+                collectStringResponse(numCharsWanted,x,y,respPromptStim,respStim,acceptTextStim,None,letterOrDigit,window,clickSound,badKeySound,requireAcceptance,autopilot,
+                                                        changeToUpper, responseDebug)
     print('responses=',responses)
     print('expStop=',expStop,' passThisTrial=',passThisTrial,' responses=',responses, ' responsesAutopilot =', responsesAutopilot)
     print('Finished') 

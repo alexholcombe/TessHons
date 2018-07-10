@@ -7,8 +7,7 @@ import scipy
 import numpy as np
 from math import atan, log, ceil
 import shutil
-import copy
-import time, sys, os, string
+import copy, time, sys, os, string
 try:
     from noiseStaircaseHelpers import printStaircase, toStaircase, outOfStaircase, createNoise, plotDataAndPsychometricCurve
 except ImportError:
@@ -17,15 +16,18 @@ try:
     import stringResponse
 except ImportError:
     print('Could not import stringResponse.py (you need that file to be in the same directory)')
-try:
-    import letterLineupResponse
-except ImportError:
-    print('Could not import letterLineupResponse.py (you need that file to be in the same directory)')
+#try:
+#    import letterLineupResponse
+#except ImportError:
+#    print('Could not import letterLineupResponse.py (you need that file to be in the same directory)')
 try:
     from authorRecognitionLineup import doAuthorLineup
 except ImportError:
     print('Could not import authorRecognitionLineup.py (you need that file to be in the same directory)')
-
+try:
+    from getpass import getuser
+except ImportError:
+    print('ERROR Could not import getpass')
 
 wordEccentricity=  0.9 #4
 tasks=['T1']; task = tasks[0]
@@ -35,7 +37,8 @@ quitFinder = False #if checkRefreshEtc, quitFinder becomes True
 autopilot=False
 demo=False #False
 exportImages= False #quits after one trial
-subject='Hubert' #user is prompted to enter true subject name
+subject=getuser()  #https://stackoverflow.com/a/842096/302378
+subject = 'abajjjjd8333763' #debug
 if autopilot: subject='auto'
 cwd = os.getcwd()
 print('current working directory =',cwd)
@@ -56,14 +59,33 @@ if demo:
 numWordsInStream = 1
 myFont =  'Arial' # 'Sloan' # 
 
-#reads stimuli in from external source
-conditionsList = ['word','letter','digit']
-condition = conditionsList[1]
+#Set up the list of experiments, then allocate one to the subject
+experimentTypesStim = ['word','letter','digit']
+experimentTypesSpatial = ['horiz','vert']
+#create dictionary of all combinations
+experimentsList = []
+#Creating the list of experiments
+#Implement the fully factorial part of the design by creating every combination of the following conditions
+for stim in experimentTypesStim:
+    for spatial in experimentTypesSpatial:
+        experimentsList.append( {'stimType':stim, 'spatial':spatial} )
+
+experimentNum = abs(hash(subject)) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
+experiment = experimentsList[ experimentNum ]
+logging.info(experiment); print(experiment)
+import json
+authorsData= {} #stuff to record in authors data file
+authorsData.update(experiment)
+#authorsData['stimType'] = stimType
+#authorsData['spatial'] = spatial
+print(authorsData)
 
 numStimsWanted = 26
-if condition == 'letter':
+if experiment['stimType'] == 'letter':
     stimList = list(string.ascii_lowercase)
-elif condition == 'word':
+elif experiment['stimType'] == 'digit':
+    stimList = ['0','1','2','3','4','5','6','7','8','9']
+elif experiment['stimType'] == 'word':
     stimList = list()
     #read word list
     stimDir = 'inputFiles'
@@ -187,7 +209,6 @@ else: #checkRefreshEtc
 myWin.close() #have to close window to show dialog box
 
 defaultNoiseLevel = 0 #to use if no staircase, can be set by user
-trialsPerCondition = 20 #default value
  
 if refreshRateWrong:
     logging.error(refreshMsg1+refreshMsg2)
@@ -200,12 +221,11 @@ if checkRefreshEtc and (not demo) and (myWinRes != [widthPix,heightPix]).any():
 
 trialsPerCondition = 1
 defaultNoiseLevel = 0
-if not demo: 
+if not demo:
     allowGUI = False
 
 myWin = openMyStimWindow()
 
-    
 #set up output data file, log file,  copy of program code, and logging
 infix = ''
 if doStaircase:
@@ -649,9 +669,9 @@ def doAuthorRecognitionTest(autopilot):
     myWin.flip()
     passThisTrial = False
     expStop = False
-    
     bothSides = True
     leftRightFirst = False
+    myMouse = event.Mouse() #the mouse absolutely needs to be reset, it seems, otherwise maybe it returns coordinates in wrong units or with wrong scaling?
 
     expStop,passThisTrial,selected,selectedAutopilot = \
                 doAuthorLineup(myWin, bgColor,myMouse, clickSound, badSound, possibleResps, autopilot)
@@ -838,8 +858,8 @@ else: #not staircase
                 side = responseOrder[respI] * 2 -1  #-1 for left/top, 1 for right/bottom
                 dev = 2*wordEccentricity * side #put it farther out than stimulus, so participant is sure which is left and which right
                 locations = [ 'the left', 'the right',  'the bottom','top' ]
-                location     = locations[      thisTrial['horizVert'] * 2  +   respI      ]
-                respPromptString = 'Type the letter that was on ' +  location
+                location     = locations[      thisTrial['horizVert'] * 2  +   responseOrder[respI]      ]
+                respPromptString = 'Type the ' + experiment['stimType'] + ' that was on ' +  location
                 respPromptStim.setText(respPromptString,log=False)
                 if thisTrial['horizVert']:
                     x=0; y=dev
@@ -853,8 +873,8 @@ else: #not staircase
                 #        letterLineupResponse.doLineup(myWin,bgColor,myMouse,clickSound,badSound,possibleResps,showBothSides,sideFirstLeftRightCentral,autopilot) #CAN'T YET HANDLE MORE THAN 2 LINEUPS
                 changeToUpper = False
                 expStop[respI],passThisTrial[respI],responses[respI],responsesAutopilot[respI] = stringResponse.collectStringResponse(
-                                        numCharsInResponse,x,y,respPromptStim,respStim,acceptTextStim,fixationPoint,myWin,clickSound,badSound,
-                                                                                   requireAcceptance,autopilot,changeToUpper,responseDebug=True) 
+                                        numCharsInResponse,x,y,respPromptStim,respStim,acceptTextStim,fixationPoint, (1 if experiment['stimType']=='digit' else 0), myWin,
+                                        clickSound,badSound, requireAcceptance,autopilot,changeToUpper,responseDebug=True )
             expStop = np.array(expStop).any(); passThisTrial = np.array(passThisTrial).any()
         
         if not expStop:
@@ -932,17 +952,21 @@ else: #not staircase
             print('stream',i,': ',round(numTrialsEachCorrect[i]*1.0/nDoneMain*100.,2), '% correct',sep='')
     dataFile.flush(); logging.flush(); dataFile.close()
 
+    #Do authors task
+    myWin.allowGUI =True
+    myWin.close() #Seems to work better if close and open new window (even though units the same), both in terms of dimensions (even though same here!) and double-clicking
+    #take a couple extra seconds to close and reopen window unfortunately
+    myWin = visual.Window(fullscr=True,monitor=mon,colorSpace='rgb',color=bgColor,units='deg')
+
     expStop,selected = doAuthorRecognitionTest(autopilot)
     #save authors file, in json format
     infix = 'authors'
     authorsFileName = os.path.join(dataDir, subject + '_' + timeDateStart + infix + '.json')
-    import json
-    data = {}  
-    data['selected'] = selected
-    data['expStop'] = expStop
+    authorsData['selected'] = selected
+    authorsData['expStop'] = expStop
 
     with open(authorsFileName, 'w') as outfile:  
-        json.dump(data, outfile)
+        json.dump(authorsData, outfile)
     
     logging.info("Terminated normally.")
     

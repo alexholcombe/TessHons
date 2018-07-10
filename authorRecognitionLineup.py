@@ -180,13 +180,16 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instru
         #Used to use pressed,times = myMouse.getPressed(getTime=True) because it's supposed to return all presses since last call to clickReset. But, doesn't seem to work. So, now loop
         #If getTime=True (False by default) then getPressed will return all buttons that have been pressed since the last call to mouse.clickReset as well as their time stamps:
         pressed,times = myMouse.getPressed(getTime=True)
-        while not any(pressed): #wait until pressed
+        while not pressed[0]:  #0 is left (normal) click  #any(pressed): #wait until pressed
             pressed = myMouse.getPressed() 
-        mousePos = myMouse.getPos()
-        mousePos = convertXYtoNormUnits(mousePos,myWin.units,myWin)
+        mousePosRaw = myMouse.getPos()
+        event.clearEvents(); myMouse.clickReset()  #Because sometimes I'd click once on my laptop and it both selected and deselected, as if clicked twice
+        mousePos = convertXYtoNormUnits(mousePosRaw,myWin.units,myWin)
+        print('myWin.units=',myWin.units,'mousePosRaw=',mousePosRaw,'mousePos=',mousePos)
         #Check what was clicked, if anything
         OK = False
         if any(pressed):
+            print('pressed=',pressed)
             if state == 'waitingForAnotherSelection':
                 OK = False
                 #print('selected=',selected)
@@ -213,8 +216,8 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instru
                         clickSound.play()
                         selected[which] = -1 * selected[which] + 1 #change 0 to 1 and 1 to 0.   Can't use not because can't sum true/false
                         todraw[which] = 1
-                        print('Changed selected #',which,', selected=',selected)
-                        print("which clicked = ",which, " About to redraw")
+                        #print('Changed selected #',which,', selected=',selected)
+                        #print("which clicked = ",which, " About to redraw")
                         lastValidClickButtons = deepcopy(pressed) #record which buttons pressed. Have to make copy, otherwise will change when pressd changes later
 
             #for key in event.getKeys(): #only checking keyboard if mouse was clicked, hoping to improve performance
@@ -278,7 +281,7 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     mon = monitors.Monitor(monitorname,width=40.5, distance=57)
     windowUnits = 'deg' #purely to make sure lineup array still works when windowUnits are something different from norm units
     bgColor = [-1,-1,-1] 
-    myWin = visual.Window(fullscr=False,monitor=mon,colorSpace='rgb',color=bgColor,units=windowUnits)
+    myWin = visual.Window(fullscr=True,monitor=mon,colorSpace='rgb',color=bgColor,units=windowUnits)
     #myWin = visual.Window(monitor=mon,size=(widthPix,heightPix),allowGUI=allowGUI,units=units,color=bgColor,colorSpace='rgb',fullscr=fullscr,screen=scrn,waitBlanking=waitBlank) #Holcombe lab monitor
 
     logging.console.setLevel(logging.WARNING)
