@@ -1,0 +1,42 @@
+---
+title: "Make sure file good"
+author: "Alex Holcombe"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+  fig_caption: yes
+fig_width: 7
+fig_height: 6 
+---
+  
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Get proper filename with path
+
+```{r}
+myPath<- "."
+dataFileName<- "BrysbaertNew2009_3ltrWords.txt"
+fileWithPath<- file.path(myPath,dataFileName)
+#dir(myPath)
+file.exists(fileWithPath)
+```
+
+Example reading in that one file
+```{r}
+library('readr')#install.packages('readr')
+df <-read_tsv(fileWithPath)  #read_tsv from tidyverse readr has advantage of not having padding spaces
+#in subject and another column
+head(df)
+```
+
+Delete extra empty column, that was filled in by readr as "X11"
+```{r}
+df$X11<-NULL
+
+```
+

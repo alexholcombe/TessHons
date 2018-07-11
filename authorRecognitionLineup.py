@@ -183,8 +183,8 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instru
         #Avoid double-clicking problem by not counting as pressed if happened immediately after click events were cleared.
         pressed = [0,0,0]
         timeSinceLast = 0
-        doubleClickingGuard = .1
-        while not pressed[0] and timeSinceLast < doubleClickingGuard:  #0 is left (normal) click  #any(pressed): #wait until pressed
+        doubleClickingGuard = .05
+        while not pressed[0] or timeSinceLast < doubleClickingGuard:  #0 is left (normal) click  #any(pressed): #wait until pressed
             pressed, times = myMouse.getPressed(getTime=True)
             timeSinceLast = times[0]
         mousePosRaw = myMouse.getPos()
