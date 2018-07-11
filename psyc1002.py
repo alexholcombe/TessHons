@@ -1,7 +1,10 @@
 #Alex Holcombe alex.holcombe@sydney.edu.au
 #See the github repository for more information: https://github.com/alexholcombe/PSYC1002
 from __future__ import print_function, division
-from psychopy import monitors, visual, event, data, logging, core, sound, gui
+from psychopy import monitors, visual, event, data, logging, core, gui
+useSound = False
+if useSound:
+    from psychopy import sound
 import psychopy.info
 import scipy
 import numpy as np
@@ -38,7 +41,7 @@ autopilot=False
 demo=False #False
 exportImages= False #quits after one trial
 subject=getuser()  #https://stackoverflow.com/a/842096/302378
-subject = 'abajjjjd8333763' #debug
+#subject = 'abajjjjd8333763' #debug
 if autopilot: subject='auto'
 cwd = os.getcwd()
 print('current working directory =',cwd)
@@ -78,7 +81,7 @@ authorsData= {} #stuff to record in authors data file
 authorsData.update(experiment)
 #authorsData['stimType'] = stimType
 #authorsData['spatial'] = spatial
-print(authorsData)
+print('authorsData=',authorsData)
 
 numStimsWanted = 26
 if experiment['stimType'] == 'letter':
@@ -105,9 +108,10 @@ bgColor = [-.7,-.7,-.7] # [-1,-1,-1]
 cueColor = [-.7,-.7,-.7] #originally [1.,1.,1.]
 letterColor = [1.,1.,1.]
 cueRadius = 7 #6 deg in Goodbourn & Holcombe
-widthPix= 1600 #monitor width in pixels of Agosta  [1280]
-heightPix= 900 #800 #monitor height in pixels [800]
-monitorwidth = 60 #38.7 #monitor width in cm [was 38.7]
+#1920 x 1080 for psyc lab OTC machines
+widthPix= 1920 #monitor width in pixels of Agosta  [1280]
+heightPix= 1080 #800 #monitor height in pixels [800]
+monitorwidth = 57 #38.7 #monitor width in cm [was 38.7]
 scrn=0 #0 to use main screen, 1 to use external screen connected to computer
 fullscr=True #True to use fullscreen, False to not. Timing probably won't be quite right if fullscreen = False
 allowGUI = False
@@ -127,8 +131,7 @@ pixelperdegree = widthPix/ (atan(monitorwidth/viewdist) /np.pi*180)
 print('pixelperdegree=',pixelperdegree)
     
 doStaircase = False
-checkRefreshEtc = False
-fullscr = False 
+checkRefreshEtc = True
 if checkRefreshEtc:
     quitFinder = True 
 if quitFinder:
@@ -162,62 +165,7 @@ units='deg' #'cm'
 def openMyStimWindow(): #make it a function because have to do it several times, want to be sure is identical each time
     myWin = visual.Window(monitor=mon,size=(widthPix,heightPix),allowGUI=allowGUI,units=units,color=bgColor,colorSpace='rgb',fullscr=fullscr,screen=scrn,waitBlanking=waitBlank) #Holcombe lab monitor
     return myWin
-myWin = openMyStimWindow()
-refreshMsg2 = ''
-if not checkRefreshEtc:
-    refreshMsg1 = 'REFRESH RATE WAS NOT CHECKED'
-    refreshRateWrong = False
-else: #checkRefreshEtc
-    runInfo = psychopy.info.RunTimeInfo(
-            # if you specify author and version here, it overrides the automatic detection of __author__ and __version__ in your script
-            #author='<your name goes here, plus whatever you like, e.g., your lab or contact info>',
-            #version="<your experiment version info>",
-            win=myWin,    ## a psychopy.visual.Window() instance; None = default temp window used; False = no win, no win.flips()
-            refreshTest='grating', ## None, True, or 'grating' (eye-candy to avoid a blank screen)
-            verbose=True, ## True means report on everything 
-            userProcsDetailed=True  ## if verbose and userProcsDetailed, return (command, process-ID) of the user's processes
-            )
-    #print(runInfo)
-    logging.info(runInfo)
-    print('Finished runInfo- which assesses the refresh and processes of this computer') 
-    #check screen refresh is what assuming it is ##############################################
-    Hzs=list()
-    myWin.flip(); myWin.flip();myWin.flip()
-    myWin.setRecordFrameIntervals(True) #otherwise myWin.fps won't work
-    print('About to measure frame flips') 
-    for i in range(50):
-        myWin.flip()
-        Hzs.append( myWin.fps() )  #varies wildly on successive runs!
-    myWin.setRecordFrameIntervals(False)
-    # end testing of screen refresh########################################################
-    Hzs = np.array( Hzs );     Hz= np.median(Hzs)
-    msPerFrame= 1000./Hz
-    refreshMsg1= 'Frames per second ~='+ str( np.round(Hz,1) )
-    refreshRateTolerancePct = 3
-    pctOff = abs( (np.median(Hzs)-refreshRate) / refreshRate)
-    refreshRateWrong =  pctOff > (refreshRateTolerancePct/100.)
-    if refreshRateWrong:
-        refreshMsg1 += ' BUT'
-        refreshMsg1 += ' program assumes ' + str(refreshRate)
-        refreshMsg2 =  'which is off by more than' + str(round(refreshRateTolerancePct,0)) + '%!!'
-    else:
-        refreshMsg1 += ', which is close enough to desired val of ' + str( round(refreshRate,1) )
-    myWinRes = myWin.size
-    myWin.allowGUI =True
-
-
-myWin.close() #have to close window to show dialog box
-
-defaultNoiseLevel = 0 #to use if no staircase, can be set by user
- 
-if refreshRateWrong:
-    logging.error(refreshMsg1+refreshMsg2)
-else: logging.info(refreshMsg1+refreshMsg2)
-
-if checkRefreshEtc and (not demo) and (myWinRes != [widthPix,heightPix]).any():
-    msgWrongResolution = 'Screen apparently NOT the desired resolution of '+ str(widthPix)+'x'+str(heightPix)+ ' pixels!!'
-    logging.error(msgWrongResolution)
-    print(msgWrongResolution)
+    
 
 trialsPerCondition = 1
 defaultNoiseLevel = 0
@@ -256,7 +204,7 @@ if fullscr and not demo and not exportImages:
         #version="<your experiment version info>",
         win=myWin,    ## a psychopy.visual.Window() instance; None = default temp window used; False = no win, no win.flips()
         refreshTest='grating', ## None, True, or 'grating' (eye-candy to avoid a blank screen)
-        verbose=False, ## True means report on everything 
+        verbose=True, ## True means report on everything 
         userProcsDetailed=True,  ## if verbose and userProcsDetailed, return (command, process-ID) of the user's processes
         #randomSeed='set:42', ## a way to record, and optionally set, a random seed of type str for making reproducible random sequences
             ## None -> default 
@@ -264,8 +212,45 @@ if fullscr and not demo and not exportImages:
             ##'set:time' --> seed value is set to experimentRuntime.epoch, and initialized: random.seed(info['randomSeed'])
             ##'set:42' --> set & initialize to str('42'), and will give the same sequence of random.random() for all runs of the script
         )
+    print('runInfo='); print(runInfo)
     logging.info(runInfo)
+    print('Finished runInfo- which assesses the refresh and processes of this computer') 
+
+if checkRefreshEtc and (not demo) and (myWin.size != [widthPix,heightPix]).any():
+    msgWrongResolution = 'Screen apparently NOT the desired resolution of '+ str(widthPix)+'x'+str(heightPix)+ ' pixels!!'
+    logging.error(msgWrongResolution)
+    print(msgWrongResolution)
+
+if checkRefreshEtc and (not demo):
+    #check screen refresh is what assuming it is ##############################################
+    Hzs=list()
+    myWin.flip(); myWin.flip();myWin.flip()
+    myWin.setRecordFrameIntervals(True) #otherwise myWin.fps won't work
+    print('About to measure frame flips') 
+    for i in range(50):
+        myWin.flip()
+        Hzs.append( myWin.fps() )  #varies wildly on successive runs!
+    myWin.setRecordFrameIntervals(False)
+    # end testing of screen refresh########################################################
+    Hzs = np.array( Hzs );     Hz= np.median(Hzs)
+    msPerFrame= 1000./Hz
+    refreshMsg1= 'Frames per second ~='+ str( np.round(Hz,1) )
+    refreshMsg2 = ''
+    refreshRateTolerancePct = 3
+    pctOff = abs( (np.median(Hzs)-refreshRate) / refreshRate)
+    refreshRateWrong =  pctOff > (refreshRateTolerancePct/100.)
+    if refreshRateWrong:
+        refreshMsg1 += ' BUT'
+        refreshMsg1 += ' program assumes ' + str(refreshRate)
+        refreshMsg2 =  'which is off by more than' + str(round(refreshRateTolerancePct,0)) + '%!!'
+    else:
+        refreshMsg1 += ', which is close enough to desired val of ' + str( round(refreshRate,1) )
+    if refreshRateWrong:
+        logging.error(refreshMsg1+refreshMsg2)
+    else: logging.info(refreshMsg1+refreshMsg2)
 logging.flush()
+
+
 
 def calcStimPos(trial,i):
     if trial['horizVert']:            # bottom,           top
@@ -294,17 +279,21 @@ def calcAndPredrawStimuli(stimList,i,j):
    #end calcAndPredrawStimuli
    
 #create click sound for keyboard
-try:
-    clickSound=sound.Sound('406__tictacshutup__click-1-d.wav')
-except: #in case file missing, create inferiro click manually
-    logging.warn('Could not load the desired click sound file, instead using manually created inferior click')
-    clickSound=sound.Sound('D',octave=4, sampleRate=22050, secs=0.015, bits=8)
-try:
-    badSound = sound.Sound('A',octave=5, sampleRate=22050, secs=0.08, bits=8)
-except:
-    badSound = None
-    print('Could not create an invalid key sound for typing feedback')
-        
+clickSound = None
+if useSound:
+    try:
+        clickSound=sound.Sound('406__tictacshutup__click-1-d.wav')
+    except: #in case file missing, create inferiro click manually
+        logging.warn('Could not load the desired click sound file, instead using manually created inferior click')
+        clickSound=sound.Sound('D',octave=4, sampleRate=22050, secs=0.015, bits=8)
+badSound = None
+if useSound:
+    try:
+        badSound = sound.Sound('A',octave=5, sampleRate=22050, secs=0.08, bits=8)
+    except:
+        badSound = None
+        print('Could not create an invalid key sound for typing feedback')
+
 if showRefreshMisses:
     fixSizePix = 36 #2.6  #make fixation bigger so flicker more conspicuous
 else: fixSizePix = 36
@@ -768,7 +757,7 @@ if doStaircase:
                                                 passThisTrial,responses,responseAutopilot,task,sequenceLeft,0,correctAnswerIdx,wordList )
             print(numCasesInterframeLong, file=dataFile) #timingBlips, last thing recorded on each line of dataFile
             core.wait(.06)
-            if feedback: 
+            if feedback and useSound:
                 play_high_tone_correct_low_incorrect(correct, passThisTrial=False)
             print('staircaseTrialN=', staircaseTrialN,' noisePercent=',round(noisePercent,3),' T1approxCorrect=',T1approxCorrect) #debugON
             corrEachTrial.append(T1approxCorrect)
@@ -915,7 +904,8 @@ else: #not staircase
                      myWin.saveMovieFrames('images_sounds_movies/frames.png') #mov not currently supported 
                      expStop=True
                 #core.wait(.1)
-                if feedback: play_high_tone_correct_low_incorrect(correct, passThisTrial=False)
+                if feedback and useSound: 
+                    play_high_tone_correct_low_incorrect(correct, passThisTrial=False)
                 nDoneMain+=1
                 #dataFile.flush(); logging.flush()
                 #print('nDoneMain=', nDoneMain,' trials.nTotal=',trials.nTotal) #' trials.thisN=',trials.thisN
@@ -954,9 +944,9 @@ else: #not staircase
 
     #Do authors task
     myWin.allowGUI =True
-    myWin.close() #Seems to work better if close and open new window (even though units the same), both in terms of dimensions (even though same here!) and double-clicking
+    #myWin.close() #Seems to work better if close and open new window (even though units the same), both in terms of dimensions (even though same here!) and double-clicking
     #take a couple extra seconds to close and reopen window unfortunately
-    myWin = visual.Window(fullscr=True,monitor=mon,colorSpace='rgb',color=bgColor,units='deg')
+    #myWin = visual.Window(fullscr=True,monitor=mon,colorSpace='rgb',color=bgColor,units='deg')
 
     expStop,selected = doAuthorRecognitionTest(autopilot)
     #save authors file, in json format
@@ -968,5 +958,5 @@ else: #not staircase
     with open(authorsFileName, 'w') as outfile:  
         json.dump(authorsData, outfile)
     
-    logging.info("Terminated normally.")
-    
+    logging.info("Terminated normally."); print("Terminated normally.")
+    core.quit()

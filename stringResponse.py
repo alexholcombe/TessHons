@@ -80,7 +80,8 @@ def collectStringResponse(numCharsWanted,x,y,respPromptStim,respStim,acceptTextS
                     badKeySound.play()
 
         if click and (click is not None):
-            clickSound.play()
+            if clickSound is not None:
+                clickSound.play()
         drawResponses(responses,respStim,numCharsWanted,changeToUpperCase,drawBlanks)
         myWin.flip() #draw again, otherwise won't draw the last key
         

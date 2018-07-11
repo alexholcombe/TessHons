@@ -179,17 +179,23 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instru
         #Poll keyboard and mouse
         #Used to use pressed,times = myMouse.getPressed(getTime=True) because it's supposed to return all presses since last call to clickReset. But, doesn't seem to work. So, now loop
         #If getTime=True (False by default) then getPressed will return all buttons that have been pressed since the last call to mouse.clickReset as well as their time stamps:
-        pressed,times = myMouse.getPressed(getTime=True)
-        while not pressed[0]:  #0 is left (normal) click  #any(pressed): #wait until pressed
-            pressed = myMouse.getPressed() 
+        #pressed,times = myMouse.getPressed(getTime=True)
+        #Avoid double-clicking problem by not counting as pressed if happened immediately after click events were cleared.
+        pressed = [0,0,0]
+        timeSinceLast = 0
+        doubleClickingGuard = .1
+        while not pressed[0] and timeSinceLast < doubleClickingGuard:  #0 is left (normal) click  #any(pressed): #wait until pressed
+            pressed, times = myMouse.getPressed(getTime=True)
+            timeSinceLast = times[0]
         mousePosRaw = myMouse.getPos()
+        print('timeSinceLast=',timeSinceLast)
         event.clearEvents(); myMouse.clickReset()  #Because sometimes I'd click once on my laptop and it both selected and deselected, as if clicked twice
         mousePos = convertXYtoNormUnits(mousePosRaw,myWin.units,myWin)
         print('myWin.units=',myWin.units,'mousePosRaw=',mousePosRaw,'mousePos=',mousePos)
         #Check what was clicked, if anything
         OK = False
         if any(pressed):
-            print('pressed=',pressed)
+            #print('pressed=',pressed)
             if state == 'waitingForAnotherSelection':
                 OK = False
                 #print('selected=',selected)
@@ -202,7 +208,8 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instru
                 clickedAnOption, which = calcWhichClicked(namesPerColumn,possibleResps,mousePos[0],mousePos[1])
                 print("clickedAnOption=",clickedAnOption," which=",which)
                 if not clickedAnOption:
-                        badClickSound.play()
+                        if badClickSound is not None:
+                            badClickSound.play()
                         successiveBadClicks += 1
                 else: #clickedAnOption == TRUE
                     successiveBadClicks = 0
@@ -210,10 +217,12 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instru
                         if firstTimeHitMax:
                             pass
                         else:
-                            badClickSound.play()
+                            if badClickSound is not None:
+                                badClickSound.play()
                             mustDeselectMsgStim.draw()
                     else:
-                        clickSound.play()
+                        if clickSound is not None:
+                            clickSound.play()
                         selected[which] = -1 * selected[which] + 1 #change 0 to 1 and 1 to 0.   Can't use not because can't sum true/false
                         todraw[which] = 1
                         #print('Changed selected #',which,', selected=',selected)
@@ -286,7 +295,10 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
 
     logging.console.setLevel(logging.WARNING)
     autopilot = False
-    clickSound, badClickSound = setupSoundsForResponse()
+    useSound = False
+    clickSound = None; badClickSound = None
+    if useSound:
+        clickSound, badClickSound = setupSoundsForResponse()
     alphabet = list(string.ascii_uppercase)
     possibleResps = alphabet
     
