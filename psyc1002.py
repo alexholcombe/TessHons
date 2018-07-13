@@ -89,6 +89,7 @@ if experiment['stimType'] == 'letter':
 elif experiment['stimType'] == 'digit':
     stimList = ['0','1','2','3','4','5','6','7','8','9']
 elif experiment['stimType'] == 'word':
+    SOAms += 16
     stimList = list()
     #read word list
     stimDir = 'inputFiles'
@@ -140,6 +141,27 @@ if quitFinder:
     shellCmd = 'osascript -e '+applescript
     os.system(shellCmd)
 
+# Collect demographic variables
+# Use a gui.Dlg and so you can avoid labeling the cancel button , but can't avoid showing it
+# This approach gives more control, eg, text color.
+questions = ['The first language you learned to read:','Age:','Which is your dominant hand that you favour for common tasks,\nlike writing, throwing, and brushing your teeth?\n\n']
+dlg = gui.Dlg(title="PSYC1002 experiment", labelButtonOK=u'         OK         ', labelButtonCancel=u'', pos=(200, 400)) # Cancel (decline to answer all)
+dlg.addField(questions[0], choices=[ 'English','Arabic','Pali','Hebrew','Farsi','Chinese','Korean','Japanese','Other','Decline to answer'])
+dlg.addField(questions[1], choices = ['17 or under', '18 or 19', '20 or 21', '22, 23, or 24', '24 to 30', '30 to 50', 'over 50','Decline to answer'])
+dlg.addField(questions[2], choices=['Left','Right','Neither (able to use both hands equally well)','Decline to answer'])
+#dlg.addFixedField(label='', initial='', color='', choices=None, tip='') #Just to create some space
+#dlg.addField('Your gender (as listed on birth certificate):', choices=["male", "female"])
+thisInfo = dlg.show()  # you have to call show() for a Dlg (automatic with a DlgFromDict)
+
+demographics = {q: 'Decline to answer (pressed unlabeled cancel button)' for q in questions}  #Assume pressed cancel unless get values
+if dlg.OK:
+    print(thisInfo)
+    demographics = dict([        (questions[0], thisInfo[0]),   (questions[1], thisInfo[1]),   (questions[2], thisInfo[2])                   ])
+authorsData.update(demographics)
+print('authorsData=',authorsData)
+#end demographics collection
+
+    
 #set location of stimuli
 #letter size 2.5 deg
 SOAms = 300
