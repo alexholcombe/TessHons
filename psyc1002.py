@@ -45,12 +45,12 @@ subject=getuser()  #https://stackoverflow.com/a/842096/302378
 if autopilot: subject='auto'
 cwd = os.getcwd()
 print('current working directory =',cwd)
-if platform == "win32":  #this means running in PSYC computer labs
+if sys.platform == "win32":  #this means running in PSYC computer labs
     pathToData = os.path.join('..',"Submissions")
 else:
     pathToData = 'Submissions'
 #if os.path.isdir('.'+os.sep+'Submissions'):
-if os.path.isdir(pathToData)
+if os.path.isdir(pathToData):
     dataDir='Submissions'
 else:
     print('"Submissions" directory does not exist, so saving data in abgdj directory')
@@ -83,14 +83,14 @@ for stim in experimentTypesStim:
 
 experimentNum = abs(hash(subject)) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
 experiment = experimentsList[ experimentNum ]
-logging.info(experiment); print(experiment)
+logging.info(experiment)
+
 import json
 authorsData= {} #stuff to record in authors data file
 authorsData.update(experiment)
-#authorsData['stimType'] = stimType
-#authorsData['spatial'] = spatial
 #print('authorsData=',authorsData)
 
+#Determine stimuli for this participant
 numStimsWanted = 26
 if experiment['stimType'] == 'letter':
     stimList = list(string.ascii_lowercase)
@@ -140,10 +140,9 @@ pixelperdegree = widthPix/ (atan(monitorwidth/viewdist) /np.pi*180)
     
 doStaircase = False
 checkRefreshEtc = True
-from sys import platform
 if checkRefreshEtc:
     quitFinder = True 
-if quitFinder and platform != "win32":  #Don't know how to quitfinder on windows
+if quitFinder and sys.platform != "win32":  #Don't know how to quitfinder on windows
     import os
     applescript="\'tell application \"Finder\" to quit\'"
     shellCmd = 'osascript -e '+applescript
@@ -690,7 +689,7 @@ def doAuthorRecognitionTest(autopilot):
     expStop = False
     bothSides = True
     leftRightFirst = False
-    myMouse = event.Mouse() #the mouse absolutely needs to be reset, it seems, otherwise maybe it returns coordinates in wrong units or with wrong scaling?
+    myMouse = event.Mouse(visible=True) #the mouse absolutely needs to be reset, it seems, otherwise maybe it returns coordinates in wrong units or with wrong scaling?
 
     expStop,passThisTrial,selected,selectedAutopilot = \
                 doAuthorLineup(myWin, bgColor,myMouse, clickSound, badSound, possibleResps, autopilot)
@@ -700,8 +699,23 @@ def doAuthorRecognitionTest(autopilot):
 
 expStop=False
 
+#Do authors task
+myWin.allowGUI =True
+#myWin.close() #Seems to work better if close and open new window (even though units the same), both in terms of dimensions (even though same here!) and double-clicking
+#take a couple extra seconds to close and reopen window unfortunately
+#myWin = visual.Window(fullscr=True,monitor=mon,colorSpace='rgb',color=bgColor,units='deg')
 
+expStop,selected = doAuthorRecognitionTest(autopilot)
+#save authors file, in json format
+infix = 'authors'
+authorsFileName = os.path.join(dataDir, subject + '_' + timeDateStart + infix + '.json')
+authorsData['selected'] = selected
+authorsData['expStop'] = expStop
 
+with open(authorsFileName, 'w') as outfile:  
+    json.dump(authorsData, outfile)
+#End doing authors task
+    
 nDoneMain = -1 #change to zero once start main part of experiment
 if doStaircase:
     #create the staircase handler
@@ -855,7 +869,7 @@ else: #not staircase
         ts  =  do_RSVP_stim(thisTrial, idxsStream1, idxsStream2, noisePercent/100.,nDoneMain,thisProbe)
         numCasesInterframeLong = timingCheckAndLog(ts,nDoneMain)
         #call for each response
-        myMouse = event.Mouse()
+        myMouse = event.Mouse(visible=False)
         #alphabet = list(string.ascii_lowercase)
         possibleResps = stimList
         showBothSides = True
@@ -971,22 +985,7 @@ else: #not staircase
         for i in range(numRespsWanted):
             print('stream',i,': ',round(numTrialsEachCorrect[i]*1.0/nDoneMain*100.,2), '% correct',sep='')
     dataFile.flush(); logging.flush(); dataFile.close()
-
-    #Do authors task
-    myWin.allowGUI =True
-    #myWin.close() #Seems to work better if close and open new window (even though units the same), both in terms of dimensions (even though same here!) and double-clicking
-    #take a couple extra seconds to close and reopen window unfortunately
-    #myWin = visual.Window(fullscr=True,monitor=mon,colorSpace='rgb',color=bgColor,units='deg')
-
-    expStop,selected = doAuthorRecognitionTest(autopilot)
-    #save authors file, in json format
-    infix = 'authors'
-    authorsFileName = os.path.join(dataDir, subject + '_' + timeDateStart + infix + '.json')
-    authorsData['selected'] = selected
-    authorsData['expStop'] = expStop
-
-    with open(authorsFileName, 'w') as outfile:  
-        json.dump(authorsData, outfile)
+    
     
     logging.info("Terminated normally."); print("Terminated normally.")
     core.quit()

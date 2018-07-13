@@ -257,7 +257,7 @@ def doAuthorLineup(myWin,bgColor,myMouse,clickSound,badClickSound,possibleResps,
                                         height=.06,wrapWidth=3,font='Times',units='norm',autoLog=False)
         instructionStim.setText('Click on the names that are published authors. When not sure, guess.')
         instructionStim.draw()
-        myMouse.setPos([-.9,0]) #Seems to have no effect. 
+        myMouse.setPos([-5,5]) #Seems to have no effect. 
         mustDeselectMsgStim = visual.TextStim(myWin,pos=(0, .5),colorSpace='rgb',color=(1,-.9,-.9),alignHoriz='center', alignVert='center',height=.13,units='norm',autoLog=False)
         mustDeselectMsgStim.setText('You\'ve already selected half. If you wish to select another, you must unselect an author (by clicking on it) first.')
         selected, expStop = \
