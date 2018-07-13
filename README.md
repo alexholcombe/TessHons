@@ -1,12 +1,19 @@
-* Change 'cancel' to 'Decline to answer'
 * Change the presentation rate to be slower with the words.
 * Have the first trial be very slow, then make the trials ramp faster.
+* Try another way to load a webform, but don't forget need to return consent or not https://stackoverflow.com/questions/36738223/load-a-local-html-file-into-a-qwebview-in-python
+	* The pytml is programmed OSX-speific pathnames
 
 COMPUTER LAB
+* Try the html webform
 * Urgently try to get consent screen and PIS text onscreen.
-* Urgently check DLG window
+* Try all the paths in the right place
 
-Somehow, fullscreen didn't work for initial part.  Resolution appears to be 1920 x 1080
+The installed version is 1.84.2.  On GRasp is 1.90.2
+Viewing distance is set to 57cm
+python version 2.7.11
+refresh rate 60 Hz
+
+Resolution appears to be 1920 x 1080
 screen is 57 cm wide. http://www.dell.com/ae/business/p/optiplex-24-7000-aio/pd
 
 
@@ -29,3 +36,5 @@ OLD
 It doesn't seem to like portaudio, has error closing it. But there is no sound anyway because by default the computers have no sound. And we probably don't have enough headphones, and then would have to unmute the sound. So add a sound flag and turn off sound. That might also fix the ungraceful quit.
 
 * And somehow, double mouse-clicking was a problem for the second part. Second time I ran it, mouse-clicking slightly better. 
+
+* Urgently check DLG window

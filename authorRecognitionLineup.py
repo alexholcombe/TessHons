@@ -253,12 +253,12 @@ def doAuthorLineup(myWin,bgColor,myMouse,clickSound,badClickSound,possibleResps,
         OKtextStim.setText('Click here if finished')
         continueTextStim = visual.TextStim(myWin,pos=(-.85, .88),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.06,units='norm',autoLog=False)
         continueTextStim.setText('Click another!')
-        instructionStim = visual.TextStim(myWin,pos=(0, .95),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',
+        instructionStim = visual.TextStim(myWin,pos=(-.95, .95),colorSpace='rgb',color=(1,1,1),alignHoriz='left', alignVert='center',
                                         height=.06,wrapWidth=3,font='Times',units='norm',autoLog=False)
-        instructionStim.setText('Click on the names that are names of published authors. When not sure, guess.')
+        instructionStim.setText('Click on the names that are published authors. When not sure, guess.')
         instructionStim.draw()
-
-        mustDeselectMsgStim = visual.TextStim(myWin,pos=(0, .5),colorSpace='rgb',color=(0,-.9,-.9),alignHoriz='center', alignVert='center',height=.13,units='norm',autoLog=False)
+        myMouse.setPos([-.9,0]) #Seems to have no effect. 
+        mustDeselectMsgStim = visual.TextStim(myWin,pos=(0, .5),colorSpace='rgb',color=(1,-.9,-.9),alignHoriz='center', alignVert='center',height=.13,units='norm',autoLog=False)
         mustDeselectMsgStim.setText('You\'ve already selected half. If you wish to select another, you must unselect an author (by clicking on it) first.')
         selected, expStop = \
                 collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instructionStim,
@@ -310,7 +310,7 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     print('num authors = ',len(possibleResps))
     myWin.flip()
     passThisTrial = False
-    myMouse = event.Mouse()
+    myMouse = event.Mouse(win=myWin)
     
     expStop,passThisTrial,selected,selectedAutopilot = \
                 doAuthorLineup(myWin, bgColor,myMouse, clickSound, badClickSound, possibleResps, autopilot)

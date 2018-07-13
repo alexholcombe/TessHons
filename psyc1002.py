@@ -11,10 +11,10 @@ import numpy as np
 from math import atan, log, ceil
 import shutil
 import copy, time, sys, os, string
-try:
-    from noiseStaircaseHelpers import printStaircase, toStaircase, outOfStaircase, createNoise, plotDataAndPsychometricCurve
-except ImportError:
-    print('Could not import from noiseStaircaseHelpers.py (you need that file to be in the same directory)')
+#try:
+#    from noiseStaircaseHelpers import printStaircase, toStaircase, outOfStaircase, createNoise, plotDataAndPsychometricCurve
+#except ImportError:
+#    print('Could not import from noiseStaircaseHelpers.py (you need that file to be in the same directory)')
 try:
     import stringResponse
 except ImportError:
@@ -45,11 +45,19 @@ subject=getuser()  #https://stackoverflow.com/a/842096/302378
 if autopilot: subject='auto'
 cwd = os.getcwd()
 print('current working directory =',cwd)
-if os.path.isdir('.'+os.sep+'Submission'):
-    dataDir='Submission'
+if platform == "win32":  #this means running in PSYC computer labs
+    pathToData = os.path.join('..',"Submissions")
 else:
-    print('"Submission" directory does not exist, so saving data in present working directory')
-    dataDir='.'
+    pathToData = 'Submissions'
+#if os.path.isdir('.'+os.sep+'Submissions'):
+if os.path.isdir(pathToData)
+    dataDir='Submissions'
+else:
+    print('"Submissions" directory does not exist, so saving data in abgdj directory')
+    dataDir='abgdj'
+    if not os.path.isdir(dataDir):
+        print("Error, can't even find the ",dataDir," directory")
+        core.quit()
 timeDateStart = time.strftime("%d%b%Y_%H-%M", time.localtime())
 
 showRefreshMisses=True #flicker fixation at refresh rate, to visualize if frames missed
@@ -81,7 +89,7 @@ authorsData= {} #stuff to record in authors data file
 authorsData.update(experiment)
 #authorsData['stimType'] = stimType
 #authorsData['spatial'] = spatial
-print('authorsData=',authorsData)
+#print('authorsData=',authorsData)
 
 numStimsWanted = 26
 if experiment['stimType'] == 'letter':
@@ -129,13 +137,13 @@ if demo:
     allowGUI = True
 viewdist = 57 #50. #cm
 pixelperdegree = widthPix/ (atan(monitorwidth/viewdist) /np.pi*180)
-print('pixelperdegree=',pixelperdegree)
     
 doStaircase = False
 checkRefreshEtc = True
+from sys import platform
 if checkRefreshEtc:
     quitFinder = True 
-if quitFinder:
+if quitFinder and platform != "win32":  #Don't know how to quitfinder on windows
     import os
     applescript="\'tell application \"Finder\" to quit\'"
     shellCmd = 'osascript -e '+applescript
@@ -144,8 +152,8 @@ if quitFinder:
 # Collect demographic variables
 # Use a gui.Dlg and so you can avoid labeling the cancel button , but can't avoid showing it
 # This approach gives more control, eg, text color.
-questions = ['The first language you learned to read:','Age:','Which is your dominant hand that you favour for common tasks,\nlike writing, throwing, and brushing your teeth?\n\n']
-dlg = gui.Dlg(title="PSYC1002 experiment", labelButtonOK=u'         OK         ', labelButtonCancel=u'', pos=(200, 400)) # Cancel (decline to answer all)
+questions = ['What is the first language you learned to read?','What is your age?','Which is your dominant hand for common tasks,\nlike writing, throwing, and brushing your teeth?\n\n']
+dlg = gui.Dlg(title="PSYC1002", labelButtonOK=u'         OK         ', labelButtonCancel=u'', pos=(200, 400)) # Cancel (decline to answer all)
 dlg.addField(questions[0], choices=[ 'English','Arabic','Pali','Hebrew','Farsi','Chinese','Korean','Japanese','Other','Decline to answer'])
 dlg.addField(questions[1], choices = ['17 or under', '18 or 19', '20 or 21', '22, 23, or 24', '24 to 30', '30 to 50', 'over 50','Decline to answer'])
 dlg.addField(questions[2], choices=['Left','Right','Neither (able to use both hands equally well)','Decline to answer'])
