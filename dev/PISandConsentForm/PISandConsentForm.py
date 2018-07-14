@@ -1,5 +1,6 @@
 from __future__ import division
 from psychopy import visual, event
+import numpy as np
 
 def convertXYtoNormUnits(XY,currUnits,win):
     if currUnits == 'norm':
@@ -22,6 +23,7 @@ def convertXYtoNormUnits(XY,currUnits,win):
 #PIS
 # Create a window to draw in
 #psych labs screen is 1920 x 1080, but my program sets it to 1920 x 1080
+subject = 'aholcombe'
 fullscr=True 
 myWin = visual.Window((1920, 1080), allowGUI=False, winType='pyglet',
             monitor='testMonitor', fullscr=fullscr, units ='norm', screen=0)
@@ -65,36 +67,71 @@ while not secretKeyPressed and not clickedContinue:
         clickedContinue = True
     myWin.flip()
 
-print(key)
-print('key[0]=',key[0])
-print('key[0][0]=',key[0][0])
-print(' key[0][1]=',key[0][1])
-modifiers = key[0][1]
-print('modifiers = ',modifiers)
-
+#do Consent form
 consentImage = visual.ImageStim(myWin, image='consentForm.png', pos=(0,0), units='norm')
-consentImage.size=(1,2)
-No1pos = (-.2,-.92)
-No1respZone = visual.GratingStim(myWin, tex="sin", mask="gauss", texRes=256, color=[1,.5,.5], units='norm', size=[2.3, .2], sf=[0, 0], pos=No1pos, name='No1respZone')
-No1textStim = visual.TextStim(myWin,pos=OKpos,colorSpace='rgb',color=(.5,-1,-1),alignHoriz='center', alignVert='center',height=.07,units='norm',autoLog=False)
-No1textStim.setText('NO')
+consentImage.size=(1.1,2)
+subjectPos = (-.45,.38)
+subjectTextStim = visual.TextStim(myWin,pos=subjectPos,colorSpace='rgb',color=(-1,-1,-1),alignHoriz='center', alignVert='center',height=.04,units='norm',autoLog=False,
+                                                        text=subject)
+
+choiceTextColor = (-1,-1,-1)
+choiceTextSz = .05
+checkmarkText = u"\u2713" #checkmark
+#For each box, need: pos, respZone, textStim, checkmark status, checkmarkStim. List of dictionaries a good way to do this?
+No1pos = np.array( [-.1,-.42] )
+No1respZone = visual.GratingStim(myWin, tex="sin", mask="gauss", texRes=256, color=[1,.5,.5], units='norm', size=[.3, .2], sf=[0, 0], pos=No1pos)
+No1textStim = visual.TextStim(myWin,pos=No1pos,colorSpace='rgb',color=choiceTextColor,alignHoriz='center', alignVert='center',height=choiceTextSz,units='norm',text='NO',autoLog=False)
+No1checkmark = visual.TextStim(myWin,pos=No1pos,colorSpace='rgb',color=choiceTextColor,alignHoriz='right', alignVert='center',height=choiceTextSz*2,units='norm',text=checkmarkText,autoLog=False)
+Yes1pos = No1pos + np.array([-.3,0]) #left
+Yes1respZone = visual.GratingStim(myWin, tex="sin", mask="gauss", texRes=256, color=[1,.5,.5], units='norm', size=[.3, .2], sf=[0, 0], pos=Yes1pos)
+Yes1textStim = visual.TextStim(myWin,pos=Yes1pos,colorSpace='rgb',color=choiceTextColor,alignHoriz='center', alignVert='center',height=choiceTextSz,text='YES',units='norm',autoLog=False)
+Yes1checkmark = visual.TextStim(myWin,pos=Yes1pos,colorSpace='rgb',color=choiceTextColor,alignHoriz='center', alignVert='center',height=choiceTextSz*2,text= checkmarkText,units='norm',autoLog=False)
+No2pos = No1pos + np.array([0,-.3]) #lower down
+No2respZone = visual.GratingStim(myWin, tex="sin", mask="gauss", texRes=256, color=[1,.5,.5], units='norm', size=[.3, .2], sf=[0, 0], pos=No2pos)
+No2textStim = visual.TextStim(myWin,pos=No2pos,colorSpace='rgb',color=choiceTextColor,alignHoriz='center', alignVert='center',height=choiceTextSz,units='norm',text='NO',autoLog=False)
+Yes2pos = No2pos + np.array([-.3,0])
+Yes2respZone = visual.GratingStim(myWin, tex="sin", mask="gauss", texRes=256, color=[1,.5,.5], units='norm', size=[.3, .2], sf=[0, 0], pos=Yes2pos)
+Yes2textStim = visual.TextStim(myWin,pos=Yes2pos,colorSpace='rgb',color=choiceTextColor,alignHoriz='center', alignVert='center',height=choiceTextSz,text='YES',units='norm',autoLog=False)
 
 box1Selection = None
 box2Selection = None
-while not secretKeyPressed and not box1Selection and not box2Selection:
+while not secretKeyPressed and (not box1Selection or not box2Selection):
     key = event.getKeys(keyList=['z'], modifiers=True) #secret key is shift-ctrl-Z
-    if key: #z must have been pressed
+    if key: #z was pressed
         modifiers = key[0][1]
         if modifiers['shift'] and modifiers['ctrl']: #secret key is shift-ctrl-Z
             secretKeyPressed = True
     consentImage.draw()
+    subjectTextStim.draw()
     No1respZone.draw()
     No1textStim.draw()
+    if box1Selection == "no":
+        No1checkmark.draw()
+    Yes1respZone.draw()
+    Yes1textStim.draw()
+    if box1Selection == "yes":
+        Yes1checkmark.draw()
+    No2respZone.draw()
+    No2textStim.draw()
+    Yes2respZone.draw()
+    Yes2textStim.draw()
     pressed, times = myMouse.getPressed(getTime=True)
+    mousePos = myMouse.getPos()
     if pressed[0] and No1respZone.contains(mousePos):
         print('Clicked No1')
         box1Selection = "no"
+    if pressed[0] and Yes1respZone.contains(mousePos):
+        print('Clicked Yes1')
+        box1Selection = "yes"
+    if pressed[0] and No2respZone.contains(mousePos):
+        print('Clicked No1')
+        box2Selection = "no"
+    if pressed[0] and Yes2respZone.contains(mousePos):
+        print('Clicked Yes1')
+        box2Selection = "yes"
     myWin.flip()
+    
+print('box1Selection=',box1Selection)
+print('box2Selection=',box2Selection)
 
-print('key=',key)
 
