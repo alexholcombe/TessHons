@@ -34,21 +34,24 @@ PISp2 = visual.ImageStim(myWin, image='PIS2underlined_p2.png', pos=(.5,0), units
 PISp1.size=(1,2)
 PISp2.size=(1,2)
 
-consentImage = visual.ImageStim(myWin, image='consentForm.png', pos=(0,0), units='norm')
-consentImage.size=(1,2)
-
 OKpos = (-.2,-.92)
 OKrespZone = visual.GratingStim(myWin, tex="sin", mask="gauss", texRes=256, color=[1,.5,.5], units='norm', size=[2.3, .2], sf=[0, 0], pos=OKpos, name='OKrespZone')
 OKtextStim = visual.TextStim(myWin,pos=OKpos,colorSpace='rgb',color=(.5,-1,-1),alignHoriz='center', alignVert='center',height=.07,units='norm',autoLog=False)
 OKtextStim.setText('Please read and then CLICK HERE to continue')
 
+
 myMouse = event.Mouse(win=myWin, visible=True) #, newPos=(-.5,-.5))
 myMouse.setPos( (-.5, -.5) ) #Bizarrely, while the documentatoin it says 0,0 is the center and units are the same as the window, I've found that 0,0 is the top right and negative means down and left
 
 clickedContinue = False
-key = None
-while not key and not clickedContinue:
-    key = event.getKeys(keyList=['z'], modifiers=True)
+secretKeyPressed = False
+while not secretKeyPressed and not clickedContinue:
+    key = event.getKeys(keyList=['z'], modifiers=True) #secret key is shift ctrl Z
+    if key: #z must have been pressed
+        modifiers = key[0][1]
+        if modifiers['shift'] and modifiers['ctrl']: #secret key is shift-ctrl-Z
+            secretKeyPressed = True
+    #if key[0][0] == 'z' and key[0][1]['shift'] and key[0][1]['ctrl']:
     PISp1.draw()
     PISp2.draw()
     OKrespZone.draw()
@@ -62,6 +65,36 @@ while not key and not clickedContinue:
         clickedContinue = True
     myWin.flip()
 
+print(key)
+print('key[0]=',key[0])
+print('key[0][0]=',key[0][0])
+print(' key[0][1]=',key[0][1])
+modifiers = key[0][1]
+print('modifiers = ',modifiers)
+
+consentImage = visual.ImageStim(myWin, image='consentForm.png', pos=(0,0), units='norm')
+consentImage.size=(1,2)
+No1pos = (-.2,-.92)
+No1respZone = visual.GratingStim(myWin, tex="sin", mask="gauss", texRes=256, color=[1,.5,.5], units='norm', size=[2.3, .2], sf=[0, 0], pos=No1pos, name='No1respZone')
+No1textStim = visual.TextStim(myWin,pos=OKpos,colorSpace='rgb',color=(.5,-1,-1),alignHoriz='center', alignVert='center',height=.07,units='norm',autoLog=False)
+No1textStim.setText('NO')
+
+box1Selection = None
+box2Selection = None
+while not secretKeyPressed and not box1Selection and not box2Selection:
+    key = event.getKeys(keyList=['z'], modifiers=True) #secret key is shift-ctrl-Z
+    if key: #z must have been pressed
+        modifiers = key[0][1]
+        if modifiers['shift'] and modifiers['ctrl']: #secret key is shift-ctrl-Z
+            secretKeyPressed = True
+    consentImage.draw()
+    No1respZone.draw()
+    No1textStim.draw()
+    pressed, times = myMouse.getPressed(getTime=True)
+    if pressed[0] and No1respZone.contains(mousePos):
+        print('Clicked No1')
+        box1Selection = "no"
+    myWin.flip()
+
 print('key=',key)
-consentImage.draw()
-myWin.flip()
+
