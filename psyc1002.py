@@ -9,8 +9,7 @@ import psychopy.info
 import scipy
 import numpy as np
 from math import atan, log, ceil
-import shutil
-import copy, time, sys, os, string
+import copy, time, sys, os, string, shutil
 #try:
 #    from noiseStaircaseHelpers import printStaircase, toStaircase, outOfStaircase, createNoise, plotDataAndPsychometricCurve
 #except ImportError:
@@ -27,6 +26,11 @@ try:
     from authorRecognitionLineup import doAuthorLineup
 except ImportError:
     print('Could not import authorRecognitionLineup.py (you need that file to be in the same directory)')
+sys.path.append('PISandConsentForm') #add subfolder
+try:
+    from PISandConsentForm import doParticipantInformationStatement, doConsentForm
+except ImportError:
+    print('Could not import PISandConsentForm.py (you need that file to be in the same directory)')
 try:
     from getpass import getuser
 except ImportError:
@@ -168,6 +172,7 @@ authorsData.update(demographics)
 print('authorsData=',authorsData)
 #end demographics collection
 
+
     
 #set location of stimuli
 #letter size 2.5 deg
@@ -241,7 +246,7 @@ if fullscr and not demo and not exportImages:
             ##'set:time' --> seed value is set to experimentRuntime.epoch, and initialized: random.seed(info['randomSeed'])
             ##'set:42' --> set & initialize to str('42'), and will give the same sequence of random.random() for all runs of the script
         )
-    print('runInfo='); print(runInfo)
+    #print('runInfo='); print(runInfo)
     logging.info(runInfo)
     print('Finished runInfo- which assesses the refresh and processes of this computer') 
 
@@ -279,6 +284,7 @@ if checkRefreshEtc and (not demo):
     else: logging.info(refreshMsg1+refreshMsg2)
 logging.flush()
 
+clickedContinue = doParticipantInformationStatement("PIS2underlined.png", "PIS2underlined_p2.png", myWin, myMouse)
 
 
 def calcStimPos(trial,i):
