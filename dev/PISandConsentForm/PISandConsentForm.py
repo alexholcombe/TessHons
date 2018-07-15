@@ -43,7 +43,7 @@ OKtextStim.setText('Please read and then CLICK HERE to continue')
 
 
 myMouse = event.Mouse(win=myWin, visible=True) #, newPos=(-.5,-.5))
-myMouse.setPos( (-.5, -.5) ) #Bizarrely, while the documentatoin it says 0,0 is the center and units are the same as the window, I've found that 0,0 is the top right and negative means down and left
+myMouse.setPos( (-.5, -.8) ) #Bizarrely, while the documentatoin it says 0,0 is the center and units are the same as the window, I've found that 0,0 is the top right and negative means down and left
 
 clickedContinue = False
 secretKeyPressed = False
@@ -66,36 +66,64 @@ while not secretKeyPressed and not clickedContinue:
         print('Clicked CONTINUE')
         clickedContinue = True
     myWin.flip()
-
+    
+#######################################################################################################################
 #do Consent form
+
+OKpos = (-.2,-.92)
+OKrespZone = visual.GratingStim(myWin, tex="sin", mask="gauss", texRes=256, color=[1,.5,.5], units='norm', size=[2.3, .2], sf=[0, 0], pos=OKpos, name='OKrespZone')
+OKtextStim = visual.TextStim(myWin,pos=OKpos,colorSpace='rgb',color=(.5,-1,-1),alignHoriz='center', alignVert='center',height=.07,units='norm',autoLog=False)
+OKtextStim.setText('CLICK HERE to continue')
+
 consentImage = visual.ImageStim(myWin, image='consentForm.png', pos=(0,0), units='norm')
 consentImage.size=(1.1,2)
-subjectPos = (-.45,.38)
+subjectPos = (-.45,.37)
 subjectTextStim = visual.TextStim(myWin,pos=subjectPos,colorSpace='rgb',color=(-1,-1,-1),alignHoriz='center', alignVert='center',height=.04,units='norm',autoLog=False,
                                                         text=subject)
 
 choiceTextColor = (-1,-1,-1)
 choiceTextSz = .05
 checkmarkText = u"\u2713" #checkmark
-#For each box, need: pos, respZone, textStim, checkmark status, checkmarkStim. List of dictionaries a good way to do this?
-No1pos = np.array( [-.1,-.42] )
-No1respZone = visual.GratingStim(myWin, tex="sin", mask="gauss", texRes=256, color=[1,.5,.5], units='norm', size=[.3, .2], sf=[0, 0], pos=No1pos)
-No1textStim = visual.TextStim(myWin,pos=No1pos,colorSpace='rgb',color=choiceTextColor,alignHoriz='center', alignVert='center',height=choiceTextSz,units='norm',text='NO',autoLog=False)
-No1checkmark = visual.TextStim(myWin,pos=No1pos,colorSpace='rgb',color=choiceTextColor,alignHoriz='right', alignVert='center',height=choiceTextSz*2,units='norm',text=checkmarkText,autoLog=False)
-Yes1pos = No1pos + np.array([-.3,0]) #left
-Yes1respZone = visual.GratingStim(myWin, tex="sin", mask="gauss", texRes=256, color=[1,.5,.5], units='norm', size=[.3, .2], sf=[0, 0], pos=Yes1pos)
-Yes1textStim = visual.TextStim(myWin,pos=Yes1pos,colorSpace='rgb',color=choiceTextColor,alignHoriz='center', alignVert='center',height=choiceTextSz,text='YES',units='norm',autoLog=False)
-Yes1checkmark = visual.TextStim(myWin,pos=Yes1pos,colorSpace='rgb',color=choiceTextColor,alignHoriz='center', alignVert='center',height=choiceTextSz*2,text= checkmarkText,units='norm',autoLog=False)
-No2pos = No1pos + np.array([0,-.3]) #lower down
-No2respZone = visual.GratingStim(myWin, tex="sin", mask="gauss", texRes=256, color=[1,.5,.5], units='norm', size=[.3, .2], sf=[0, 0], pos=No2pos)
-No2textStim = visual.TextStim(myWin,pos=No2pos,colorSpace='rgb',color=choiceTextColor,alignHoriz='center', alignVert='center',height=choiceTextSz,units='norm',text='NO',autoLog=False)
-Yes2pos = No2pos + np.array([-.3,0])
-Yes2respZone = visual.GratingStim(myWin, tex="sin", mask="gauss", texRes=256, color=[1,.5,.5], units='norm', size=[.3, .2], sf=[0, 0], pos=Yes2pos)
-Yes2textStim = visual.TextStim(myWin,pos=Yes2pos,colorSpace='rgb',color=choiceTextColor,alignHoriz='center', alignVert='center',height=choiceTextSz,text='YES',units='norm',autoLog=False)
 
-box1Selection = None
-box2Selection = None
-while not secretKeyPressed and (not box1Selection or not box2Selection):
+#For each box, need: pos, textStimY, respZoneY, checkmark status, checkmarkStim. List of dictionaries a good way to do this.
+#First make list of properties for each one
+names=list(['Yconsent','Nconsent','YshareData','NshareData'])
+posList = list(); textList = list(); checkedList = list(); excludedPartner = list()
+hOffset = np.array([.3,0]) 
+posList.append( np.array( [-.2,-.42] )  ) #Y1
+textList.append( "YES" )
+excludedPartner.append( len(excludedPartner) +1 )
+posList.append( posList[0] + hOffset ) #N1
+textList.append( "NO" )
+excludedPartner.append( len(excludedPartner) -1 )
+vOffset =  np.array([0,-.3]) #lower down
+posList.append( posList[0] + vOffset ) #Y2
+textList.append( "YES" )
+excludedPartner.append( len(excludedPartner) +1 )
+posList.append( posList[ len(posList)-1 ] + hOffset )  #N2
+textList.append( "NO" )
+excludedPartner.append( len(excludedPartner) -1 )
+
+choiceDicts= list(  )
+for i in xrange(len(posList)):
+    this = {}
+    this['textStim'] = \
+        visual.TextStim(myWin,pos=posList[i],colorSpace='rgb',color=choiceTextColor,alignHoriz='center', alignVert='center',height=choiceTextSz,units='norm',text=textList[i],autoLog=False)
+    this['respZone'] = \
+        visual.GratingStim(myWin, tex="sin", mask="gauss", texRes=256, color=[1,.5,.5], units='norm', size=[.3, .2], sf=[0, 0], pos=posList[i])
+    this['checked'] = False
+    this['checkmarkStim'] = \
+        visual.TextStim(myWin,pos=posList[i]+np.array([.06,0]),colorSpace='rgb',color=choiceTextColor,alignHoriz='right', alignVert='center',height=choiceTextSz*2,units='norm',
+                                text=checkmarkText,autoLog=False)
+    this['name'] = names[i]
+    choiceDicts.append(this)
+    
+print(choiceDicts)
+doubleClickingGuard = .05
+clickedOK = False
+firstTime = True
+timeSinceLast = 0
+while not secretKeyPressed and not clickedOK:
     key = event.getKeys(keyList=['z'], modifiers=True) #secret key is shift-ctrl-Z
     if key: #z was pressed
         modifiers = key[0][1]
@@ -103,35 +131,43 @@ while not secretKeyPressed and (not box1Selection or not box2Selection):
             secretKeyPressed = True
     consentImage.draw()
     subjectTextStim.draw()
-    No1respZone.draw()
-    No1textStim.draw()
-    if box1Selection == "no":
-        No1checkmark.draw()
-    Yes1respZone.draw()
-    Yes1textStim.draw()
-    if box1Selection == "yes":
-        Yes1checkmark.draw()
-    No2respZone.draw()
-    No2textStim.draw()
-    Yes2respZone.draw()
-    Yes2textStim.draw()
-    pressed, times = myMouse.getPressed(getTime=True)
-    mousePos = myMouse.getPos()
-    if pressed[0] and No1respZone.contains(mousePos):
-        print('Clicked No1')
-        box1Selection = "no"
-    if pressed[0] and Yes1respZone.contains(mousePos):
-        print('Clicked Yes1')
-        box1Selection = "yes"
-    if pressed[0] and No2respZone.contains(mousePos):
-        print('Clicked No1')
-        box2Selection = "no"
-    if pressed[0] and Yes2respZone.contains(mousePos):
-        print('Clicked Yes1')
-        box2Selection = "yes"
-    myWin.flip()
     
-print('box1Selection=',box1Selection)
-print('box2Selection=',box2Selection)
+    for d in choiceDicts:
+        d['respZone'].draw()
+        d['textStim'].draw()
+        if d['checked']:
+            d['checkmarkStim'].draw()
+ 
+    pressed, times = myMouse.getPressed(getTime=True)
+    if pressed[0]:
+        timeSinceLast = times[0]
+        #print('presssed and timeSinceLast=',timeSinceLast)
+        event.clearEvents(); myMouse.clickReset()  #Because sometimes I'd click and it both selected and deselected, as if clicked twice
+    if timeSinceLast < doubleClickingGuard: #apparently trapped a double-click, or bug masquerading as it, so don't count as pressed
+        pressed = [0,0,0]
+    mousePos = myMouse.getPos()
+    if pressed[0]:
+        for idx, d in enumerate(choiceDicts):
+            if d['respZone'].contains(mousePos):
+                d['checked'] = not d['checked']
+                if choiceDicts[ excludedPartner[idx] ]['checked']: #check whether excluded partner is true, if so must turn it off
+                    choiceDicts[ excludedPartner[idx] ]['checked'] = False
+    
+    howManyAnswered = 0
+    for d in choiceDicts:
+        howManyAnswered += d['checked']
+
+    if howManyAnswered >1:
+        OKtextStim.draw()
+        if pressed[0]:
+            if OKrespZone.contains(mousePos):
+                clickedOK = True
+    myWin.flip()
+    if firstTime and exportImages and clickedOK:
+         myWin.getMovieFrame() #I cant explain why another getMovieFrame, and core.wait is needed
+         myWin.saveMovieFrames('img/consent.png') #mov not currently supported 
+                     
+for c in choiceDicts:
+    print(c['name']," ['checked']=",c['checked'])
 
 
