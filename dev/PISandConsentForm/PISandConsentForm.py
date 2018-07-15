@@ -2,6 +2,8 @@ from __future__ import division
 from psychopy import visual, event
 import numpy as np
 
+exportImages = True
+
 def convertXYtoNormUnits(XY,currUnits,win):
     if currUnits == 'norm':
         return XY
@@ -44,7 +46,7 @@ OKtextStim.setText('Please read and then CLICK HERE to continue')
 
 myMouse = event.Mouse(win=myWin, visible=True) #, newPos=(-.5,-.5))
 myMouse.setPos( (-.5, -.8) ) #Bizarrely, while the documentatoin it says 0,0 is the center and units are the same as the window, I've found that 0,0 is the top right and negative means down and left
-
+firstTime = True
 clickedContinue = False
 secretKeyPressed = False
 while not secretKeyPressed and not clickedContinue:
@@ -63,8 +65,11 @@ while not secretKeyPressed and not clickedContinue:
     #print('myWin.units=',myWin.units,'mousePosRaw=',mousePosRaw,'mousePos=',mousePos)
     pressed, times = myMouse.getPressed(getTime=True)
     if pressed[0] and OKrespZone.contains(mousePos):
-        print('Clicked CONTINUE')
         clickedContinue = True
+        if firstTime and exportImages and clickedContinue:
+            myWin.getMovieFrame() #I cant explain why another getMovieFrame, and core.wait is needed
+            myWin.saveMovieFrames('img/PIS.png') #mov not currently supported 
+            firstTime = False
     myWin.flip()
     
 #######################################################################################################################
@@ -169,5 +174,5 @@ while not secretKeyPressed and not clickedOK:
                      
 for c in choiceDicts:
     print(c['name']," ['checked']=",c['checked'])
-
+#return choiceDicts
 
