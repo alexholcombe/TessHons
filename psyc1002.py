@@ -151,31 +151,11 @@ if quitFinder and sys.platform != "win32":  #Don't know how to quitfinder on win
     applescript="\'tell application \"Finder\" to quit\'"
     shellCmd = 'osascript -e '+applescript
     os.system(shellCmd)
-
-# Collect demographic variables
-# Use a gui.Dlg and so you can avoid labeling the cancel button , but can't avoid showing it
-# This approach gives more control, eg, text color.
-questions = ['What is the first language you learned to read?','What is your age?','Which is your dominant hand for common tasks,\nlike writing, throwing, and brushing your teeth?\n\n']
-dlg = gui.Dlg(title="PSYC1002", labelButtonOK=u'         OK         ', labelButtonCancel=u'', pos=(200, 400)) # Cancel (decline to answer all)
-dlg.addField(questions[0], choices=[ 'English','Arabic','Pali','Hebrew','Farsi','Chinese','Korean','Japanese','Other','Decline to answer'])
-dlg.addField(questions[1], choices = ['17 or under', '18 or 19', '20 or 21', '22, 23, or 24', '24 to 30', '30 to 50', 'over 50','Decline to answer'])
-dlg.addField(questions[2], choices=['Left','Right','Neither (able to use both hands equally well)','Decline to answer'])
-#dlg.addFixedField(label='', initial='', color='', choices=None, tip='') #Just to create some space
-#dlg.addField('Your gender (as listed on birth certificate):', choices=["male", "female"])
-thisInfo = dlg.show()  # you have to call show() for a Dlg (automatic with a DlgFromDict)
-
-demographics = {q: 'Decline to answer (pressed unlabeled cancel button)' for q in questions}  #Assume pressed cancel unless get values
-if dlg.OK:
-    print(thisInfo)
-    demographics = dict([        (questions[0], thisInfo[0]),   (questions[1], thisInfo[1]),   (questions[2], thisInfo[2])                   ])
-otherData.update(demographics)
-print('otherData=',otherData)
-#end demographics collection
     
 #set location of stimuli
 #letter size 2.5 deg
 SOAms = 300
-letterDurMs =   140
+letterDurMs = 140
 #Was 17. 23.6  in Martini E2 and E1b (actually he used 22.2 but that's because he had a crazy refresh rate of 90 Hz = 0
 ISIms = SOAms - letterDurMs
 letterDurFrames = int( np.floor(letterDurMs / (1000./refreshRate)) )
@@ -194,17 +174,11 @@ mon = monitors.Monitor(monitorname,width=monitorwidth, distance=viewdist)#relyin
 mon.setSizePix( (widthPix,heightPix) )
 units='deg' #'cm'
 
-def openMyStimWindow(): #make it a function because have to do it several times, want to be sure is identical each time
-    myWin = visual.Window(monitor=mon,size=(widthPix,heightPix),allowGUI=allowGUI,units=units,color=bgColor,colorSpace='rgb',fullscr=fullscr,screen=scrn,waitBlanking=waitBlank) #Holcombe lab monitor
-    return myWin
-    
-
 trialsPerCondition = 1
 defaultNoiseLevel = 0
 if not demo:
     allowGUI = False
 
-myWin = openMyStimWindow()
 
 #set up output data file, log file,  copy of program code, and logging
 infix = ''
@@ -228,6 +202,44 @@ if demo or exportImages:
   dataFile = sys.stdout; logF = sys.stdout
   logging.console.setLevel(logging.ERROR)  #only show this level  messages and higher
 logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nearly all messges, INFO next level, EXP, DATA, WARNING and ERROR 
+
+def openMyStimWindow(): #make it a function because if do it multiple times, want to be sure is identical each time
+    myWin = visual.Window(monitor=mon,size=(widthPix,heightPix),allowGUI=allowGUI,units=units,color=bgColor,colorSpace='rgb',fullscr=fullscr,screen=scrn,waitBlanking=waitBlank) #Holcombe lab monitor
+    return myWin
+myWin = openMyStimWindow()
+
+myMouse = event.Mouse(visible=True) #the mouse absolutely needs to be reset, it seems, otherwise maybe it returns coordinates in wrong units or with wrong scaling?
+clickedContinue = doParticipantInformationStatement("PISandConsentForm/PIS2underlined.png", "PISandConsentForm/PIS2underlined_p2.png", myWin, myMouse, exportImages)
+#myMouse = event.Mouse(visible=True) #the mouse absolutely needs to be reset, it seems, otherwise maybe it returns coordinates in wrong units or with wrong scaling?
+secretKeyPressed, choiceDicts = doConsentForm('PISandConsentForm/consentForm.png', subject, myWin, myMouse, exportImages)
+for c in choiceDicts:
+    print(c['name']," ['checked']=",c['checked'])
+    otherData.update(  {   (c['name'],  c['checked'])    } )#add to json data file
+myWin.close() #have to close window to show pop-up to display dlg
+if secretKeyPressed:
+    core.quit()
+    
+# Collect demographic variables
+# Use a gui.Dlg and so you can avoid labeling the cancel button , but can't avoid showing it
+# This approach gives more control, eg, text color.
+questions = ['What is the first language you learned to read?','What is your age?','Which is your dominant hand for common tasks,\nlike writing, throwing, and brushing your teeth?\n\n']
+dlg = gui.Dlg(title="PSYC1002", labelButtonOK=u'         OK         ', labelButtonCancel=u'', pos=(200, 400)) # Cancel (decline to answer all)
+dlg.addField(questions[0], choices=[ 'English','Arabic','Pali','Hebrew','Farsi','Chinese','Korean','Japanese','Other','Decline to answer'])
+dlg.addField(questions[1], choices = ['17 or under', '18 or 19', '20 or 21', '22, 23, or 24', '24 to 30', '30 to 50', 'over 50','Decline to answer'])
+dlg.addField(questions[2], choices=['Left','Right','Neither (able to use both hands equally well)','Decline to answer'])
+#dlg.addFixedField(label='', initial='', color='', choices=None, tip='') #Just to create some space
+#dlg.addField('Your gender (as listed on birth certificate):', choices=["male", "female"])
+thisInfo = dlg.show()  # you have to call show() for a Dlg (automatic with a DlgFromDict)
+
+demographics = {q: 'Decline to answer (pressed unlabeled cancel button)' for q in questions}  #Assume pressed cancel unless get values
+if dlg.OK:
+    print(thisInfo)
+    demographics = dict([        (questions[0], thisInfo[0]),   (questions[1], thisInfo[1]),   (questions[2], thisInfo[2])                   ])
+otherData.update(demographics)
+print('otherData=',otherData)
+#end demographics collection
+
+myWin = openMyStimWindow()
 
 if fullscr and not demo and not exportImages:
     runInfo = psychopy.info.RunTimeInfo(
@@ -281,14 +293,6 @@ if checkRefreshEtc and (not demo):
         logging.error(refreshMsg1+refreshMsg2)
     else: logging.info(refreshMsg1+refreshMsg2)
 logging.flush()
-
-myMouse = event.Mouse(visible=True) #the mouse absolutely needs to be reset, it seems, otherwise maybe it returns coordinates in wrong units or with wrong scaling?
-clickedContinue = doParticipantInformationStatement("PISandConsentForm/PIS2underlined.png", "PISandConsentForm/PIS2underlined_p2.png"3, myWin, myMouse, exportImages)
-#myMouse = event.Mouse(visible=True) #the mouse absolutely needs to be reset, it seems, otherwise maybe it returns coordinates in wrong units or with wrong scaling?
-secretKeyPressed, choiceDicts = doConsentForm('PISandConsentForm/consentForm.png', subject, myWin, myMouse, exportImages)
-for c in choiceDicts:
-    print(c['name']," ['checked']=",c['checked'])
-    otherData.update(  {   (c['name'],  c['checked'])    } )#add to json data file
 
 def calcStimPos(trial,i):
     if trial['horizVert']:            # bottom,           top
@@ -410,7 +414,6 @@ for i in range(maxNumRespsWanted):
    dataFile.write('response'+str(i)+'\t')
    dataFile.write('correct'+str(i)+'\t')
    
-
 #   dataFile.write('responsePosRelative'+str(i)+'\t')
 print('timingBlips',file=dataFile)
 #end of header
@@ -469,17 +472,17 @@ def  oneFrameOfStim( n,cue,seq1,seq2,cueDurFrames,letterDurFrames,ISIframes,this
   #else: numRespsWanted = 0
   
 cue = visual.Circle(myWin, 
-                 radius=cueRadius,#Martini used circles with diameter of 12 deg
-                 lineColorSpace = 'rgb',
-                 lineColor=bgColor,
-                 lineWidth=4.0, #in pixels. Was thinner (2 pixels) in letter AB experiments
-                 units = 'deg',
-                 fillColorSpace = 'rgb',
-                 fillColor=None, #beware, with convex shapes fill colors don't work
-                 pos= [0,0], #the anchor (rotation and vertices are position with respect to this)
-                 interpolate=True,
-                 autoLog=False)#this stim changes too much for autologging to be useful
-                 
+     radius=cueRadius,#Martini used circles with diameter of 12 deg
+     lineColorSpace = 'rgb',
+     lineColor=bgColor,
+     lineWidth=4.0, #in pixels. Was thinner (2 pixels) in letter AB experiments
+     units = 'deg',
+     fillColorSpace = 'rgb',
+     fillColor=None, #beware, with convex shapes fill colors don't work
+     pos= [0,0], #the anchor (rotation and vertices are position with respect to this)
+     interpolate=True,
+     autoLog=False)#this stim changes too much for autologging to be useful
+     
 ltrHeight =  0.7 #Martini letters were 2.5deg high
 #All noise dot coordinates ultimately in pixels, so can specify each dot is one pixel 
 noiseFieldWidthDeg=ltrHeight *1.0
@@ -700,11 +703,11 @@ def doAuthorRecognitionTest(autopilot):
     leftRightFirst = False
     myMouse = event.Mouse(visible=True) #the mouse absolutely needs to be reset, it seems, otherwise maybe it returns coordinates in wrong units or with wrong scaling?
 
-    expStop,passThisTrial,selected,selectedAutopilot = \
+    expStop,timedout,selected,selectedAutopilot = \
                 doAuthorLineup(myWin, bgColor,myMouse, clickSound, badSound, possibleResps, autopilot)
     if autopilot:
         selected = selectedAutopilot
-    return expStop,selected
+    return expStop,timedout,selected
 
 expStop=False
 
@@ -714,13 +717,13 @@ myWin.allowGUI =True
 #take a couple extra seconds to close and reopen window unfortunately
 #myWin = visual.Window(fullscr=True,monitor=mon,colorSpace='rgb',color=bgColor,units='deg')
 
-expStop,selected = doAuthorRecognitionTest(autopilot)
+expStop,timedout,selected = doAuthorRecognitionTest(autopilot)
 #save authors file, in json format
 infix = 'authors'
 authorsFileName = os.path.join(dataDir, subject + '_' + timeDateStart + infix + '.json')
 otherData['selected'] = selected
-otherData['expStop'] = expStop
-
+otherData['authors_expStop'] = expStop
+otherData['authors_timedout'] = timedout
 with open(authorsFileName, 'w') as outfile:  
     json.dump(otherData, outfile)
 #End doing authors task

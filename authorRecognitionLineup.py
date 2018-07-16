@@ -1,6 +1,6 @@
 from __future__ import print_function, division
 from psychopy import event, sound, logging
-from psychopy import visual, event, sound, tools
+from psychopy import visual, event, sound, tools, core
 import numpy as np
 import string
 from math import floor, ceil
@@ -133,7 +133,7 @@ def convertXYtoNormUnits(XY,currUnits,win):
             #print("Converted ",XY," from ",currUnits," units first to pixels: ",xPix,yPix," then to norm: ",xNorm,yNorm)
     return xNorm, yNorm
 
-def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instructionStim,OKtextStim,OKrespZone,continueTextStim,mustDeselectMsgStim,possibleResps,clickSound,badClickSound):
+def collectLineupResponses(myWin,bgColor,myMouse,timeLimit,minMustClick,maxCanClick,instructionStim,OKtextStim,OKrespZone,continueTextStim,mustDeselectMsgStim,possibleResps,clickSound,badClickSound):
    myMouse.clickReset()
    state = 'waitingForAnotherSelection' 
    #waitingForAnotherSelection means Finished is  not on the screen, so must click a lineup item
@@ -141,6 +141,7 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instru
    successiveBadClicks = 0; successiveBadClicksLimit = 4
    firstTimeHitMax = True
    xStart = -.7
+   timelimitClock = core.Clock(); timedout= False
    #Calculate how many names in a column
    namesPerColumn = 15
    numColumns = len(possibleResps) / namesPerColumn
@@ -153,7 +154,7 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instru
    todraw = [1] * len(possibleResps) #Set all to true initially so that initial draw is done
    authorStims = drawResponseArray(myWin,bgColor,xStart,namesPerColumn,possibleResps,selected,selectedColor,todraw,authorStims,firsttime=True)
    #todraw = [0] * len(possibleResps) #Set all to false
-   while state != 'finished' and not expStop and not successiveBadClicks == successiveBadClicksLimit:
+   while state != 'finished' and not expStop and not successiveBadClicks == successiveBadClicksLimit and not timedout:
         #draw everything corresponding to this state
         #draw selecteds in selectedColor, remainder in white
         #print('state = ',state)
@@ -184,17 +185,23 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instru
         pressed = [0,0,0]
         timeSinceLast = 0
         doubleClickingGuard = .05
-        while not pressed[0] or timeSinceLast < doubleClickingGuard:  #0 is left (normal) click  #any(pressed): #wait until pressed
+        while not expStop and not pressed[0] or timeSinceLast < doubleClickingGuard:  #0 is left (normal) click  #any(pressed): #wait until pressed
             pressed, times = myMouse.getPressed(getTime=True)
             timeSinceLast = times[0]
+            key = event.getKeys(keyList=['z'], modifiers=True) #secret key is shift ctrl Z
+            if key: #z must have been pressed
+                modifiers = key[0][1]
+                if modifiers['shift'] and modifiers['ctrl']: #secret key is shift-ctrl-Z
+                    expStop = True
         mousePosRaw = myMouse.getPos()
         print('timeSinceLast=',timeSinceLast)
-        event.clearEvents(); myMouse.clickReset()  #Because sometimes I'd click once on my laptop and it both selected and deselected, as if clicked twice
+
+        event.clearEvents(); myMouse.clickReset()  #Because sometimes I'd click and it both selected and deselected, as if clicked twice
         mousePos = convertXYtoNormUnits(mousePosRaw,myWin.units,myWin)
-        print('myWin.units=',myWin.units,'mousePosRaw=',mousePosRaw,'mousePos=',mousePos)
+        #print('myWin.units=',myWin.units,'mousePosRaw=',mousePosRaw,'mousePos=',mousePos)
         #Check what was clicked, if anything
         OK = False
-        if any(pressed):
+        if not expStop and any(pressed):
             #print('pressed=',pressed)
             if state == 'waitingForAnotherSelection':
                 OK = False
@@ -228,22 +235,16 @@ def collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instru
                         #print('Changed selected #',which,', selected=',selected)
                         #print("which clicked = ",which, " About to redraw")
                         lastValidClickButtons = deepcopy(pressed) #record which buttons pressed. Have to make copy, otherwise will change when pressd changes later
-
-            #for key in event.getKeys(): #only checking keyboard if mouse was clicked, hoping to improve performance
-            #    key = key.upper()
-             #   if key in ['ESCAPE']:
-             #       expStop = True
-             #       #noResponseYet = False
-   
-   print('Returning with selected=',selected,' expStop=',expStop)
-   return selected, expStop
+        if timelimitClock.getTime() > timeLimit:
+            timedout = True
+   #print('Returning with selected=',selected,' expStop=',expStop)
+   return selected, expStop, timedout
         
 
 def doAuthorLineup(myWin,bgColor,myMouse,clickSound,badClickSound,possibleResps,autopilot):
     expStop = False
-    passThisTrial = False
-    minMustClick = 2   #len(possibleResps)[2]
-    maxCanClick = 3
+    minMustClick = len(possibleResps) / 2 -1
+    maxCanClick = len(possibleResps) / 2 +1
     selectedAutopilot = [0]*len(possibleResps);  selectedAutopilot[0]=1
     if autopilot: #I haven't bothered to make autopilot display the response screen
         selected = [0]*len(possibleResps) #won't be used anyway but have to give it a value
@@ -257,13 +258,14 @@ def doAuthorLineup(myWin,bgColor,myMouse,clickSound,badClickSound,possibleResps,
                                         height=.06,wrapWidth=3,font='Times',units='norm',autoLog=False)
         instructionStim.setText('Click on the names that are published authors. When not sure, guess.')
         instructionStim.draw()
-        myMouse.setPos([-5,5]) #Seems to have no effect. 
+        myMouse.setPos([-.5,-.5]) #Seems to have no effect. 
         mustDeselectMsgStim = visual.TextStim(myWin,pos=(0, .5),colorSpace='rgb',color=(1,-.9,-.9),alignHoriz='center', alignVert='center',height=.13,units='norm',autoLog=False)
         mustDeselectMsgStim.setText('You\'ve already selected half. If you wish to select another, you must unselect an author (by clicking on it) first.')
-        selected, expStop = \
-                collectLineupResponses(myWin,bgColor,myMouse,minMustClick,maxCanClick,instructionStim,
+        timeLimit = 40 #sec
+        selected, expStop, timedout = \
+                collectLineupResponses(myWin,bgColor,myMouse,timeLimit,minMustClick,maxCanClick,instructionStim,
                                                         OKtextStim,OKrespZone,continueTextStim,mustDeselectMsgStim,possibleResps,clickSound,badClickSound)
-    return expStop,passThisTrial,selected,selectedAutopilot
+    return expStop,timedout,selected,selectedAutopilot
 
 def setupSoundsForResponse():
     fileName = '406__tictacshutup__click-1-d.wav'
@@ -309,16 +311,15 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     possibleResps = oneThirtyFive #oneThirtyEight #sixteen
     print('num authors = ',len(possibleResps))
     myWin.flip()
-    passThisTrial = False
     myMouse = event.Mouse(win=myWin)
     
-    expStop,passThisTrial,selected,selectedAutopilot = \
+    expStop,timedout,selected,selectedAutopilot = \
                 doAuthorLineup(myWin, bgColor,myMouse, clickSound, badClickSound, possibleResps, autopilot)
 
-    print('expStop=',expStop,' passThisTrial=',passThisTrial,' selected=',selected, ' selectedAutopilot =', selectedAutopilot)
     print('Names of selected=',end='')
     for i in xrange(len(selected)):
         if selected[i]:
             print(possibleResps[i],end=',')
     print('')
+    print('expStop=',expStop,' timedout=', timedout) #'' selectedAutopilot =', selectedAutopilot)
     print('Finished') 

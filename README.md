@@ -1,6 +1,8 @@
 * Change the presentation rate to be slower with the words.
 * Have the first trial be very slow, then make the trials ramp faster.
-* Add Jen 3-letter condition
+* Add Jen 3-letter condition, match her font etc.
+* Check quits
+* Check vertical displacement of letters
 * Try another way to load a webform, but don't forget need to return consent or not https://stackoverflow.com/questions/36738223/load-a-local-html-file-into-a-qwebview-in-python
 	* The pytml is programmed OSX-speific pathnames
 
