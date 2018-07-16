@@ -2,8 +2,6 @@ from __future__ import division
 from psychopy import visual, event
 import numpy as np
 
-exportImages = True
-
 def convertXYtoNormUnits(XY,currUnits,win):
     if currUnits == 'norm':
         return XY
@@ -23,10 +21,13 @@ def convertXYtoNormUnits(XY,currUnits,win):
 #mousePos = convertXYtoNormUnits(mousePosRaw,myWin.units,myWin)
 
 
-def doParticipantInformationStatement(img1filename, img2filename, myWin, myMouse):
+def doParticipantInformationStatement(img1filename, img2filename, myWin, myMouse, exportImages):
     
-    if myWin.units != "norm":
-        print('Error! doParticipantInformationStatement expects window units to be "norm"')
+    #In theory can override the window units for each thing drawn, but it seems like this could cause the mouse to have different units
+    originalUnits =  myWin.units
+    myWin.setUnits('norm')
+    #if myWin.units != "norm":
+    #    print('Error! doParticipantInformationStatement expects window units to be "norm"')
     #Display multiple pages side by side
     PISp1 = visual.ImageStim(myWin, image=img1filename, pos=(-.5,0), units='norm')
     PISp2 = visual.ImageStim(myWin, image=img2filename, pos=(.5,0), units='norm')
@@ -63,15 +64,18 @@ def doParticipantInformationStatement(img1filename, img2filename, myWin, myMouse
             clickedContinue = True
             if firstTime and exportImages and clickedContinue:
                 myWin.getMovieFrame() #I cant explain why another getMovieFrame, and core.wait is needed
-                myWin.saveMovieFrames('img/PIS.png') #mov not currently supported 
+                myWin.saveMovieFrames('PIS.png') #mov not currently supported 
                 firstTime = False
         myWin.flip()
+    myWin.setUnits(originalUnits)
     return clickedContinue
 #######################################################################################################################
 
-
-def doConsentForm(imgFilename, myWin, myMouse):
+def doConsentForm(imgFilename, subjectName, myWin, myMouse, exportImages):
     #do Consent form
+    #In theory can override the window units for each thing drawn, but it seems like this could cause the mouse to have different units
+    originalUnits =  myWin.units
+    myWin.setUnits('norm')
     OKpos = (-.2,-.92)
     OKrespZone = visual.GratingStim(myWin, tex="sin", mask="gauss", texRes=256, color=[1,.5,.5], units='norm', size=[2.3, .2], sf=[0, 0], pos=OKpos, name='OKrespZone')
     OKtextStim = visual.TextStim(myWin,pos=OKpos,colorSpace='rgb',color=(.5,-1,-1),alignHoriz='center', alignVert='center',height=.07,units='norm',autoLog=False)
@@ -81,7 +85,7 @@ def doConsentForm(imgFilename, myWin, myMouse):
     consentImage.size=(1.1,2)
     subjectPos = (-.45,.37)
     subjectTextStim = visual.TextStim(myWin,pos=subjectPos,colorSpace='rgb',color=(-1,-1,-1),alignHoriz='center', alignVert='center',height=.04,units='norm',autoLog=False,
-                                                            text=subject)
+                                                            text=subjectName)
     
     choiceTextColor = (-1,-1,-1)
     choiceTextSz = .05
@@ -168,24 +172,25 @@ def doConsentForm(imgFilename, myWin, myMouse):
         myWin.flip()
         if firstTime and exportImages and clickedOK:
              myWin.getMovieFrame() #I cant explain why another getMovieFrame, and core.wait is needed
-             myWin.saveMovieFrames('img/consent.png') #mov not currently supported 
-                         
-    return choiceDicts
+             myWin.saveMovieFrames('consent.png') #mov not currently supported 
+    myWin.setUnits(originalUnits)
+    return secretKeyPressed, choiceDicts
 
 if __name__=='__main__':  #Running this file directly, must want to test functions in this file
     #do Participant Information Statement
     # Create a window to draw in
     #psych labs screen is 1920 x 1080, but my program sets it to 1920 x 1080
-    subject = 'aholcombe'
+    subjectName = 'aholcombe'
+    exportImages = True
     fullscr=True 
     myWin = visual.Window((1920, 1080), allowGUI=False, winType='pyglet',
                 monitor='testMonitor', fullscr=fullscr, units ='norm', screen=0)
     myMouse = event.Mouse(win=myWin, visible=True) #, newPos=(-.5,-.5))
-    clickedContinue = doParticipantInformationStatement("PIS2underlined.png", "PIS2underlined_p2.png", myWin, myMouse)
+    clickedContinue = doParticipantInformationStatement("PIS2underlined.png", "PIS2underlined_p2.png", myWin, myMouse, exportImages)
     print('clickedContinue=',clickedContinue)
     
     #do consent form
     filename = 'consentForm.png'
-    choiceDicts = doConsentForm(filename, myWin, myMouse)
+    secretKeyPressed, choiceDicts = doConsentForm(filename, subjectName, myWin, myMouse, exportImages)
     for c in choiceDicts:
         print(c['name']," ['checked']=",c['checked'])

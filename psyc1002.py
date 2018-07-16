@@ -90,9 +90,9 @@ experiment = experimentsList[ experimentNum ]
 logging.info(experiment)
 
 import json
-authorsData= {} #stuff to record in authors data file
-authorsData.update(experiment)
-#print('authorsData=',authorsData)
+otherData= {} #stuff to record in authors data file
+otherData.update(experiment)
+#print('otherData=',otherData)
 
 #Determine stimuli for this participant
 numStimsWanted = 26
@@ -168,11 +168,9 @@ demographics = {q: 'Decline to answer (pressed unlabeled cancel button)' for q i
 if dlg.OK:
     print(thisInfo)
     demographics = dict([        (questions[0], thisInfo[0]),   (questions[1], thisInfo[1]),   (questions[2], thisInfo[2])                   ])
-authorsData.update(demographics)
-print('authorsData=',authorsData)
+otherData.update(demographics)
+print('otherData=',otherData)
 #end demographics collection
-
-
     
 #set location of stimuli
 #letter size 2.5 deg
@@ -284,8 +282,13 @@ if checkRefreshEtc and (not demo):
     else: logging.info(refreshMsg1+refreshMsg2)
 logging.flush()
 
-clickedContinue = doParticipantInformationStatement("PIS2underlined.png", "PIS2underlined_p2.png", myWin, myMouse)
-
+myMouse = event.Mouse(visible=True) #the mouse absolutely needs to be reset, it seems, otherwise maybe it returns coordinates in wrong units or with wrong scaling?
+clickedContinue = doParticipantInformationStatement("PISandConsentForm/PIS2underlined.png", "PISandConsentForm/PIS2underlined_p2.png"3, myWin, myMouse, exportImages)
+#myMouse = event.Mouse(visible=True) #the mouse absolutely needs to be reset, it seems, otherwise maybe it returns coordinates in wrong units or with wrong scaling?
+secretKeyPressed, choiceDicts = doConsentForm('PISandConsentForm/consentForm.png', subject, myWin, myMouse, exportImages)
+for c in choiceDicts:
+    print(c['name']," ['checked']=",c['checked'])
+    otherData.update(  {   (c['name'],  c['checked'])    } )#add to json data file
 
 def calcStimPos(trial,i):
     if trial['horizVert']:            # bottom,           top
@@ -715,11 +718,11 @@ expStop,selected = doAuthorRecognitionTest(autopilot)
 #save authors file, in json format
 infix = 'authors'
 authorsFileName = os.path.join(dataDir, subject + '_' + timeDateStart + infix + '.json')
-authorsData['selected'] = selected
-authorsData['expStop'] = expStop
+otherData['selected'] = selected
+otherData['expStop'] = expStop
 
 with open(authorsFileName, 'w') as outfile:  
-    json.dump(authorsData, outfile)
+    json.dump(otherData, outfile)
 #End doing authors task
     
 nDoneMain = -1 #change to zero once start main part of experiment

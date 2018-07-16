@@ -77,7 +77,8 @@ def collectStringResponse(numCharsWanted,x,y,respPromptStim,respStim,acceptTextS
                         responses.pop()
                         numResponses -= 1
                 else: #invalid key pressed
-                    badKeySound.play()
+                    if badKeySound is not None:
+                        badKeySound.play()
 
         if click and (click is not None):
             if clickSound is not None:
