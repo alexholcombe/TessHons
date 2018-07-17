@@ -47,32 +47,32 @@ def collectStringResponse(numCharsWanted,x,y,respPromptStim,respStim,acceptTextS
            click =  False
            if autopilot: #need to wait otherwise dont have chance to press a key 
                 for f in range(20): time.sleep(.01) #core.wait(1.0/60) #myWin.flip()
-           keysPressed = event.getKeys()
+           keysPressedAndModifiers = event.getKeys(modifiers=True) #list of keys, for which 0th element of each is key and 1st element is modifiers
+           print('keysPressedAndModifiers=',keysPressedAndModifiers)
            if changeToUpperCase:
-                keysPressed = [key.upper() for key in keysPressed] #transform to uppercase
-           else:
-                keysPressed = [key for key in keysPressed] 
+                keysPressedAndModifiers = [(k[0].upper(), k[1]) for k in keysPressedAndModifiers] #gotta use this circumlocution because tuple can't be modified
            if autopilot:
                noResponseYet = False
                numResponses = numCharsWanted
                if 'ESCAPE' in keysPressed:
                    expStop = True
-           elif len(keysPressed) > 0:
-                key = keysPressed[-1] #process only the last key, it being the most recent. In theory person could type more than one key between window flips, 
+           elif len(keysPressedAndModifiers) > 0:
+                keyAndModifiers = keysPressedAndModifiers[-1] #process only the last key, it being the most recent. In theory person could type more than one key between window flips, 
                 #but that might be hard to handle.
-                thisResponse = key
-                if key.upper() in ['ESCAPE']:
+                thisKey = keyAndModifiers[0] 
+                thisModifiers = keyAndModifiers[1]
+                if thisKey.upper() in ['Z'] and thisModifiers['shift'] and thisModifiers['ctrl']:
                      expStop = True
                      noResponseYet = False
-#                  if key in ['SPACE']: #observer opting out because think they moved their eyes
+#                  if thisKey in ['SPACE']: #observer opting out because think they moved their eyes
 #                      passThisTrial = True
 #                      noResponseYet = False
-                elif key.upper() in (string.digits if letterOrDigit else string.ascii_letters):
+                elif thisKey.upper() in (string.digits if letterOrDigit else string.ascii_letters):
                     noResponseYet = False
-                    responses.append(thisResponse)
+                    responses.append(thisKey)
                     numResponses += 1 #not just using len(responses) because want to work even when autopilot, where thisResponse is null
                     click = True
-                elif key.upper() in ['BACKSPACE','DELETE']:
+                elif thisKey.upper() in ['BACKSPACE','DELETE']:
                     if len(responses) >0:
                         responses.pop()
                         numResponses -= 1
