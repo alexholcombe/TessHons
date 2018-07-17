@@ -48,7 +48,7 @@ def collectStringResponse(numCharsWanted,x,y,respPromptStim,respStim,acceptTextS
            if autopilot: #need to wait otherwise dont have chance to press a key 
                 for f in range(20): time.sleep(.01) #core.wait(1.0/60) #myWin.flip()
            keysPressedAndModifiers = event.getKeys(modifiers=True) #list of keys, for which 0th element of each is key and 1st element is modifiers
-           print('keysPressedAndModifiers=',keysPressedAndModifiers)
+           #print('keysPressedAndModifiers=',keysPressedAndModifiers)
            if changeToUpperCase:
                 keysPressedAndModifiers = [(k[0].upper(), k[1]) for k in keysPressedAndModifiers] #gotta use this circumlocution because tuple can't be modified
            if autopilot:
