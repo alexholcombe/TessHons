@@ -41,7 +41,7 @@ wordEccentricity=  0.9 #4
 tasks=['T1']; task = tasks[0]
 #same screen or external screen? Set scrn=0 if one screen. scrn=1 means display stimulus on second screen.
 #widthPix, heightPix
-quitFinder = False #if checkRefreshEtc, quitFinder becomes True
+quitFinder = False 
 autopilot=False
 demo=False #False
 exportImages= False #quits after one trial
@@ -150,9 +150,7 @@ viewdist = 57 #50. #cm
 pixelperdegree = widthPix/ (atan(monitorwidth/viewdist) /np.pi*180)
     
 doStaircase = False
-checkRefreshEtc = True
-if checkRefreshEtc:
-    quitFinder = True 
+checkRefreshEtc = True 
 if quitFinder and sys.platform != "win32":  #Don't know how to quitfinder on windows
     import os
     applescript="\'tell application \"Finder\" to quit\'"
@@ -180,7 +178,7 @@ mon = monitors.Monitor(monitorname,width=monitorwidth, distance=viewdist)#relyin
 mon.setSizePix( (widthPix,heightPix) )
 units='deg' #'cm'
 
-trialsPerCondition = 1
+trialsPerCondition = 2
 defaultNoiseLevel = 0
 if not demo:
     allowGUI = False
@@ -674,10 +672,10 @@ def handleAndScoreResponse(passThisTrial,response,responseAutopilot,task,correct
     correctAnswer = correctAnswer.upper()
     responseString= ''.join(['%s' % char for char in response])
     responseString= responseString.upper()
-    print('correctAnswer=',correctAnswer ,' responseString=',responseString)
+    #print('correctAnswer=',correctAnswer ,' responseString=',responseString)
     if correctAnswer == responseString:
         correct = 1
-    print('correct=',correct)
+    #print('correct=',correct)
     
     print(correctAnswer, '\t', end='', file=dataFile) #answer0
     print(responseString, '\t', end='', file=dataFile) #response0
@@ -907,8 +905,8 @@ else: #not staircase
             elif thisTrial['rightResponseFirst']: #change order of indices depending on rightResponseFirst. response0, answer0 etc refer to which one had to be reported first
                 responseOrder.reverse()
             #print('responseOrder=',responseOrder)
-            
-            for respI in xrange( numToReport ):
+            respI = 0
+            while respI < numToReport and not np.array(expStop).any():
                 if numToReport == 2:
                     side = responseOrder[respI] * 2 -1  #-1 for left/top, 1 for right/bottom
                 elif numToReport == 3:
@@ -942,6 +940,7 @@ else: #not staircase
                                         numCharsInResponse,x,y,respPromptStim,respStim,acceptTextStim,fixationPoint, (1 if experiment['stimType']=='digit' else 0), myWin,
                                         clickSound,badSound, requireAcceptance,autopilot,changeToUpper,responseDebug=True )
                 fixationPoint.setColor(fixColor)
+                respI += 1
             expStop = np.array(expStop).any(); passThisTrial = np.array(passThisTrial).any()
         
         if not expStop:
@@ -963,17 +962,17 @@ else: #not staircase
                     elif streami==1: 
                         sequenceStream = idxsStream2; correctAnswerIdx = whichStim1
                     elif streami==2:
-                        sequenceStream = idxsStream2; correctAnswerIdx = whichStim1 #same as 2 by design
-                    print ("stimList = ", stimList, " correctAnswer = stimList[correctAnswerIdx] = ",stimList[correctAnswerIdx])
+                        sequenceStream = idxsStream2; correctAnswerIdx = whichStim2
+                    #print ("stimList = ", stimList, " correctAnswer = stimList[correctAnswerIdx] = ",stimList[correctAnswerIdx])
                     #Find which response is the one to this stream using where
                     respThisStreamI = responseOrder.index(streami)
                     respThisStream = responses[respThisStreamI] 
-                    print ("responses = ", responses, 'respThisStream = ', respThisStream)   #responseOrder
+                    #print ("responses = ", responses, 'respThisStream = ', respThisStream)   #responseOrder
                     correct = ( handleAndScoreResponse(passThisTrial,respThisStream,responsesAutopilot,task,stimList[correctAnswerIdx]) )
                     eachCorrect[streami] = correct
         
                 print(numCasesInterframeLong, file=dataFile) #timingBlips, last thing recorded on each line of dataFile
-                print('correct=',correct,'eachCorrect=',eachCorrect)
+                #print('correct=',correct,'eachCorrect=',eachCorrect)
                 numTrialsCorrect += eachCorrect.all() #so count -1 as 0
                 numTrialsEachCorrect += eachCorrect #list numRespsWanted long
                     

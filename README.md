@@ -1,10 +1,6 @@
-"research report experiment"
-enter password: Loftus
-keywords: hemispheric lateralization lexical  reading order
-recent paper: Holcombe , 
-try to find review of hemispheric lateralization
-* Check Humby data saved
 
+* Add vertical rotated, check it works
+* Make sure exits gracefully when run many but not all trials
 * presentation rate for letters and words
 * Have the first trial be very slow, then make the trials ramp faster.
 * Add Jen 3-letter condition, match her font etc.
@@ -31,6 +27,9 @@ screen is 57 cm wide. http://www.dell.com/ae/business/p/optiplex-24-7000-aio/pd
 * Add test for Submissions subdirectory and printing of present directory
 * Does it have the accidental author double-click problem that my computer has when integrated? Might be something about the windows settings.
 * Try from GRASP
+* "research report experiment"
+enter password: Loftus
+* Check Humby data saved
 
 Check scaling of text
 
