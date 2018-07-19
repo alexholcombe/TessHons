@@ -4,6 +4,7 @@ lists of non-authors and authors adapted from in:
 Martin-Chang, S. L., & Gould, O. N. (2008). Revisiting print exposure: exploring differential links to vocabulary, comprehension and reading rate. Journal of Research in Reading, 31(3), 273–284. https://doi.org/10.1111/j.1467-9817.2008.00371.x
 
 
+In authors.txt and nonauthors.txt, read in by readAuthorList.py,
 Peter Carey swapped for Anne Marie McDonald, which noone recognized and was so long that it overlapped other authors on the screen.
 Kate Grenville swapped for Alex Haley
 Richard Flanagan swapped for Bob Woodward

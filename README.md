@@ -1,4 +1,11 @@
-* Change the presentation rate to be slower with the words.
+"research report experiment"
+enter password: Loftus
+keywords: hemispheric lateralization lexical  reading order
+recent paper: Holcombe , 
+try to find review of hemispheric lateralization
+* Check Humby data saved
+
+* presentation rate for letters and words
 * Have the first trial be very slow, then make the trials ramp faster.
 * Add Jen 3-letter condition, match her font etc.
 * Check quits
@@ -7,9 +14,9 @@
 	* The pytml is programmed OSX-speific pathnames
 
 COMPUTER LAB
-* Try the html webform
 * Urgently try to get consent screen and PIS text onscreen.
 * Try all the paths in the right place
+* Try the html webform
 
 The installed version is 1.84.2.  On GRasp is 1.90.2
 Viewing distance is set to 57cm

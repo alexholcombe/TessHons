@@ -2,11 +2,11 @@
 #See the github repository for more information: https://github.com/alexholcombe/PSYC1002
 from __future__ import print_function, division
 from psychopy import monitors, visual, event, data, logging, core, gui
+import psychopy.info
 useSound = False
 if useSound:
     from psychopy import sound
-import psychopy.info
-import scipy
+import random, scipy
 import numpy as np
 from math import atan, log, ceil
 import copy, time, sys, os, string, shutil
@@ -33,6 +33,7 @@ except ImportError:
     print('Could not import PISandConsentForm.py (you need that file to be in the same directory)')
 try:
     from getpass import getuser
+    from socket import gethostname
 except ImportError:
     print('ERROR Could not import getpass')
 
@@ -45,6 +46,7 @@ autopilot=False
 demo=False #False
 exportImages= False #quits after one trial
 subject=getuser()  #https://stackoverflow.com/a/842096/302378
+networkMachineName = gethostname()
 #subject = 'abajjjjd8333763' #debug
 if autopilot: subject='auto'
 cwd = os.getcwd()
@@ -77,23 +79,28 @@ myFont =  'Arial' # 'Sloan' #
 #Set up the list of experiments, then allocate one to the subject
 experimentTypesStim = ['word','letter','digit']
 experimentTypesSpatial = ['horiz','vert']
+#experimentTypesNumletters
 #create dictionary of all combinations
 experimentsList = []
 #Creating the list of experiments
 #Implement the fully factorial part of the design by creating every combination of the following conditions
 for stim in experimentTypesStim:
     for spatial in experimentTypesSpatial:
-        experimentsList.append( {'stimType':stim, 'spatial':spatial} )
+        experimentsList.append( {'numLettersIfLetters': 2, 'stimType':stim, 'spatial':spatial} )
+#add Humby's experiment to list
+experimentsList.append( {'numLettersIfLetters': 3, 'stimType':'letter', 'spatial':'horiz'} )
 
 experimentNum = abs(hash(subject)) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
+experimentNum = 6 #3-letters (Humby's experiment)
 experiment = experimentsList[ experimentNum ]
-logging.info(experiment)
 
 import json
 otherData= {} #stuff to record in authors data file
+otherData.update( {'networkMachineName': networkMachineName} )
 otherData.update(experiment)
 #print('otherData=',otherData)
 
+SOAms = 300
 #Determine stimuli for this participant
 numStimsWanted = 26
 if experiment['stimType'] == 'letter':
@@ -154,7 +161,6 @@ if quitFinder and sys.platform != "win32":  #Don't know how to quitfinder on win
     
 #set location of stimuli
 #letter size 2.5 deg
-SOAms = 300
 letterDurMs = 140
 #Was 17. 23.6  in Martini E2 and E1b (actually he used 22.2 but that's because he had a crazy refresh rate of 90 Hz = 0
 ISIms = SOAms - letterDurMs
@@ -208,44 +214,43 @@ def openMyStimWindow(): #make it a function because if do it multiple times, wan
     return myWin
 myWin = openMyStimWindow()
 
-myMouse = event.Mouse(visible=True) #the mouse absolutely needs to be reset, it seems, otherwise maybe it returns coordinates in wrong units or with wrong scaling?
-clickedContinue = doParticipantInformationStatement("PISandConsentForm/PIS2underlined.png", "PISandConsentForm/PIS2underlined_p2.png", myWin, myMouse, exportImages)
-#myMouse = event.Mouse(visible=True) #the mouse absolutely needs to be reset, it seems, otherwise maybe it returns coordinates in wrong units or with wrong scaling?
-secretKeyPressed, choiceDicts = doConsentForm('PISandConsentForm/consentForm.png', subject, myWin, myMouse, exportImages)
-for c in choiceDicts:
-    print(c['name']," ['checked']=",c['checked'])
-    otherData.update(  {   (c['name'],  c['checked'])    } )#add to json data file
-myWin.close() #have to close window to show pop-up to display dlg
-if secretKeyPressed:
-    core.quit()
+includeConsentDemographicsAuthor = False
+if includeConsentDemographicsAuthor:
+    myMouse = event.Mouse(visible=True) #the mouse absolutely needs to be reset, it seems, otherwise maybe it returns coordinates in wrong units or with wrong scaling?
+    clickedContinue = doParticipantInformationStatement("PISandConsentForm/PIS2underlined.png", "PISandConsentForm/PIS2underlined_p2.png", myWin, myMouse, exportImages)
+    #myMouse = event.Mouse(visible=True) #the mouse absolutely needs to be reset, it seems, otherwise maybe it returns coordinates in wrong units or with wrong scaling?
+    secretKeyPressed, choiceDicts = doConsentForm('PISandConsentForm/consentForm.png', subject, myWin, myMouse, exportImages)
+    for c in choiceDicts:
+        print(c['name']," ['checked']=",c['checked'])
+        otherData.update(  {   (c['name'],  c['checked'])    } )#add to json data file
+    myWin.close() #have to close window to show pop-up to display dlg
+    if secretKeyPressed:
+        core.quit()
+        
+    # Collect demographic variables
+    # Use a gui.Dlg and so you can avoid labeling the cancel button , but can't avoid showing it
+    # This approach gives more control, eg, text color.
+    questions = ['What is the first language you learned to read?','What is your age?','Which is your dominant hand for common tasks,\nlike writing, throwing, and brushing your teeth?\n\n']
+    dlg = gui.Dlg(title="PSYC1002", labelButtonOK=u'         OK         ', labelButtonCancel=u'', pos=(200, 400)) # Cancel (decline to answer all)
+    dlg.addField(questions[0], choices=[ 'English','Arabic','Pali','Hebrew','Farsi','Chinese','Korean','Japanese','Other','Decline to answer'])
+    dlg.addField(questions[1], choices = ['17 or under', '18 or 19', '20 or 21', '22, 23, or 24', '24 to 30', '30 to 50', 'over 50','Decline to answer'])
+    dlg.addField(questions[2], choices=['Left','Right','Neither (able to use both hands equally well)','Decline to answer'])
+    #dlg.addFixedField(label='', initial='', color='', choices=None, tip='') #Just to create some space
+    #dlg.addField('Your gender (as listed on birth certificate):', choices=["male", "female"])
+    thisInfo = dlg.show()  # you have to call show() for a Dlg (automatic with a DlgFromDict)
     
-# Collect demographic variables
-# Use a gui.Dlg and so you can avoid labeling the cancel button , but can't avoid showing it
-# This approach gives more control, eg, text color.
-questions = ['What is the first language you learned to read?','What is your age?','Which is your dominant hand for common tasks,\nlike writing, throwing, and brushing your teeth?\n\n']
-dlg = gui.Dlg(title="PSYC1002", labelButtonOK=u'         OK         ', labelButtonCancel=u'', pos=(200, 400)) # Cancel (decline to answer all)
-dlg.addField(questions[0], choices=[ 'English','Arabic','Pali','Hebrew','Farsi','Chinese','Korean','Japanese','Other','Decline to answer'])
-dlg.addField(questions[1], choices = ['17 or under', '18 or 19', '20 or 21', '22, 23, or 24', '24 to 30', '30 to 50', 'over 50','Decline to answer'])
-dlg.addField(questions[2], choices=['Left','Right','Neither (able to use both hands equally well)','Decline to answer'])
-#dlg.addFixedField(label='', initial='', color='', choices=None, tip='') #Just to create some space
-#dlg.addField('Your gender (as listed on birth certificate):', choices=["male", "female"])
-thisInfo = dlg.show()  # you have to call show() for a Dlg (automatic with a DlgFromDict)
-
-demographics = {q: 'Decline to answer (pressed unlabeled cancel button)' for q in questions}  #Assume pressed cancel unless get values
-if dlg.OK:
-    print(thisInfo)
-    demographics = dict([        (questions[0], thisInfo[0]),   (questions[1], thisInfo[1]),   (questions[2], thisInfo[2])                   ])
-otherData.update(demographics)
-print('otherData=',otherData)
-#end demographics collection
+    demographics = {q: 'Decline to answer (pressed unlabeled cancel button)' for q in questions}  #Assume pressed cancel unless get values
+    if dlg.OK:
+        print(thisInfo)
+        demographics = dict([        (questions[0], thisInfo[0]),   (questions[1], thisInfo[1]),   (questions[2], thisInfo[2])                   ])
+    otherData.update(demographics)
+    print('otherData=',otherData)
+    #end demographics collection
 
 myWin = openMyStimWindow()
 
 if fullscr and not demo and not exportImages:
     runInfo = psychopy.info.RunTimeInfo(
-        # if you specify author and version here, it overrides the automatic detection of __author__ and __version__ in your script
-        #author='<your name goes here, plus whatever you like, e.g., your lab or contact info>',
-        #version="<your experiment version info>",
         win=myWin,    ## a psychopy.visual.Window() instance; None = default temp window used; False = no win, no win.flips()
         refreshTest='grating', ## None, True, or 'grating' (eye-candy to avoid a blank screen)
         verbose=True, ## True means report on everything 
@@ -295,30 +300,37 @@ if checkRefreshEtc and (not demo):
 logging.flush()
 
 def calcStimPos(trial,i):
+    #i is position index, either 0, 1, or 2.  Just 0 or 1 unless Humby experimnet with 3 positions
+    global experiment
     if trial['horizVert']:            # bottom,           top
         positions = [ [0,-wordEccentricity], [0,wordEccentricity] ]
     else:                                   #left      ,        right 
         positions = [ [-wordEccentricity,0], [wordEccentricity,0] ]
+    #insert 3rd position of 3 stimuli
+    if experiment['numLettersIfLetters'] == 3:
+        positions.insert( 1, [0,0] )  #put 0,0 into middle (index 1) of list, so will present a letter at fovea
     return positions[i]
 
 stimuliStream1 = list()
 stimuliStream2 = list() #used for second, simultaneous RSVP stream
-def calcAndPredrawStimuli(stimList,i,j):
-   global stimuliStream1, stimuliStream2
+stimuliStream3 = list()
+def calcAndPredrawStimuli(stimList,i,j,k):
+   global stimuliStream1, stimuliStream2, stimuliStream3
    del stimuliStream1[:]
    del stimuliStream2[:]
+   del stimuliStream3[:] #only used for Humby's experiment
    #draw the stimuli that will be used on this trial, the first numWordsInStream of the shuffled list
    stim1string = stimList[ i ]
    stim2string = stimList[ j ]
+   stim3string = stimList[ k ]
    print('stim1string=',stim1string, 'stim2string=',stim2string)
    textStimulus1 = visual.TextStim(myWin,text=stim1string,height=ltrHeight,font=myFont,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
    textStimulus2 = visual.TextStim(myWin,text=stim2string,height=ltrHeight,font=myFont,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
-
-   #textStimulus1.setPos([-wordEccentricity,0]) #left
+   textStimulus3 = visual.TextStim(myWin,text=stim3string,height=ltrHeight,font=myFont,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
    stimuliStream1.append(textStimulus1)
-   #textStimulus2.setPos([wordEccentricity,0]) #right
    stimuliStream2.append(textStimulus2)
-   #end calcAndPredrawStimuli
+   stimuliStream3.append(textStimulus3)
+#end calcAndPredrawStimuli
    
 #create click sound for keyboard
 clickSound = None
@@ -339,10 +351,12 @@ if useSound:
 if showRefreshMisses:
     fixSizePix = 36 #2.6  #make fixation bigger so flicker more conspicuous
 else: fixSizePix = 36
-fixColor = [1,1,1]
+fixColor = (1,-.5,-.5)
 if exportImages: fixColor= [0,0,0]
-fixationPoint= visual.PatchStim(myWin,tex='none',colorSpace='rgb',color=(1,1,1),size=4,units='pix',autoLog=autoLogging)
-
+fixationPoint= visual.PatchStim(myWin,tex='none',colorSpace='rgb',color=fixColor,size=4,units='pix',autoLog=autoLogging)
+trialInstructionString = 'Fix your eyes on the red point below'
+trialInstructionStim = visual.TextStim(myWin,pos=(0, 1),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.5,units='deg',autoLog=autoLogging)
+trialInstructionStim.setText(trialInstructionString,log=False)
 respPromptStim = visual.TextStim(myWin,pos=(0, -.9),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.5,units='deg',autoLog=autoLogging)
 acceptTextStim = visual.TextStim(myWin,pos=(0, -.8),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.05,units='norm',autoLog=autoLogging)
 acceptTextStim.setText('Hit ENTER to accept. Backspace to edit')
@@ -418,7 +432,7 @@ for i in range(maxNumRespsWanted):
 print('timingBlips',file=dataFile)
 #end of header
     
-def  oneFrameOfStim( n,cue,seq1,seq2,cueDurFrames,letterDurFrames,ISIframes,thisTrial,textStimuliStream1,textStimuliStream2,
+def  oneFrameOfStim( n,cue,seq1,seq2,seq3,cueDurFrames,letterDurFrames,ISIframes,thisTrial,textStimuliStream1,textStimuliStream2,textStimuliStream3,
                                        noise,proportnNoise,allFieldCoords,numNoiseDots): 
 #defining a function to draw each frame of stim.
 #seq1 is an array of indices corresponding to the appropriate pre-drawn stimulus, contained in textStimuli
@@ -433,6 +447,8 @@ def  oneFrameOfStim( n,cue,seq1,seq2,cueDurFrames,letterDurFrames,ISIframes,this
   thisStimIdx = seq1[stimN] #which letter, from A to Z (1 to 26), should be shown?
   if seq2 is not None:
     thisStim2Idx = seq2[stimN]
+  if seq3 is not None:
+    thisStim3idx = seq3[stimN]
   #so that any timing problems occur just as often for every frame, always draw the letter and the cue, but simply draw it in the bgColor when it's not meant to be on
   cue.setLineColor( bgColor )
   if type(cueFrames) not in [tuple,list,np.ndarray]: #scalar. But need collection to do loop based on it
@@ -447,13 +463,20 @@ def  oneFrameOfStim( n,cue,seq1,seq2,cueDurFrames,letterDurFrames,ISIframes,this
     stimuliStream1[thisStimIdx].setColor( letterColor )
     stimuliStream2[thisStim2Idx].setColor( letterColor )
     stimuliStream2[thisStim2Idx].setPos( calcStimPos(thisTrial,1) )
+    if seq3 is not None:
+        stimuliStream3[thisStim2Idx].setColor( letterColor )
+        stimuliStream3[thisStim2Idx].setPos( calcStimPos(thisTrial,2) )
   else: 
     stimuliStream1[thisStimIdx].setColor( bgColor )
     stimuliStream2[thisStim2Idx].setColor( bgColor )
+    if seq3 is not None:
+        stimuliStream3[thisStim2Idx].setColor( bgColor )
   stimuliStream1[thisStimIdx].flipHoriz = thisTrial['leftStreamFlip']
   stimuliStream2[thisStim2Idx].flipHoriz = thisTrial['rightStreamFlip']
   stimuliStream1[thisStimIdx].draw()
   stimuliStream2[thisStim2Idx].draw()
+  if seq3 is not None:
+    stimuliStream3[thisStim2Idx].draw()
   cue.draw()
   refreshNoise = False #Not recommended because takes longer than a frame, even to shuffle apparently. Or may be setXYs step
   if proportnNoise>0 and refreshNoise: 
@@ -529,15 +552,15 @@ numTrialsApproxCorrect = 0;
 numTrialsEachCorrect= np.zeros( maxNumRespsWanted )
 numTrialsEachApproxCorrect= np.zeros( maxNumRespsWanted )
 
-def do_RSVP_stim(thisTrial, seq1, seq2, proportnNoise,trialN,thisProbe):
+def do_RSVP_stim(thisTrial, seq1, seq2, seq3, proportnNoise,trialN,thisProbe):
     #relies on global variables:
-    #   textStimuli, logging, bgColor
+    #   textStimuli, logging, bgColor, trialInstructionStim
     global framesSaved #because change this variable. Can only change a global variable if you declare it
     cuesPos = [] #will contain the positions in the stream of all the cues (targets)
     cuesPos.append(0)
     cuesPos = np.array(cuesPos)
     noise = None; allFieldCoords=None; numNoiseDots=0
-    if proportnNoise > 0: #gtenerating noise is time-consuming, so only do it once per trial. Then shuffle noise coordinates for each letter
+    if proportnNoise > 0: #generating noise is time-consuming, so only do it once per trial. Then shuffle noise coordinates for each letter
         (noise,allFieldCoords,numNoiseDots) = createNoise(proportnNoise,myWin,noiseFieldWidthPix, bgColor)
 
     preDrawStimToGreasePipeline = list() #I don't know why this works, but without drawing it I previously have had consistent timing blip first time that draw 
@@ -545,34 +568,33 @@ def do_RSVP_stim(thisTrial, seq1, seq2, proportnNoise,trialN,thisProbe):
     preDrawStimToGreasePipeline.extend([cue])
     for stim in preDrawStimToGreasePipeline:
         stim.draw()
-    myWin.flip(); myWin.flip()
+    trialInstructionStim.draw(); myWin.flip(); trialInstructionStim.draw(); myWin.flip()
     
     noiseTexture = scipy.random.rand(128,128)*2.0-1
-    myNoise1 = visual.GratingStim(myWin, tex=noiseTexture,
-             size=(1.5,1), units='deg',
-             interpolate=False,
-             pos = calcStimPos(thisTrial,0),
-             autoLog=False)#this stim changes too much for autologging to be useful
-    myNoise2 = visual.GratingStim(myWin, tex=noiseTexture,
-             size=(1.5,1), units='deg',
-             interpolate=False,
-             pos = calcStimPos(thisTrial,1),
-             autoLog=False)
+    myNoise1 = visual.GratingStim(myWin, tex=noiseTexture, size=(1.5,1), units='deg', interpolate=False,
+             pos = calcStimPos(thisTrial,0), autoLog=False)#this stim changes too much for autologging to be useful
+    myNoise2 = visual.GratingStim(myWin, tex=noiseTexture, size=(1.5,1), units='deg', interpolate=False,
+             pos = calcStimPos(thisTrial,1), autoLog=False)
+    myNoise3 = visual.GratingStim(myWin, tex=noiseTexture, size=(1.5,1), units='deg', interpolate=False,
+             pos = calcStimPos(thisTrial,2), autoLog=False)
     #end preparation of stimuli
     
     core.wait(.1)
     trialClock.reset()
     indicatorPeriodMin = 0.9 #was 0.3
     indicatorPeriodFrames = int(indicatorPeriodMin*refreshRate)
-    fixatnPeriodMin = 0.1
-    fixatnPeriodFrames = int(   (np.random.rand(1)/2.+fixatnPeriodMin)   *refreshRate)  #random interval between 800ms and 1.3s
+    fixatnPeriodMin = 0.
+    fixatnPeriodFrames = int(   (np.random.rand(1)/3.+fixatnPeriodMin)   *refreshRate)  #random interval between 0 and .3 seconds
     ts = list(); #to store time of each drawing, to check whether skipped frames
-
-    for i in range(fixatnPeriodFrames+20):  #prestim fixation interval
+    for i in range(50):
+        trialInstructionStim.draw()
+        if i%4 > 1: fixationPoint.draw()
+        myWin.flip()
+    for i in range(fixatnPeriodFrames):  #prestim fixation interval
         #if i%4>=2 or demo or exportImages: #flicker fixation on and off at framerate to see when skip frame
         #      fixation.draw()
         #else: fixationBlank.draw()
-        fixationPoint.draw()
+        if i%4 > 1: fixationPoint.draw()
         myWin.flip()  #end fixation interval
     #myWin.setRecordFrameIntervals(True);  #can't get it to stop detecting superlong frames
     t0 = trialClock.getTime()
@@ -582,7 +604,8 @@ def do_RSVP_stim(thisTrial, seq1, seq2, proportnNoise,trialN,thisProbe):
     midDelayFrames = int(midDelay *refreshRate)
     #insert a pause to allow the window and python all to finish initialising (avoid initial frame drops)
     for i in range(midDelayFrames):
-         myWin.flip()
+        if i%4 > 1: fixationPoint.draw()
+        myWin.flip()
 
     indicator1 = visual.TextStim(myWin, text = u"####",pos=(wordEccentricity, 0),height=ltrHeight,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging )
     indicator2 = visual.TextStim(myWin, text = u"####",pos=(-wordEccentricity, 0),height=ltrHeight,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
@@ -607,9 +630,9 @@ def do_RSVP_stim(thisTrial, seq1, seq2, proportnNoise,trialN,thisProbe):
          myWin.flip()
     
     for n in range(trialDurFrames): #this is the loop for this trial's stimulus!
-            worked = oneFrameOfStim( n,cue,seq1,seq2,cueDurFrames,letterDurFrames,ISIframes,thisTrial,stimuliStream1,stimuliStream2,
+            worked = oneFrameOfStim( n,cue,seq1,seq2,seq3,cueDurFrames,letterDurFrames,ISIframes,thisTrial,stimuliStream1,stimuliStream2,stimuliStream3,
                                                          noise,proportnNoise,allFieldCoords,numNoiseDots ) #draw letter and possibly cue and noise on top
-            fixationPoint.draw()
+            #fixationPoint.draw()
             if exportImages:
                 myWin.getMovieFrame(buffer='back') #for later saving
                 framesSaved +=1
@@ -623,14 +646,9 @@ def do_RSVP_stim(thisTrial, seq1, seq2, proportnNoise,trialN,thisProbe):
     else: noiseMaskMin = 0.8 # .2
         
     noiseMaskFrames = int(noiseMaskMin *refreshRate)
-    #myPatch1.phase += (1 / 128.0, 0.5 / 128.0)  # increment by (1, 0.5) pixels per frame
-    #myPatch2.phase += (1 / 128.0, 0.5 / 128.0)  # increment by (1, 0.5) pixels per frame
-    #myPatch1 = visual.TextStim(myWin, text = u"####",pos=(wordEccentricity, 0),height=ltrHeight,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging )
-    #myPatch2 = visual.TextStim(myWin, text = u"####",pos=(-wordEccentricity, 0),height=ltrHeight,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
     for i in range(noiseMaskFrames):
-         myNoise1.draw()
-         myNoise2.draw()
-         fixationPoint.draw()
+         myNoise1.draw(); myNoise2.draw(); myNoise3.draw()
+         #fixationPoint.draw()
          myWin.flip()
     #myWin.flip() #Need this
     if thisProbe == 'long':
@@ -670,8 +688,6 @@ def handleAndScoreResponse(passThisTrial,response,responseAutopilot,task,correct
         correct = 1
     print('correct=',correct)
     
-    #responseWordIdx = wordToIdx(responseString,stimList)
-    
     print(correctAnswer, '\t', end='', file=dataFile) #answer0
     print(responseString, '\t', end='', file=dataFile) #response0
     print(correct, '\t', end='',file=dataFile) 
@@ -699,7 +715,6 @@ def doAuthorRecognitionTest(autopilot):
     myWin.flip()
     expStop = False
     myMouse = event.Mouse(visible=True) #the mouse absolutely needs to be reset, it seems, otherwise maybe it returns coordinates in wrong units or with wrong scaling?
-
     expStop,timedout,selected,selectedAutopilot = \
                 doAuthorLineup(myWin, bgColor,myMouse, clickSound, badSound, possibleResps, autopilot)
     if autopilot:
@@ -712,16 +727,17 @@ myWin.allowGUI =True
 #myWin.close() #Seems to work better if close and open new window (even though units the same), both in terms of dimensions (even though same here!) and double-clicking
 #take a couple extra seconds to close and reopen window unfortunately
 #myWin = visual.Window(fullscr=True,monitor=mon,colorSpace='rgb',color=bgColor,units='deg')
-expStop,timedout,selected = doAuthorRecognitionTest(autopilot)
-#save authors file, in json format
-infix = 'authors'
-authorsFileName = os.path.join(dataDir, subject + '_' + timeDateStart + infix + '.json')
-otherData['selected'] = selected
-otherData['authors_expStop'] = expStop
-otherData['authors_timedout'] = timedout
-with open(authorsFileName, 'w') as outfile:  
-    json.dump(otherData, outfile)
-#End doing authors task
+if includeConsentDemographicsAuthor:
+    expStop,timedout,selected = doAuthorRecognitionTest(autopilot)
+    #save authors file, in json format
+    infix = 'authors'
+    authorsFileName = os.path.join(dataDir, subject + '_' + timeDateStart + infix + '.json')
+    otherData['selected'] = selected
+    otherData['authors_expStop'] = expStop
+    otherData['authors_timedout'] = timedout
+    with open(authorsFileName, 'w') as outfile:  
+        json.dump(otherData, outfile)
+    #End doing authors task
     
 nDoneMain = -1 #change to zero once start main part of experiment
 if doStaircase:
@@ -856,23 +872,29 @@ else: #not staircase
     while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
         whichStim0 = np.random.randint(0, len(stimList) )
         whichStim1 = np.random.randint(0, len(stimList) )
-        calcAndPredrawStimuli(stimList,whichStim0,whichStim1)
-        #stimuliStream1[0].draw; stimuliStream2[0].draw() #debug
-        #myWin.flip()
-        #event.waitKeys()
-        if nDoneMain==0:
+        whichStim2 = np.random.randint(0, len(stimList) ) #only used in Humby experiment
+        calcAndPredrawStimuli(stimList,whichStim0,whichStim1,whichStim2)
+        if nDoneMain==0: #First trial
             msg='Starting main (non-staircase) part of experiment'
             logging.info(msg); print(msg)
+            for i in xrange(70):
+                trialInstructionStim.draw()
+                if i > 30:
+                    fixationPoint.draw()
+                myWin.flip()
+
         thisTrial = trials.next() #get a proper (non-staircase) trial
         thisProbe = thisTrial['probe']
         if thisProbe=='both':
-          numRespsWanted = 2
+          numRespsWanted = experiment['numLettersIfLetters']
         else: numRespsWanted = 1
         
         #Determine which words will be drawn
-        idxsStream1 = [0]
-        idxsStream2 = [0] 
-        ts  =  do_RSVP_stim(thisTrial, idxsStream1, idxsStream2, noisePercent/100.,nDoneMain,thisProbe)
+        idxsStream1 = [0]; idxsStream2 = [0]
+        idxsStream3 = None
+        if experiment['numLettersIfLetters'] == 3:
+           idxsStream3 = [0]
+        ts  =  do_RSVP_stim(thisTrial, idxsStream1, idxsStream2, idxsStream3, noisePercent/100.,nDoneMain,thisProbe)
         numCasesInterframeLong = timingCheckAndLog(ts,nDoneMain)
         #call for each response
         myMouse = event.Mouse(visible=False)
@@ -887,23 +909,36 @@ else: #not staircase
         dL = [None]*numRespsWanted #dummy list for null values
         expStop = copy.deepcopy(dL); responses = copy.deepcopy(dL); responsesAutopilot = copy.deepcopy(dL); passThisTrial=copy.deepcopy(dL)
         if thisProbe == 'both': #Either have word on both sides or letter on both sides
-            print("Doing both sides")
-            responseOrder = [0,1]
-            if thisTrial['rightResponseFirst']: #change order of indices depending on rightResponseFirst. response0, answer0 etc refer to which one had to be reported first
-                    responseOrder.reverse()
-            print('responseOrder=',responseOrder)
+            numToReport = 3 #3
+            responseOrder = range(numToReport)
+            if (numToReport == 3): #not counterbalanced, so just shuffle
+                random.shuffle(responseOrder)
+            elif thisTrial['rightResponseFirst']: #change order of indices depending on rightResponseFirst. response0, answer0 etc refer to which one had to be reported first
+                responseOrder.reverse()
+            #print('responseOrder=',responseOrder)
             
-            for respI in [0,1]:
-                side = responseOrder[respI] * 2 -1  #-1 for left/top, 1 for right/bottom
-                dev = 2*wordEccentricity * side #put it farther out than stimulus, so participant is sure which is left and which right
-                locations = [ 'the left', 'the right',  'the bottom','top' ]
-                location     = locations[      thisTrial['horizVert'] * 2  +   responseOrder[respI]      ]
+            for respI in xrange( numToReport ):
+                if numToReport == 2:
+                    side = responseOrder[respI] * 2 -1  #-1 for left/top, 1 for right/bottom
+                elif numToReport == 3:
+                    side = (responseOrder[respI] - 1)  #-1 for left/top, 0 for middle, 1 for right/bottom
+                    
+                dev = 2*wordEccentricity * side #put response prompt farther out than stimulus, so participant is sure which is left and which right
+                if numToReport == 2:
+                    locations = [ 'the left', 'the right',  'the bottom','top' ]
+                elif numToReport == 3:
+                    locations = [ 'the left', 'at centre', 'the right',  'the bottom', 'at centre', 'top' ]
+                location  = locations[      thisTrial['horizVert'] * 3  +   responseOrder[respI]      ]
                 respPromptString = 'Type the ' + experiment['stimType'] + ' that was on ' +  location
                 respPromptStim.setText(respPromptString,log=False)
                 if thisTrial['horizVert']:
                     x=0; y=dev
+                    if numToReport == 3: #need an orthogonal offset, so doesn't overlap when at fixation
+                        x = .5*wordEccenticity
                 else:
                     x=dev; y=0
+                    if numToReport == 3: #need an orthogonal offset, so doesn't overlap when at fixation
+                        y = .5*wordEccentricity
                 respStim.setPos([x,y])
                 xPrompt =  x*2 if thisTrial['horizVert'] else x*4  #needs to be further out if horizontal to fit the text
                 respPromptStim.setPos([xPrompt, y*2])
@@ -911,9 +946,11 @@ else: #not staircase
                 #expStop,passThisTrial,responses,buttons,responsesAutopilot = \
                 #        letterLineupResponse.doLineup(myWin,bgColor,myMouse,clickSound,badSound,possibleResps,showBothSides,sideFirstLeftRightCentral,autopilot) #CAN'T YET HANDLE MORE THAN 2 LINEUPS
                 changeToUpper = False
+                fixationPoint.setColor([.7,.7,.7]) #white not red so person doesnt' feel they have to look at it
                 expStop[respI],passThisTrial[respI],responses[respI],responsesAutopilot[respI] = stringResponse.collectStringResponse(
                                         numCharsInResponse,x,y,respPromptStim,respStim,acceptTextStim,fixationPoint, (1 if experiment['stimType']=='digit' else 0), myWin,
                                         clickSound,badSound, requireAcceptance,autopilot,changeToUpper,responseDebug=True )
+                fixationPoint.setColor(fixColor)
             expStop = np.array(expStop).any(); passThisTrial = np.array(passThisTrial).any()
         
         if not expStop:
