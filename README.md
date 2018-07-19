@@ -1,16 +1,14 @@
 
 * Add vertical rotated, check it works
-* Make sure exits gracefully when run many but not all trials
 * presentation rate for letters and words
 * Have the first trial be very slow, then make the trials ramp faster.
-* Add Jen 3-letter condition, match her font etc.
-* Check quits
-* Check vertical displacement of letters
+* match Jen's font etc.
 * Try another way to load a webform, but don't forget need to return consent or not https://stackoverflow.com/questions/36738223/load-a-local-html-file-into-a-qwebview-in-python
 	* The pytml is programmed OSX-speific pathnames
 
 COMPUTER LAB
 * Urgently try to get consent screen and PIS text onscreen.
+* Check vertical displacement of letters matches horizontal
 * Try all the paths in the right place
 * Try the html webform
 
@@ -30,6 +28,7 @@ screen is 57 cm wide. http://www.dell.com/ae/business/p/optiplex-24-7000-aio/pd
 * "research report experiment"
 enter password: Loftus
 * Check Humby data saved
+* Make sure exits gracefully when run many but not all trials
 
 Check scaling of text
 

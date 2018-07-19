@@ -86,21 +86,22 @@ experimentsList = []
 #Implement the fully factorial part of the design by creating every combination of the following conditions
 for stim in experimentTypesStim:
     for spatial in experimentTypesSpatial:
-        experimentsList.append( {'numLettersIfLetters': 2, 'stimType':stim, 'spatial':spatial} )
+        experimentsList.append( {'numSimultaneousStim': 2, 'stimType':stim, 'spatial':spatial} )
 #add Humby's experiment to list
-experimentsList.append( {'numLettersIfLetters': 3, 'stimType':'letter', 'spatial':'horiz'} )
+experimentsList.append( {'numSimultaneousStim': 3, 'stimType':'letter', 'spatial':'horiz'} )
 
 experimentNum = abs(hash(subject)) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
-experimentNum = 6 #3-letters (Humby's experiment)
+experimentNum = 3
+#experimentNum = 6 #3-letters (Humby's experiment)
 experiment = experimentsList[ experimentNum ]
-
+print('experiment=',experiment)
 import json
 otherData= {} #stuff to record in authors data file
 otherData.update( {'networkMachineName': networkMachineName} )
 otherData.update(experiment)
 #print('otherData=',otherData)
 
-SOAms = 300
+SOAms = 200
 #Determine stimuli for this participant
 numStimsWanted = 26
 if experiment['stimType'] == 'letter':
@@ -182,7 +183,6 @@ trialsPerCondition = 2
 defaultNoiseLevel = 0
 if not demo:
     allowGUI = False
-
 
 #set up output data file, log file,  copy of program code, and logging
 infix = ''
@@ -322,8 +322,10 @@ def calcStimPos(trial,i):
     else:                                   #left      ,        right 
         positions = [ [-wordEccentricity,0], [wordEccentricity,0] ]
     #insert 3rd position of 3 stimuli
-    if experiment['numLettersIfLetters'] == 3:
+    if experiment['numSimultaneousStim'] == 3:
         positions.insert( 1, [0,0] )  #put 0,0 into middle (index 1) of list, so will present a letter at fovea
+    else:
+        positions.append( [0,0] ) #For two-stimuli experiments, will draw third noise in middle
     return positions[i]
 
 stimuliStream1 = list()
@@ -382,11 +384,13 @@ nextText = visual.TextStim(myWin,pos=(0, .1),colorSpace='rgb',color = (1,1,1),al
 NextRemindCountText = visual.TextStim(myWin,pos=(0,.2),colorSpace='rgb',color= (1,1,1),alignHoriz='center', alignVert='center',height=.1,units='norm',autoLog=autoLogging)
 screenshot= False; screenshotDone = False
 conditionsList = []
+if experiment['spatial'] == 'vert':
+    horizVert = True
+else: horizVert = False
 #SETTING THE CONDITIONS
 #Implement the fully factorial part of the design by creating every combination of the following conditions
 for rightResponseFirst in [False,True]:
       for bothWordsFlipped in [False]:
-        for horizVert in [False]:
           for probe in ['both']:
                 conditionsList.append( {'rightResponseFirst':rightResponseFirst, 'leftStreamFlip':bothWordsFlipped,
                                                        'horizVert':horizVert, 'rightStreamFlip':bothWordsFlipped, 'probe':probe} )
@@ -563,8 +567,8 @@ def timingCheckAndLog(ts,trialN):
 trialClock = core.Clock()
 numTrialsCorrect = 0; 
 numTrialsApproxCorrect = 0;
-numTrialsEachCorrect= np.zeros( maxNumRespsWanted )
-numTrialsEachApproxCorrect= np.zeros( maxNumRespsWanted )
+numTrialsEachCorrect= np.zeros( experiment['numSimultaneousStim'] )
+numTrialsEachApproxCorrect= np.zeros( experiment['numSimultaneousStim'] )
 
 def do_RSVP_stim(thisTrial, seq1, seq2, seq3, proportnNoise,trialN,thisProbe):
     #relies on global variables:
@@ -589,8 +593,9 @@ def do_RSVP_stim(thisTrial, seq1, seq2, seq3, proportnNoise,trialN,thisProbe):
              pos = calcStimPos(thisTrial,0), autoLog=False)#this stim changes too much for autologging to be useful
     myNoise2 = visual.GratingStim(myWin, tex=noiseTexture, size=(1.5,1), units='deg', interpolate=False,
              pos = calcStimPos(thisTrial,1), autoLog=False)
+    #if experiment['numSimultaneousStim'] == 3:
     myNoise3 = visual.GratingStim(myWin, tex=noiseTexture, size=(1.5,1), units='deg', interpolate=False,
-             pos = calcStimPos(thisTrial,2), autoLog=False)
+                                                          pos = calcStimPos(thisTrial,2), autoLog=False)
     #end preparation of stimuli
     
     core.wait(.1)
@@ -875,13 +880,13 @@ else: #not staircase
         thisTrial = trials.next() #get a proper (non-staircase) trial
         thisProbe = thisTrial['probe']
         if thisProbe=='both':
-          numRespsWanted = experiment['numLettersIfLetters']
+          numRespsWanted = experiment['numSimultaneousStim']
         else: numRespsWanted = 1
         
         #Determine which words will be drawn
         idxsStream1 = [0]; idxsStream2 = [0]
         idxsStream3 = None
-        if experiment['numLettersIfLetters'] == 3:
+        if experiment['numSimultaneousStim'] == 3:
            idxsStream3 = [0]
         ts  =  do_RSVP_stim(thisTrial, idxsStream1, idxsStream2, idxsStream3, noisePercent/100.,nDoneMain,thisProbe)
         numCasesInterframeLong = timingCheckAndLog(ts,nDoneMain)
@@ -898,7 +903,7 @@ else: #not staircase
         dL = [None]*numRespsWanted #dummy list for null values
         expStop = copy.deepcopy(dL); responses = copy.deepcopy(dL); responsesAutopilot = copy.deepcopy(dL); passThisTrial=copy.deepcopy(dL)
         if thisProbe == 'both': #Either have word on both sides or letter on both sides
-            numToReport = 3 #3
+            numToReport =  experiment['numSimultaneousStim']
             responseOrder = range(numToReport)
             if (numToReport == 3): #not counterbalanced, so just shuffle
                 random.shuffle(responseOrder)
@@ -917,7 +922,7 @@ else: #not staircase
                     locations = [ 'the left', 'the right',  'the bottom','top' ]
                 elif numToReport == 3:
                     locations = [ 'the left', 'at centre', 'the right',  'the bottom', 'at centre', 'top' ]
-                location  = locations[      thisTrial['horizVert'] * 3  +   responseOrder[respI]      ]
+                location  = locations[      thisTrial['horizVert'] * numToReport  +   responseOrder[respI]      ]
                 respPromptString = 'Type the ' + experiment['stimType'] + ' that was on ' +  location
                 respPromptStim.setText(respPromptString,log=False)
                 if thisTrial['horizVert']:
