@@ -209,12 +209,29 @@ if demo or exportImages:
   logging.console.setLevel(logging.ERROR)  #only show this level  messages and higher
 logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nearly all messges, INFO next level, EXP, DATA, WARNING and ERROR 
 
+includeConsentDemographicsAuthor = False
+if includeConsentDemographicsAuthor:
+        # require password
+        info = {'Password':''}
+        infoDlg = gui.DlgFromDict(dictionary=info, title='Research Report Experiment',
+            tip={'Password': 'Famous psychologist'}
+        )
+        word = ''
+        if infoDlg.OK:  # this will be True (user hit OK) or False (cancelled)
+            word = info['Password']
+            word = word.upper()
+            if word != 'LOFTUS':
+                print('Password incorrect.')
+                core.quit()
+        else:
+            print('User cancelled')
+            core.quit()
+    
 def openMyStimWindow(): #make it a function because if do it multiple times, want to be sure is identical each time
     myWin = visual.Window(monitor=mon,size=(widthPix,heightPix),allowGUI=allowGUI,units=units,color=bgColor,colorSpace='rgb',fullscr=fullscr,screen=scrn,waitBlanking=waitBlank) #Holcombe lab monitor
     return myWin
 myWin = openMyStimWindow()
 
-includeConsentDemographicsAuthor = False
 if includeConsentDemographicsAuthor:
     myMouse = event.Mouse(visible=True) #the mouse absolutely needs to be reset, it seems, otherwise maybe it returns coordinates in wrong units or with wrong scaling?
     clickedContinue = doParticipantInformationStatement("PISandConsentForm/PIS2underlined.png", "PISandConsentForm/PIS2underlined_p2.png", myWin, myMouse, exportImages)
@@ -373,9 +390,8 @@ for rightResponseFirst in [False,True]:
       for bothWordsFlipped in [False]:
         for horizVert in [False]:
           for probe in ['both']:
-            for indication in [False]: #pre stimulus indicator of locations
                 conditionsList.append( {'rightResponseFirst':rightResponseFirst, 'leftStreamFlip':bothWordsFlipped,
-                                                       'horizVert':horizVert, 'rightStreamFlip':bothWordsFlipped, 'probe':probe, 'indication':indication} )
+                                                       'horizVert':horizVert, 'rightStreamFlip':bothWordsFlipped, 'probe':probe} )
 
 trials = data.TrialHandler(conditionsList,trialsPerCondition) #constant stimuli method
 trialsForPossibleStaircase = data.TrialHandler(conditionsList,trialsPerCondition) #independent randomization, just to create random trials for staircase phase
@@ -417,7 +433,7 @@ def stimToIdx(stim,stimList):
         print('Unexpected error in stimToIdx with stim=',stim)
         return (None)
         
-maxNumRespsWanted = 2
+maxNumRespsWanted = 3
 
 #print header for data file
 print('experimentPhase\ttrialnum\tsubject\ttask\t',file=dataFile,end='')
@@ -581,8 +597,6 @@ def do_RSVP_stim(thisTrial, seq1, seq2, seq3, proportnNoise,trialN,thisProbe):
     
     core.wait(.1)
     trialClock.reset()
-    indicatorPeriodMin = 0.9 #was 0.3
-    indicatorPeriodFrames = int(indicatorPeriodMin*refreshRate)
     fixatnPeriodMin = 0.
     fixatnPeriodFrames = int(   (np.random.rand(1)/3.+fixatnPeriodMin)   *refreshRate)  #random interval between 0 and .3 seconds
     ts = list(); #to store time of each drawing, to check whether skipped frames
@@ -600,35 +614,12 @@ def do_RSVP_stim(thisTrial, seq1, seq2, seq3, proportnNoise,trialN,thisProbe):
     t0 = trialClock.getTime()
 
     midDelay = 0.5 #0.5
-    
     midDelayFrames = int(midDelay *refreshRate)
     #insert a pause to allow the window and python all to finish initialising (avoid initial frame drops)
     for i in range(midDelayFrames):
         if i%4 > 1: fixationPoint.draw()
         myWin.flip()
 
-    indicator1 = visual.TextStim(myWin, text = u"####",pos=(wordEccentricity, 0),height=ltrHeight,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging )
-    indicator2 = visual.TextStim(myWin, text = u"####",pos=(-wordEccentricity, 0),height=ltrHeight,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
-    if thisTrial['indication']: #prior to stimulus appearance
-        #if thisProbe=='both':
-            for i in range(indicatorPeriodFrames+20):
-                indicator1.draw()
-                indicator2.draw()
-                fixationPoint.draw()
-                myWin.flip()
-    else:
-          indicator3 = visual.TextStim(myWin, text = u"       ",pos=(0, 0),height=ltrHeight,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging )
-          for i in range(indicatorPeriodFrames+20):
-                indicator3.draw()
-                fixationPoint.draw()
-                myWin.flip()
-
-    #delay between pre-location indicators
-    midDelay2 = 0.0 #0.5
-    midDelay2Frames = int(midDelay2 *refreshRate)
-    for i in range(midDelay2Frames):
-         myWin.flip()
-    
     for n in range(trialDurFrames): #this is the loop for this trial's stimulus!
             worked = oneFrameOfStim( n,cue,seq1,seq2,seq3,cueDurFrames,letterDurFrames,ISIframes,thisTrial,stimuliStream1,stimuliStream2,stimuliStream3,
                                                          noise,proportnNoise,allFieldCoords,numNoiseDots ) #draw letter and possibly cue and noise on top
@@ -934,11 +925,11 @@ else: #not staircase
                 if thisTrial['horizVert']:
                     x=0; y=dev
                     if numToReport == 3: #need an orthogonal offset, so doesn't overlap when at fixation
-                        x = .5*wordEccenticity
+                        x = -wordEccenticity
                 else:
                     x=dev; y=0
                     if numToReport == 3: #need an orthogonal offset, so doesn't overlap when at fixation
-                        y = .5*wordEccentricity
+                        y = -wordEccentricity
                 respStim.setPos([x,y])
                 xPrompt =  x*2 if thisTrial['horizVert'] else x*4  #needs to be further out if horizontal to fit the text
                 respPromptStim.setPos([xPrompt, y*2])
@@ -965,13 +956,14 @@ else: #not staircase
                 eachCorrect = np.ones(numRespsWanted)*-999
 
                 print("numRespsWanted = ",numRespsWanted, 'getting ready to score response')
-                for streami in [0,1]:#range(numRespsWanted): #scored and printed to dataFile in left first, right second order even if collected in different order
+                for streami in xrange(numRespsWanted): #scored and printed to dataFile in left first, right second order even if collected in different order
                     if streami==0:
                         print("streami=",i)
                         sequenceStream = idxsStream1; correctAnswerIdx = whichStim0
-                    else: sequenceStream = idxsStream2; correctAnswerIdx = whichStim1
-                    print ("sequenceStream = ",sequenceStream)
-                    print ("correctAnswerIdx = ", correctAnswerIdx)
+                    elif streami==1: 
+                        sequenceStream = idxsStream2; correctAnswerIdx = whichStim1
+                    elif streami==2:
+                        sequenceStream = idxsStream2; correctAnswerIdx = whichStim1 #same as 2 by design
                     print ("stimList = ", stimList, " correctAnswer = stimList[correctAnswerIdx] = ",stimList[correctAnswerIdx])
                     #Find which response is the one to this stream using where
                     respThisStreamI = responseOrder.index(streami)
@@ -994,7 +986,7 @@ else: #not staircase
                 if feedback and useSound: 
                     play_high_tone_correct_low_incorrect(correct, passThisTrial=False)
                 nDoneMain+=1
-                #dataFile.flush(); logging.flush()
+                dataFile.flush(); logging.flush()
                 #print('nDoneMain=', nDoneMain,' trials.nTotal=',trials.nTotal) #' trials.thisN=',trials.thisN
                 if (trials.nTotal > 6 and nDoneMain > 2 and nDoneMain %
                      ( trials.nTotal*pctCompletedBreak/100. ) ==1):  #dont modulus 0 because then will do it for last trial
