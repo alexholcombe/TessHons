@@ -42,7 +42,7 @@ tasks=['T1']; task = tasks[0]
 #same screen or external screen? Set scrn=0 if one screen. scrn=1 means display stimulus on second screen.
 #widthPix, heightPix
 quitFinder = False 
-autopilot=False
+autopilot=True
 demo=False #False
 exportImages= False #quits after one trial
 subject=getuser()  #https://stackoverflow.com/a/842096/302378
@@ -77,7 +77,7 @@ numWordsInStream = 1
 myFont =  'Arial' # 'Sloan' # 
 
 #Set up the list of experiments, then allocate one to the subject
-experimentTypesStim = ['word','letter','digit']
+experimentTypesStim = ['word','letter']  #'digit']
 experimentTypesSpatial = ['horiz','vert']
 #experimentTypesNumletters
 #create dictionary of all combinations
@@ -89,9 +89,11 @@ for stim in experimentTypesStim:
         experimentsList.append( {'numSimultaneousStim': 2, 'stimType':stim, 'spatial':spatial} )
 #add Humby's experiment to list
 experimentsList.append( {'numSimultaneousStim': 3, 'stimType':'letter', 'spatial':'horiz'} )
+#add letters rotated right and rotated left
+#experimentsList.append(
 
 experimentNum = abs(hash(subject)) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
-experimentNum = 3
+experimentNum = 2
 #experimentNum = 6 #3-letters (Humby's experiment)
 experiment = experimentsList[ experimentNum ]
 print('experiment=',experiment)
@@ -340,7 +342,7 @@ def calcAndPredrawStimuli(stimList,i,j,k):
    stim1string = stimList[ i ]
    stim2string = stimList[ j ]
    stim3string = stimList[ k ]
-   print('stim1string=',stim1string, 'stim2string=',stim2string)
+   #print('stim1string=',stim1string, 'stim2string=',stim2string)
    textStimulus1 = visual.TextStim(myWin,text=stim1string,height=ltrHeight,font=myFont,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
    textStimulus2 = visual.TextStim(myWin,text=stim2string,height=ltrHeight,font=myFont,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
    textStimulus3 = visual.TextStim(myWin,text=stim3string,height=ltrHeight,font=myFont,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
@@ -371,8 +373,9 @@ else: fixSizePix = 36
 fixColor = (1,-.5,-.5)
 if exportImages: fixColor= [0,0,0]
 fixationPoint= visual.PatchStim(myWin,tex='none',colorSpace='rgb',color=fixColor,size=4,units='pix',autoLog=autoLogging)
-trialInstructionString = 'Fix your eyes on the red point below'
-trialInstructionStim = visual.TextStim(myWin,pos=(0, 1),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.5,units='deg',autoLog=autoLogging)
+trialInstructionString = 'Keep your eyes on the red dot'
+trialInstructionPos = (0,1)
+trialInstructionStim = visual.TextStim(myWin,pos=trialInstructionPos,colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.5,units='deg',autoLog=autoLogging)
 trialInstructionStim.setText(trialInstructionString,log=False)
 respPromptStim = visual.TextStim(myWin,pos=(0, -.9),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.5,units='deg',autoLog=autoLogging)
 acceptTextStim = visual.TextStim(myWin,pos=(0, -.8),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.05,units='norm',autoLog=autoLogging)
@@ -391,9 +394,9 @@ else: horizVert = False
 #Implement the fully factorial part of the design by creating every combination of the following conditions
 for rightResponseFirst in [False,True]:
       for bothWordsFlipped in [False]:
-          for probe in ['both']:
-                conditionsList.append( {'rightResponseFirst':rightResponseFirst, 'leftStreamFlip':bothWordsFlipped,
-                                                       'horizVert':horizVert, 'rightStreamFlip':bothWordsFlipped, 'probe':probe} )
+          for trialInstructionPos in [(0,-1), (0,1)]: #half of trials above fixation, half of trials below
+                conditionsList.append( {'rightResponseFirst':rightResponseFirst, 'leftStreamFlip':bothWordsFlipped, 'trialInstructionPos':trialInstructionPos,
+                                                       'horizVert':horizVert, 'rightStreamFlip':bothWordsFlipped, 'probe':'both', 'ISIframes':ISIframes} )
 
 trials = data.TrialHandler(conditionsList,trialsPerCondition) #constant stimuli method
 trialsForPossibleStaircase = data.TrialHandler(conditionsList,trialsPerCondition) #independent randomization, just to create random trials for staircase phase
@@ -439,23 +442,24 @@ maxNumRespsWanted = 3
 
 #print header for data file
 print('experimentPhase\ttrialnum\tsubject\ttask\t',file=dataFile,end='')
-print('noisePercent\tleftStreamFlip\trightStreamFlip\trightResponseFirst\tprobe\t',end='',file=dataFile)
-
-for i in range(maxNumRespsWanted):
+print('noisePercent\tleftStreamFlip\trightStreamFlip\trightResponseFirst\tprobe\ttrialInstructionPos\t',end='',file=dataFile)
+for i in xrange( experiment['numSimultaneousStim'] ):
+    dataFile.write('responseOrder'+str(i)+'\t')
+    
+for i in xrange( experiment['numSimultaneousStim'] ): #range(maxNumRespsWanted):
    dataFile.write('answer'+str(i)+'\t')
    dataFile.write('response'+str(i)+'\t')
    dataFile.write('correct'+str(i)+'\t')
-   
 #   dataFile.write('responsePosRelative'+str(i)+'\t')
 print('timingBlips',file=dataFile)
 #end of header
     
-def  oneFrameOfStim( n,cue,seq1,seq2,seq3,cueDurFrames,letterDurFrames,ISIframes,thisTrial,textStimuliStream1,textStimuliStream2,textStimuliStream3,
+def  oneFrameOfStim( n,cue,seq1,seq2,seq3,cueDurFrames,letterDurFrames,thisTrial,textStimuliStream1,textStimuliStream2,textStimuliStream3,
                                        noise,proportnNoise,allFieldCoords,numNoiseDots): 
 #defining a function to draw each frame of stim.
 #seq1 is an array of indices corresponding to the appropriate pre-drawn stimulus, contained in textStimuli
   
-  SOAframes = letterDurFrames+ISIframes
+  SOAframes = letterDurFrames+thisTrial['ISIframes']
   cueFrames = 0 
   stimN = int( np.floor(n/SOAframes) )
   frameOfThisLetter = n % SOAframes #earvery SOAframes, new letter
@@ -580,7 +584,7 @@ def do_RSVP_stim(thisTrial, seq1, seq2, seq3, proportnNoise,trialN,thisProbe):
     noise = None; allFieldCoords=None; numNoiseDots=0
     if proportnNoise > 0: #generating noise is time-consuming, so only do it once per trial. Then shuffle noise coordinates for each letter
         (noise,allFieldCoords,numNoiseDots) = createNoise(proportnNoise,myWin,noiseFieldWidthPix, bgColor)
-
+    trialInstructionStim.setPos( thisTrial['trialInstructionPos'] )
     preDrawStimToGreasePipeline = list() #I don't know why this works, but without drawing it I previously have had consistent timing blip first time that draw 
     cue.setLineColor(bgColor)
     preDrawStimToGreasePipeline.extend([cue])
@@ -624,7 +628,7 @@ def do_RSVP_stim(thisTrial, seq1, seq2, seq3, proportnNoise,trialN,thisProbe):
         myWin.flip()
 
     for n in range(trialDurFrames): #this is the loop for this trial's stimulus!
-            worked = oneFrameOfStim( n,cue,seq1,seq2,seq3,cueDurFrames,letterDurFrames,ISIframes,thisTrial,stimuliStream1,stimuliStream2,stimuliStream3,
+            worked = oneFrameOfStim( n,cue,seq1,seq2,seq3,cueDurFrames,letterDurFrames,thisTrial,stimuliStream1,stimuliStream2,stimuliStream3,
                                                          noise,proportnNoise,allFieldCoords,numNoiseDots ) #draw letter and possibly cue and noise on top
             #fixationPoint.draw()
             if exportImages:
@@ -662,6 +666,8 @@ def do_RSVP_stim(thisTrial, seq1, seq2, seq3, proportnNoise,trialN,thisProbe):
     else: respPromptStim.setText('Error: unexpected task',log=False)
     
     return ts
+
+pctCompletedBreak = -99 #no break
 
 def handleAndScoreResponse(passThisTrial,response,responseAutopilot,task,correctAnswer):
     #Handle response, calculate whether correct, ########################################
@@ -868,16 +874,21 @@ else: #not staircase
         whichStim1 = np.random.randint(0, len(stimList) )
         whichStim2 = np.random.randint(0, len(stimList) ) #only used in Humby experiment
         calcAndPredrawStimuli(stimList,whichStim0,whichStim1,whichStim2)
+        thisTrial = trials.next() #get a proper (non-staircase) trial
         if nDoneMain==0: #First trial
-            msg='Starting main (non-staircase) part of experiment'
-            logging.info(msg); print(msg)
+            msg='Starting main part of experiment'
+            logging.info(msg)
+            trialInstructionStim.setPos( thisTrial['trialInstructionPos'] )
             for i in xrange(70):
                 trialInstructionStim.draw()
                 if i > 30:
                     fixationPoint.draw()
                 myWin.flip()
 
-        thisTrial = trials.next() #get a proper (non-staircase) trial
+        if nDoneMain == 0:
+            thisTrial['ISIframes'] *= 3 #ease the participants into it
+        if nDoneMain == 1:
+            thisTrial['ISIframes'] *= 2
         thisProbe = thisTrial['probe']
         if thisProbe=='both':
           numRespsWanted = experiment['numSimultaneousStim']
@@ -956,7 +967,10 @@ else: #not staircase
                 print(thisTrial['rightStreamFlip'],'\t', end='', file=dataFile)
                 print(thisTrial['rightResponseFirst'],'\t', end='', file=dataFile)
                 print(thisTrial['probe'],'\t', end='', file=dataFile)
-                i = 0
+                print(thisTrial['trialInstructionPos'],'\t', end='', file=dataFile)
+                for o in responseOrder:
+                    print(o,'\t', end='', file=dataFile)
+                    
                 eachCorrect = np.ones(numRespsWanted)*-999
 
                 print("numRespsWanted = ",numRespsWanted, 'getting ready to score response')

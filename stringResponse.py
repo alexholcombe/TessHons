@@ -38,7 +38,7 @@ def collectStringResponse(numCharsWanted,x,y,respPromptStim,respStim,acceptTextS
     while not expStop and (numResponses < numCharsWanted or not accepted):
         noResponseYet = True
         thisResponse=''
-        while noResponseYet: #loop until a valid key is hit
+        while noResponseYet and not expStop: #loop until a valid key is hit
            if fixation is not None:
                 fixation.draw()
            respPromptStim.draw()
@@ -54,7 +54,7 @@ def collectStringResponse(numCharsWanted,x,y,respPromptStim,respStim,acceptTextS
            if autopilot:
                noResponseYet = False
                numResponses = numCharsWanted
-               if 'ESCAPE' in keysPressed:
+               if 'ESCAPE' in keysPressedAndModifiers:
                    expStop = True
            elif len(keysPressedAndModifiers) > 0:
                 keyAndModifiers = keysPressedAndModifiers[-1] #process only the last key, it being the most recent. In theory person could type more than one key between window flips, 
@@ -63,7 +63,6 @@ def collectStringResponse(numCharsWanted,x,y,respPromptStim,respStim,acceptTextS
                 thisModifiers = keyAndModifiers[1]
                 if thisKey.upper() in ['Z'] and thisModifiers['shift'] and thisModifiers['ctrl']:
                      expStop = True
-                     noResponseYet = False
 #                  if thisKey in ['SPACE']: #observer opting out because think they moved their eyes
 #                      passThisTrial = True
 #                      noResponseYet = False
