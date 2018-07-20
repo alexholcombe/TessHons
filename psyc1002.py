@@ -738,7 +738,10 @@ if includeConsentDemographicsAuthor:
     with open(authorsFileName, 'w') as outfile:  
         json.dump(otherData, outfile)
     #End doing authors task
-    
+
+experimentClock = core.clock(); 
+expTimeLimit = 60*17
+expTimedOut = False
 nDoneMain = -1 #change to zero once start main part of experiment
 if doStaircase:
     #create the staircase handler
@@ -868,7 +871,6 @@ else: #not staircase
     phasesMsg = 'Experiment will have '+str(trials.nTotal)+' trials. Letters will be drawn with superposed noise of ' + "{:.2%}".format(defaultNoiseLevel)
     print(phasesMsg); logging.info(phasesMsg)
     nDoneMain =0
-
     while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
         whichStim0 = np.random.randint(0, len(stimList) )
         whichStim1 = np.random.randint(0, len(stimList) )
@@ -1025,20 +1027,23 @@ else: #not staircase
                                     expStop = True
                         myWin.clearBuffer()
                 core.wait(.1);  time.sleep(.1)
+            if experimentClock.getTime() > expTimeLimit:
+                expTimedOut = True
             #end main trials loop
     timeAndDateStr = time.strftime("%H:%M on %d %b %Y", time.localtime())
-    msg = 'Finishing at '+timeAndDateStr
+    msg = 'Stopping at '+timeAndDateStr
     print(msg); logging.info(msg)
     if expStop:
         msg = 'user aborted experiment on keypress with trials done=' + str(nDoneMain) + ' of ' + str(trials.nTotal+1)
         print(msg); logging.error(msg)
-
+    if expTimedOut:
+        msg = 'Experiment timed out with trials done=' + str(nDoneMain) + ' of ' + str(trials.nTotal+1)
+        print(msg); logging.info(msg)
     if not doStaircase and (nDoneMain >0):
         print('Of ',nDoneMain,' trials, on ',numTrialsCorrect*1.0/nDoneMain*100., '% of all trials all targets reported exactly correct',sep='')
         for i in range(numRespsWanted):
             print('stream',i,': ',round(numTrialsEachCorrect[i]*1.0/nDoneMain*100.,2), '% correct',sep='')
     dataFile.flush(); logging.flush(); dataFile.close()
     
-    
-    logging.info("Terminated normally."); print("Terminated normally.")
+    logging.info("Program terminating normally."); print("Terminated normally.")
     core.quit()
