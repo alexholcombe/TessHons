@@ -26,7 +26,11 @@ try:
     from authorRecognitionLineup import doAuthorLineup
 except ImportError:
     print('Could not import authorRecognitionLineup.py (you need that file to be in the same directory)')
-sys.path.append('PISandConsentForm') #add subfolder
+dirInLabs = 'abgdj'
+if sys.platform == "win32":  #this means running in PSYC computer labs
+    sys.path.append( os.path.join(dirInLabs,'PISandConsentForm') )   #because current working directory ends up being the PSYC1002 grasp folder, NOT the folder with PSYC1002.py in it
+else:
+    sys.path.append('PISandConsentForm') #add subfolder
 try:
     from PISandConsentForm import doParticipantInformationStatement, doConsentForm
 except ImportError:
@@ -42,7 +46,7 @@ tasks=['T1']; task = tasks[0]
 #same screen or external screen? Set scrn=0 if one screen. scrn=1 means display stimulus on second screen.
 #widthPix, heightPix
 quitFinder = False 
-autopilot=True
+autopilot=False
 demo=False #False
 exportImages= False #quits after one trial
 subject=getuser()  #https://stackoverflow.com/a/842096/302378
@@ -52,7 +56,7 @@ if autopilot: subject='auto'
 cwd = os.getcwd()
 print('current working directory =',cwd)
 if sys.platform == "win32":  #this means running in PSYC computer labs
-    pathToData = os.path.join('..',"Submissions")
+    pathToData = 'Submissions'  # os.path.join('..',"Submissions")
 else:
     pathToData = 'Submissions'
 #if os.path.isdir('.'+os.sep+'Submissions'):
@@ -90,7 +94,7 @@ for stim in experimentTypesStim:
 #add Humby's experiment to list
 experimentsList.append( {'numSimultaneousStim': 3, 'stimType':'letter', 'spatial':'horiz'} )
 #add letters rotated right and rotated left
-#experimentsList.append(
+#experimentsList.append( ')
 
 experimentNum = abs(hash(subject)) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
 experimentNum = 2
@@ -171,7 +175,7 @@ ISIframes = int( np.floor(ISIms / (1000./refreshRate)) )
 #have set ISIframes and letterDurFrames to integer that corresponds as close as possible to originally intended ms
 rateInfo = 'total SOA=' + str(round(  (ISIframes + letterDurFrames)*1000./refreshRate, 2)) + ' or ' + str(ISIframes + letterDurFrames) + ' frames, comprising\n'
 rateInfo+=  'ISIframes ='+str(ISIframes)+' or '+str(ISIframes*(1000./refreshRate))+' ms and letterDurFrames ='+str(letterDurFrames)+' or '+str(round( letterDurFrames*(1000./refreshRate), 2))+'ms'
-logging.info(rateInfo); print(rateInfo)
+logging.info(rateInfo); #print(rateInfo)
 logging.info('current working directory is ' + cwd)
 trialDurFrames = int( numWordsInStream*(ISIframes+letterDurFrames) ) #trial duration in frames
 
@@ -209,7 +213,7 @@ if demo or exportImages:
   logging.console.setLevel(logging.ERROR)  #only show this level  messages and higher
 logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nearly all messges, INFO next level, EXP, DATA, WARNING and ERROR 
 
-includeConsentDemographicsAuthor = False
+includeConsentDemographicsAuthor = True
 if includeConsentDemographicsAuthor:
         # require password
         info = {'Password':''}
@@ -234,9 +238,20 @@ myWin = openMyStimWindow()
 
 if includeConsentDemographicsAuthor:
     myMouse = event.Mouse(visible=True) #the mouse absolutely needs to be reset, it seems, otherwise maybe it returns coordinates in wrong units or with wrong scaling?
-    clickedContinue = doParticipantInformationStatement("PISandConsentForm/PIS2underlined.png", "PISandConsentForm/PIS2underlined_p2.png", myWin, myMouse, exportImages)
+    #do I need the subsidiary path?
+    if sys.platform == "win32":  #this means running in PSYC computer labs
+        dir = os.path.join(dirInLabs,'PISandConsentForm')
+    else:
+        dir = 'PISandConsentForm'
+    page1 = os.path.join(dir,'PIS2underlined.png') #"PISandConsentForm/PIS2underlined.png" 
+    page2 = os.path.join('PISandConsentForm','PIS2underlined_p2.png')  #  PISandConsentForm/PIS2underlined_p2.png
+    page1 = os.path.join('dirInLabs','PISandConsentForm','PIS2underlined.png') #"PISandConsentForm/PIS2underlined.png" 
+    page2 = os.path.join('abgdj','PISandConsentForm','PIS2underlined_p2.png')  #  PISandConsentForm/PIS2underlined_p2.png    clickedContinue = doParticipantInformationStatement(page1,page2, myWin, myMouse, exportImages)
     #myMouse = event.Mouse(visible=True) #the mouse absolutely needs to be reset, it seems, otherwise maybe it returns coordinates in wrong units or with wrong scaling?
-    secretKeyPressed, choiceDicts = doConsentForm('PISandConsentForm/consentForm.png', subject, myWin, myMouse, exportImages)
+    #'PISandConsentForm/consentForm.png'
+    page = os.path.join('PISandConsentForm','consentForm.png') #"PISandConsentForm/'consentForm.png'
+    page = os.path.join('abgdj','PISandConsentForm','consentForm.png') #"PISandConsentForm/'consentForm.png'
+    secretKeyPressed, choiceDicts = doConsentForm(page, subject, myWin, myMouse, exportImages)
     for c in choiceDicts:
         print(c['name']," ['checked']=",c['checked'])
         otherData.update(  {   (c['name'],  c['checked'])    } )#add to json data file
@@ -251,7 +266,7 @@ if includeConsentDemographicsAuthor:
     dlg = gui.Dlg(title="PSYC1002", labelButtonOK=u'         OK         ', labelButtonCancel=u'', pos=(200, 400)) # Cancel (decline to answer all)
     dlg.addField(questions[0], choices=[ 'English','Arabic','Pali','Hebrew','Farsi','Chinese','Korean','Japanese','Other','Decline to answer'])
     dlg.addField(questions[1], choices = ['17 or under', '18 or 19', '20 or 21', '22, 23, or 24', '24 to 30', '30 to 50', 'over 50','Decline to answer'])
-    dlg.addField(questions[2], choices=['Left','Right','Neither (able to use both hands equally well)','Decline to answer'])
+    dlg.addField(questions[2], choices=['Decline to answer','Left','Right','Neither (able to use both hands equally well)'])
     #dlg.addFixedField(label='', initial='', color='', choices=None, tip='') #Just to create some space
     #dlg.addField('Your gender (as listed on birth certificate):', choices=["male", "female"])
     thisInfo = dlg.show()  # you have to call show() for a Dlg (automatic with a DlgFromDict)
@@ -739,7 +754,7 @@ if includeConsentDemographicsAuthor:
         json.dump(otherData, outfile)
     #End doing authors task
 
-experimentClock = core.clock(); 
+experimentClock = core.Clock()
 expTimeLimit = 60*17
 expTimedOut = False
 nDoneMain = -1 #change to zero once start main part of experiment
@@ -1027,8 +1042,8 @@ else: #not staircase
                                     expStop = True
                         myWin.clearBuffer()
                 core.wait(.1);  time.sleep(.1)
-            if experimentClock.getTime() > expTimeLimit:
-                expTimedOut = True
+                if experimentClock.getTime() > expTimeLimit:
+                    expTimedOut = True
             #end main trials loop
     timeAndDateStr = time.strftime("%H:%M on %d %b %Y", time.localtime())
     msg = 'Stopping at '+timeAndDateStr

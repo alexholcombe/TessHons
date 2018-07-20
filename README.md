@@ -1,13 +1,13 @@
-
+* Add the question at the end about taking it seriously
 * Add vertical rotated, check it works
 * presentation rate for letters and words
-* Have the first trial be very slow, then make the trials ramp faster.
 * match Jen's font etc.
 * Try another way to load a webform, but don't forget need to return consent or not https://stackoverflow.com/questions/36738223/load-a-local-html-file-into-a-qwebview-in-python
 	* The pytml is programmed OSX-speific pathnames
 
 COMPUTER LAB
-* Urgently try to get consent screen and PIS text onscreen.
+* The password box is too small!
+* Measure dimensions of the screens in all the rooms.
 * Check vertical displacement of letters matches horizontal
 * Try all the paths in the right place
 * Try the html webform

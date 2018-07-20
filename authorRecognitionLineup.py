@@ -243,7 +243,7 @@ def collectLineupResponses(myWin,bgColor,myMouse,timeLimit,minMustClick,maxCanCl
 
 def doAuthorLineup(myWin,bgColor,myMouse,clickSound,badClickSound,possibleResps,autopilot):
     expStop = False
-    minMustClick = 2 # len(possibleResps) / 2 -1
+    minMustClick = len(possibleResps) / 2 -1
     maxCanClick = len(possibleResps) / 2 +1
     selectedAutopilot = [0]*len(possibleResps);  selectedAutopilot[0]=1
     if autopilot: #I haven't bothered to make autopilot display the response screen
