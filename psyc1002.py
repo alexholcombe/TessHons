@@ -97,7 +97,7 @@ experimentsList.append( {'numSimultaneousStim': 3, 'stimType':'letter', 'spatial
 #experimentsList.append( ')
 
 experimentNum = abs(hash(subject)) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
-experimentNum = 2
+experimentNum = 4
 #experimentNum = 6 #3-letters (Humby's experiment)
 experiment = experimentsList[ experimentNum ]
 print('experiment=',experiment)
@@ -212,17 +212,18 @@ if demo or exportImages:
   dataFile = sys.stdout; logF = sys.stdout
   logging.console.setLevel(logging.ERROR)  #only show this level  messages and higher
 logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nearly all messges, INFO next level, EXP, DATA, WARNING and ERROR 
-
+        
 includeConsentDemographicsAuthor = True
 if includeConsentDemographicsAuthor:
         # require password
-        info = {'Password':''}
+        info = {'\n\n\n\n\nPassword\n\n':'', '':''}
         infoDlg = gui.DlgFromDict(dictionary=info, title='Research Report Experiment',
-            tip={'Password': 'Famous psychologist'}
+            tip={'\n\n\n\n\nPassword\n\n': 'Famous psychologist'}, 
+            fixed=['']
         )
         word = ''
         if infoDlg.OK:  # this will be True (user hit OK) or False (cancelled)
-            word = info['Password']
+            word = info['\n\n\n\n\nPassword\n\n']
             word = word.upper()
             if word != 'LOFTUS':
                 print('Password incorrect.')
@@ -244,13 +245,10 @@ if includeConsentDemographicsAuthor:
     else:
         dir = 'PISandConsentForm'
     page1 = os.path.join(dir,'PIS2underlined.png') #"PISandConsentForm/PIS2underlined.png" 
-    page2 = os.path.join('PISandConsentForm','PIS2underlined_p2.png')  #  PISandConsentForm/PIS2underlined_p2.png
-    page1 = os.path.join('dirInLabs','PISandConsentForm','PIS2underlined.png') #"PISandConsentForm/PIS2underlined.png" 
-    page2 = os.path.join('abgdj','PISandConsentForm','PIS2underlined_p2.png')  #  PISandConsentForm/PIS2underlined_p2.png    clickedContinue = doParticipantInformationStatement(page1,page2, myWin, myMouse, exportImages)
+    page2 = os.path.join(dir,'PIS2underlined_p2.png')  #  PISandConsentForm/PIS2underlined_p2.png   
+    clickedContinue = doParticipantInformationStatement(page1,page2, myWin, myMouse, exportImages)
     #myMouse = event.Mouse(visible=True) #the mouse absolutely needs to be reset, it seems, otherwise maybe it returns coordinates in wrong units or with wrong scaling?
-    #'PISandConsentForm/consentForm.png'
-    page = os.path.join('PISandConsentForm','consentForm.png') #"PISandConsentForm/'consentForm.png'
-    page = os.path.join('abgdj','PISandConsentForm','consentForm.png') #"PISandConsentForm/'consentForm.png'
+    page = os.path.join(dir,'consentForm.png') #"PISandConsentForm/'consentForm.png'
     secretKeyPressed, choiceDicts = doConsentForm(page, subject, myWin, myMouse, exportImages)
     for c in choiceDicts:
         print(c['name']," ['checked']=",c['checked'])

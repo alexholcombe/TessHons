@@ -172,7 +172,7 @@ def collectLineupResponses(myWin,bgColor,myMouse,timeLimit,minMustClick,maxCanCl
             #assume half are authors, therefore when have clicked half, have option to finish
             #print('Summing selected, ',selected, ' minMustClick=',minMustClick)
             if sum(selected) >= minMustClick:
-                print('drawing OKrespZone')
+                #print('drawing OKrespZone')
                 OKrespZone.draw()
                 OKtextStim.draw()
         myWin.flip()
@@ -194,7 +194,7 @@ def collectLineupResponses(myWin,bgColor,myMouse,timeLimit,minMustClick,maxCanCl
                 if modifiers['shift'] and modifiers['ctrl']: #secret key is shift-ctrl-Z
                     expStop = True
         mousePosRaw = myMouse.getPos()
-        print('timeSinceLast=',timeSinceLast)
+        #print('timeSinceLast=',timeSinceLast)
 
         event.clearEvents(); myMouse.clickReset()  #Because sometimes I'd click and it both selected and deselected, as if clicked twice
         mousePos = convertXYtoNormUnits(mousePosRaw,myWin.units,myWin)
@@ -213,7 +213,7 @@ def collectLineupResponses(myWin,bgColor,myMouse,timeLimit,minMustClick,maxCanCl
             if not OK: #didn't click OK. Check whether clicked near a response array item
                 #First calculate the entire array of response regions and see if falls within that
                 clickedAnOption, which = calcWhichClicked(namesPerColumn,possibleResps,mousePos[0],mousePos[1])
-                print("clickedAnOption=",clickedAnOption," which=",which)
+                #print("clickedAnOption=",clickedAnOption," which=",which)
                 if not clickedAnOption:
                         if badClickSound is not None:
                             badClickSound.play()
@@ -245,6 +245,7 @@ def doAuthorLineup(myWin,bgColor,myMouse,clickSound,badClickSound,possibleResps,
     expStop = False
     minMustClick = len(possibleResps) / 2 -1
     maxCanClick = len(possibleResps) / 2 +1
+    print('minMustClick=',minMustClick, 'maxCanClick=',maxCanClick)
     selectedAutopilot = [0]*len(possibleResps);  selectedAutopilot[0]=1
     if autopilot: #I haven't bothered to make autopilot display the response screen
         selected = [0]*len(possibleResps) #won't be used anyway but have to give it a value
