@@ -102,7 +102,7 @@ experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial
 experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial':'vert', 'ori':-90, 'ISIms':34} )
 
 experimentNum = abs(hash(subject)) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
-experimentNum = 0
+experimentNum = 2
 experiment = experimentsList[ experimentNum ]
 print('experiment=',experiment)
 import json
@@ -135,7 +135,7 @@ elif experiment['stimType'] == 'word':
 
 bgColor = [-.7,-.7,-.7] # [-1,-1,-1]
 cueColor = [-.7,-.7,-.7] #originally [1.,1.,1.]
-ltrColor = [.9,.9,.9]# [-.3,-.3,-.3]
+ltrColor = .9 #[.9,.9,.9]# [-.3,-.3,-.3]
 cueRadius = 7 #6 deg in Goodbourn & Holcombe
 #1920 x 1080 for psyc lab OTC machines
 widthPix= 1920 #monitor width in pixels of Agosta  [1280]
@@ -193,8 +193,6 @@ if not demo:
 
 #set up output data file, log file,  copy of program code, and logging
 infix = ''
-if doStaircase:
-    infix = 'staircase_'
 fileName = os.path.join(dataDir, subject + '_' + infix+ timeDateStart)
 if not demo and not exportImages:
     dataFile = open(fileName+'.txt', 'w')
@@ -214,7 +212,7 @@ if demo or exportImages:
   logging.console.setLevel(logging.ERROR)  #only show this level  messages and higher
 logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nearly all messges, INFO next level, EXP, DATA, WARNING and ERROR 
         
-includeConsentDemographicsAuthor = True
+includeConsentDemographicsAuthor = False
 if includeConsentDemographicsAuthor:
         # require password
         info = {'\n\n\n\nPassword\n\n\n':'', '':''}
@@ -383,6 +381,10 @@ else: fixSizePix = 36
 fixColor = (1,-.5,-.5)
 if exportImages: fixColor= [0,0,0]
 fixationPoint= visual.PatchStim(myWin,tex='none',colorSpace='rgb',color=fixColor,size=4,units='pix',autoLog=autoLogging)
+taskInstructionString = 'Please do your best. Sometimes, you may not be able to see any ' + experiment['stimType'] + 's. In that case, guess.'
+taskInstructionPos = (0,0)
+taskInstructionStim = visual.TextStim(myWin,pos=taskInstructionPos,colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.7,units='deg',autoLog=autoLogging)
+taskInstructionStim.setText(taskInstructionString,log=False)
 trialInstructionString = 'Keep your eyes on the red dot'
 trialInstructionPos = (0,1)
 trialInstructionStim = visual.TextStim(myWin,pos=trialInstructionPos,colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.5,units='deg',autoLog=autoLogging)
@@ -762,12 +764,12 @@ if doStaircase:
         #create the staircase handler
         stepSizesLinear = [.6,.3,.2,.1,.05,.05]
         staircase = data.StairHandler(
-            startVal=ltrColor[0],
+            startVal=ltrColor,
             stepType='lin',
             stepSizes=stepSizesLinear,  # reduce step size every two reversals
-            minVal=bgColor[0]+.15, maxVal=1,
-            nUp=1, nDown=2,  # 1-up 3-down homes in on the 80% threshold. Gravitates toward a value that has an equal probability of getting easier and getting harder.
-            #See Wetherill & Levitt 1965, 1 up 2 down goes for 71% correct
+            minVal=bgColor[0]+.15, marxVal=1,
+            nUp=1, nDown=3,  # 1-up 3-down homes in on the 80% threshold. Gravitates toward a value that has an equal probability of getting easier and getting harder.
+            #See Wetherill & Levitt 1965, 1 up 2 down goes for 71% correct. And if 2 letters are independent, each correct = sqrt(.71) = 84% correct.
             nTrials=500)
         print('created conventional staircase')
         
@@ -806,8 +808,17 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
     ltrColorThis = ltrColor
     if nDoneMain == 0:
         thisTrial['ISIframes'] *= 3 #ease the participants into it
-    if nDoneMain == 1:
+    if nDoneMain == 1:  #Show instructions
         thisTrial['ISIframes'] *= 2
+        event.clearEvents(); secretKey = False; f =0
+        while f < 500 and not secretKey:
+            taskInstructionStim.draw()
+            myWin.flip(); f += 1
+            keyAndModifiers = event.getKeys(keyList=['z'], modifiers=True) #secret key is shift-ctrl-Z
+            if keyAndModifiers: #z was pressed
+                modifiers = keyAndModifiers[0][1]
+                if modifiers['shift'] and modifiers['ctrl']: #secret key is shift-ctrl-Z
+                    secretKeyPressed = True
     else:
         if doStaircase:
             print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity)
@@ -921,9 +932,11 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
                 eachCorrect[streami] = correct
     
             print(numCasesInterframeLong, file=dataFile) #timingBlips, last thing recorded on each line of dataFile
-            allCorrect = eachCorrect.all()
-            print('allCorrect=',allCorrect)
-            staircase.addResponse( int(allCorrect) )
+            #Don't want to feed allCorrect into staircase because then for e.g. a staircase targeting 70% correct, they will get 84% correct on each if two letters but even higher if 3 letters
+            #Instead, average and round. This means that if get 1 out of 2 correct, counts as correct. If get 2 out of 3 correct, counts as correct but one is not enough.
+            correctForStaircase = round( scipy.mean(eachCorrect) )
+            #print('allCorrect=',allCorrect)
+            staircase.addResponse( correctForStaircase )
             numTrialsCorrect += eachCorrect.all() #so count -1 as 0
             numTrialsEachCorrect += eachCorrect #list numRespsWanted long
                 
