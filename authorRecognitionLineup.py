@@ -134,6 +134,7 @@ def convertXYtoNormUnits(XY,currUnits,win):
     return xNorm, yNorm
 
 def collectLineupResponses(myWin,bgColor,myMouse,timeLimit,minMustClick,maxCanClick,instructionStim,OKtextStim,OKrespZone,continueTextStim,mustDeselectMsgStim,possibleResps,clickSound,badClickSound):
+   minMustClick = round(minMustClick); 
    myMouse.clickReset()
    state = 'waitingForAnotherSelection' 
    #waitingForAnotherSelection means Finished is  not on the screen, so must click a lineup item
@@ -159,7 +160,7 @@ def collectLineupResponses(myWin,bgColor,myMouse,timeLimit,minMustClick,maxCanCl
         #draw selecteds in selectedColor, remainder in white
         #print('state = ',state)
         authorStims = drawResponseArray(myWin,bgColor,xStart,namesPerColumn,possibleResps,selected,selectedColor,todraw,authorStims,firsttime=False)
-        if (sum(selected) == maxCanClick): #hit max allowed
+        if (sum(selected) >= maxCanClick): #hit max allowed
                 if firstTimeHitMax:
                     firstTimeHitMax = False
                 else:

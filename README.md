@@ -1,17 +1,15 @@
 * Students who can't see GRASP
 * Write Draft methods 
-* Make letters half brightness, and postmask dynamic and add premask
-* Make pixels in the noise bigger. Smithson
-* Otherwise staircase
 * To click more, you need to unselect somebody
-* Add vertical rotated, check it works ASK KIM WHETHR ONLY USE THAT FOR VERTICAL
-* Make sure the ISIframes is saved.
-* Make half the trials ISI be 17 and half 0
-* Make mask a bit stronger
 * Add the question at the end about taking it seriously
-* presentation rate for letters and words
 * Try another way to load a webform, but don't forget need to return consent or not https://stackoverflow.com/questions/36738223/load-a-local-html-file-into-a-qwebview-in-python
 	* The pytml is programmed OSX-speific pathnames
+
+TIMING & DIFFICULTY LEVEL
+* Make letters half brightness, and postmask dynamic and add premask
+* With dynamic noise mask, 34 ms ISI is too easy and 17 might be too hard
+* Make pixels in the noise bigger. Smithson
+
 
 COMPUTER LAB
 * Measure dimensions of the screens in all the rooms.
