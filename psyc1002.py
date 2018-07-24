@@ -102,7 +102,7 @@ experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial
 experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial':'vert', 'ori':-90, 'ISIms':34} )
 
 experimentNum = abs(hash(subject)) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
-experimentNum = 2
+experimentNum = 4
 experiment = experimentsList[ experimentNum ]
 print('experiment=',experiment)
 import json
@@ -186,7 +186,7 @@ mon = monitors.Monitor(monitorname,width=monitorwidth, distance=viewdist)#relyin
 mon.setSizePix( (widthPix,heightPix) )
 units='deg' #'cm'
 
-trialsPerCondition = 2
+trialsPerCondition = 50
 defaultNoiseLevel = 0
 if not demo:
     allowGUI = False
@@ -381,7 +381,7 @@ else: fixSizePix = 36
 fixColor = (1,-.5,-.5)
 if exportImages: fixColor= [0,0,0]
 fixationPoint= visual.PatchStim(myWin,tex='none',colorSpace='rgb',color=fixColor,size=4,units='pix',autoLog=autoLogging)
-taskInstructionString = 'Please do your best. Sometimes, you may not be able to see any ' + experiment['stimType'] + 's. In that case, guess.'
+taskInstructionString = 'Please do your best. Sometimes you may not be able to see any ' + experiment['stimType'] + 's. In those cases, guess.'
 taskInstructionPos = (0,0)
 taskInstructionStim = visual.TextStim(myWin,pos=taskInstructionPos,colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.7,units='deg',autoLog=autoLogging)
 taskInstructionStim.setText(taskInstructionString,log=False)
@@ -451,7 +451,7 @@ maxNumRespsWanted = 3
 
 #print header for data file
 print('experimentPhase\ttrialnum\tsubject\ttask\t',file=dataFile,end='')
-print('noisePercent\tISIframes\tlltrColorThis\teftStreamFlip\trightStreamFlip\trightResponseFirst\tprobe\ttrialInstructionPos\t',end='',file=dataFile)
+print('noisePercent\tISIframes\tlltrColorThis\tleftStreamFlip\trightStreamFlip\trightResponseFirst\tprobe\ttrialInstructionPos\t',end='',file=dataFile)
 for i in xrange( experiment['numSimultaneousStim'] ):
     dataFile.write('responseOrder'+str(i)+'\t')
     
@@ -593,7 +593,6 @@ def do_RSVP_stim(thisTrial, seq1, seq2, seq3, ltrColorThis, proportnNoise,trialN
     noise = None; allFieldCoords=None; numNoiseDots=0
     if proportnNoise > 0: #generating noise is time-consuming, so only do it once per trial. Then shuffle noise coordinates for each letter
         (noise,allFieldCoords,numNoiseDots) = createNoise(proportnNoise,myWin,noiseFieldWidthPix, bgColor)
-    trialInstructionStim.setPos( thisTrial['trialInstructionPos'] )
     preDrawStimToGreasePipeline = list() #I don't know why this works, but without drawing it I previously have had consistent timing blip first time that draw 
     cue.setLineColor(bgColor)
     preDrawStimToGreasePipeline.extend([cue])
@@ -691,7 +690,7 @@ def handleAndScoreResponse(passThisTrial,response,responseAutopilot,task,correct
     #responses are actual characters
     #correctAnswer is index into stimSequence
     #autopilot is global variable
-    print('response=',response)
+    #print('response=',response)
     if autopilot or passThisTrial:
         response = responseAutopilot
     correct = 0
@@ -799,26 +798,16 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
     if nDoneMain==0: #First trial
         msg='Starting main part of experiment'
         logging.info(msg)
-        trialInstructionStim.setPos( thisTrial['trialInstructionPos'] )
-        for i in xrange(70):
-            trialInstructionStim.draw()
-            if i > 30:
-                fixationPoint.draw()
-            myWin.flip()
     ltrColorThis = ltrColor
     if nDoneMain == 0:
         thisTrial['ISIframes'] *= 3 #ease the participants into it
     if nDoneMain == 1:  #Show instructions
         thisTrial['ISIframes'] *= 2
-        event.clearEvents(); secretKey = False; f =0
-        while f < 500 and not secretKey:
+        event.clearEvents(); keyAndModifiers = False; f =0
+        while f < 500 and not keyAndModifiers:
             taskInstructionStim.draw()
             myWin.flip(); f += 1
-            keyAndModifiers = event.getKeys(keyList=['z'], modifiers=True) #secret key is shift-ctrl-Z
-            if keyAndModifiers: #z was pressed
-                modifiers = keyAndModifiers[0][1]
-                if modifiers['shift'] and modifiers['ctrl']: #secret key is shift-ctrl-Z
-                    secretKeyPressed = True
+            keyAndModifiers = event.getKeys(keyList=list(string.ascii_uppercase), modifiers=True)
     else:
         if doStaircase:
             print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity)
@@ -826,8 +815,14 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
             ltrColorThis = round(ltrColorThis,2)
             #print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity)
             #print('ltrColorThis=',ltrColorThis)
-            trialInstructionStim.setText(str(ltrColorThis),log=False)
-
+            trialInstructionStim.setText(str(ltrColorThis),log=False) #debug
+    trialInstructionStim.setPos( thisTrial['trialInstructionPos'] )
+    if nDoneMain <= 1: #extra long instruction
+        for i in xrange(70):
+            trialInstructionStim.draw()
+            if i > 30:
+                fixationPoint.draw()
+            myWin.flip()
     thisProbe = thisTrial['probe']
     if thisProbe=='both':
       numRespsWanted = experiment['numSimultaneousStim']
@@ -842,7 +837,6 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
     numCasesInterframeLong = timingCheckAndLog(ts,nDoneMain)
     #call for each response
     myMouse = event.Mouse(visible=False)
-    #alphabet = list(string.ascii_lowercase)
     possibleResps = stimList
     showBothSides = True
     sideFirstLeftRightCentral = 0
@@ -914,7 +908,7 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
                 
             eachCorrect = np.ones(numRespsWanted)*-999
 
-            print("numRespsWanted = ",numRespsWanted, 'getting ready to score response')
+            #print("numRespsWanted = ",numRespsWanted, 'getting ready to score response')
             for streami in xrange(numRespsWanted): #scored and printed to dataFile in left first, right second order even if collected in different order
                 if streami==0:
                     print("streami=",i)
