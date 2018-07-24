@@ -1,15 +1,21 @@
+* Students who can't see GRASP
+* Write Draft methods 
+* Make letters half brightness, and postmask dynamic and add premask
+* Make pixels in the noise bigger. Smithson
+* Otherwise staircase
+* To click more, you need to unselect somebody
+* Add vertical rotated, check it works ASK KIM WHETHR ONLY USE THAT FOR VERTICAL
+* Make sure the ISIframes is saved.
+* Make half the trials ISI be 17 and half 0
+* Make mask a bit stronger
 * Add the question at the end about taking it seriously
-* Add vertical rotated, check it works
 * presentation rate for letters and words
-* match Jen's font etc.
 * Try another way to load a webform, but don't forget need to return consent or not https://stackoverflow.com/questions/36738223/load-a-local-html-file-into-a-qwebview-in-python
 	* The pytml is programmed OSX-speific pathnames
 
 COMPUTER LAB
-* The password box is too small!
 * Measure dimensions of the screens in all the rooms.
 * Check vertical displacement of letters matches horizontal
-* Try all the paths in the right place
 * Try the html webform
 
 The installed version is 1.84.2.  On GRasp is 1.90.2
@@ -29,6 +35,10 @@ screen is 57 cm wide. http://www.dell.com/ae/business/p/optiplex-24-7000-aio/pd
 enter password: Loftus
 * Check Humby data saved
 * Make sure exits gracefully when run many but not all trials
+* match Jen's font etc. Hers is upper case so there isn't much point.
+* The password box is too small!
+* Try all the paths in the right place
+
 
 Check scaling of text
 

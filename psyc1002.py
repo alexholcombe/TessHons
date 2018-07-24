@@ -89,16 +89,20 @@ experimentsList = []
 #Creating the list of experiments
 #Implement the fully factorial part of the design by creating every combination of the following conditions
 for stim in experimentTypesStim:
+    if stim == 'word':
+        ISIms = 17
+    else:
+        ISIms = 0
     for spatial in experimentTypesSpatial:
-        experimentsList.append( {'numSimultaneousStim': 2, 'stimType':stim, 'spatial':spatial} )
-#add Humby's experiment to list
-experimentsList.append( {'numSimultaneousStim': 3, 'stimType':'letter', 'spatial':'horiz'} )
+        experimentsList.append( {'numSimultaneousStim': 2, 'stimType':stim, 'spatial':spatial, 'ori':0, 'ISIms':ISIms} )
+#add Humby's experiment to list, making it number 4
+experimentsList.append( {'numSimultaneousStim': 3, 'stimType':'letter', 'spatial':'horiz', 'ori':0, 'ISIms':17} )
 #add letters rotated right and rotated left
-#experimentsList.append( ')
+experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial':'vert', 'ori':90, 'ISIms':0} )
+experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial':'vert', 'ori':-90, 'ISIms':0} )
 
 experimentNum = abs(hash(subject)) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
-experimentNum = 4
-#experimentNum = 6 #3-letters (Humby's experiment)
+experimentNum = 2
 experiment = experimentsList[ experimentNum ]
 print('experiment=',experiment)
 import json
@@ -107,7 +111,6 @@ otherData.update( {'networkMachineName': networkMachineName} )
 otherData.update(experiment)
 #print('otherData=',otherData)
 
-SOAms = 200
 #Determine stimuli for this participant
 numStimsWanted = 26
 if experiment['stimType'] == 'letter':
@@ -115,11 +118,10 @@ if experiment['stimType'] == 'letter':
 elif experiment['stimType'] == 'digit':
     stimList = ['0','1','2','3','4','5','6','7','8','9']
 elif experiment['stimType'] == 'word':
-    SOAms += 16
     stimList = list()
     #read word list
     stimDir = 'inputFiles'
-    stimFilename = os.path.join(stimDir,"BrysbaertNew2009_3ltrWords_don_deleted.txt")
+    stimFilename = os.path.join(dirInLabs, stimDir,"BrysbaertNew2009_3ltrWords_don_deleted.txt")
     f = open(stimFilename)
     eachLine = f.readlines()
     if len(eachLine) < numStimsWanted:
@@ -166,18 +168,17 @@ if quitFinder and sys.platform != "win32":  #Don't know how to quitfinder on win
     
 #set location of stimuli
 #letter size 2.5 deg
-letterDurMs = 140
+letterDurMs = 17
 #Was 17. 23.6  in Martini E2 and E1b (actually he used 22.2 but that's because he had a crazy refresh rate of 90 Hz = 0
-ISIms = SOAms - letterDurMs
+ISIms =  experiment['ISIms']
 letterDurFrames = int( np.floor(letterDurMs / (1000./refreshRate)) )
 cueDurFrames = letterDurFrames
 ISIframes = int( np.floor(ISIms / (1000./refreshRate)) )
 #have set ISIframes and letterDurFrames to integer that corresponds as close as possible to originally intended ms
-rateInfo = 'total SOA=' + str(round(  (ISIframes + letterDurFrames)*1000./refreshRate, 2)) + ' or ' + str(ISIframes + letterDurFrames) + ' frames, comprising\n'
-rateInfo+=  'ISIframes ='+str(ISIframes)+' or '+str(ISIframes*(1000./refreshRate))+' ms and letterDurFrames ='+str(letterDurFrames)+' or '+str(round( letterDurFrames*(1000./refreshRate), 2))+'ms'
+rateInfo = 'base total SOA=' + str(round(  (ISIframes + letterDurFrames)*1000./refreshRate, 2)) + ' or ' + str(ISIframes + letterDurFrames) + ' frames, comprising\n'
+rateInfo+=  'base ISIframes ='+str(ISIframes)+' or '+str(ISIframes*(1000./refreshRate))+' ms and letterDurFrames ='+str(letterDurFrames)+' or '+str(round( letterDurFrames*(1000./refreshRate), 2))+'ms'
 logging.info(rateInfo); #print(rateInfo)
 logging.info('current working directory is ' + cwd)
-trialDurFrames = int( numWordsInStream*(ISIframes+letterDurFrames) ) #trial duration in frames
 
 monitorname = 'testmonitor'
 waitBlank = False
@@ -213,17 +214,17 @@ if demo or exportImages:
   logging.console.setLevel(logging.ERROR)  #only show this level  messages and higher
 logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nearly all messges, INFO next level, EXP, DATA, WARNING and ERROR 
         
-includeConsentDemographicsAuthor = True
+includeConsentDemographicsAuthor = False
 if includeConsentDemographicsAuthor:
         # require password
-        info = {'\n\n\n\n\nPassword\n\n':'', '':''}
+        info = {'\n\n\n\nPassword\n\n\n':'', '':''}
         infoDlg = gui.DlgFromDict(dictionary=info, title='Research Report Experiment',
-            tip={'\n\n\n\n\nPassword\n\n': 'Famous psychologist'}, 
+            tip={'\n\n\n\n\nPassword\n\n\n': 'Famous psychologist'}, 
             fixed=['']
         )
         word = ''
         if infoDlg.OK:  # this will be True (user hit OK) or False (cancelled)
-            word = info['\n\n\n\n\nPassword\n\n']
+            word = info['\n\n\n\nPassword\n\n\n']
             word = word.upper()
             if word != 'LOFTUS':
                 print('Password incorrect.')
@@ -356,9 +357,9 @@ def calcAndPredrawStimuli(stimList,i,j,k):
    stim2string = stimList[ j ]
    stim3string = stimList[ k ]
    #print('stim1string=',stim1string, 'stim2string=',stim2string)
-   textStimulus1 = visual.TextStim(myWin,text=stim1string,height=ltrHeight,font=myFont,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
-   textStimulus2 = visual.TextStim(myWin,text=stim2string,height=ltrHeight,font=myFont,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
-   textStimulus3 = visual.TextStim(myWin,text=stim3string,height=ltrHeight,font=myFont,colorSpace='rgb',color=letterColor,alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
+   textStimulus1 = visual.TextStim(myWin,text=stim1string,height=ltrHeight,font=myFont,colorSpace='rgb',color=letterColor,ori=experiment['ori'],alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
+   textStimulus2 = visual.TextStim(myWin,text=stim2string,height=ltrHeight,font=myFont,colorSpace='rgb',color=letterColor,ori=experiment['ori'],alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
+   textStimulus3 = visual.TextStim(myWin,text=stim3string,height=ltrHeight,font=myFont,colorSpace='rgb',color=letterColor,ori=experiment['ori'],alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
    stimuliStream1.append(textStimulus1)
    stimuliStream2.append(textStimulus2)
    stimuliStream3.append(textStimulus3)
@@ -414,8 +415,6 @@ for rightResponseFirst in [False,True]:
 trials = data.TrialHandler(conditionsList,trialsPerCondition) #constant stimuli method
 trialsForPossibleStaircase = data.TrialHandler(conditionsList,trialsPerCondition) #independent randomization, just to create random trials for staircase phase
 
-logging.info( 'numtrials=' + str(trials.nTotal) + ' and each trialDurFrames='+str(trialDurFrames)+' or '+str(trialDurFrames*(1000./refreshRate))+ \
-               ' ms' + '  task=' + task)
 
 def numberToLetter(number): #0 = A, 25 = Z
     #if it's not really a letter, return @
@@ -604,7 +603,10 @@ def do_RSVP_stim(thisTrial, seq1, seq2, seq3, proportnNoise,trialN,thisProbe):
     for stim in preDrawStimToGreasePipeline:
         stim.draw()
     trialInstructionStim.draw(); myWin.flip(); trialInstructionStim.draw(); myWin.flip()
-    
+    trialDurFrames = int( numWordsInStream*(thisTrial['ISIframes']+letterDurFrames) ) #trial duration in frames
+    logging.info( 'numtrials=' + str(trials.nTotal) + ' and this trialDurFrames='+str(trialDurFrames)+' or '+str(trialDurFrames*(1000./refreshRate))+ \
+               ' ms' + '  task=' + task)
+               
     noiseTexture = scipy.random.rand(128,128)*2.0-1
     myNoise1 = visual.GratingStim(myWin, tex=noiseTexture, size=(1.5,1), units='deg', interpolate=False,
              pos = calcStimPos(thisTrial,0), autoLog=False)#this stim changes too much for autologging to be useful
