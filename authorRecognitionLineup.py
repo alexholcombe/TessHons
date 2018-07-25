@@ -6,8 +6,6 @@ import string
 from math import floor, ceil
 from copy import deepcopy
 
-#Add something so that if the user gets 'stuck', with bad clicks enough times, program assumes they're done and records the data
-
 def calcXYstartWidthHeightSpacing(namesPerColumn, possibleResps):
     numColumns = ceil( len(possibleResps) / namesPerColumn )
     xStart = -.95
@@ -138,7 +136,8 @@ def collectLineupResponses(myWin,bgColor,myMouse,timeLimit,minMustClick,maxCanCl
    myMouse.clickReset()
    state = 'waitingForAnotherSelection' 
    #waitingForAnotherSelection means Finished is  not on the screen, so must click a lineup item
-   expStop = False; 
+   expStop = False;
+   earlyOut = False #so I don't have to click so many authors when trying out the real experiment
    successiveBadClicks = 0; successiveBadClicksLimit = 4
    firstTimeHitMax = True
    xStart = -.7
@@ -155,7 +154,7 @@ def collectLineupResponses(myWin,bgColor,myMouse,timeLimit,minMustClick,maxCanCl
    todraw = [1] * len(possibleResps) #Set all to true initially so that initial draw is done
    authorStims = drawResponseArray(myWin,bgColor,xStart,namesPerColumn,possibleResps,selected,selectedColor,todraw,authorStims,firsttime=True)
    #todraw = [0] * len(possibleResps) #Set all to false
-   while state != 'finished' and not expStop and not successiveBadClicks == successiveBadClicksLimit and not timedout:
+   while state != 'finished' and not expStop and not earlyOut and not successiveBadClicks == successiveBadClicksLimit and not timedout:
         #draw everything corresponding to this state
         #draw selecteds in selectedColor, remainder in white
         #print('state = ',state)
@@ -186,7 +185,7 @@ def collectLineupResponses(myWin,bgColor,myMouse,timeLimit,minMustClick,maxCanCl
         pressed = [0,0,0]
         timeSinceLast = 0
         doubleClickingGuard = .05
-        while not expStop and not pressed[0] or timeSinceLast < doubleClickingGuard:  #0 is left (normal) click  #any(pressed): #wait until pressed
+        while not expStop and not earlyOut and not pressed[0] or timeSinceLast < doubleClickingGuard:  #0 is left (normal) click  #any(pressed): #wait until pressed
             pressed, times = myMouse.getPressed(getTime=True)
             timeSinceLast = times[0]
             key = event.getKeys(keyList=['z'], modifiers=True) #secret key is shift ctrl Z
@@ -194,6 +193,8 @@ def collectLineupResponses(myWin,bgColor,myMouse,timeLimit,minMustClick,maxCanCl
                 modifiers = key[0][1]
                 if modifiers['shift'] and modifiers['ctrl']: #secret key is shift-ctrl-Z
                     expStop = True
+                if modifiers['shift'] and modifiers['option']:
+                    earlyOut = True
         mousePosRaw = myMouse.getPos()
         #print('timeSinceLast=',timeSinceLast)
 
@@ -202,7 +203,7 @@ def collectLineupResponses(myWin,bgColor,myMouse,timeLimit,minMustClick,maxCanCl
         #print('myWin.units=',myWin.units,'mousePosRaw=',mousePosRaw,'mousePos=',mousePos)
         #Check what was clicked, if anything
         OK = False
-        if not expStop and any(pressed):
+        if not expStop and not earlyOut and any(pressed):
             #print('pressed=',pressed)
             if state == 'waitingForAnotherSelection':
                 OK = False

@@ -98,8 +98,8 @@ for stim in experimentTypesStim:
 #add Humby's experiment to list, making it number 4
 experimentsList.append( {'numSimultaneousStim': 3, 'stimType':'letter', 'spatial':'horiz', 'ori':0, 'ISIms':34} )
 #add letters rotated right and rotated left
-experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial':'vert', 'ori':90, 'ISIms':34} )
-experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial':'vert', 'ori':-90, 'ISIms':34} )
+experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial':'vert', 'ori':90, 'ISIms':51} )
+experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial':'vert', 'ori':-90, 'ISIms':51} )
 
 experimentNum = abs(hash(subject)) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
 experimentNum = 4
@@ -114,7 +114,10 @@ otherData.update(experiment)
 #Determine stimuli for this participant
 numStimsWanted = 26
 if experiment['stimType'] == 'letter':
-    stimList = list(string.ascii_lowercase)
+    stimList =  list(string.ascii_lowercase)
+    toRemove = ['d','b','l','i','o','q','p','v','w','x'] #because symmetrical, see rotatedLettersAndSymbols.jpg
+    for ltr in toRemove:
+        stimList.remove(ltr)
 elif experiment['stimType'] == 'digit':
     stimList = ['0','1','2','3','4','5','6','7','8','9']
 elif experiment['stimType'] == 'word':
@@ -211,24 +214,31 @@ if demo or exportImages:
   dataFile = sys.stdout; logF = sys.stdout
   logging.console.setLevel(logging.ERROR)  #only show this level  messages and higher
 logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nearly all messges, INFO next level, EXP, DATA, WARNING and ERROR 
-        
+
 includeConsentDemographicsAuthor = False
 if includeConsentDemographicsAuthor:
         # require password
-        info = {'\n\n\n\nPassword\n\n\n':'', '':''}
-        infoDlg = gui.DlgFromDict(dictionary=info, title='Research Report Experiment',
-            tip={'\n\n\n\n\nPassword\n\n\n': 'Famous psychologist'}, 
-            fixed=['']
-        )
-        word = ''
-        if infoDlg.OK:  # this will be True (user hit OK) or False (cancelled)
-            word = info['\n\n\n\nPassword\n\n\n']
-            word = word.upper()
-            if word != 'LOFTUS':
-                print('Password incorrect.')
-                core.quit()
-        else:
-            print('User cancelled')
+        succeeded = False
+        attempts = 0
+        while attempts < 3 and not succeeded:
+                info = {'\n\n\n\nPassword\n\n\n':'', '':''}
+                infoDlg = gui.DlgFromDict(dictionary=info, title='Research Report Experiment',
+                    tip={'\n\n\n\n\nPassword\n\n\n': 'Famous psychologist'}, 
+                    fixed=['']
+                )
+                word = ''
+                if infoDlg.OK:  # this will be True (user hit OK) or False (cancelled)
+                    word = info['\n\n\n\nPassword\n\n\n']
+                    word = word.upper()
+                    if word == 'LOFTUS':
+                        succeeded = True
+                    else:
+                        print('Password incorrect.')
+                else:
+                    print('User cancelled')
+                    core.quit()
+                attempts += 1
+        if not succeeded:
             core.quit()
     
 def openMyStimWindow(): #make it a function because if do it multiple times, want to be sure is identical each time
@@ -381,9 +391,9 @@ else: fixSizePix = 36
 fixColor = (1,-.5,-.5)
 if exportImages: fixColor= [0,0,0]
 fixationPoint= visual.PatchStim(myWin,tex='none',colorSpace='rgb',color=fixColor,size=4,units='pix',autoLog=autoLogging)
-taskInstructionString = 'Please do your best. Sometimes you may not be able to see any ' + experiment['stimType'] + 's. In those cases, guess.'
+taskInstructionString = 'Sometimes you may not be able to see any ' + experiment['stimType'] + 's.\nIn those cases, guess.\n\nPlease do your best!'
 taskInstructionPos = (0,0)
-taskInstructionStim = visual.TextStim(myWin,pos=taskInstructionPos,colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.7,units='deg',autoLog=autoLogging)
+taskInstructionStim = visual.TextStim(myWin,pos=taskInstructionPos,colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.5,units='deg',autoLog=autoLogging)
 taskInstructionStim.setText(taskInstructionString,log=False)
 trialInstructionString = 'Keep your eyes on the red dot'
 trialInstructionPos = (0,1)
@@ -776,12 +786,6 @@ if doStaircase:
     #phasesMsg = ('Doing '+str(prefaceStaircaseTrialsN)+'trials with noisePercent= '+str(prefaceStaircaseNoise)+' then doing a max '+str(staircaseTrials)+'-trial staircase')
     #print(phasesMsg); logging.info(phasesMsg)
 
-
-    #if staircaseTrialN+1 < len(prefaceStaircaseNoise) and (staircaseTrialN>=0): #exp stopped before got through staircase preface trials, so haven't imported yet
-    #    print('Importing ',corrEachTrial,' and intensities ',prefaceStaircaseNoise[0:staircaseTrialN+1])
-    #    staircase.importData(100-prefaceStaircaseNoise[0:staircaseTrialN], np.array(corrEachTrial)) 
-    #print('framesSaved after staircase=',framesSaved) #debugON
-
     #printStaircase(staircase, descendingPsycho, briefTrialUpdate=True, printInternalVal=True, alsoLog=False)
     #print('staircase.quantile=',round(staircase.quantile(),2),' sd=',round(staircase.sd(),2))
 
@@ -800,17 +804,19 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
         logging.info(msg)
     ltrColorThis = ltrColor
     if nDoneMain == 0:
-        thisTrial['ISIframes'] *= 3 #ease the participants into it
-    if nDoneMain == 1:  #Show instructions
-        thisTrial['ISIframes'] *= 2
-        event.clearEvents(); keyAndModifiers = False; f =0
-        while f < 500 and not keyAndModifiers:
+        thisTrial['ISIframes'] *= 6 #ease the participants into it
+    elif nDoneMain == 1:  #Show instructions
+        thisTrial['ISIframes'] *= 4
+        event.clearEvents(); keyPressed = False; f =0
+        while f < 500 and not keyPressed:
             taskInstructionStim.draw()
             myWin.flip(); f += 1
-            keyAndModifiers = event.getKeys(keyList=list(string.ascii_uppercase), modifiers=True)
+            keyPressed = event.getKeys() #keyList=list(string.ascii_lowercase))
+    elif nDoneMain ==2:
+        thisTrial['ISIframes'] *= 3
     else:
         if doStaircase:
-            print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity)
+            #print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity)
             ltrColorThis = staircase.next()
             ltrColorThis = round(ltrColorThis,2)
             #print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity)
@@ -911,7 +917,6 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
             #print("numRespsWanted = ",numRespsWanted, 'getting ready to score response')
             for streami in xrange(numRespsWanted): #scored and printed to dataFile in left first, right second order even if collected in different order
                 if streami==0:
-                    print("streami=",i)
                     sequenceStream = idxsStream1; correctAnswerIdx = whichStim0
                 elif streami==1: 
                     sequenceStream = idxsStream2; correctAnswerIdx = whichStim1
@@ -930,7 +935,8 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
             #Instead, average and round. This means that if get 1 out of 2 correct, counts as correct. If get 2 out of 3 correct, counts as correct but one is not enough.
             correctForStaircase = round( scipy.mean(eachCorrect) )
             #print('allCorrect=',allCorrect)
-            staircase.addResponse( correctForStaircase )
+            if doStaircase:
+                staircase.addResponse( correctForStaircase )
             numTrialsCorrect += eachCorrect.all() #so count -1 as 0
             numTrialsEachCorrect += eachCorrect #list numRespsWanted long
                 
