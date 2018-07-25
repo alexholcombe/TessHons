@@ -801,12 +801,12 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
     whichStim1 = np.random.randint(0, len(stimList) )
     whichStim2 = np.random.randint(0, len(stimList) ) #only used in Humby experiment
     calcAndPredrawStimuli(stimList,whichStim0,whichStim1,whichStim2)
-    thisTrial = trials.next() #get a proper (non-staircase) trial
+    trial = trials.next()
+    thisTrial = copy.deepcopy(trial) #so that can change its values, otherwise messing with it screws up the trialhandler
+    ltrColorThis = ltrColor
     if nDoneMain==0: #First trial
         msg='Starting main part of experiment'
         logging.info(msg)
-    ltrColorThis = ltrColor
-    if nDoneMain == 0:
         thisTrial['ISIframes'] *= 6 #ease the participants into it
     elif nDoneMain == 1:  #Show instructions
         thisTrial['ISIframes'] *= 4
