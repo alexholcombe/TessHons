@@ -102,7 +102,7 @@ experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial
 experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial':'vert', 'ori':-90, 'ISIms':51} )
 
 experimentNum = abs(hash(subject)) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
-experimentNum = 4
+experimentNum = 5
 experiment = experimentsList[ experimentNum ]
 print('experiment=',experiment)
 import json
@@ -772,11 +772,14 @@ nDoneMain = -1 #change to zero once start main part of experiment
 if doStaircase:
         #create the staircase handler
         stepSizesLinear = [.6,.3,.2,.1,.05,.05]
+        minVal = bgColor[0]+.15
+        lumRange = 1 - minVal
         staircase = data.StairHandler(
             startVal=ltrColor,
             stepType='lin',
             stepSizes=stepSizesLinear,  # reduce step size every two reversals
-            minVal=bgColor[0]+.15, marxVal=1,
+            minVal=minVal, 
+            maxVal=1 + lumRange, #HIGHER
             nUp=1, nDown=3,  # 1-up 3-down homes in on the 80% threshold. Gravitates toward a value that has an equal probability of getting easier and getting harder.
             #See Wetherill & Levitt 1965, 1 up 2 down goes for 71% correct. And if 2 letters are independent, each correct = sqrt(.71) = 84% correct.
             nTrials=500)
@@ -818,6 +821,11 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
         if doStaircase:
             #print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity)
             ltrColorThis = staircase.next()
+            if ltrColorThis > 1: #can't have lum greater than 1, so instead increase duration
+                print('thisTrial[ISIframes]=', thisTrial['ISIframes'])
+                thisTrial['ISIframes'] += 1 #increase duration by one frame
+                print('after incremented, thisTrial[ISIframes]=', thisTrial['ISIframes'])
+                ltrColorThis = staircase.minVal + (ltrColorThis - 1)  #For each bit greater 1, increase luminance
             ltrColorThis = round(ltrColorThis,2)
             #print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity)
             #print('ltrColorThis=',ltrColorThis)
@@ -935,7 +943,7 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
             #Instead, average and round. This means that if get 1 out of 2 correct, counts as correct. If get 2 out of 3 correct, counts as correct but one is not enough.
             correctForStaircase = round( scipy.mean(eachCorrect) )
             #print('allCorrect=',allCorrect)
-            if doStaircase:
+            if doStaircase and nDoneMain>2:
                 staircase.addResponse( correctForStaircase )
             numTrialsCorrect += eachCorrect.all() #so count -1 as 0
             numTrialsEachCorrect += eachCorrect #list numRespsWanted long
