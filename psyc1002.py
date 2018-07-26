@@ -102,7 +102,7 @@ experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial
 experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial':'vert', 'ori':-90, 'ISIms':51} )
 
 experimentNum = abs(hash(subject)) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
-experimentNum = 5
+experimentNum = 4
 experiment = experimentsList[ experimentNum ]
 print('experiment=',experiment)
 import json
@@ -112,7 +112,7 @@ otherData.update(experiment)
 #print('otherData=',otherData)
 
 #Determine stimuli for this participant
-numStimsWanted = 26
+numStimsWanted = 100
 if experiment['stimType'] == 'letter':
     stimList =  list(string.ascii_lowercase)
     toRemove = ['d','b','l','i','o','q','p','v','w','x'] #because symmetrical, see rotatedLettersAndSymbols.jpg
@@ -771,21 +771,21 @@ expTimedOut = False
 nDoneMain = -1 #change to zero once start main part of experiment
 if doStaircase:
         #create the staircase handler
-        stepSizesLinear = [.6,.3,.2,.1,.05,.05]
+        stepSizesLinear = [.6,.6] # [.6,.3,.2,.1,.05,.05]
         minVal = bgColor[0]+.15
-        lumRange = 1 - minVal
+        maxMoreFramesAllowed = 2
+        #lumRange = 1 - minVal
         staircase = data.StairHandler(
             startVal=ltrColor,
             stepType='lin',
             stepSizes=stepSizesLinear,  # reduce step size every two reversals
             minVal=minVal, 
-            maxVal=1 + lumRange, #HIGHER
+            maxVal=maxMoreFramesAllowed + .99, 
             nUp=1, nDown=3,  # 1-up 3-down homes in on the 80% threshold. Gravitates toward a value that has an equal probability of getting easier and getting harder.
             #See Wetherill & Levitt 1965, 1 up 2 down goes for 71% correct. And if 2 letters are independent, each correct = sqrt(.71) = 84% correct.
             nTrials=500)
         print('created conventional staircase')
         
-    
     #phasesMsg = ('Doing '+str(prefaceStaircaseTrialsN)+'trials with noisePercent= '+str(prefaceStaircaseNoise)+' then doing a max '+str(staircaseTrials)+'-trial staircase')
     #print(phasesMsg); logging.info(phasesMsg)
 
@@ -806,6 +806,7 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
     ltrColorThis = ltrColor
     if nDoneMain==0: #First trial
         msg='Starting main part of experiment'
+        howManyMoreFrames =0
         logging.info(msg)
         thisTrial['ISIframes'] *= 6 #ease the participants into it
     elif nDoneMain == 1:  #Show instructions
@@ -819,17 +820,23 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
         thisTrial['ISIframes'] *= 3
     else:
         if doStaircase:
-            #print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity)
+            print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity, 'howManyMoreFrames=',howManyMoreFrames)
             ltrColorThis = staircase.next()
-            if ltrColorThis > 1: #can't have lum greater than 1, so instead increase duration
-                print('thisTrial[ISIframes]=', thisTrial['ISIframes'])
-                thisTrial['ISIframes'] += 1 #increase duration by one frame
-                print('after incremented, thisTrial[ISIframes]=', thisTrial['ISIframes'])
-                ltrColorThis = staircase.minVal + (ltrColorThis - 1)  #For each bit greater 1, increase luminance
+            if ltrColorThis <= 1:
+                howManyMoreFrames = 0
+            elif ltrColorThis > howManyMoreFrames + 1: #can't have lum greater than 1, so instead increase duration
+                #print('thisTrial[ISIframes]=', thisTrial['ISIframes'])
+                howManyMoreFrames = scipy.floor(ltrColorThis)
+                print('changed howManyMoreFrames to ', howManyMoreFrames)
+            thisTrial['ISIframes'] += howManyMoreFrames #increase duration by however much it is greater than 1
+            if howManyMoreFrames>0:
+                #need the base brightness when longer frames to be pretty high, otherwise they might never get back to lower number of frames
+                ltrColorThis = min(1,   0 + (ltrColorThis - howManyMoreFrames)   ) #For each bit greater 1, increase luminance
+                print('thisTrial[ISIframes]=', thisTrial['ISIframes'], ' and now ltrColorThis =',ltrColorThis)
             ltrColorThis = round(ltrColorThis,2)
             #print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity)
             #print('ltrColorThis=',ltrColorThis)
-            trialInstructionStim.setText(str(ltrColorThis),log=False) #debug
+            trialInstructionStim.setText('lum=' + str(ltrColorThis)+ ' f='+ str(howManyMoreFrames), log=False) #debug
     trialInstructionStim.setPos( thisTrial['trialInstructionPos'] )
     if nDoneMain <= 1: #extra long instruction
         for i in xrange(70):
