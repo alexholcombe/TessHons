@@ -215,7 +215,7 @@ if demo or exportImages:
   logging.console.setLevel(logging.ERROR)  #only show this level  messages and higher
 logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nearly all messges, INFO next level, EXP, DATA, WARNING and ERROR 
 
-includeConsentDemographicsAuthor = False
+includeConsentDemographicsAuthor = True
 if includeConsentDemographicsAuthor:
         # require password
         succeeded = False
@@ -771,7 +771,7 @@ expTimedOut = False
 nDoneMain = -1 #change to zero once start main part of experiment
 if doStaircase:
         #create the staircase handler
-        stepSizesLinear = [.6,.6] # [.6,.3,.2,.1,.05,.05]
+        stepSizesLinear = [.6,.5,.4,.3,.2,.1,.05,.05]
         minVal = bgColor[0]+.15
         maxMoreFramesAllowed = 2
         #lumRange = 1 - minVal
@@ -822,12 +822,12 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
         if doStaircase:
             print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity, 'howManyMoreFrames=',howManyMoreFrames)
             ltrColorThis = staircase.next()
-            if ltrColorThis <= 1:
-                howManyMoreFrames = 0
-            elif ltrColorThis > howManyMoreFrames + 1: #can't have lum greater than 1, so instead increase duration
+            #if ltrColorThis <= 1:
+            #    howManyMoreFrames = 0
+            #elif ltrColorThis > howManyMoreFrames + 1: #can't have lum greater than 1, so instead increase duration
                 #print('thisTrial[ISIframes]=', thisTrial['ISIframes'])
-                howManyMoreFrames = scipy.floor(ltrColorThis)
-                print('changed howManyMoreFrames to ', howManyMoreFrames)
+            howManyMoreFrames = scipy.floor(ltrColorThis)
+            #    print('changed howManyMoreFrames to ', howManyMoreFrames)
             thisTrial['ISIframes'] += howManyMoreFrames #increase duration by however much it is greater than 1
             if howManyMoreFrames>0:
                 #need the base brightness when longer frames to be pretty high, otherwise they might never get back to lower number of frames
