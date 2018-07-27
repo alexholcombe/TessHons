@@ -1,3 +1,5 @@
+* Why does shift fn z not work
+* ICT 12000 grasp get PSYC1002 for jen.  jhum6624
 * Students who can't see GRASP
 * Write Draft methods 
 * To click more, you need to unselect somebody

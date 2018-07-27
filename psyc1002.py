@@ -41,7 +41,7 @@ try:
 except ImportError:
     print('ERROR Could not import getpass')
 
-wordEccentricity=  0.9 #4
+wordEccentricity=  12 #temp #0.9 
 tasks=['T1']; task = tasks[0]
 #same screen or external screen? Set scrn=0 if one screen. scrn=1 means display stimulus on second screen.
 #widthPix, heightPix
@@ -90,19 +90,20 @@ experimentsList = []
 #Implement the fully factorial part of the design by creating every combination of the following conditions
 for stim in experimentTypesStim:
     if stim == 'word':
-        ISIms = 34
+        ISIms = 340
     else:
-        ISIms = 34
+        ISIms = 340
     for spatial in experimentTypesSpatial:
         experimentsList.append( {'numSimultaneousStim': 2, 'stimType':stim, 'spatial':spatial, 'ori':0, 'ISIms':ISIms} )
 #add Humby's experiment to list, making it number 4
 experimentsList.append( {'numSimultaneousStim': 3, 'stimType':'letter', 'spatial':'horiz', 'ori':0, 'ISIms':34} )
 #add letters rotated right and rotated left
+experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial':'horiz', 'ori':180, 'ISIms':200} )
 experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial':'vert', 'ori':90, 'ISIms':51} )
 experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial':'vert', 'ori':-90, 'ISIms':51} )
 
 experimentNum = abs(hash(subject)) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
-experimentNum = 4
+experimentNum = 5#3
 experiment = experimentsList[ experimentNum ]
 print('experiment=',experiment)
 import json
@@ -112,7 +113,6 @@ otherData.update(experiment)
 #print('otherData=',otherData)
 
 #Determine stimuli for this participant
-numStimsWanted = 100
 if experiment['stimType'] == 'letter':
     stimList =  list(string.ascii_lowercase)
     toRemove = ['d','b','l','i','o','q','p','v','w','x'] #because symmetrical, see rotatedLettersAndSymbols.jpg
@@ -122,9 +122,10 @@ elif experiment['stimType'] == 'digit':
     stimList = ['0','1','2','3','4','5','6','7','8','9']
 elif experiment['stimType'] == 'word':
     stimList = list()
+    numStimsWanted = 266
     #read word list
     stimDir = 'inputFiles'
-    stimFilename = os.path.join(topDir, stimDir,"BrysbaertNew2009_3ltrWords_don_deleted.txt")
+    stimFilename = os.path.join(topDir, stimDir,"BrysbaertNew2009_3ltrWords_don_others_functions_deleted_from_first_266.txt")
     f = open(stimFilename)
     eachLine = f.readlines()
     if len(eachLine) < numStimsWanted:
@@ -171,7 +172,7 @@ if quitFinder and sys.platform != "win32":  #Don't know how to quitfinder on win
     
 #set location of stimuli
 #letter size 2.5 deg
-letterDurMs = 17
+letterDurMs = 340#temp #17
 #Was 17. 23.6  in Martini E2 and E1b (actually he used 22.2 but that's because he had a crazy refresh rate of 90 Hz = 0
 ISIms =  experiment['ISIms']
 letterDurFrames = int( np.floor(letterDurMs / (1000./refreshRate)) )
@@ -215,7 +216,7 @@ if demo or exportImages:
   logging.console.setLevel(logging.ERROR)  #only show this level  messages and higher
 logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nearly all messges, INFO next level, EXP, DATA, WARNING and ERROR 
 
-includeConsentDemographicsAuthor = True
+includeConsentDemographicsAuthor = False
 if includeConsentDemographicsAuthor:
         # require password
         succeeded = False
@@ -268,7 +269,7 @@ if includeConsentDemographicsAuthor:
     questions = ['What is the first language you learned to read?','What is your age?','Which is your dominant hand for common tasks,\nlike writing, throwing, and brushing your teeth?\n\n']
     dlg = gui.Dlg(title="PSYC1002", labelButtonOK=u'         OK         ', labelButtonCancel=u'', pos=(200, 400)) # Cancel (decline to answer all)
     dlg.addField(questions[0], choices=[ 'English','Arabic','Pali','Hebrew','Farsi','Chinese','Korean','Japanese','Other','Decline to answer'])
-    dlg.addField(questions[1], choices = ['17 or under', '18 or 19', '20 or 21', '22, 23, or 24', '24 to 30', '30 to 50', 'over 50','Decline to answer'])
+    dlg.addField(questions[1], choices = ['15 or under','16 or 17', '18 or 19', '20 or 21', '22, 23, or 24', '24 to 30', '30 to 50', 'over 50','Decline to answer'])
     dlg.addField(questions[2], choices=['Decline to answer','Left','Right','Neither (able to use both hands equally well)'])
     #dlg.addFixedField(label='', initial='', color='', choices=None, tip='') #Just to create some space
     #dlg.addField('Your gender (as listed on birth certificate):', choices=["male", "female"])
@@ -351,6 +352,8 @@ def calcStimPos(trial,i):
 stimuliStream1 = list()
 stimuliStream2 = list() #used for second, simultaneous RSVP stream
 stimuliStream3 = list()
+alignmentCheck = visual.Line(myWin, start=(-1, 0), end=(1, 0), fillColor = (0,1,0)) #temp
+
 def calcAndPredrawStimuli(stimList,i,j,k):
    global stimuliStream1, stimuliStream2, stimuliStream3
    del stimuliStream1[:]
@@ -483,7 +486,7 @@ def oneFrameOfStim( n,cue,seq1,seq2,seq3,cueDurFrames,letterDurFrames,thisTrial,
   stimN = int( np.floor(n/SOAframes) )
   frameOfThisLetter = n % SOAframes #earvery SOAframes, new letter
   timeToShowStim = frameOfThisLetter < letterDurFrames #if true, it's not time for the blank ISI.  it's still time to draw the letter
-  
+  fixationPoint.draw() #temp
   #print 'n=',n,' SOAframes=',SOAframes, ' letterDurFrames=', letterDurFrames, ' (n % SOAframes) =', (n % SOAframes)  #DEBUGOFF
   thisStimIdx = seq1[stimN] #which letter, from A to Z (1 to 26), should be shown?
   if seq2 is not None:
@@ -497,7 +500,9 @@ def oneFrameOfStim( n,cue,seq1,seq2,seq3,cueDurFrames,letterDurFrames,thisTrial,
   for cueFrame in cueFrames: #check whether it's time for any cue
       if n>=cueFrame and n<cueFrame+cueDurFrames:
          cue.setLineColor( cueColor )
-
+  
+  alignmentCheck.setPos( calcStimPos(thisTrial,0) ); alignmentCheck.draw()
+  alignmentCheck.setPos( calcStimPos(thisTrial,1) ); alignmentCheck.draw()
   if timeToShowStim: #time to show critical stimulus
     #print('thisStimIdx=',thisStimIdx, ' seq1 = ', seq1, ' stimN=',stimN)
     stimuliStream1[thisStimIdx].setPos( calcStimPos(thisTrial,0) )

@@ -193,7 +193,8 @@ def collectLineupResponses(myWin,bgColor,myMouse,timeLimit,minMustClick,maxCanCl
                 modifiers = key[0][1]
                 if modifiers['shift'] and modifiers['ctrl']: #secret key is shift-ctrl-Z
                     expStop = True
-                if modifiers['shift'] and modifiers['option']:
+                if modifiers['shift'] and modifiers['capslock']: #secret continue key is shift caplocks z
+                    #print('modifiers=',modifiers)
                     earlyOut = True
         mousePosRaw = myMouse.getPos()
         #print('timeSinceLast=',timeSinceLast)
