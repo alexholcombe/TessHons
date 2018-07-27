@@ -1,0 +1,44 @@
+---
+title: "analyseSome"
+author: "Alex Holcombe"
+date: "7/28/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load data
+
+```{r load file}
+library(jsonlite)
+dataDir<-"practiceData"
+js<- fromJSON(file.path(dataDir,"alexh_28Jul2018_06-37authors.json"))
+fileWithPath<- file.path(dataDir,"alexh_28Jul2018_06-37.txt")
+df <-read_tsv(fileWithPath)  #read_tsv from tidyverse readr has advantage of not having padding spaces
+
+```
+
+Install skimr
+```{r pressure, echo=FALSE}
+#devtools::install_github("ropenscilabs/skimr")
+#install.packages("tidyselect")  and from source to get 0.2.4 needed
+library(skimr)
+```
+
+## Inspect data
+```{r i, echo=FALSE}
+skim(df)
+```
+
+Load ggplot
+```{r i, echo=FALSE}
+library(ggplot2)
+```
+
+## Proportion correct
+
+```{r i, echo=FALSE}
+max(df$ISIframes)
+```
