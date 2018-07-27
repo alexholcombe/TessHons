@@ -216,7 +216,7 @@ if demo or exportImages:
   logging.console.setLevel(logging.ERROR)  #only show this level  messages and higher
 logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nearly all messges, INFO next level, EXP, DATA, WARNING and ERROR 
 
-includeConsentDemographicsAuthor = False
+includeConsentDemographicsAuthor = True
 if includeConsentDemographicsAuthor:
         # require password
         succeeded = False
@@ -466,7 +466,7 @@ maxNumRespsWanted = 3
 
 #print header for data file
 print('experimentPhase\ttrialnum\tsubject\ttask\t',file=dataFile,end='')
-print('noisePercent\tISIframes\tlltrColorThis\tleftStreamFlip\trightStreamFlip\trightResponseFirst\tprobe\ttrialInstructionPos\t',end='',file=dataFile)
+print('noisePercent\tISIframes\tltrColorThis\tleftStreamFlip\trightStreamFlip\trightResponseFirst\tprobe\ttrialInstructionPos\t',end='',file=dataFile)
 for i in xrange( experiment['numSimultaneousStim'] ):
     dataFile.write('responseOrder'+str(i)+'\t')
     
