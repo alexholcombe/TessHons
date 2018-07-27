@@ -246,7 +246,7 @@ def collectLineupResponses(myWin,bgColor,myMouse,timeLimit,minMustClick,maxCanCl
 
 def doAuthorLineup(myWin,bgColor,myMouse,clickSound,badClickSound,possibleResps,autopilot):
     expStop = False
-    minMustClick = len(possibleResps) / 2 -1
+    minMustClick = 10# len(possibleResps) / 2 -1
     maxCanClick = len(possibleResps) / 2 +1
     print('minMustClick=',minMustClick, 'maxCanClick=',maxCanClick)
     selectedAutopilot = [0]*len(possibleResps);  selectedAutopilot[0]=1
@@ -265,7 +265,7 @@ def doAuthorLineup(myWin,bgColor,myMouse,clickSound,badClickSound,possibleResps,
         myMouse.setPos([-10,-10]) #setPos([-.5,-.5]) #Seems to have no effect. 
         mustDeselectMsgStim = visual.TextStim(myWin,pos=(0, .5),colorSpace='rgb',color=(1,-.9,-.9),alignHoriz='center', alignVert='center',height=.13,units='norm',autoLog=False)
         mustDeselectMsgStim.setText('You\'ve already selected half. If you wish to select another, you must unselect an author (by clicking on it) first.')
-        timeLimit = 100 #sec
+        timeLimit = 200 #sec
         selected, expStop, timedout = \
                 collectLineupResponses(myWin,bgColor,myMouse,timeLimit,minMustClick,maxCanClick,instructionStim,
                                                         OKtextStim,OKrespZone,continueTextStim,mustDeselectMsgStim,possibleResps,clickSound,badClickSound)

@@ -1,0 +1,55 @@
+---
+title: "score authors"
+author: "Alex Holcombe"
+date: "7/27/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+Read in a json file with the authors data and miscellaneous info.
+
+```{r cars}
+library(jsonlite)
+js<- fromJSON(file.path("practiceData","alexh_27Jul2018_16-37authors.json"))
+sel<- js$selected
+length(sel)
+```
+
+Calculate the score on the author test. From Martin-Chang & Gould (2008), "Print exposure scores were calculated by subtracting the proportion of decoy names checked from the proportion of real authors correctly identified."
+
+Import the key.
+```{r check, echo=FALSE}
+library('readr')#install.packages('readr')
+fileWithPath<- file.path("..","inputFiles","authorsAndNonauthors.txt")
+key <-read_tsv(fileWithPath)  #read_tsv from tidyverse readr has advantage of not having padding spaces
+```
+Calculate how many authors selected.
+
+```{r , echo=FALSE}
+numTested <- length(sel)
+#get scoring key only for those tested, which is the first numTested of the whole key
+keyThis<- key$author[1:numTested]
+selWithAns <- data.frame(sel,keyThis)
+#Use dplyr to select rows where keyThis ==1, then add up number selected
+library(dplyr)
+authors<- selWithAns %>% filter(keyThis==1)
+maxScorePossible <- nrow(authors)
+
+authorsChosen<- sum(authors$sel)
+
+#Calculate how many non-authors selected
+nonAuthors<- selWithAns %>% filter(keyThis==0)
+nonAuthorsChosen <- sum(nonAuthors)
+scoreRaw <- authorsChosen - nonAuthorsChosen
+scorePct <- scoreRaw / maxScorePossible
+```
+
+
+
+What is split-half reliability?
+

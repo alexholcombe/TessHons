@@ -33,9 +33,8 @@ print('Got',len(authors),'authors and',len(nonauthors),'nonauthors')
 both = authors + nonauthors
 print('both =',both)
 
-#Alphabetising indices
-
-#Simples python way not sufficient because need to save indices
+#Alphabetise indices
+#Simple python way not sufficient because need to save indices
 #alphabetized = sorted(both, key=str.lower)  #put in lower case, otherwise will sort by uppercase first
 idxs = sorted(range(len(both)), key=lambda k: both[k])
 print('hopefully idxs used for alphabetical sorting=',idxs)
@@ -46,8 +45,18 @@ print('alphabetized=',alphabetized)
 #print('alphabetized=',alphabetized)
 
 #Determine which are authors and which are not, for scoring. But this can be done much later
+numAuthors = len(authors)
+numNonauthors = len(nonauthors)
+#For each index in idxs, classify as author or not
+isAuthor = list()
+for idx in idxs:
+    if idx < numAuthors:
+        isAuthor.append(1)
+    else:
+        isAuthor.append(0)
 
-out = os.path.join(stimDir,'alphabetizedBoth.txt')
+out = os.path.join(stimDir,'authorsAndNonauthors.txt')
 thefile = open(out, 'w')
-for item in alphabetized:
-  print>>thefile, item
+print>>thefile, 'name\tauthor'
+for i in xrange( len(alphabetized) ):
+  print>>thefile, alphabetized[i], '\t', isAuthor[i]
