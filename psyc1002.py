@@ -41,7 +41,7 @@ try:
 except ImportError:
     print('ERROR Could not import getpass')
 
-wordEccentricity=  12 #temp #0.9 
+wordEccentricity=  0.9 
 tasks=['T1']; task = tasks[0]
 #same screen or external screen? Set scrn=0 if one screen. scrn=1 means display stimulus on second screen.
 #widthPix, heightPix
@@ -97,8 +97,9 @@ for stim in experimentTypesStim:
         experimentsList.append( {'numSimultaneousStim': 2, 'stimType':stim, 'spatial':spatial, 'ori':0, 'ISIms':ISIms} )
 #add Humby's experiment to list, making it number 4
 experimentsList.append( {'numSimultaneousStim': 3, 'stimType':'letter', 'spatial':'horiz', 'ori':0, 'ISIms':34} )
-#add letters rotated right and rotated left
-experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial':'horiz', 'ori':180, 'ISIms':200} )
+#add letters horizontally arranged, flipped
+experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial':'horiz', 'ori':0, 'ISIms':200} )
+#add letters vertical arranged, rotated right and rotated left
 experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial':'vert', 'ori':90, 'ISIms':51} )
 experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial':'vert', 'ori':-90, 'ISIms':51} )
 
@@ -172,8 +173,7 @@ if quitFinder and sys.platform != "win32":  #Don't know how to quitfinder on win
     
 #set location of stimuli
 #letter size 2.5 deg
-letterDurMs = 340#temp #17
-#Was 17. 23.6  in Martini E2 and E1b (actually he used 22.2 but that's because he had a crazy refresh rate of 90 Hz = 0
+letterDurMs = 17
 ISIms =  experiment['ISIms']
 letterDurFrames = int( np.floor(letterDurMs / (1000./refreshRate)) )
 cueDurFrames = letterDurFrames
@@ -352,7 +352,9 @@ def calcStimPos(trial,i):
 stimuliStream1 = list()
 stimuliStream2 = list() #used for second, simultaneous RSVP stream
 stimuliStream3 = list()
-alignmentCheck = visual.Line(myWin, start=(-1, 0), end=(1, 0), fillColor = (0,1,0)) #temp
+checkAlignment = False
+if checkAlignment:
+    alignmentCheck = visual.Line(myWin, start=(-1, 0), end=(1, 0), fillColor = (0,1,0)) 
 
 def calcAndPredrawStimuli(stimList,i,j,k):
    global stimuliStream1, stimuliStream2, stimuliStream3
@@ -500,9 +502,9 @@ def oneFrameOfStim( n,cue,seq1,seq2,seq3,cueDurFrames,letterDurFrames,thisTrial,
   for cueFrame in cueFrames: #check whether it's time for any cue
       if n>=cueFrame and n<cueFrame+cueDurFrames:
          cue.setLineColor( cueColor )
-  
-  alignmentCheck.setPos( calcStimPos(thisTrial,0) ); alignmentCheck.draw()
-  alignmentCheck.setPos( calcStimPos(thisTrial,1) ); alignmentCheck.draw()
+  if checkAlignment:
+      alignmentCheck.setPos( calcStimPos(thisTrial,0) ); alignmentCheck.draw()
+      alignmentCheck.setPos( calcStimPos(thisTrial,1) ); alignmentCheck.draw()
   if timeToShowStim: #time to show critical stimulus
     #print('thisStimIdx=',thisStimIdx, ' seq1 = ', seq1, ' stimN=',stimN)
     stimuliStream1[thisStimIdx].setPos( calcStimPos(thisTrial,0) )
@@ -813,9 +815,9 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
         msg='Starting main part of experiment'
         howManyMoreFrames =0
         logging.info(msg)
-        thisTrial['ISIframes'] *= 6 #ease the participants into it
+        thisTrial['ISIframes'] *= 10 #ease the participants into it
     elif nDoneMain == 1:  #Show instructions
-        thisTrial['ISIframes'] *= 4
+        thisTrial['ISIframes'] *= 6
         event.clearEvents(); keyPressed = False; f =0
         while f < 500 and not keyPressed:
             taskInstructionStim.draw()
