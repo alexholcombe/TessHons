@@ -90,23 +90,23 @@ experimentsList = []
 #Implement the fully factorial part of the design by creating every combination of the following conditions
 for stim in experimentTypesStim:
     if stim == 'word':
-        ISIms = 340
+        ISIms = 17
     else:
-        ISIms = 340
+        ISIms = 17
     for spatial in experimentTypesSpatial:
-        experimentsList.append( {'numSimultaneousStim': 2, 'stimType':stim, 'spatial':spatial, 'ori':0, 'ISIms':ISIms} )
+        experimentsList.append( {'numSimultaneousStim': 2, 'stimType':stim, 'flipped':False, 'spatial':spatial, 'ori':0, 'ISIms':ISIms} )
 #add Humby's experiment to list, making it number 4
-experimentsList.append( {'numSimultaneousStim': 3, 'stimType':'letter', 'spatial':'horiz', 'ori':0, 'ISIms':34} )
-#add letters horizontally arranged, flipped
-experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial':'horiz', 'ori':0, 'ISIms':200} )
-#add letters vertical arranged, rotated right and rotated left
-experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial':'vert', 'ori':90, 'ISIms':51} )
-experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'spatial':'vert', 'ori':-90, 'ISIms':51} )
+experimentsList.append( {'numSimultaneousStim': 3, 'stimType':'letter', 'flipped':False, 'spatial':'horiz', 'ori':0, 'ISIms':17} )
+#add letters horizontally arranged, flipped 5
+experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':True, 'spatial':'horiz', 'ori':0, 'ISIms':17} )
+#add letters vertical arranged, rotated right and rotated left 6
+experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':False, 'spatial':'vert', 'ori':90, 'ISIms':34} )
+experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':False, 'spatial':'vert', 'ori':-90, 'ISIms':34} )
 
 experimentNum = abs(hash(subject)) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
-experimentNum = 5#3
+experimentNum = 6#3
 experiment = experimentsList[ experimentNum ]
-print('experiment=',experiment)
+#print('experiment=',experiment)
 import json
 otherData= {} #stuff to record in authors data file
 otherData.update( {'networkMachineName': networkMachineName} )
@@ -173,7 +173,7 @@ if quitFinder and sys.platform != "win32":  #Don't know how to quitfinder on win
     
 #set location of stimuli
 #letter size 2.5 deg
-letterDurMs = 17
+letterDurMs = 34
 ISIms =  experiment['ISIms']
 letterDurFrames = int( np.floor(letterDurMs / (1000./refreshRate)) )
 cueDurFrames = letterDurFrames
@@ -362,16 +362,17 @@ def calcAndPredrawStimuli(stimList,i,j,k):
    del stimuliStream2[:]
    del stimuliStream3[:] #only used for Humby's experiment
    #draw the stimuli that will be used on this trial, the first numWordsInStream of the shuffled list
-   stim1string = stimList[ i ]
-   stim2string = stimList[ j ]
-   stim3string = stimList[ k ]
-   #print('stim1string=',stim1string, 'stim2string=',stim2string)
-   textStimulus1 = visual.TextStim(myWin,text=stim1string,height=ltrHeight,font=myFont,colorSpace='rgb',color=ltrColor,ori=experiment['ori'],alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
-   textStimulus2 = visual.TextStim(myWin,text=stim2string,height=ltrHeight,font=myFont,colorSpace='rgb',color=ltrColor,ori=experiment['ori'],alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
-   textStimulus3 = visual.TextStim(myWin,text=stim3string,height=ltrHeight,font=myFont,colorSpace='rgb',color=ltrColor,ori=experiment['ori'],alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
-   stimuliStream1.append(textStimulus1)
-   stimuliStream2.append(textStimulus2)
-   stimuliStream3.append(textStimulus3)
+   indices = [i,j,k]
+   textStimuli = list()
+   for i in xrange(3):
+        stim = visual.TextStim(myWin, text = stimList[indices[i]],
+                                           height=ltrHeight,font=myFont,colorSpace='rgb',color=ltrColor, 
+                                           ori=experiment['ori'],alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
+        textStimuli.append( stim )
+        
+   stimuliStream1.append( textStimuli[0] )
+   stimuliStream2.append( textStimuli[1] )
+   stimuliStream3.append( textStimuli[2] )
 #end calcAndPredrawStimuli
    
 #create click sound for keyboard
@@ -420,10 +421,9 @@ else: horizVert = False
 #SETTING THE CONDITIONS
 #Implement the fully factorial part of the design by creating every combination of the following conditions
 for rightResponseFirst in [False,True]:
-      for bothWordsFlipped in [False]:
-          for trialInstructionPos in [(0,-1), (0,1)]: #half of trials above fixation, half of trials below
-                conditionsList.append( {'rightResponseFirst':rightResponseFirst, 'leftStreamFlip':bothWordsFlipped, 'trialInstructionPos':trialInstructionPos,
-                                                       'horizVert':horizVert, 'rightStreamFlip':bothWordsFlipped, 'probe':'both', 'ISIframes':ISIframes} )
+  for trialInstructionPos in [(0,-1), (0,1)]: #half of trials above fixation, half of trials below
+        conditionsList.append( {'rightResponseFirst':rightResponseFirst, 'leftStreamFlip':experiment['flipped'], 'trialInstructionPos':trialInstructionPos,
+                                               'horizVert':horizVert, 'rightStreamFlip':experiment['flipped'], 'probe':'both', 'ISIframes':ISIframes} )
 
 trials = data.TrialHandler(conditionsList,trialsPerCondition) #constant stimuli method
 
@@ -843,7 +843,7 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
             ltrColorThis = round(ltrColorThis,2)
             #print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity)
             #print('ltrColorThis=',ltrColorThis)
-            trialInstructionStim.setText('lum=' + str(ltrColorThis)+ ' f='+ str(howManyMoreFrames), log=False) #debug
+            #trialInstructionStim.setText('lum=' + str(ltrColorThis)+ ' f='+ str(howManyMoreFrames), log=False) #debug
     trialInstructionStim.setPos( thisTrial['trialInstructionPos'] )
     if nDoneMain <= 1: #extra long instruction
         for i in xrange(70):
