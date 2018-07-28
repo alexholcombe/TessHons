@@ -223,7 +223,7 @@ if demo or exportImages:
   logging.console.setLevel(logging.ERROR)  #only show this level  messages and higher
 logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nearly all messges, INFO next level, EXP, DATA, WARNING and ERROR 
 
-includeConsentDemographicsAuthor = True
+includeConsentDemographicsAuthor = False
 if includeConsentDemographicsAuthor:
         # require password
         succeeded = False
@@ -423,12 +423,12 @@ else: horizVert = False
 #SETTING THE CONDITIONS
 #Implement the fully factorial part of the design by creating every combination of the following conditions
 for rightResponseFirst in [False,True]:
-  for trialInstructionPos in [(0,-1), (0,1)]: #half of trials above fixation, half of trials below
+  for trialInstructionPos in [(0,-1), (0,1)]: #half of trials instruction to fixate above fixation, half of trials below
+    for oneTarget in [True]:
         conditionsList.append( {'rightResponseFirst':rightResponseFirst, 'leftStreamFlip':experiment['flipped'], 'trialInstructionPos':trialInstructionPos,
-                                               'horizVert':horizVert, 'rightStreamFlip':experiment['flipped'], 'probe':'both', 'ISIframes':ISIframes} )
+                                               'oneTarget':oneTarget, 'horizVert':horizVert, 'rightStreamFlip':experiment['flipped'], 'probe':'both', 'ISIframes':ISIframes} )
 
-trials = data.TrialHandler(conditionsList,trialsPerCondition) #constant stimuli method
-
+trials = data.TrialHandler(conditionsList,trialsPerCondition) #method of constant stimuli
 
 def numberToLetter(number): #0 = A, 25 = Z
     #if it's not really a letter, return @
@@ -467,7 +467,7 @@ def stimToIdx(stim,stimList):
 maxNumRespsWanted = 3
 
 #print header for data file
-print('experimentPhase\ttrialnum\tsubject\ttask\t',file=dataFile,end='')
+print('experimentPhase\ttrialnum\tsubject\ttask\toneTarget',file=dataFile,end='')
 print('noisePercent\tISIframes\tltrColorThis\tleftStreamFlip\trightStreamFlip\trightResponseFirst\tprobe\ttrialInstructionPos\t',end='',file=dataFile)
 for i in xrange( experiment['numSimultaneousStim'] ):
     dataFile.write('responseOrder'+str(i)+'\t')
@@ -492,7 +492,8 @@ def oneFrameOfStim( n,cue,seq1,seq2,seq3,cueDurFrames,letterDurFrames,thisTrial,
   timeToShowStim = frameOfThisLetter < letterDurFrames #if true, it's not time for the blank ISI.  it's still time to draw the letter
   fixationPoint.draw() #temp
   #print 'n=',n,' SOAframes=',SOAframes, ' letterDurFrames=', letterDurFrames, ' (n % SOAframes) =', (n % SOAframes)  #DEBUGOFF
-  thisStimIdx = seq1[stimN] #which letter, from A to Z (1 to 26), should be shown?
+  if seq1 is not None:
+    thisStimIdx = seq1[stimN] #which letter, from A to Z (1 to 26), should be shown?
   if seq2 is not None:
     thisStim2Idx = seq2[stimN]
   if seq3 is not None:
@@ -508,23 +509,29 @@ def oneFrameOfStim( n,cue,seq1,seq2,seq3,cueDurFrames,letterDurFrames,thisTrial,
       alignmentCheck.setPos( calcStimPos(thisTrial,0) ); alignmentCheck.draw()
       alignmentCheck.setPos( calcStimPos(thisTrial,1) ); alignmentCheck.draw()
   if timeToShowStim: #time to show critical stimulus
-    #print('thisStimIdx=',thisStimIdx, ' seq1 = ', seq1, ' stimN=',stimN)
-    stimuliStream1[thisStimIdx].setPos( calcStimPos(thisTrial,0) )
-    stimuliStream1[thisStimIdx].setColor( ltrColorThis )
-    stimuliStream2[thisStim2Idx].setColor( ltrColorThis )
-    stimuliStream2[thisStim2Idx].setPos( calcStimPos(thisTrial,1) )
-    if seq3 is not None:
-        stimuliStream3[thisStim2Idx].setColor( ltrColorThis )
-        stimuliStream3[thisStim2Idx].setPos( calcStimPos(thisTrial,2) )
-  else: 
-    stimuliStream1[thisStimIdx].setColor( bgColor )
-    stimuliStream2[thisStim2Idx].setColor( bgColor )
+        #print('thisStimIdx=',thisStimIdx, ' seq1 = ', seq1, ' stimN=',stimN)
+        if seq1 is not None:
+            stimuliStream1[thisStimIdx].setPos( calcStimPos(thisTrial,0) )
+            stimuliStream1[thisStimIdx].setColor( ltrColorThis )
+        if seq2 is not None:
+            stimuliStream2[thisStim2Idx].setColor( ltrColorThis )
+            stimuliStream2[thisStim2Idx].setPos( calcStimPos(thisTrial,1) )
+        if seq3 is not None:
+            stimuliStream3[thisStim2Idx].setColor( ltrColorThis )
+            stimuliStream3[thisStim2Idx].setPos( calcStimPos(thisTrial,2) )
+  else:
+    if seq1 is not None:
+        stimuliStream1[thisStimIdx].setColor( bgColor )
+    if seq2 is not None:
+        stimuliStream2[thisStim2Idx].setColor( bgColor )
     if seq3 is not None:
         stimuliStream3[thisStim2Idx].setColor( bgColor )
-  stimuliStream1[thisStimIdx].flipHoriz = thisTrial['leftStreamFlip']
-  stimuliStream2[thisStim2Idx].flipHoriz = thisTrial['rightStreamFlip']
-  stimuliStream1[thisStimIdx].draw()
-  stimuliStream2[thisStim2Idx].draw()
+  if seq1 is not None:
+      stimuliStream1[thisStimIdx].flipHoriz = thisTrial['leftStreamFlip']
+      stimuliStream1[thisStimIdx].draw()
+  if seq2 is not None:
+      stimuliStream2[thisStim2Idx].flipHoriz = thisTrial['rightStreamFlip']
+      stimuliStream2[thisStim2Idx].draw()
   if seq3 is not None:
     stimuliStream3[thisStim2Idx].draw()
   cue.draw()
@@ -806,6 +813,7 @@ phasesMsg = 'Experiment will have '+str(trials.nTotal)+' trials. Letters will be
 print(phasesMsg); logging.info(phasesMsg)
 nDoneMain =0
 while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
+    print('nDoneMain=',nDoneMain)
     whichStim0 = np.random.randint(0, len(stimList) )
     whichStim1 = np.random.randint(0, len(stimList) )
     whichStim2 = np.random.randint(0, len(stimList) ) #only used in Humby experiment
@@ -860,6 +868,11 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
     
     #Determine which words will be drawn
     idxsStream1 = [0]; idxsStream2 = [0]
+    if thisTrial['oneTarget']:
+        if thisTrial['rightResponseFirst']: #in oneTarget condition, rightResponseFirst controls which is shown
+            idxsStream1 = None 
+        else:
+            idxsStream2 = None
     idxsStream3 = None
     if experiment['numSimultaneousStim'] == 3:
        idxsStream3 = [0]
@@ -877,7 +890,10 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
     dL = [None]*numRespsWanted #dummy list for null values
     expStop = copy.deepcopy(dL); responses = copy.deepcopy(dL); responsesAutopilot = copy.deepcopy(dL); passThisTrial=copy.deepcopy(dL)
     if thisProbe == 'both': #Either have word on both sides or letter on both sides
-        numToReport =  experiment['numSimultaneousStim']
+        if thisTrial['oneTarget']:
+            numToReport = 1
+        else:
+            numToReport =  experiment['numSimultaneousStim']
         responseOrder = range(numToReport)
         if (numToReport == 3): #not counterbalanced, so just shuffle
             random.shuffle(responseOrder)
@@ -886,13 +902,15 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
         #print('responseOrder=',responseOrder)
         respI = 0
         while respI < numToReport and not np.array(expStop).any():
-            if numToReport == 2:
+            if numToReport ==1:
+                side = thisTrial['rightResponseFirst'] * 2 - 1
+            elif numToReport == 2:
                 side = responseOrder[respI] * 2 -1  #-1 for left/top, 1 for right/bottom
             elif numToReport == 3:
                 side = (responseOrder[respI] - 1)  #-1 for left/top, 0 for middle, 1 for right/bottom
                 
             dev = 2*wordEccentricity * side #put response prompt farther out than stimulus, so participant is sure which is left and which right
-            if numToReport == 2:
+            if numToReport == 1 or numToReport == 2:
                 locations = [ 'the left', 'the right',  'the bottom','top' ]
             elif numToReport == 3:
                 locations = [ 'the left', 'at centre', 'the right',  'the bottom', 'at centre', 'top' ]
@@ -925,7 +943,7 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
     if not expStop:
             print('main\t', end='', file=dataFile) #first thing printed on each line of dataFile to indicate main part of experiment, not staircase
             print(nDoneMain,'\t', end='', file=dataFile)
-            print(subject,'\t',task,'\t', round(noisePercent,3),'\t', end='', file=dataFile)
+            print(subject,'\t',task,'\t', thisTrial['oneTarget'], '\t', round(noisePercent,3),'\t', end='', file=dataFile)
             print(thisTrial['ISIframes'],'\t', end='', file=dataFile)
             print(ltrColorThis,'\t', end='', file=dataFile)
             print(thisTrial['leftStreamFlip'],'\t', end='', file=dataFile)
@@ -947,18 +965,24 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
                 elif streami==2:
                     sequenceStream = idxsStream2; correctAnswerIdx = whichStim2
                 #print ("stimList = ", stimList, " correctAnswer = stimList[correctAnswerIdx] = ",stimList[correctAnswerIdx])
-                #Find which response is the one to this stream using where
-                respThisStreamI = responseOrder.index(streami)
-                respThisStream = responses[respThisStreamI] 
+                if thisTrial['oneTarget'] and streami==1: #only streami==0 is used
+                    correct = -99
+                else:
+                    respThisStreamI = responseOrder.index(streami)
+                    respThisStream = responses[respThisStreamI]
                 #print ("responses = ", responses, 'respThisStream = ', respThisStream)   #responseOrder
-                correct = ( handleAndScoreResponse(passThisTrial,respThisStream,responsesAutopilot,task,stimList[correctAnswerIdx]) )
+                    correct = ( handleAndScoreResponse(passThisTrial,respThisStream,responsesAutopilot,task,stimList[correctAnswerIdx]) )
                 eachCorrect[streami] = correct
     
             print(numCasesInterframeLong, file=dataFile) #timingBlips, last thing recorded on each line of dataFile
             #Don't want to feed allCorrect into staircase because then for e.g. a staircase targeting 70% correct, they will get 84% correct on each if two letters but even higher if 3 letters
             #Instead, average and round. This means that if get 1 out of 2 correct, counts as correct. If get 2 out of 3 correct, counts as correct but one is not enough.
             correctForStaircase = round( scipy.mean(eachCorrect) )
-            #print('allCorrect=',allCorrect)
+            if thisTrial['oneTarget']:
+                not99idx = np.where(eachCorrect != -99)[0][0]
+                #not99idx = not eachCorrect.index(-99)
+                correctForStaircase = eachCorrect[not99idx]
+            print('eachCorrect=',eachCorrect, 'correctForStaircase=',correctForStaircase)
             if doStaircase and nDoneMain>2:
                 staircase.addResponse( correctForStaircase )
             numTrialsCorrect += eachCorrect.all() #so count -1 as 0
@@ -971,10 +995,11 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
                  expStop=True
             #core.wait(.1)
             if feedback and useSound: 
-                play_high_tone_correct_low_incorrect(correct, passThisTrial=False)
+                play_high_tone_correct_low_incorrect(correctForStaircase, passThisTrial=False)
             nDoneMain+=1
             dataFile.flush(); logging.flush()
-            #print('nDoneMain=', nDoneMain,' trials.nTotal=',trials.nTotal) #' trials.thisN=',trials.thisN
+            print('nDoneMain=', nDoneMain,' trials.nTotal=',trials.nTotal, 'expStop=',expStop) #' trials.thisN=',trials.thisN
+            #check whether time for break
             if (trials.nTotal > 6 and nDoneMain > 2 and nDoneMain %
                  ( trials.nTotal*pctCompletedBreak/100. ) ==1):  #dont modulus 0 because then will do it for last trial
                     nextText.setText('Press "SPACE" to continue!')
@@ -993,9 +1018,11 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
                              if key in ['ESCAPE']:
                                 expStop = True
                     myWin.clearBuffer()
-            core.wait(.1);  time.sleep(.1)
+            #end break
+            core.wait(.05);  time.sleep(.05)
             if experimentClock.getTime() > expTimeLimit:
                 expTimedOut = True
+            print('got to end of loop')
         #end main trials loop
 timeAndDateStr = time.strftime("%H:%M on %d %b %Y", time.localtime())
 msg = 'Stopping at '+timeAndDateStr
@@ -1006,7 +1033,7 @@ if expStop:
 if expTimedOut:
     msg = 'Experiment timed out with trials done=' + str(nDoneMain) + ' of ' + str(trials.nTotal+1)
     print(msg); logging.info(msg)
-if not doStaircase and (nDoneMain >0):
+if nDoneMain >0:
     print('Of ',nDoneMain,' trials, on ',numTrialsCorrect*1.0/nDoneMain*100., '% of all trials all targets reported exactly correct',sep='')
     for i in range(numRespsWanted):
         print('stream',i,': ',round(numTrialsEachCorrect[i]*1.0/nDoneMain*100.,2), '% correct',sep='')
