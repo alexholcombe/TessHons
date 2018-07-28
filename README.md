@@ -1,4 +1,5 @@
-* Why does shift fn z not work
+* hash time/date into random number seed.
+* recover stim position
 * ICT 12000 grasp get PSYC1002 for jen.  jhum6624
 * Students who can't see GRASP
 * Write Draft methods 

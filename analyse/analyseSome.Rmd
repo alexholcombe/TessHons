@@ -32,13 +32,25 @@ library(skimr)
 skim(df)
 ```
 
-Load ggplot
+Load ggplot and dplyr
 ```{r i, echo=FALSE}
 library(ggplot2)
+library(dplyr)
 ```
 
 ## Proportion correct
 
 ```{r i, echo=FALSE}
-max(df$ISIframes)
+eachCorrect<- df %>% summarise_at(c("correct0","correct1"),mean)
+avgCorrect = rowMeans(eachCorrect)
+if (avgCorrect < .5) {
+  shouldExclude = TRUE
+}
+practiceTrials = 3
+df$experimentPhase<-NULL
+df<- df %>% mutate(practice= trialnum<=2)
+#Sanity check what ISIframes got to
+
+longestISIframes<- max( df %>% filter(practice==0) %>% select("ISIframes") )
+
 ```

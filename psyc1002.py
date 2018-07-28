@@ -103,7 +103,10 @@ experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped
 experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':False, 'spatial':'vert', 'ori':90, 'ISIms':34} )
 experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':False, 'spatial':'vert', 'ori':-90, 'ISIms':34} )
 
-experimentNum = abs(hash(subject)) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
+seed = time.time()
+random.seed(seed); np.random.seed(seed) #https://stackoverflow.com/a/48056075/302378
+experimentNum = abs(  hash(subject)   ) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
+
 experimentNum = 6#3
 experiment = experimentsList[ experimentNum ]
 #print('experiment=',experiment)
@@ -291,11 +294,6 @@ if fullscr and not demo and not exportImages:
         refreshTest='grating', ## None, True, or 'grating' (eye-candy to avoid a blank screen)
         verbose=True, ## True means report on everything 
         userProcsDetailed=True,  ## if verbose and userProcsDetailed, return (command, process-ID) of the user's processes
-        #randomSeed='set:42', ## a way to record, and optionally set, a random seed of type str for making reproducible random sequences
-            ## None -> default 
-            ## 'time' will use experimentRuntime.epoch as the value for the seed, different value each time the script is run
-            ##'set:time' --> seed value is set to experimentRuntime.epoch, and initialized: random.seed(info['randomSeed'])
-            ##'set:42' --> set & initialize to str('42'), and will give the same sequence of random.random() for all runs of the script
         )
     #print('runInfo='); print(runInfo)
     logging.info(runInfo)
