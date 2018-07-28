@@ -5,6 +5,8 @@ date: "7/28/2018"
 output: html_document
 ---
 
+I suppose I will combine all the js records into the tibble that also contains the data. After all, need some of those fields to know the condition.
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -17,7 +19,7 @@ dataDir<-"practiceData"
 js<- fromJSON(file.path(dataDir,"alexh_28Jul2018_06-37authors.json"))
 fileWithPath<- file.path(dataDir,"alexh_28Jul2018_06-37.txt")
 df <-read_tsv(fileWithPath)  #read_tsv from tidyverse readr has advantage of not having padding spaces
-
+df$noisePercent<-NULL
 ```
 
 Install skimr
@@ -43,6 +45,9 @@ library(dplyr)
 ```{r i, echo=FALSE}
 eachCorrect<- df %>% summarise_at(c("correct0","correct1"),mean)
 avgCorrect = rowMeans(eachCorrect)
+```
+
+```{r}
 if (avgCorrect < .5) {
   shouldExclude = TRUE
 }
@@ -50,7 +55,7 @@ practiceTrials = 3
 df$experimentPhase<-NULL
 df<- df %>% mutate(practice= trialnum<=2)
 #Sanity check what ISIframes got to
-
 longestISIframes<- max( df %>% filter(practice==0) %>% select("ISIframes") )
-
+S<-data.frame()
+S$name<-df$subject[1]
 ```

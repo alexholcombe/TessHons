@@ -9,7 +9,7 @@ if useSound:
 import random, scipy
 import numpy as np
 from math import atan, log, ceil
-import copy, time, sys, os, string, shutil
+import copy, time, datetime, sys, os, string, shutil
 #try:
 #    from noiseStaircaseHelpers import printStaircase, toStaircase, outOfStaircase, createNoise, plotDataAndPsychometricCurve
 #except ImportError:
@@ -103,7 +103,7 @@ experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped
 experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':False, 'spatial':'vert', 'ori':90, 'ISIms':34} )
 experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':False, 'spatial':'vert', 'ori':-90, 'ISIms':34} )
 
-seed = time.time()
+seed = int( np.floor( time.time() ) )
 random.seed(seed); np.random.seed(seed) #https://stackoverflow.com/a/48056075/302378
 experimentNum = abs(  hash(subject)   ) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
 
@@ -115,6 +115,10 @@ otherData= {} #stuff to record in authors data file
 otherData.update( {'networkMachineName': networkMachineName} )
 otherData.update(experiment)
 #print('otherData=',otherData)
+now = datetime.datetime.now()
+import json
+n = datetime.datetime.now()
+otherData.update( {'datetime':n.isoformat()} )
 
 #Determine stimuli for this participant
 if experiment['stimType'] == 'letter':
