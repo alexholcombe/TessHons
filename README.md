@@ -1,4 +1,4 @@
-* hash time/date into random number seed.
+* responseOrder1, answer1, correct1
 * recover stim position
 * ICT 12000 grasp get PSYC1002 for jen.  jhum6624
 * Students who can't see GRASP

@@ -424,7 +424,7 @@ else: horizVert = False
 #Implement the fully factorial part of the design by creating every combination of the following conditions
 for rightResponseFirst in [False,True]:
   for trialInstructionPos in [(0,-1), (0,1)]: #half of trials instruction to fixate above fixation, half of trials below
-    for oneTarget in [True]:
+    for oneTarget in [False,True]:
         conditionsList.append( {'rightResponseFirst':rightResponseFirst, 'leftStreamFlip':experiment['flipped'], 'trialInstructionPos':trialInstructionPos,
                                                'oneTarget':oneTarget, 'horizVert':horizVert, 'rightStreamFlip':experiment['flipped'], 'probe':'both', 'ISIframes':ISIframes} )
 
@@ -467,12 +467,11 @@ def stimToIdx(stim,stimList):
 maxNumRespsWanted = 3
 
 #print header for data file
-print('experimentPhase\ttrialnum\tsubject\ttask\toneTarget',file=dataFile,end='')
+print('experimentPhase\ttrialnum\tsubject\ttask\toneTarget\t',file=dataFile,end='')
 print('noisePercent\tISIframes\tltrColorThis\tleftStreamFlip\trightStreamFlip\trightResponseFirst\tprobe\ttrialInstructionPos\t',end='',file=dataFile)
-for i in xrange( experiment['numSimultaneousStim'] ):
-    dataFile.write('responseOrder'+str(i)+'\t')
     
 for i in xrange( experiment['numSimultaneousStim'] ): #range(maxNumRespsWanted):
+   dataFile.write('responseOrder'+str(i)+'\t')
    dataFile.write('answer'+str(i)+'\t')
    dataFile.write('response'+str(i)+'\t')
    dataFile.write('correct'+str(i)+'\t')
@@ -686,8 +685,12 @@ def do_RSVP_stim(thisTrial, seq1, seq2, seq3, ltrColorThis, proportnNoise,trialN
     noiseMaskFrames = int(noiseMaskMin *refreshRate)
     for i in range(noiseMaskFrames):
         myNoise1.phase = scipy.random.rand(1); myNoise2.phase = scipy.random.rand(1); myNoise3.phase = scipy.random.rand(1)
-        myNoise1.draw(); myNoise2.draw(); myNoise3.draw()
-         
+        if seq1:
+            myNoise1.draw(); 
+        if seq2:
+            myNoise2.draw()
+        if seq1 and seq2: #if left or right (two stimuli presented), also draw middle noise (only don't draw it if only one stim presented)
+            myNoise3.draw()
         #fixationPoint.draw()
         myWin.flip()
     #myWin.flip() #Need this
@@ -730,9 +733,9 @@ def handleAndScoreResponse(passThisTrial,response,responseAutopilot,task,correct
         correct = 1
     #print('correct=',correct)
     
-    print(correctAnswer, '\t', end='', file=dataFile) #answer0
-    print(responseString, '\t', end='', file=dataFile) #response0
-    print(correct, '\t', end='',file=dataFile) 
+    print(correctAnswer, '\t', end='', file=dataFile) #answerN
+    print(responseString, '\t', end='', file=dataFile) #responseN
+    print(correct, '\t', end='',file=dataFile)  #correctN
     return correct
     #end handleAndScoreResponses
 def play_high_tone_correct_low_incorrect(correct, passThisTrial=False):
@@ -812,7 +815,7 @@ noisePercent = defaultNoiseLevel
 phasesMsg = 'Experiment will have '+str(trials.nTotal)+' trials. Letters will be drawn with superposed noise of ' + "{:.2%}".format(defaultNoiseLevel)
 print(phasesMsg); logging.info(phasesMsg)
 nDoneMain =0
-while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
+while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     print('nDoneMain=',nDoneMain)
     whichStim0 = np.random.randint(0, len(stimList) )
     whichStim1 = np.random.randint(0, len(stimList) )
@@ -910,13 +913,22 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
                 side = (responseOrder[respI] - 1)  #-1 for left/top, 0 for middle, 1 for right/bottom
                 
             dev = 2*wordEccentricity * side #put response prompt farther out than stimulus, so participant is sure which is left and which right
+            
             if numToReport == 1 or numToReport == 2:
-                locations = [ 'the left', 'the right',  'the bottom','top' ]
+                locationNames= [ 'the left', 'the right',  'the bottom','top' ]
+                numLocations = 2
             elif numToReport == 3:
-                locations = [ 'the left', 'at centre', 'the right',  'the bottom', 'at centre', 'top' ]
-            location  = locations[      thisTrial['horizVert'] * numToReport  +   responseOrder[respI]      ]
-            respPromptString = 'Type the ' + experiment['stimType'] + ' that was on ' +  location
+                locationNames = [ 'the left', 'at centre', 'the right',  'the bottom', 'at centre', 'top' ]
+                numLocations = 3
+            respPromptString = 'Type the ' + experiment['stimType']
+            if numToReport == 1:
+                respPromptString += ' that was presented'
+                #locationName = locationNames[   thisTrial['horizVert'] * numLocations + int((side+1)/2)   ]
+            else:
+                locationName  = locationNames[      thisTrial['horizVert'] * numLocations  +   responseOrder[respI]      ]
+                respPromptString += ' that was on ' +  locationName
             respPromptStim.setText(respPromptString,log=False)
+            
             if thisTrial['horizVert']:
                 x=0; y=dev
                 if numToReport == 3: #need an orthogonal offset, so doesn't overlap when at fixation
@@ -951,13 +963,15 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
             print(thisTrial['rightResponseFirst'],'\t', end='', file=dataFile)
             print(thisTrial['probe'],'\t', end='', file=dataFile)
             print(thisTrial['trialInstructionPos'],'\t', end='', file=dataFile)
-            for o in responseOrder:
-                print(o,'\t', end='', file=dataFile)
                 
             eachCorrect = np.ones(numRespsWanted)*-999
 
             #print("numRespsWanted = ",numRespsWanted, 'getting ready to score response')
-            for streami in xrange(numRespsWanted): #scored and printed to dataFile in left first, right second order even if collected in different order
+            numToPrint = numRespsWanted
+            if thisTrial['oneTarget']:
+                numToPrint = 1 #kludge, see line 993
+            for streami in xrange(numToPrint): #scored and printed to dataFile in left first, right second order even if collected in different order
+                print(responseOrder[streami],'\t', end='', file=dataFile)
                 if streami==0:
                     sequenceStream = idxsStream1; correctAnswerIdx = whichStim0
                 elif streami==1: 
@@ -973,7 +987,15 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
                 #print ("responses = ", responses, 'respThisStream = ', respThisStream)   #responseOrder
                     correct = ( handleAndScoreResponse(passThisTrial,respThisStream,responsesAutopilot,task,stimList[correctAnswerIdx]) )
                 eachCorrect[streami] = correct
-    
+            
+            #kludge to pad with null datafile spaces when only one target presented
+            if thisTrial['oneTarget']:
+                for i in xrange(experiment['numSimultaneousStim']-1):
+                    print(-99, '\t', end='', file=dataFile) #responseOrderN
+                    print(-99, '\t', end='', file=dataFile) #answerN
+                    print(-99, '\t', end='', file=dataFile) #responseN
+                    print(-99, '\t', end='',file=dataFile)  #correctN
+            
             print(numCasesInterframeLong, file=dataFile) #timingBlips, last thing recorded on each line of dataFile
             #Don't want to feed allCorrect into staircase because then for e.g. a staircase targeting 70% correct, they will get 84% correct on each if two letters but even higher if 3 letters
             #Instead, average and round. This means that if get 1 out of 2 correct, counts as correct. If get 2 out of 3 correct, counts as correct but one is not enough.
@@ -1001,7 +1023,7 @@ while nDoneMain < trials.nTotal and expStop==False: #MAIN EXPERIMENT LOOP
             print('nDoneMain=', nDoneMain,' trials.nTotal=',trials.nTotal, 'expStop=',expStop) #' trials.thisN=',trials.thisN
             #check whether time for break
             if (trials.nTotal > 6 and nDoneMain > 2 and nDoneMain %
-                 ( trials.nTotal*pctCompletedBreak/100. ) ==1):  #dont modulus 0 because then will do it for last trial
+                 ( trials.nTotal*pctCompletedBreak/100. ) ==1 ):  #dont modulus 0 because then will do it for last trial
                     nextText.setText('Press "SPACE" to continue!')
                     nextText.draw()
                     progressMsg = 'Completed ' + str(nDoneMain) + ' of ' + str(trials.nTotal) + ' trials'
