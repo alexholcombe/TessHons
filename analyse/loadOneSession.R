@@ -1,20 +1,26 @@
+source('scoreAuthorRecognition.R')
+library(jsonlite)
+library(readr)
 loadOneSession<- function(dataDir,fname) {
-  js<- fromJSON(file.path(dataDir,fname,".json"))
+
+  js<- fromJSON(file.path(dataDir,paste0(fname,"authors.json")))
   
-  fileWithPath<- file.path(dataDir,fname,".txt")
-  df <-read_tsv(fileWithPath)  #read_tsv from tidyverse readr has advantage of not having padding spaces
+  txtfileWithPath<- file.path(dataDir,paste0(fname,".txt"))
+  df <-read_tsv(txtfileWithPath)  #read_tsv from tidyverse readr has advantage of not having padding spaces
   df$noisePercent<-NULL
   
   #score the author test, add to main data tibble. 
   #Have to drop selected because won't work with dplyr because array.
-  scores<- authorScore(df) #("authorsRaw" = scoreRaw, "authorsPct" = authorsPct, "authorsTotalChosen"=sum(sel))
-  df$authorsPct <- scores$authorsPct
-  df$authorsTotalChosen <- scores$authorsTotalChosen
-  
-  #add other metadata to tibble
-  df$language <- js$`What is the first language you learned to read?`
-  df$networkMachineN
-  
+  scores<- authorScore(js) #("authorsRaw" = scoreRaw, "authorsPct" = authorsPct, "authorsTotalChosen"=sum(sel))
+  #add author scores to main tibble. authorsRaw, authorsPct, authorsTotalChosen
+  for (i in length(names(scores))) {
+    df[names(scores)[i]] <- js[names(scores)[i]]
+  }
+  #add other metadata to main tibble
+  for (i in length(names(js)) {
+    df[names(js)[i]] <- js[names(js)[i]]
+  }  #df$language <- js$`What is the first language you learned to read?`
+
   library(lubridate)
   #x <- c("Apr-13", "May-14")
   ##add DD as 01

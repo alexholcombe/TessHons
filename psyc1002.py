@@ -88,26 +88,27 @@ experimentTypesSpatial = ['horiz','vert']
 experimentsList = []
 #Creating the list of experiments
 #Implement the fully factorial part of the design by creating every combination of the following conditions
+oneTargetConditions = [False,False,False,True] #1/4 of trials single-target
 for stim in experimentTypesStim:
     if stim == 'word':
         ISIms = 17
     else:
         ISIms = 17
     for spatial in experimentTypesSpatial:
-        experimentsList.append( {'numSimultaneousStim': 2, 'stimType':stim, 'flipped':False, 'spatial':spatial, 'ori':0, 'ISIms':ISIms} )
+        experimentsList.append( {'numSimultaneousStim': 2, 'stimType':stim, 'flipped':False, 'spatial':spatial, 'ori':0, 'ISIms':ISIms, 'oneTargetConditions':oneTargetConditions} )
 #add Humby's experiment to list, making it number 4
-experimentsList.append( {'numSimultaneousStim': 3, 'stimType':'letter', 'flipped':False, 'spatial':'horiz', 'ori':0, 'ISIms':17} )
+experimentsList.append( {'numSimultaneousStim': 3, 'stimType':'letter', 'flipped':False, 'spatial':'horiz', 'ori':0, 'ISIms':17, 'oneTargetConditions':[False] } )
 #add letters horizontally arranged, flipped 5
-experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':True, 'spatial':'horiz', 'ori':0, 'ISIms':17} )
+experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':True, 'spatial':'horiz', 'ori':0, 'ISIms':17,  'oneTargetConditions':oneTargetConditions} )
 #add letters vertical arranged, rotated right and rotated left 6
-experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':False, 'spatial':'vert', 'ori':90, 'ISIms':34} )
-experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':False, 'spatial':'vert', 'ori':-90, 'ISIms':34} )
+experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':False, 'spatial':'vert', 'ori':90, 'ISIms':34,  'oneTargetConditions':oneTargetConditions} )
+experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':False, 'spatial':'vert', 'ori':-90, 'ISIms':34,  'oneTargetConditions':oneTargetConditions} )
 
 seed = int( np.floor( time.time() ) )
 random.seed(seed); np.random.seed(seed) #https://stackoverflow.com/a/48056075/302378
 experimentNum = abs(  hash(subject)   ) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
 
-experimentNum = 6#3
+experimentNum = 2 #3
 experiment = experimentsList[ experimentNum ]
 #print('experiment=',experiment)
 import json
@@ -223,7 +224,7 @@ if demo or exportImages:
   logging.console.setLevel(logging.ERROR)  #only show this level  messages and higher
 logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nearly all messges, INFO next level, EXP, DATA, WARNING and ERROR 
 
-includeConsentDemographicsAuthor = False
+includeConsentDemographicsAuthor = True
 if includeConsentDemographicsAuthor:
         # require password
         succeeded = False
@@ -424,7 +425,7 @@ else: horizVert = False
 #Implement the fully factorial part of the design by creating every combination of the following conditions
 for rightResponseFirst in [False,True]:
   for trialInstructionPos in [(0,-1), (0,1)]: #half of trials instruction to fixate above fixation, half of trials below
-    for oneTarget in [False,True]:
+    for oneTarget in experiment['oneTargetConditions']:
         conditionsList.append( {'rightResponseFirst':rightResponseFirst, 'leftStreamFlip':experiment['flipped'], 'trialInstructionPos':trialInstructionPos,
                                                'oneTarget':oneTarget, 'horizVert':horizVert, 'rightStreamFlip':experiment['flipped'], 'probe':'both', 'ISIframes':ISIframes} )
 
@@ -872,6 +873,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     #Determine which words will be drawn
     idxsStream1 = [0]; idxsStream2 = [0]
     if thisTrial['oneTarget']:
+        idxsStream3 = None #no middle target (3-letter condition)
         if thisTrial['rightResponseFirst']: #in oneTarget condition, rightResponseFirst controls which is shown
             idxsStream1 = None 
         else:

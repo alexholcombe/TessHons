@@ -1,9 +1,10 @@
+library('readr')#install.packages('readr')
+library(dplyr)
 authorScore<- function(js) {
   sel<- js$selected
   #Import the key.
-  library('readr')#install.packages('readr')
-  fileWithPath<- file.path("..","inputFiles","authorsAndNonauthors.txt")
-  key <-read_tsv(fileWithPath)  #read_tsv from tidyverse readr has advantage of not having padding spaces
+  answersFileWithPath<- file.path("..","inputFiles","authorsAndNonauthors.txt")
+  key <-read_tsv(answersFileWithPath)  #read_tsv from tidyverse readr has advantage of not having padding spaces
   
   #Calculate how many authors selected.
   numTested <- length(sel)
@@ -11,7 +12,6 @@ authorScore<- function(js) {
   keyThis<- key$author[1:numTested]
   selWithAns <- data.frame(sel,keyThis)
   #Use dplyr to select rows where keyThis ==1, then add up number selected
-  library(dplyr)
   authors<- selWithAns %>% filter(keyThis==1)
   maxScorePossible <- nrow(authors)
   
@@ -22,5 +22,7 @@ authorScore<- function(js) {
   nonAuthorsChosen <- sum(nonAuthors)
   scoreRaw <- authorsChosen - nonAuthorsChosen
   scorePct <- scoreRaw / maxScorePossible
-  return("authorsRaw" = scoreRaw, "authorsPct" = authorsPct, "authorsTotalChosen"=sum(sel))
+  return(
+    list("authorsRaw" = scoreRaw, "authorsPct" = scorePct, "authorsTotalChosen"=sum(sel))
+         )
 }
