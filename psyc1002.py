@@ -98,7 +98,7 @@ for stim in experimentTypesStim:
     for spatial in experimentTypesSpatial:
         experimentsList.append( {'numSimultaneousStim': 2, 'stimType':stim, 'flipped':False, 'spatial':spatial, 'ori':0, 'ISIms':ISIms, 'oneTargetConditions':oneTargetConditions} )
 #add Humby's experiment to list, making it number 4
-experimentsList.append( {'numSimultaneousStim': 3, 'stimType':'letter', 'flipped':False, 'spatial':'horiz', 'ori':0, 'ISIms':17, 'oneTargetConditions':[False] } )
+experimentsList.append( {'numSimultaneousStim': 3, 'stimType':'letter', 'flipped':False, 'spatial':'horiz', 'ori':0, 'ISIms':17, 'oneTargetConditions':[False,False,False] } )
 #add letters horizontally arranged, flipped 5
 experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':True, 'spatial':'horiz', 'ori':0, 'ISIms':17,  'oneTargetConditions':oneTargetConditions} )
 #add letters vertical arranged, rotated right and rotated left 6
@@ -203,7 +203,7 @@ mon = monitors.Monitor(monitorname,width=monitorwidth, distance=viewdist)#relyin
 mon.setSizePix( (widthPix,heightPix) )
 units='deg' #'cm'
 
-trialsPerCondition = 25
+trialsPerCondition = 30
 defaultNoiseLevel = 0
 if not demo:
     allowGUI = False
@@ -800,7 +800,7 @@ if doStaircase:
         #create the staircase handler
         stepSizesLinear = [.6,.5,.4,.3,.2,.1,.05,.05]
         minVal = bgColor[0]+.15
-        maxMoreFramesAllowed = 2
+        maxMoreFramesAllowed = 3
         #lumRange = 1 - minVal
         staircase = data.StairHandler(
             startVal=ltrColor,
