@@ -68,7 +68,8 @@ else:
     if not os.path.isdir(dataDir):
         print("Error, can't even find the ",dataDir," directory")
         core.quit()
-timeDateStart = time.strftime("%d%b%Y_%H-%M", time.localtime())
+timeDateStart = time.strftime("%d%b%Y_%H-%M", time.localtime()) #used for filename
+now = datetime.datetime.now() #used for JSON
 
 showRefreshMisses=True #flicker fixation at refresh rate, to visualize if frames missed
 feedback=True 
@@ -88,7 +89,7 @@ experimentTypesSpatial = ['horiz','vert']
 experimentsList = []
 #Creating the list of experiments
 #Implement the fully factorial part of the design by creating every combination of the following conditions
-oneTargetConditions = [False,False,False,True] #1/4 of trials single-target
+oneTargetConditions = [False,False,True] #1/3 of trials single-target
 for stim in experimentTypesStim:
     if stim == 'word':
         ISIms = 17
@@ -107,8 +108,12 @@ experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped
 seed = int( np.floor( time.time() ) )
 random.seed(seed); np.random.seed(seed) #https://stackoverflow.com/a/48056075/302378
 experimentNum = abs(  hash(subject)   ) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
-
-experimentNum = 2 #3
+knownMachinesForPilot = ['W5FB2LG2','W5FFZKG2','W5FGZKG2','W5FFXKG2','W5FF2LG2','W5FD1LG2','W5FDYKG2','W5B5LG2' ]
+if now.day < 4:  #week 1, before 4 August, piloting
+    if networkMachineName in knownMachinesForPilot:
+        experimentNum = knownMachinesForPilot.index(networkMachineName)
+        experimentNum = experimentNum % len(experimentsList)
+        
 experiment = experimentsList[ experimentNum ]
 #print('experiment=',experiment)
 import json
@@ -116,10 +121,8 @@ otherData= {} #stuff to record in authors data file
 otherData.update( {'networkMachineName': networkMachineName} )
 otherData.update(experiment)
 #print('otherData=',otherData)
-now = datetime.datetime.now()
 import json
-n = datetime.datetime.now()
-otherData.update( {'datetime':n.isoformat()} )
+otherData.update( {'datetime':now.isoformat()} )
 
 #Determine stimuli for this participant
 if experiment['stimType'] == 'letter':
@@ -198,7 +201,7 @@ mon = monitors.Monitor(monitorname,width=monitorwidth, distance=viewdist)#relyin
 mon.setSizePix( (widthPix,heightPix) )
 units='deg' #'cm'
 
-trialsPerCondition = 50
+trialsPerCondition = 25
 defaultNoiseLevel = 0
 if not demo:
     allowGUI = False
@@ -274,11 +277,13 @@ if includeConsentDemographicsAuthor:
     # Collect demographic variables
     # Use a gui.Dlg and so you can avoid labeling the cancel button , but can't avoid showing it
     # This approach gives more control, eg, text color.
-    questions = ['What is the first language you learned to read?','What is your age?','Which is your dominant hand for common tasks,\nlike writing, throwing, and brushing your teeth?\n\n']
+    questions = ['What is the first language you learned to read?','What is your age?','Which is your dominant hand for common tasks,\nlike writing, throwing, and brushing your teeth?\n\n',
+                         'What is your biological sex?']
     dlg = gui.Dlg(title="PSYC1002", labelButtonOK=u'         OK         ', labelButtonCancel=u'', pos=(200, 400)) # Cancel (decline to answer all)
     dlg.addField(questions[0], choices=[ 'English','Arabic','Pali','Hebrew','Farsi','Chinese','Korean','Japanese','Other','Decline to answer'])
     dlg.addField(questions[1], choices = ['15 or under','16 or 17', '18 or 19', '20 or 21', '22, 23, or 24', '24 to 30', '30 to 50', 'over 50','Decline to answer'])
     dlg.addField(questions[2], choices=['Decline to answer','Left','Right','Neither (able to use both hands equally well)'])
+    dlg.addField(questions[3], choices=['Decline to answer','Male','Female','Other'])
     #dlg.addFixedField(label='', initial='', color='', choices=None, tip='') #Just to create some space
     #dlg.addField('Your gender (as listed on birth certificate):', choices=["male", "female"])
     thisInfo = dlg.show()  # you have to call show() for a Dlg (automatic with a DlgFromDict)
@@ -286,7 +291,7 @@ if includeConsentDemographicsAuthor:
     demographics = {q: 'Decline to answer (pressed unlabeled cancel button)' for q in questions}  #Assume pressed cancel unless get values
     if dlg.OK:
         print(thisInfo)
-        demographics = dict([        (questions[0], thisInfo[0]),   (questions[1], thisInfo[1]),   (questions[2], thisInfo[2])                   ])
+        demographics = dict([        (questions[0], thisInfo[0]),   (questions[1], thisInfo[1]),   (questions[2], thisInfo[2]),   (questions[3], thisInfo[3])                ])
     otherData.update(demographics)
     print('otherData=',otherData)
     #end demographics collection
@@ -488,7 +493,7 @@ def oneFrameOfStim( n,cue,seq1,seq2,seq3,cueDurFrames,letterDurFrames,thisTrial,
   SOAframes = letterDurFrames+thisTrial['ISIframes']
   cueFrames = 0 
   stimN = int( np.floor(n/SOAframes) )
-  frameOfThisLetter = n % SOAframes #earvery SOAframes, new letter
+  frameOfThisLetter = n % SOAframes #every SOAframes, new letter
   timeToShowStim = frameOfThisLetter < letterDurFrames #if true, it's not time for the blank ISI.  it's still time to draw the letter
   fixationPoint.draw() #temp
   #print 'n=',n,' SOAframes=',SOAframes, ' letterDurFrames=', letterDurFrames, ' (n % SOAframes) =', (n % SOAframes)  #DEBUGOFF
@@ -660,7 +665,7 @@ def do_RSVP_stim(thisTrial, seq1, seq2, seq3, ltrColorThis, proportnNoise,trialN
     #myWin.setRecordFrameIntervals(True);  #can't get it to stop detecting superlong frames
     t0 = trialClock.getTime()
 
-    midDelay = 0.5 #0.5
+    midDelay = 0.4 #0.5
     midDelayFrames = int(midDelay *refreshRate)
     #insert a pause to allow the window and python all to finish initialising (avoid initial frame drops)
     for i in range(midDelayFrames):

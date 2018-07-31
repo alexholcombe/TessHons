@@ -1,9 +1,12 @@
-* responseOrder1, answer1, correct1
+PILOTING CHECK
+* make sure randomization of order sequence is working
+
+TO-DO
+
 * recover stim position
 * ICT 12000 grasp get PSYC1002 for jen.  jhum6624
 * Students who can't see GRASP
 * Write Draft methods 
-* To click more, you need to unselect somebody
 * Add the question at the end about taking it seriously
 * Try another way to load a webform, but don't forget need to return consent or not https://stackoverflow.com/questions/36738223/load-a-local-html-file-into-a-qwebview-in-python
 	* The pytml is programmed OSX-speific pathnames
