@@ -107,22 +107,24 @@ experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped
 
 seed = int( np.floor( time.time() ) )
 random.seed(seed); np.random.seed(seed) #https://stackoverflow.com/a/48056075/302378
-experimentNum = abs(  hash(subject)   ) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
-knownMachinesForPilot = ['W5FB2LG2','W5FFZKG2','W5FGZKG2','W5FFXKG2','W5FF2LG2','W5FD1LG2','W5FDYKG2','W5B5LG2' ]
-if now.day < 4:  #week 1, before 4 August, piloting
-    if networkMachineName in knownMachinesForPilot:
-        experimentNum = knownMachinesForPilot.index(networkMachineName)
-        experimentNum = experimentNum % len(experimentsList)
-        
-experiment = experimentsList[ experimentNum ]
-#print('experiment=',experiment)
+
 import json
 otherData= {} #stuff to record in authors data file
 otherData.update( {'networkMachineName': networkMachineName} )
-otherData.update(experiment)
 #print('otherData=',otherData)
-import json
 otherData.update( {'datetime':now.isoformat()} )
+
+
+experimentNum = abs(  hash(subject)   ) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
+knownMachinesForPilot = ['W5FB2LG2','W5FFZKG2','W5FGZKG2','W5FFXKG2','W5FF2LG2','W5FD1LG2','W5FDYKG2','W5B5LG2' ]
+if now.day==31 or now.day < 4:  #week 1, before 4 August, piloting
+    if networkMachineName in knownMachinesForPilot:
+        experimentNum = knownMachinesForPilot.index(networkMachineName)
+        experimentNum = experimentNum % len(experimentsList)
+        otherData.update({'knownMachinesForPilot.index(networkMachineName)':knownMachinesForPilot.index(networkMachineName)})
+experiment = experimentsList[ experimentNum ]
+#print('experiment=',experiment)
+otherData.update(experiment)
 
 #Determine stimuli for this participant
 if experiment['stimType'] == 'letter':
