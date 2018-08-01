@@ -92,18 +92,18 @@ experimentsList = []
 oneTargetConditions = [False,False,True] #1/3 of trials single-target
 for stim in experimentTypesStim:
     if stim == 'word':
-        ISIms = 17
+        ISIms = 34
     else:
-        ISIms = 17
+        ISIms = 34
     for spatial in experimentTypesSpatial:
         experimentsList.append( {'numSimultaneousStim': 2, 'stimType':stim, 'flipped':False, 'spatial':spatial, 'ori':0, 'ISIms':ISIms, 'oneTargetConditions':oneTargetConditions} )
 #add Humby's experiment to list, making it number 4
-experimentsList.append( {'numSimultaneousStim': 3, 'stimType':'letter', 'flipped':False, 'spatial':'horiz', 'ori':0, 'ISIms':17, 'oneTargetConditions':[False,False,False] } )
+experimentsList.append( {'numSimultaneousStim': 3, 'stimType':'letter', 'flipped':False, 'spatial':'horiz', 'ori':0, 'ISIms':34, 'oneTargetConditions':[False,False,False] } )
 #add letters horizontally arranged, flipped 5
-experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':True, 'spatial':'horiz', 'ori':0, 'ISIms':17,  'oneTargetConditions':oneTargetConditions} )
+experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':True, 'spatial':'horiz', 'ori':0, 'ISIms':85,  'oneTargetConditions':oneTargetConditions} )
 #add letters vertical arranged, rotated right and rotated left 6
-experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':False, 'spatial':'vert', 'ori':90, 'ISIms':34,  'oneTargetConditions':oneTargetConditions} )
-experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':False, 'spatial':'vert', 'ori':-90, 'ISIms':34,  'oneTargetConditions':oneTargetConditions} )
+experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':False, 'spatial':'vert', 'ori':90, 'ISIms':51,  'oneTargetConditions':oneTargetConditions} )
+experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':False, 'spatial':'vert', 'ori':-90, 'ISIms':51,  'oneTargetConditions':oneTargetConditions} )
 
 seed = int( np.floor( time.time() ) )
 random.seed(seed); np.random.seed(seed) #https://stackoverflow.com/a/48056075/302378
@@ -801,7 +801,7 @@ if doStaircase:
         #create the staircase handler
         stepSizesLinear = [.6,.5,.4,.3,.2,.1,.05,.05]
         minVal = bgColor[0]+.15
-        maxMoreFramesAllowed = 4
+        maxMoreFramesAllowed = 6
         #lumRange = 1 - minVal
         staircase = data.StairHandler(
             startVal=ltrColor,
