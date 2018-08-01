@@ -801,7 +801,7 @@ if doStaircase:
         #create the staircase handler
         stepSizesLinear = [.6,.5,.4,.3,.2,.1,.05,.05]
         minVal = bgColor[0]+.15
-        maxMoreFramesAllowed = 3
+        maxMoreFramesAllowed = 4
         #lumRange = 1 - minVal
         staircase = data.StairHandler(
             startVal=ltrColor,
