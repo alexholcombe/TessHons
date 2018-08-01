@@ -26,17 +26,18 @@ loadOneSession<- function(dataDir,datafilename) {
   scores<- authorScore(js) #("authorsRaw" = scoreRaw, "authorsPct" = authorsPct, "authorsTotalChosen"=sum(sel))
 
   #add author scores to main tibble. authorsRaw, authorsPct, authorsTotalChosen
-  for (i in length(names(scores))) {
-    df[names(scores)[i]] <- js[names(scores)[i]]
+  for (i in 1:length(names(scores))) {
+    df[names(scores)[i]] <- scores[ names(scores)[i] ]
   }
   #add other metadata to main tibble
-  for (i in length(names(js))) {
-    df[names(js)[i]] <- js[names(js)[i]]
+  js$selected<- NULL #delete this one because list
+  for (i in 1:length(names(js))) {
+    df[names(js)[i]] <- js[ names(js)[i] ]
   }  #df$language <- js$`What is the first language you learned to read?`
 
   #library(lubridate)
   datetime <- js$datetime
-  datetime<- strsplit(datetime,split="[-T]")
+  datetime<- strsplit(datetime,split="[-T]")[[1]]
   month<- datetime[2]
   day<-datetime[3]
   df$month<- month

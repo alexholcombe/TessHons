@@ -68,7 +68,7 @@ else:
     if not os.path.isdir(dataDir):
         print("Error, can't even find the ",dataDir," directory")
         core.quit()
-timeDateStart = time.strftime("%d%b%Y_%H-%M", time.localtime()) #used for filename
+timeDateStart = time.strftime("%d%b%Y_%H-%M-%S", time.localtime()) #used for filename
 now = datetime.datetime.now() #used for JSON
 
 showRefreshMisses=True #flicker fixation at refresh rate, to visualize if frames missed
@@ -113,7 +113,6 @@ otherData= {} #stuff to record in authors data file
 otherData.update( {'networkMachineName': networkMachineName} )
 #print('otherData=',otherData)
 otherData.update( {'datetime':now.isoformat()} )
-
 
 experimentNum = abs(  hash(subject)   ) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
 knownMachinesForPilot = ['W5FB2LG2','W5FFZKG2','W5FGZKG2','W5FFXKG2','W5FF2LG2','W5FD1LG2','W5FDYKG2','W5B5LG2' ]
