@@ -418,7 +418,8 @@ trialInstructionStim.setText(trialInstructionString,log=False)
 respPromptStim = visual.TextStim(myWin,pos=(0, -.9),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.5,units='deg',autoLog=autoLogging)
 acceptTextStim = visual.TextStim(myWin,pos=(0, -.8),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.05,units='norm',autoLog=autoLogging)
 acceptTextStim.setText('Hit ENTER to accept. Backspace to edit')
-respStim = visual.TextStim(myWin,pos=(0,0),colorSpace='rgb',color=(1,1,0),alignHoriz='center', alignVert='center',height=1,units='deg',autoLog=autoLogging)
+respStim = visual.TextStim(myWin,pos=(0,0),colorSpace='rgb',color=(1,1,0),alignHoriz='center', alignVert='center',height=1,units='deg',
+                                            ori =  experiment['ori'] , autoLog=autoLogging)
 #clickSound, badSound = stringResponse.setupSoundsForResponse()
 requireAcceptance = False
 nextText = visual.TextStim(myWin,pos=(0, .1),colorSpace='rgb',color = (1,1,1),alignHoriz='center', alignVert='center',height=.1,units='norm',autoLog=autoLogging)
@@ -824,7 +825,7 @@ phasesMsg = 'Experiment will have '+str(trials.nTotal)+' trials. Letters will be
 print(phasesMsg); logging.info(phasesMsg)
 nDoneMain =0
 while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
-    print('nDoneMain=',nDoneMain)
+    #print('nDoneMain=',nDoneMain)
     whichStim0 = np.random.randint(0, len(stimList) )
     whichStim1 = np.random.randint(0, len(stimList) )
     whichStim2 = np.random.randint(0, len(stimList) ) #only used in Humby experiment
@@ -947,6 +948,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 if numToReport == 3: #need an orthogonal offset, so doesn't overlap when at fixation
                     y = -wordEccentricity
             respStim.setPos([x,y])
+            respStim.flipHoriz = experiment['flipped']
             xPrompt =  x*2 if thisTrial['horizVert'] else x*4  #needs to be further out if horizontal to fit the text
             respPromptStim.setPos([xPrompt, y*2])
 

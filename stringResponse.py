@@ -20,7 +20,8 @@ def drawResponses(responses,respStim,numCharsWanted,changeToUpperCase,drawBlanks
     respStim.draw();
         
 def collectStringResponse(numCharsWanted,x,y,respPromptStim,respStim,acceptTextStim,fixation,letterOrDigit,myWin,
-                                               clickSound,badKeySound,requireAcceptance,autopilot,changeToUpperCase,responseDebug=False): 
+                                               clickSound,badKeySound,requireAcceptance,autopilot,changeToUpperCase,
+                                               responseDebug=False): 
     '''respPromptStim should be a stimulus with a draw() method, could be something like 'Enter your 3-character response')
       respStim is a textStim in the location you want the participant's response to appear
       acceptTextStim where you want a message to appear, like 'Hit ENTER to accept. Backspace to edit'
