@@ -1,0 +1,101 @@
+---
+title: "analyseAll"
+author: "Alex Holcombe"
+date: "7/28/2018"
+output: html_document
+---
+
+Measurements Jen took for the monitors and viewing distance in OTC are Monitor height: 29.5cm, monitor length: 52.5cm, Viewing distance: 54cm.
+
+I suppose I will combine all the js records into the tibble that also contains the data. After all, need some of those fields to know the condition.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Load data and improve column names
+
+```{r load file}
+#rawDataPath<- file.path("practiceData","one")
+rawDataPath<- file.path("practiceData")
+source(file.path("readInAllFiles.R"))
+
+#loadOneSession("practiceData","bleo3225_01Aug2018_12-40.txt")
+
+tbAll<- readInAllFiles(rawDataPath)
+
+tbAll <- rename(tbAll, "firstReadLang" = "What is the first language you learned to read?")
+tbAll <- rename(tbAll, "handedness" = "Which is your dominant hand for common tasks,\nlike writing, throwing, and brushing your teeth?\n\n")
+```
+
+Anonymise subject names
+
+```{r }
+Ss <- unique(tbAll$subject)
+listOfFakeNames <- 1:length(Ss)
+
+#Permute to create random correspondence with codes
+#Get a reproducible random seed so investigator can reverse to recover subject unikey if necessary
+seed <- read_csv('subjectEncryptionKeyNotIndexedByGit/seed.csv')
+seed <- seed$seed
+set.seed(seed)
+listOfFakeNames <- sample(listOfFakeNames)
+
+#Replace real subject names by codes
+#Create lookup table
+lookup<- data.frame(old=Ss, new=listOfFakeNames)
+
+newS <- tbAll$subject #new subject list
+newS[] <- lookup$new[match(unlist(newS), lookup$old)] #https://stackoverflow.com/a/35636836/302378
+
+tbAll$subject <- newS
+
+```
+
+
+Save data
+```{r save file}
+library(readr) #has better than save.csv https://readr.tidyverse.org/reference/write_delim.html
+pathToSave <- file.path("dataAnonymized")
+#saveRDS(tbAll, file = file.path(pathTosave,"PSYC1anonymized.rda", compress="bzip2")
+write.csv(tbAll, file = file.path(pathToSave,"PSYC1anonymized.csv"))
+```
+
+Install skimr
+```{r pressure, echo=FALSE}
+#devtools::install_github("ropenscilabs/skimr")
+#install.packages("tidyselect")  and from source to get 0.2.4 needed
+library(skimr)
+```
+
+## Inspect data
+```{r i, echo=FALSE}
+skim(df)
+```
+
+Load ggplot and dplyr
+```{r i, echo=FALSE}
+library(ggplot2)
+library(dplyr)
+```
+
+## Proportion correct
+
+```{r i, echo=FALSE}
+notOneTarget
+eachCorrect<- df %>% summarise_at(c("correct0","correct1"),mean)
+avgCorrect = rowMeans(eachCorrect)
+```
+
+```{r}
+if (avgCorrect < .5) {
+  shouldExclude = TRUE
+}
+practiceTrials = 3
+df$experimentPhase<-NULL
+df<- df %>% mutate(practice= trialnum<=2)
+#Sanity check what ISIframes got to
+longestISIframes<- max( df %>% filter(practice==0) %>% select("ISIframes") )
+S<-data.frame()
+S$name<-df$subject[1]
+```

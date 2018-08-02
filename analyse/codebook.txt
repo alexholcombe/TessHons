@@ -1,0 +1,5 @@
+For vertical experiments,
+Looks like correct0 refers to lower, 1 refers to upper (see line 895, also calcStimPos)
+For horizontal experiments,
+correct0 refers to left, correct1 to right.
+But for one-target trials, rightResponseFirst is the only thing that tells you which side it was on.
