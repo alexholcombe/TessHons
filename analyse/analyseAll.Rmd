@@ -5,10 +5,6 @@ date: "7/28/2018"
 output: html_document
 ---
 
-Measurements Jen took for the monitors and viewing distance in OTC are Monitor height: 29.5cm, monitor length: 52.5cm, Viewing distance: 54cm.
-
-I suppose I will combine all the js records into the tibble that also contains the data. After all, need some of those fields to know the condition.
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -16,16 +12,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Load data
 
 ```{r load file}
-#rawDataPath<- file.path("practiceData","one")
-rawDataPath<- file.path("practiceData")
-source(file.path("importAllData.R"))
+library(readr)
+dataWithPath<- file.path("dataAnonymized","PSYC1anonymized.csv")
 
-#loadOneSession("practiceData","bleo3225_01Aug2018_12-40.txt")
+tb<- read_csv(dataWithPath)
 
-tbAll<- readInAllFiles(rawDataPath)
 
-tbAll <- rename(tbAll, "firstReadLang" = "What is the first language you learned to read?")
-tbAll <- rename(tbAll, "handedness" = "Which is your dominant hand for common tasks,\nlike writing, throwing, and brushing your teeth?\n\n")
 ```
 
 Install skimr
@@ -49,8 +41,16 @@ library(dplyr)
 ## Proportion correct
 
 ```{r i, echo=FALSE}
-notOneTarget
-eachCorrect<- df %>% summarise_at(c("correct0","correct1"),mean)
+#Look at one-target performance
+tbOne <- tb %>% filter(oneTarget == "True") 
+eachCorrOne<- tbOne %>% group_by(rightResponseFirst) %>% summarise_at(c("correct0","correct1"),mean)
+```
+
+
+```{r i, echo=FALSE}
+#Exclude trials with one target, three targets
+tbTwo <- tb %>% filter(oneTarget == "False", numSimultaneousStim < 3) 
+eachCorrect<- tbTwo %>% summarise_at(c("correct0","correct1"),mean)
 avgCorrect = rowMeans(eachCorrect)
 ```
 
