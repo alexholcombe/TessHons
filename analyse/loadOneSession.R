@@ -1,6 +1,10 @@
 source('scoreAuthorRecognition.R')
 library(jsonlite)
 library(readr)
+
+#dataDir<-"practiceData"
+#datafilename<-"bleo3225_01Aug2018_12-40.txt"
+
 loadOneSession<- function(dataDir,datafilename) {
 
   fnameroot = substr(datafilename,1,nchar(datafilename)-4)
@@ -31,6 +35,7 @@ loadOneSession<- function(dataDir,datafilename) {
   }
   #add other metadata to main tibble
   js$selected<- NULL #delete this one because list
+  js$oneTargetConditions <- NULL #delete this one because list
   for (i in 1:length(names(js))) {
     df[names(js)[i]] <- js[ names(js)[i] ]
   }  #df$language <- js$`What is the first language you learned to read?`
