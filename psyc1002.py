@@ -121,7 +121,7 @@ if now.day==31 or now.day < 4:  #week 1, before 4 August, piloting
         experimentNum = knownMachinesForPilot.index(networkMachineName)
         experimentNum = experimentNum % len(experimentsList)
         otherData.update({'knownMachinesForPilot.index(networkMachineName)':knownMachinesForPilot.index(networkMachineName)})
-#experimentNum = 2
+experimentNum = 6
 experiment = experimentsList[ experimentNum ]
 #print('experiment=',experiment)
 otherData.update(experiment)
@@ -229,7 +229,7 @@ if demo or exportImages:
   logging.console.setLevel(logging.ERROR)  #only show this level  messages and higher
 logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nearly all messges, INFO next level, EXP, DATA, WARNING and ERROR 
 
-includeConsentDemographicsAuthor = True
+includeConsentDemographicsAuthor = False
 if includeConsentDemographicsAuthor:
         # require password
         succeeded = False
@@ -418,10 +418,21 @@ trialInstructionString = 'Keep your eyes on the red dot'
 trialInstructionPos = (0,1)
 trialInstructionStim = visual.TextStim(myWin,pos=trialInstructionPos,colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.5,units='deg',autoLog=autoLogging)
 trialInstructionStim.setText(trialInstructionString,log=False)
-respPromptStim = visual.TextStim(myWin,pos=(0, -.9),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.5,units='deg',autoLog=autoLogging)
+respPromptStim1 = visual.TextStim(myWin,pos=(0, -.9),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.5,units='deg',autoLog=autoLogging)
+respPromptStim2 = visual.TextStim(myWin,colorSpace='rgb',color=(.8,.8,0),wrapWidth=999,alignHoriz='center', alignVert='center',height=1.2,units='deg',autoLog=autoLogging)
+promptText =''  #Show entire array of possible responses to subject, unless words
+for s in stimList:
+    promptText += s + '   '
+respPromptStim2.setText(promptText)
+if experiment['stimType']=='word' or experiment['numSimultaneousStim']==3:
+    respPromptStim2.setText('')
+if experiment['flipped']:
+    respPromptStim2.flipHoriz = True
+print('promptText=',promptText)
+
 acceptTextStim = visual.TextStim(myWin,pos=(0, -.8),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.05,units='norm',autoLog=autoLogging)
 acceptTextStim.setText('Hit ENTER to accept. Backspace to edit')
-respStim = visual.TextStim(myWin,pos=(0,0),colorSpace='rgb',color=(1,1,0),alignHoriz='center', alignVert='center',height=1,units='deg',
+respStim = visual.TextStim(myWin,pos=(0,0),colorSpace='rgb',color=(.8,.8,0),alignHoriz='center', alignVert='center',height=1,units='deg',
                                             ori =  experiment['ori'] , autoLog=autoLogging)
 #clickSound, badSound = stringResponse.setupSoundsForResponse()
 requireAcceptance = False
@@ -719,8 +730,8 @@ def do_RSVP_stim(thisTrial, seq1, seq2, seq3, ltrColorThis, proportnNoise,trialN
     myWin.setRecordFrameIntervals(False);
     
     if task=='T1':
-        respPromptStim.setText('What was the underlined word?',log=False)   
-    else: respPromptStim.setText('Error: unexpected task',log=False)
+        respPromptStim1.setText('What was the underlined word?',log=False)   
+    else: respPromptStim1.setText('Error: unexpected task',log=False)
     
     return ts
 
@@ -812,7 +823,7 @@ if doStaircase:
             stepSizes=stepSizesLinear,  # reduce step size every two reversals
             minVal=minVal, 
             maxVal=maxMoreFramesAllowed + .99, 
-            nUp=1, nDown=3,  # 1-up 3-down homes in on the 80% threshold. Gravitates toward a value that has an equal probability of getting easier and getting harder.
+            nUp=1, nDown=2,  # 1-up 3-down homes in on the 80% threshold. Gravitates toward a value that has an equal probability of getting easier and getting harder.
             #See Wetherill & Levitt 1965, 1 up 2 down goes for 71% correct. And if 2 letters are independent, each correct = sqrt(.71) = 84% correct.
             nTrials=500)
         print('created conventional staircase')
@@ -949,8 +960,8 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             else:
                 locationName  = locationNames[      thisTrial['horizVert'] * numLocations  +   responseOrder[respI]      ]
                 respPromptString += ' that was on ' +  locationName
-            respPromptStim.setText(respPromptString,log=False)
-            
+            respPromptStim1.setText(respPromptString,log=False)
+            respPromptStim2.setPos( 5* np.array(thisTrial['trialInstructionPos']) ) 
             if thisTrial['horizVert']:
                 x=0; y=dev
                 if numToReport == 3: #need an orthogonal offset, so doesn't overlap when at fixation
@@ -962,14 +973,14 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             respStim.setPos([x,y])
             respStim.flipHoriz = experiment['flipped']
             xPrompt =  x*2 if thisTrial['horizVert'] else x*4  #needs to be further out if horizontal to fit the text
-            respPromptStim.setPos([xPrompt, y*2])
+            respPromptStim1.setPos([xPrompt, y*2])
 
             #expStop,passThisTrial,responses,buttons,responsesAutopilot = \
             #        letterLineupResponse.doLineup(myWin,bgColor,myMouse,clickSound,badSound,possibleResps,showBothSides,sideFirstLeftRightCentral,autopilot) #CAN'T YET HANDLE MORE THAN 2 LINEUPS
             changeToUpper = False
             fixationPoint.setColor([.7,.7,.7]) #white not red so person doesnt' feel they have to look at it
             expStop[respI],passThisTrial[respI],responses[respI],responsesAutopilot[respI] = stringResponse.collectStringResponse(
-                                    numCharsInResponse,x,y,respPromptStim,respStim,acceptTextStim,fixationPoint, (1 if experiment['stimType']=='digit' else 0), myWin,
+                                    numCharsInResponse,x,y,respPromptStim1,respPromptStim2,respStim,acceptTextStim,fixationPoint, (1 if experiment['stimType']=='digit' else 0), myWin,
                                     clickSound,badSound, requireAcceptance,autopilot,changeToUpper,responseDebug=True )
             fixationPoint.setColor(fixColor)
             respI += 1

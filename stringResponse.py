@@ -19,7 +19,7 @@ def drawResponses(responses,respStim,numCharsWanted,changeToUpperCase,drawBlanks
     respStim.setText(respStr,log=False)
     respStim.draw();
         
-def collectStringResponse(numCharsWanted,x,y,respPromptStim,respStim,acceptTextStim,fixation,letterOrDigit,myWin,
+def collectStringResponse(numCharsWanted,x,y,respPromptStim1,respPromptStim2,respStim,acceptTextStim,fixation,letterOrDigit,myWin,
                                                clickSound,badKeySound,requireAcceptance,autopilot,changeToUpperCase,
                                                responseDebug=False): 
     '''respPromptStim should be a stimulus with a draw() method, could be something like 'Enter your 3-character response')
@@ -42,7 +42,8 @@ def collectStringResponse(numCharsWanted,x,y,respPromptStim,respStim,acceptTextS
         while noResponseYet and not expStop: #loop until a valid key is hit
            if fixation is not None:
                 fixation.draw()
-           respPromptStim.draw()
+           respPromptStim1.draw()
+           respPromptStim2.draw()
            drawResponses(responses,respStim,numCharsWanted,changeToUpperCase,drawBlanks)
            myWin.flip()
            click =  False
