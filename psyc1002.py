@@ -121,6 +121,7 @@ if now.day==31 or now.day < 4:  #week 1, before 4 August, piloting
         experimentNum = knownMachinesForPilot.index(networkMachineName)
         experimentNum = experimentNum % len(experimentsList)
         otherData.update({'knownMachinesForPilot.index(networkMachineName)':knownMachinesForPilot.index(networkMachineName)})
+#experimentNum = 2
 experiment = experimentsList[ experimentNum ]
 #print('experiment=',experiment)
 otherData.update(experiment)
@@ -406,10 +407,13 @@ else: fixSizePix = 36
 fixColor = (1,-.5,-.5)
 if exportImages: fixColor= [0,0,0]
 fixationPoint= visual.PatchStim(myWin,tex='none',colorSpace='rgb',color=fixColor,size=4,units='pix',autoLog=autoLogging)
-taskInstructionString = 'Sometimes you may not be able to see any ' + experiment['stimType'] + 's.\nIn those cases, guess.\n\nPlease do your best!'
+taskInstructionString1 = 'Which side you are asked to report varies.\n Be sure to report the correct side; the one asked for.'
+taskInstructionString2 = 'Sometimes you may not be able to see any ' + experiment['stimType'] + 's.\nIn those cases, guess.\n\nPlease do your best!'
 taskInstructionPos = (0,0)
-taskInstructionStim = visual.TextStim(myWin,pos=taskInstructionPos,colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.5,units='deg',autoLog=autoLogging)
-taskInstructionStim.setText(taskInstructionString,log=False)
+taskInstructionStim1 = visual.TextStim(myWin,pos=taskInstructionPos,colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.5,units='deg',autoLog=autoLogging)
+taskInstructionStim2 = visual.TextStim(myWin,pos=taskInstructionPos,colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.5,units='deg',autoLog=autoLogging)
+taskInstructionStim1.setText(taskInstructionString1,log=False)
+taskInstructionStim2.setText(taskInstructionString2,log=False)
 trialInstructionString = 'Keep your eyes on the red dot'
 trialInstructionPos = (0,1)
 trialInstructionStim = visual.TextStim(myWin,pos=trialInstructionPos,colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.5,units='deg',autoLog=autoLogging)
@@ -798,7 +802,7 @@ expTimedOut = False
 nDoneMain = -1 #change to zero once start main part of experiment
 if doStaircase:
         #create the staircase handler
-        stepSizesLinear = [.6,.5,.4,.3,.2,.1,.05,.05]
+        stepSizesLinear = [.6,.6,.5,.5,.4,.3,.3,.1,.1,.1,.1,.05]
         minVal = bgColor[0]+.15
         maxMoreFramesAllowed = 6
         #lumRange = 1 - minVal
@@ -836,16 +840,25 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
         msg='Starting main part of experiment'
         howManyMoreFrames =0
         logging.info(msg)
-        thisTrial['ISIframes'] *= 10 #ease the participants into it
+        thisTrial['ISIframes'] *= 13 #ease the participants into it
     elif nDoneMain == 1:  #Show instructions
-        thisTrial['ISIframes'] *= 6
+        thisTrial['ISIframes'] *= 10
         event.clearEvents(); keyPressed = False; f =0
         while f < 500 and not keyPressed:
-            taskInstructionStim.draw()
+            taskInstructionStim1.draw()
             myWin.flip(); f += 1
             keyPressed = event.getKeys() #keyList=list(string.ascii_lowercase))
     elif nDoneMain ==2:
-        thisTrial['ISIframes'] *= 3
+        thisTrial['ISIframes'] *= 8
+    elif nDoneMain ==3:
+        thisTrial['ISIframes'] *= 8
+    elif nDoneMain ==4:
+        thisTrial['ISIframes'] *= 6
+        event.clearEvents(); keyPressed = False; f =0
+        while f < 500 and not keyPressed:
+            taskInstructionStim2.draw()
+            myWin.flip(); f += 1
+            keyPressed = event.getKeys() #keyList=list(string.ascii_lowercase))        
     else:
         if doStaircase:
             print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity, 'howManyMoreFrames=',howManyMoreFrames)
@@ -1015,7 +1028,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 #not99idx = not eachCorrect.index(-99)
                 correctForStaircase = eachCorrect[not99idx]
             print('eachCorrect=',eachCorrect, 'correctForStaircase=',correctForStaircase)
-            if doStaircase and nDoneMain>2:
+            if doStaircase and nDoneMain>4:
                 staircase.addResponse( correctForStaircase )
             numTrialsCorrect += eachCorrect.all() #so count -1 as 0
             numTrialsEachCorrect += eachCorrect #list numRespsWanted long

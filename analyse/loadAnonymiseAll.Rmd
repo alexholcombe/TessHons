@@ -26,6 +26,8 @@ tbAll<- readInAllFiles(rawDataPath)
 
 tbAll <- rename(tbAll, "firstReadLang" = "What is the first language you learned to read?")
 tbAll <- rename(tbAll, "handedness" = "Which is your dominant hand for common tasks,\nlike writing, throwing, and brushing your teeth?\n\n")
+tbAll$experimentPhase<-NULL
+
 ```
 
 Anonymise subject names

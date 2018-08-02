@@ -17,6 +17,9 @@ dataWithPath<- file.path("dataAnonymized","PSYC1anonymized.csv")
 
 tb<- read_csv(dataWithPath)
 
+#add practice column
+practiceTrials = 3
+tb<- tb %>% mutate(practice= (trialnum<practiceTrials))
 
 ```
 
@@ -40,29 +43,66 @@ library(dplyr)
 
 ## Proportion correct
 
+One target
+
 ```{r i, echo=FALSE}
 #Look at one-target performance
 tbOne <- tb %>% filter(oneTarget == "True") 
+#correct0 refers to left, correct1 to right.
+#But for one-target trials, rightResponseFirst is the only thing that tells you which side it was on.
 eachCorrOne<- tbOne %>% group_by(rightResponseFirst) %>% summarise_at(c("correct0","correct1"),mean)
 ```
 
+Two targets
 
-```{r i, echo=FALSE}
+```{r Overall average correct, echo=FALSE}
 #Exclude trials with one target, three targets
 tbTwo <- tb %>% filter(oneTarget == "False", numSimultaneousStim < 3) 
+#correct0 refers to left, correct1 to right.
 eachCorrect<- tbTwo %>% summarise_at(c("correct0","correct1"),mean)
 avgCorrect = rowMeans(eachCorrect)
+
+```
+
+```{r inspectStaircase}
+
+#Inspect what ISIframes got up to
+
+maxPossibleISIframes <- 8 #unknown
+tb %>% filter(practice==0) %>% group_by(subject) %>% summarise(maxISI = max(ISIframes))
+#Determine subject numbers who maxxed out
+maxedOut <- unique(  tb %>% filter(ISIframes == maxPossibleISIframes)   )
+
 ```
 
 ```{r}
-if (avgCorrect < .5) {
-  shouldExclude = TRUE
-}
-practiceTrials = 3
-df$experimentPhase<-NULL
-df<- df %>% mutate(practice= trialnum<=2)
-#Sanity check what ISIframes got to
-longestISIframes<- max( df %>% filter(practice==0) %>% select("ISIframes") )
-S<-data.frame()
-S$name<-df$subject[1]
+#Exclusion criteria
+correctExclusionThreshold <- .4
+#Exclude trials with one target, three targets
+tbTwo <- tb %>% filter(oneTarget == "False", numSimultaneousStim < 3) 
+#correct0 refers to left, correct1 to right.
+overall<- tbTwo %>% group_by(subject) %>% summarise_at(c("correct0","correct1"),mean)
+overall <- overall %>% mutate(pCorr = (correct0 + correct1)/2)
+tooLow <- overall %>% filter(pCorr < correctExclusionThreshold)
+cat("subjects who were too low in two-target condition are:")
+cat(tooLow)
+
+#Exclude low performers in the 3-target condition
+tbThree <- tb %>% filter(numSimultaneousStim == 3) 
+overall<- tbThree %>% group_by(subject) %>% summarise_at(c("correct0","correct1","correct2"),mean)
+overall <- overall %>% mutate(pCorr = (correct0 + correct1 + correct2)/3)
+tooLow <- overall %>% filter(pCorr < correctExclusionThreshold)
+cat("subjects who were too low in three-target condition are:")
+cat(tooLow)
+
+```
+
+```{r Calculate how swaps each subject has}
+
+#Compare response0 to 
+#
+```
+
+```{r ttest}
+
 ```
