@@ -75,7 +75,8 @@ maxedOut <- unique(  tb %>% filter(ISIframes == maxPossibleISIframes)   )
 
 ```
 
-```{r}
+
+```{r Exclude}
 #Exclusion criteria
 correctExclusionThreshold <- .4
 #Exclude trials with one target, three targets

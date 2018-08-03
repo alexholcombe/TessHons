@@ -30,6 +30,11 @@ tbAll$experimentPhase<-NULL
 
 ```
 
+```{r excludeTutors}
+tutors = list("bleo3225","ivan8836","cowe4014","bsze6874","ccha9074")
+tbAll <- tbAll %>% filter( ! (subject %in% tutors) )
+```
+
 Anonymise subject names
 
 ```{r }
