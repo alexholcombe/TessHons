@@ -100,19 +100,19 @@ for stim in experimentTypesStim:
 #add Humby's experiment to list, making it number 4
 experimentsList.append( {'numSimultaneousStim': 3, 'stimType':'letter', 'flipped':False, 'spatial':'horiz', 'ori':0, 'ISIms':34, 'oneTargetConditions':[False,False,False] } )
 #add letters horizontally arranged, flipped 5
-experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':True, 'spatial':'horiz', 'ori':0, 'ISIms':85,  'oneTargetConditions':oneTargetConditions} )
+experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':True, 'spatial':'horiz', 'ori':0, 'ISIms':68,  'oneTargetConditions':oneTargetConditions} )
 #add letters vertical arranged, rotated right and rotated left 6
 experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':False, 'spatial':'vert', 'ori':90, 'ISIms':51,  'oneTargetConditions':oneTargetConditions} )
 experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':False, 'spatial':'vert', 'ori':-90, 'ISIms':51,  'oneTargetConditions':oneTargetConditions} )
 
 seed = int( np.floor( time.time() ) )
 random.seed(seed); np.random.seed(seed) #https://stackoverflow.com/a/48056075/302378
-
 import json
 otherData= {} #stuff to record in authors data file
 otherData.update( {'networkMachineName': networkMachineName} )
 #print('otherData=',otherData)
 otherData.update( {'datetime':now.isoformat()} )
+otherData.update( {'seed':seed} )
 
 experimentNum = abs(  hash(subject)   ) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
 knownMachinesForPilot = ['W5FB2LG2','W5FFZKG2','W5FGZKG2','W5FFXKG2','W5FF2LG2','W5FD1LG2','W5FDYKG2','W5B5LG2' ]
@@ -121,7 +121,7 @@ if now.day==31 or now.day < 4:  #week 1, before 4 August, piloting
         experimentNum = knownMachinesForPilot.index(networkMachineName)
         experimentNum = experimentNum % len(experimentsList)
         otherData.update({'knownMachinesForPilot.index(networkMachineName)':knownMachinesForPilot.index(networkMachineName)})
-experimentNum = 1 #temp
+experimentNum = 5 #temp
 experiment = experimentsList[ experimentNum ]
 #print('experiment=',experiment)
 otherData.update(experiment)
@@ -993,7 +993,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             respPromptStim1.setPos([xPrompt, y*2])
             #respPromptStim2, 3 will be at left and right, vertically arrayed if vertical stimuli arrangement,
             #  at top and bottom, horizontally arrayed if horizontal stimuli arrangement
-            edge = .9
+            edge = .7
             if thisTrial['horizVert']: 
                 respPromptStim2.setPos( [-edge,0] ) #left
                 respPromptStim3.setPos( [edge, 0] ) #right
