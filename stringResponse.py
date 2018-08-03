@@ -19,7 +19,7 @@ def drawResponses(responses,respStim,numCharsWanted,changeToUpperCase,drawBlanks
     respStim.setText(respStr,log=False)
     respStim.draw();
         
-def collectStringResponse(numCharsWanted,x,y,respPromptStim1,respPromptStim2,respStim,acceptTextStim,fixation,letterOrDigit,myWin,
+def collectStringResponse(numCharsWanted,x,y,respPromptStim1,respPromptStim2,respPromptStim3,respStim,acceptTextStim,fixation,letterOrDigit,myWin,
                                                clickSound,badKeySound,requireAcceptance,autopilot,changeToUpperCase,
                                                responseDebug=False): 
     '''respPromptStim should be a stimulus with a draw() method, could be something like 'Enter your 3-character response')
@@ -42,8 +42,11 @@ def collectStringResponse(numCharsWanted,x,y,respPromptStim1,respPromptStim2,res
         while noResponseYet and not expStop: #loop until a valid key is hit
            if fixation is not None:
                 fixation.draw()
-           respPromptStim1.draw()
-           respPromptStim2.draw()
+           respPromptStim1.draw(); 
+           if respPromptStim2:
+                respPromptStim2.draw()
+           if respPromptStim3:
+                respPromptStim3.draw()
            drawResponses(responses,respStim,numCharsWanted,changeToUpperCase,drawBlanks)
            myWin.flip()
            click =  False
@@ -155,13 +158,14 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     responseDebug=False; responses = list(); responsesAutopilot = list();
     numCharsWanted = 5
     respPromptStim.setText('Enter your ' + str(numCharsWanted) + '-' + ('digit' if letterOrDigit else 'letter') + ' response')
+    respPromptStim2 = None; respPromptStim3 = None
     requireAcceptance = True
     x=-.2 #x offset relative to centre of screen
     y=0
     changeToUpper = True
     responseDebug = True
     expStop,passThisTrial,responses,responsesAutopilot = \
-                collectStringResponse(numCharsWanted,x,y,respPromptStim,respStim,acceptTextStim,None,letterOrDigit,window,clickSound,badKeySound,requireAcceptance,autopilot,
+                collectStringResponse(numCharsWanted,x,y,respPromptStim,respPromptStim2,respPromptStim3,respStim,acceptTextStim,None,letterOrDigit,window,clickSound,badKeySound,requireAcceptance,autopilot,
                                                         changeToUpper, responseDebug)
     print('responses=',responses)
     print('expStop=',expStop,' passThisTrial=',passThisTrial,' responses=',responses, ' responsesAutopilot =', responsesAutopilot)

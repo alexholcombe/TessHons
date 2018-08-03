@@ -121,7 +121,7 @@ if now.day==31 or now.day < 4:  #week 1, before 4 August, piloting
         experimentNum = knownMachinesForPilot.index(networkMachineName)
         experimentNum = experimentNum % len(experimentsList)
         otherData.update({'knownMachinesForPilot.index(networkMachineName)':knownMachinesForPilot.index(networkMachineName)})
-experimentNum = 6
+experimentNum = 1 #temp
 experiment = experimentsList[ experimentNum ]
 #print('experiment=',experiment)
 otherData.update(experiment)
@@ -348,8 +348,15 @@ logging.flush()
 def calcStimPos(trial,i):
     #i is position index, either 0, 1, or 2.  Just 0 or 1 unless Humby experimnet with 3 positions
     global experiment
+    amountNeedToCompensateForRotation = 0.08 #when text rotated by 90 deg, not centered at x-coord any more
     if trial['horizVert']:            # bottom,           top
-        positions = [ [0,-wordEccentricity], [0,wordEccentricity] ]
+        if experiment['ori'] == 90:
+            x = amountNeedToCompensateForRotation
+        elif experiment['ori'] == -90:
+            x = -amountNeedToCompensateForRotation
+        elif experiment['ori'] == 0:
+            x = 0
+        positions = [ [x,-wordEccentricity], [x,wordEccentricity] ]
     else:                                   #left      ,        right 
         positions = [ [-wordEccentricity,0], [wordEccentricity,0] ]
     #insert 3rd position of 3 stimuli
@@ -407,7 +414,7 @@ else: fixSizePix = 36
 fixColor = (1,-.5,-.5)
 if exportImages: fixColor= [0,0,0]
 fixationPoint= visual.PatchStim(myWin,tex='none',colorSpace='rgb',color=fixColor,size=4,units='pix',autoLog=autoLogging)
-taskInstructionString1 = 'Which side you are asked to report varies.\n Be sure to report the correct side; the one asked for.'
+taskInstructionString1 = 'Which side you are asked to report varies.\n Be sure to report the side asked for.'
 taskInstructionString2 = 'Sometimes you may not be able to see any ' + experiment['stimType'] + 's.\nIn those cases, guess.\n\nPlease do your best!'
 taskInstructionPos = (0,0)
 taskInstructionStim1 = visual.TextStim(myWin,pos=taskInstructionPos,colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.5,units='deg',autoLog=autoLogging)
@@ -419,15 +426,22 @@ trialInstructionPos = (0,1)
 trialInstructionStim = visual.TextStim(myWin,pos=trialInstructionPos,colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.5,units='deg',autoLog=autoLogging)
 trialInstructionStim.setText(trialInstructionString,log=False)
 respPromptStim1 = visual.TextStim(myWin,pos=(0, -.9),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.5,units='deg',autoLog=autoLogging)
-respPromptStim2 = visual.TextStim(myWin,colorSpace='rgb',color=(.8,.8,0),wrapWidth=999,alignHoriz='center', alignVert='center',height=1.2,units='deg',autoLog=autoLogging)
+respPromptStim2 = visual.TextStim(myWin,colorSpace='rgb',color=(.8,.8,0),wrapWidth=999,alignHoriz='center', alignVert='center',height=.09,units='norm',autoLog=autoLogging)
+respPromptStim3 = visual.TextStim(myWin,colorSpace='rgb',color=(.8,.8,0),wrapWidth=999,alignHoriz='center', alignVert='center',height=.09,units='norm',autoLog=autoLogging)
+
+#promptLtrsStimuli = list()
+#for s in stimList:
+#    respPromptStim2 = visual.TextStim(myWin,colorSpace='rgb',color=(.8,.8,0),wrapWidth=999,alignHoriz='center', alignVert='center',height=1.2,units='deg',autoLog=autoLogging)
+    
 promptText =''  #Show entire array of possible responses to subject, unless words
 for s in stimList:
     promptText += s + '   '
-respPromptStim2.setText(promptText)
+respPromptStim2.setText(promptText); respPromptStim3.setText(promptText)
 if experiment['stimType']=='word' or experiment['numSimultaneousStim']==3:
-    respPromptStim2.setText('')
+    respPromptStim2.setText(''); respPromptStim3.setText(''); 
+respPromptStim2.ori = experiment['ori']; respPromptStim3.ori = experiment['ori']
 if experiment['flipped']:
-    respPromptStim2.flipHoriz = True
+    respPromptStim2.flipHoriz = True; respPromptStim3.flipHoriz = True
 print('promptText=',promptText)
 
 acceptTextStim = visual.TextStim(myWin,pos=(0, -.8),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.05,units='norm',autoLog=autoLogging)
@@ -512,7 +526,6 @@ def oneFrameOfStim( n,cue,seq1,seq2,seq3,cueDurFrames,letterDurFrames,thisTrial,
   stimN = int( np.floor(n/SOAframes) )
   frameOfThisLetter = n % SOAframes #every SOAframes, new letter
   timeToShowStim = frameOfThisLetter < letterDurFrames #if true, it's not time for the blank ISI.  it's still time to draw the letter
-  fixationPoint.draw() #temp
   #print 'n=',n,' SOAframes=',SOAframes, ' letterDurFrames=', letterDurFrames, ' (n % SOAframes) =', (n % SOAframes)  #DEBUGOFF
   if seq1 is not None:
     thisStimIdx = seq1[stimN] #which letter, from A to Z (1 to 26), should be shown?
@@ -961,7 +974,6 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 locationName  = locationNames[      thisTrial['horizVert'] * numLocations  +   responseOrder[respI]      ]
                 respPromptString += ' that was on ' +  locationName
             respPromptStim1.setText(respPromptString,log=False)
-            respPromptStim2.setPos( 5* np.array(thisTrial['trialInstructionPos']) ) 
             if thisTrial['horizVert']:
                 x=0; y=dev
                 if numToReport == 3: #need an orthogonal offset, so doesn't overlap when at fixation
@@ -970,17 +982,31 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 x=dev; y=0
                 if numToReport == 3: #need an orthogonal offset, so doesn't overlap when at fixation
                     y = -wordEccentricity
+            if thisTrial['horizVert']: #x coordinate have to compensate if rotated, use calcStimPos to check
+                 pos  = calcStimPos(thisTrial,0)
+                 x = pos[0]
             respStim.setPos([x,y])
+
             respStim.flipHoriz = experiment['flipped']
+            #Set position of respPromptStim
             xPrompt =  x*2 if thisTrial['horizVert'] else x*4  #needs to be further out if horizontal to fit the text
             respPromptStim1.setPos([xPrompt, y*2])
-
+            #respPromptStim2, 3 will be at left and right, vertically arrayed if vertical stimuli arrangement,
+            #  at top and bottom, horizontally arrayed if horizontal stimuli arrangement
+            edge = .9
+            if thisTrial['horizVert']: 
+                respPromptStim2.setPos( [-edge,0] ) #left
+                respPromptStim3.setPos( [edge, 0] ) #right
+            else:
+                respPromptStim2.setPos( [0,-edge] ) #bottom
+                respPromptStim3.setPos( [0, edge] ) #top
+                
             #expStop,passThisTrial,responses,buttons,responsesAutopilot = \
             #        letterLineupResponse.doLineup(myWin,bgColor,myMouse,clickSound,badSound,possibleResps,showBothSides,sideFirstLeftRightCentral,autopilot) #CAN'T YET HANDLE MORE THAN 2 LINEUPS
             changeToUpper = False
             fixationPoint.setColor([.7,.7,.7]) #white not red so person doesnt' feel they have to look at it
             expStop[respI],passThisTrial[respI],responses[respI],responsesAutopilot[respI] = stringResponse.collectStringResponse(
-                                    numCharsInResponse,x,y,respPromptStim1,respPromptStim2,respStim,acceptTextStim,fixationPoint, (1 if experiment['stimType']=='digit' else 0), myWin,
+                                    numCharsInResponse,x,y,respPromptStim1,respPromptStim2,respPromptStim3,respStim,acceptTextStim,fixationPoint, (1 if experiment['stimType']=='digit' else 0), myWin,
                                     clickSound,badSound, requireAcceptance,autopilot,changeToUpper,responseDebug=True )
             fixationPoint.setColor(fixColor)
             respI += 1
