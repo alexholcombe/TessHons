@@ -121,7 +121,7 @@ if now.day==31 or now.day < 4:  #week 1, before 4 August, piloting
         experimentNum = knownMachinesForPilot.index(networkMachineName)
         experimentNum = experimentNum % len(experimentsList)
         otherData.update({'knownMachinesForPilot.index(networkMachineName)':knownMachinesForPilot.index(networkMachineName)})
-experimentNum = 5 #temp
+#experimentNum = 2
 experiment = experimentsList[ experimentNum ]
 #print('experiment=',experiment)
 otherData.update(experiment)
@@ -229,7 +229,7 @@ if demo or exportImages:
   logging.console.setLevel(logging.ERROR)  #only show this level  messages and higher
 logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nearly all messges, INFO next level, EXP, DATA, WARNING and ERROR 
 
-includeConsentDemographicsAuthor = False
+includeConsentDemographicsAuthor = True
 if includeConsentDemographicsAuthor:
         # require password
         succeeded = False
