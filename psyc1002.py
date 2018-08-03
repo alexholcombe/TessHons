@@ -121,7 +121,7 @@ if now.day==31 or now.day < 4:  #week 1, before 4 August, piloting
         experimentNum = knownMachinesForPilot.index(networkMachineName)
         experimentNum = experimentNum % len(experimentsList)
         otherData.update({'knownMachinesForPilot.index(networkMachineName)':knownMachinesForPilot.index(networkMachineName)})
-#experimentNum = 2
+#experimentNum = 0
 experiment = experimentsList[ experimentNum ]
 #print('experiment=',experiment)
 otherData.update(experiment)
@@ -994,9 +994,9 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             #respPromptStim2, 3 will be at left and right, vertically arrayed if vertical stimuli arrangement,
             #  at top and bottom, horizontally arrayed if horizontal stimuli arrangement
             edge = .7
-            if thisTrial['horizVert']: 
-                respPromptStim2.setPos( [-edge,0] ) #left
-                respPromptStim3.setPos( [edge, 0] ) #right
+            if thisTrial['horizVert'] and experiment['ori'] != 0: # rotated, draw text left and right
+                    respPromptStim2.setPos( [-edge,0] ) #left
+                    respPromptStim3.setPos( [edge, 0] ) #right
             else:
                 respPromptStim2.setPos( [0,-edge] ) #bottom
                 respPromptStim3.setPos( [0, edge] ) #top
