@@ -16,12 +16,13 @@ knitr::opts_chunk$set(echo = TRUE)
 Load data and improve column names
 
 ```{r load file}
-#rawDataPath<- file.path("practiceData","one")
-rawDataPath<- file.path("practiceData")
+#cat('Present directory is')
+#print(getwd()))
+rawDataPath<- file.path("dataRaw_notPutOnGitHubBecauseNotAnonymized")
+#rawDataPath<- file.path("practiceData")
 source(file.path("readInAllFiles.R"))
 
 #loadOneSession("practiceData","bleo3225_01Aug2018_12-40.txt")
-
 tbAll<- readInAllFiles(rawDataPath)
 
 tbAll <- rename(tbAll, "firstReadLang" = "What is the first language you learned to read?")
@@ -64,6 +65,6 @@ Save data
 ```{r save file}
 library(readr) #has better than save.csv https://readr.tidyverse.org/reference/write_delim.html
 pathToSave <- file.path("dataAnonymized")
-#saveRDS(tbAll, file = file.path(pathTosave,"PSYC1anonymized.rda", compress="bzip2")
+saveRDS(tbAll, file = file.path(pathTosave,"PSYC1anonymized.rda", compress="bzip2")
 write_csv(tbAll, file.path(pathToSave,"PSYC1anonymized.csv"))
 ```
