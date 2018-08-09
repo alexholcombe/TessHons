@@ -13,9 +13,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r load file}
 library(readr)
-dataWithPath<- file.path("dataAnonymized","PSYC1anonymized.csv")
+dataWithPath<- file.path("dataAnonymized","PSYC1anonymized")
 
-tb<- read_csv(dataWithPath)
+#tb<- read_csv(  paste0(dataWithPath,".csv") )
+tb<- readRDS( paste0(dataWithPath,".rda") )
 
 #add practice column
 practiceTrials = 3
@@ -32,7 +33,7 @@ library(skimr)
 
 ## Inspect data
 ```{r i, echo=FALSE}
-skim(df)
+skim(tb)
 ```
 
 Load ggplot and dplyr
@@ -43,7 +44,8 @@ library(dplyr)
 
 ## Proportion correct
 
-One target
+One target.
+Why when rightResponseFirst == True, almost always correct0 = 0? (indicating subject got it wrong?)
 
 ```{r i, echo=FALSE}
 #Look at one-target performance
@@ -51,6 +53,7 @@ tbOne <- tb %>% filter(oneTarget == "True")
 #correct0 refers to left, correct1 to right.
 #But for one-target trials, rightResponseFirst is the only thing that tells you which side it was on.
 eachCorrOne<- tbOne %>% group_by(rightResponseFirst) %>% summarise_at(c("correct0","correct1"),mean)
+print(eachCorrOne)
 ```
 
 Two targets

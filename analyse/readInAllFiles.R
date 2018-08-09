@@ -13,14 +13,14 @@ readInAllFiles <- function(rawDataPath) {
   tbAll<-tibble()
   for (i in 1:length(files)) { #read in each file
     fileThis<- files[i] #file.path(rawDataPath,files[i])
-    tibbleAndMsg=tryCatch(
+    tibbleAndMsg<- tryCatch(
       loadOneSession(rawDataPath,fileThis),
       error=function(e) {
         stop( paste0("ERROR loading the file ",fileThis," :",e) )
       } )
     msgs[[i]] <- tibbleAndMsg$msg
-    if (!is.null(tibbleAndMsg$tibble)) { #loaded something
-      tibbleThis <- tibbleAndMsg$tibble
+    if (!is.null(tibbleAndMsg$tb)) { #loaded something
+      tibbleThis <- tibbleAndMsg$tb
       tibbleThis$file <- files[i]
       if (!firstFileRead) {
         tbAll<-tibbleThis

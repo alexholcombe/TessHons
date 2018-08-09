@@ -65,6 +65,6 @@ Save data
 ```{r save file}
 library(readr) #has better than save.csv https://readr.tidyverse.org/reference/write_delim.html
 pathToSave <- file.path("dataAnonymized")
-saveRDS(tbAll, file = file.path(pathTosave,"PSYC1anonymized.rda", compress="bzip2")
+saveRDS(tbAll, file = file.path(pathToSave,"PSYC1anonymized.rda"), compress="bzip2")
 write_csv(tbAll, file.path(pathToSave,"PSYC1anonymized.csv"))
 ```
