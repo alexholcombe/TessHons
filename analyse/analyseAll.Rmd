@@ -7,6 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
 ```
 
 ## Load data
@@ -19,7 +20,7 @@ dataWithPath<- file.path("dataAnonymized","PSYC1anonymized")
 tb<- readRDS( paste0(dataWithPath,".rda") )
 
 #add practice column
-practiceTrials = 3
+practiceTrials = 5
 tb<- tb %>% mutate(practice= (trialnum<practiceTrials))
 
 ```
@@ -37,17 +38,21 @@ skim(tb)
 ```
 
 Load ggplot and dplyr
-```{r i, echo=FALSE}
+```{r j, echo=FALSE}
 library(ggplot2)
 library(dplyr)
+
+tb<- tb %>% mutate(leftTopBias = case_when(spatial == "horiz" ~ correct0 - correct1,
+                                          spatial == "vert" ~ correct1 - correct0,   
+                                          TRUE ~ as.integer(-99)   )) #else, but this shouldn't occur
 ```
 
 ## Proportion correct
 
 One target.
-Why when rightResponseFirst == True, almost always correct0 = 0? (indicating subject got it wrong?)
+Why when rightResponseFirst == True, almost always scored as incorrect, correct0 = 0? (indicating subject got it wrong?). Probably didn't match the response0 to the correct stimulus, instead still matched it to the  letter on the left/top. And unfortunately didn't record the letter/word on the other side. To fix, have to write python script to rerun the code with the same seed to find out what letters they were, and then integrate with my tibble. Jesus.
 
-```{r i, echo=FALSE}
+```{r k, echo=FALSE}
 #Look at one-target performance
 tbOne <- tb %>% filter(oneTarget == "True") 
 #correct0 refers to left, correct1 to right.
@@ -63,19 +68,19 @@ Two targets
 tbTwo <- tb %>% filter(oneTarget == "False", numSimultaneousStim < 3) 
 #correct0 refers to left, correct1 to right.
 eachCorrect<- tbTwo %>% summarise_at(c("correct0","correct1"),mean)
+print(eachCorrect)
 avgCorrect = rowMeans(eachCorrect)
-
 ```
 
 ```{r inspectStaircase}
 
 #Inspect what ISIframes got up to
 
-maxPossibleISIframes <- 8 #unknown
-tb %>% filter(practice==0) %>% group_by(subject) %>% summarise(maxISI = max(ISIframes))
+maxPossibleISIframes <- 9
+maxEachSubject<- tb %>% filter(practice==0) %>% group_by(subject) %>% summarise(maxISI = max(ISIframes))
 #Determine subject numbers who maxxed out
 maxedOut <- unique(  tb %>% filter(ISIframes == maxPossibleISIframes)   )
-
+ggplot(maxEachSubject, aes(x=maxISI)) + geom_histogram(binwidth=.5) +scale_x_continuous(breaks=seq(2,9))
 ```
 
 
@@ -87,26 +92,62 @@ tbTwo <- tb %>% filter(oneTarget == "False", numSimultaneousStim < 3)
 #correct0 refers to left, correct1 to right.
 overall<- tbTwo %>% group_by(subject) %>% summarise_at(c("correct0","correct1"),mean)
 overall <- overall %>% mutate(pCorr = (correct0 + correct1)/2)
-tooLow <- overall %>% filter(pCorr < correctExclusionThreshold)
+tooLow2 <- overall %>% filter(pCorr < correctExclusionThreshold)
 cat("subjects who were too low in two-target condition are:")
-cat(tooLow)
+tooLow2
 
 #Exclude low performers in the 3-target condition
 tbThree <- tb %>% filter(numSimultaneousStim == 3) 
 overall<- tbThree %>% group_by(subject) %>% summarise_at(c("correct0","correct1","correct2"),mean)
 overall <- overall %>% mutate(pCorr = (correct0 + correct1 + correct2)/3)
-tooLow <- overall %>% filter(pCorr < correctExclusionThreshold)
+tooLow3 <- overall %>% filter(pCorr < correctExclusionThreshold)
 cat("subjects who were too low in three-target condition are:")
-cat(tooLow)
+tooLow3
 
 ```
 
-```{r Calculate how swaps each subject has}
+```{r Calculate how many swaps each subject has}
 
 #Compare response0 to 
 #
 ```
 
+```{r plotEach}
+#Group by condition, which is defined by spatial,stimType,flipped,orient
+#table(tbTwo$spatial,tbTwo$flipped,tbTwo$ori,tbTwo$stimType)
+#Then plot difference between correct0 and correct1. One way to get difference is subtract correct1 from correct0 and average
+#tbTwo$leftBtmBias <- tbTwo$correct0-tbTwo$correct1
+
+
+tbTwo <- tbTwo %>% mutate(flippedTemp = substr(flipped,1,1)) #reduce to first letter only
+tbTwo <- tbTwo %>% mutate(cond = paste(stimType, spatial, ori, flipped, sep = '_'))
+tbTwo <- tbTwo %>% mutate(condExceptStim = paste(spatial, ori, flippedTemp, sep = '_'))
+gg<- ggplot(tbTwo, aes(x=condExceptStim,y=leftTopBias)) + stat_summary(fun.y="mean",geom="point",size=2, alpha=.5) + facet_grid(stimType~.)
+gg<- gg+ stat_summary(fun.data="mean_cl_boot",fun.args=list(conf.int=0.95),geom="errorbar",width=.3,size=1) 
+show(gg)
+```
+
+```{r nicerPlot}
+ltrs2 <- tbTwo %>% filter(stimType=="letter")
+ltrs2<- ltrs2 %>% mutate(canonical = ori==0) 
+gg<- ggplot(ltrs2, aes(x=condExceptStim,y=leftTopBias)) + stat_summary(fun.y="mean",geom="point",size=2, alpha=.5) + facet_grid(canonical~flipped)
+gg<- gg+ stat_summary(fun.data="mean_cl_boot",fun.args=list(conf.int=0.95),geom="errorbar",width=.3,size=1) 
+show(gg)
+```
+
 ```{r ttest}
+t_out <- t.test(
+  x = cosmetic_surgery$Post_QoL
+  , y = cosmetic_surgery$Base_QoL
+  , paired = TRUE
+)
+
+# Let's see what the apa_print() output looks like
+apa_print(t_out)
+```
+```
+
+Calculate spatial bias for each participant, then correlate the bias with their author score.
+```{r correlate}
 
 ```
