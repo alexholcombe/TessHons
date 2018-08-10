@@ -45,6 +45,9 @@ library(dplyr)
 tb<- tb %>% mutate(leftTopBias = case_when(spatial == "horiz" ~ correct0 - correct1,
                                           spatial == "vert" ~ correct1 - correct0,   
                                           TRUE ~ as.integer(-99)   )) #else, but this shouldn't occur
+
+tb<- tb %>% mutate(canonical = ori==0) 
+
 ```
 
 ## Proportion correct
@@ -129,21 +132,58 @@ show(gg)
 
 ```{r nicerPlot}
 ltrs2 <- tbTwo %>% filter(stimType=="letter")
-ltrs2<- ltrs2 %>% mutate(canonical = ori==0) 
-gg<- ggplot(ltrs2, aes(x=condExceptStim,y=leftTopBias)) + stat_summary(fun.y="mean",geom="point",size=2, alpha=.5) + facet_grid(canonical~flipped)
+gg<- ggplot(ltrs2, aes(x=condExceptStim,y=leftTopBias)) + stat_summary(fun.y="mean",geom="point",size=2, alpha=.5) + facet_grid(.~canonical)
 gg<- gg+ stat_summary(fun.data="mean_cl_boot",fun.args=list(conf.int=0.95),geom="errorbar",width=.3,size=1) 
 show(gg)
+
+ltrs2<- ltrs2 %>% mutate(cond = case_when(condExceptStim == "vert_-90_F" ~ "facing up",
+                                        condExceptStim == "vert_90_F" ~ "facing down", 
+                                        condExceptStim == "vert_0_F" ~ "facing right",
+                                          TRUE ~ "unknown"   )) #e
+rotated <- ltrs2 %>% filter(canonical==FALSE)
+gg<- ggplot(rotated, aes(x=condExceptStim,y=leftTopBias)) + stat_summary(fun.y="mean",geom="point",size=2, alpha=.5) + stat_summary(fun.data="mean_cl_boot",fun.args=list(conf.int=0.95),geom="errorbar",width=.3,size=1) 
+show(gg)
+
+
+vertical<- ltrs2 %>% filter(spatial=="vert")
+papaja::apa_beeplot(data=vertical, id="subject", dv="leftTopBias", factors="cond",
+                    ylab = "upper - lower (proportion correct)", xlab = "orientation",
+                    args_points = list(cex = 1, bg = c("black"),col="black"),
+                    args_swarm = list(cex = .3, bg = c("white"),col="grey50"),
+                    , args_error_bars = list(lwd=2.2,length = 0.13))
+
+```
+
+```{r finalPlots}
+papaja::apa_beeplot(data=rotated, id="subject", dv="leftTopBias", factors="cond",
+                    ylab = "upper - lower (proportion correct)", xlab = "orientation",
+                    args_points = list(cex = 1, bg = c("black"),col="black"),
+                    args_swarm = list(cex = .3, bg = c("white"),col="grey50"),
+                    , args_error_bars = list(lwd=2.2,length = 0.13))
+
+horiz <- ltrs2 %>% filter(spatial=="horiz")
+horiz<- horiz %>% mutate(cond = case_when(condExceptStim == "horiz_0_F" ~ "normal",
+                                        condExceptStim == "horiz_0_T" ~ "mirror-reversed",   
+                                          TRUE ~ "unknown"   )) 
+#change order so normal appears first on plot
+horiz$cond <- as.factor(horiz$cond)
+horiz <- transform(horiz, cond=reorder(cond, flipped) )  #https://stackoverflow.com/a/3744432/302378
+papaja::apa_beeplot(data=horiz, id="subject", dv="leftTopBias", factors="cond",
+                    ylab = "left - right (proportion correct)", xlab = "orientation",
+                    args_points = list(cex = 1, bg = c("black"),col="black"),
+                    args_swarm = list(cex = .3, bg = c("white"),col="grey50"),
+                    , args_error_bars = list(lwd=2.2,length = 0.13))
 ```
 
 ```{r ttest}
-t_out <- t.test(
-  x = cosmetic_surgery$Post_QoL
-  , y = cosmetic_surgery$Base_QoL
-  , paired = TRUE
+t_horiz <- t.test(
+  x = (horiz %>% filter(cond == "normal"))$leftTopBias
+  , y = (horiz %>% filter(cond == "mirror-reversed"))$leftTopBias
+  , paired = FALSE
 )
 
 # Let's see what the apa_print() output looks like
-apa_print(t_out)
+papaja::apa_print(t_horiz)
 ```
 ```
 
