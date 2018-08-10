@@ -7,6 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(plyr) #need to load because need it for Rmisc, and recommended load it before dplyr
 library(dplyr)
 ```
 
@@ -140,7 +141,6 @@ ltrs2<- ltrs2 %>% mutate(cond = case_when(condExceptStim == "vert_-90_F" ~ "faci
                                         condExceptStim == "vert_90_F" ~ "facing down", 
                                         condExceptStim == "vert_0_F" ~ "facing right",
                                           TRUE ~ "unknown"   )) #e
-# rotated <- ltrs2 %>% filter(canonical==FALSE)
 # gg<- ggplot(rotated, aes(x=condExceptStim,y=leftTopBias)) + stat_summary(fun.y="mean",geom="point",size=2, alpha=.5) + stat_summary(fun.data="mean_cl_boot",fun.args=list(conf.int=0.95),geom="errorbar",width=.3,size=1) 
 # show(gg)
 
@@ -159,12 +159,13 @@ t_vert <- t.test(
 )
 
 #apa_print() output looks horrible unless knit into PDF or Word as part of a papaja document
-papaja::apa_print(t_vert)
+#papaja::apa_print(t_vert)
 
 ```
-Above the effect of the orientaiton manipulation was pretty big, but the baseline bias (upper bias) is bigger than the left bias seen in the other plot.
+Above the effect of the orientation manipulation was pretty big, but the baseline bias (upper bias) is bigger than the left bias seen in the other plot.
 
 ```{r horizPlots}
+rotated <- ltrs2 %>% filter(canonical==FALSE)
 papaja::apa_beeplot(data=rotated, id="subject", dv="leftTopBias", factors="cond",
                     ylab = "upper - lower (proportion correct)", xlab = "orientation",
                     args_points = list(cex = 1, bg = c("black"),col="black"),
@@ -194,7 +195,7 @@ t_horiz <- t.test(
 )
 
 # Let's see what the apa_print() output looks like
-papaja::apa_print(t_horiz)
+#papaja::apa_print(t_horiz)
 
 #install.packages("Rmisc")
 library(Rmisc)
@@ -203,13 +204,37 @@ horiz %>% filter(cond=="normal") %>% summarise(upper = CI(leftTopBias)[1], mean=
 horiz %>% filter(cond=="mirror-reversed") %>% summarise(upper = CI(leftTopBias)[1], mean=mean(leftTopBias), lower= CI(leftTopBias)[3])
 
 ```
-```
 
 ```{r ttestVert}
 
 ```
 
-Calculate spatial bias for each participant, then correlate the bias with their author score.
+Correlate the bias of each participant with their author score.
 ```{r correlate}
+#install.packages('ggstatsplot')  #doesn't work
+#Probably need to reduce the dataframe to one data point per subject
+tbTwoSumm <- tbTwo %>% group_by(subject) %>% summarise_at(c("leftTopBias", "authorsPct", "authorsRaw", "authorsTotalChosen"),mean)
+hh<- ggplot(tbTwoSumm, aes(y=leftTopBias, x=authorsPct)) + geom_point() +   geom_smooth(method="lm",se=FALSE) +
+  geom_point() 
 
+lm_eqn = function(m) {
+
+  l <- list(a = format(coef(m)[1], digits = 2),
+      b = format(abs(coef(m)[2]), digits = 2),
+      r2 = format(summary(m)$r.squared, digits = 3));
+
+  if (coef(m)[2] >= 0)  {
+    eq <- substitute(italic(y) == a + b %.% italic(x)*","~~italic(r)^2~"="~r2,l)
+  } else {
+    eq <- substitute(italic(y) == a - b %.% italic(x)*","~~italic(r)^2~"="~r2,l)    
+  }
+
+  as.character(as.expression(eq));                 
+}
+hh = hh + geom_text(aes(x = .3, y = .64, label = lm_eqn(lm(leftTopBias ~ authorsPct, tbTwoSumm))), parse = TRUE)
+hh
+#cor.test(
+```
+
+Look at first language read.
 ```
