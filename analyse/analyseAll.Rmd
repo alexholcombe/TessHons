@@ -11,32 +11,7 @@ library(plyr) #need to load because need it for Rmisc, and recommended load it b
 library(dplyr)
 ```
 
-## Load data
-
-```{r load file}
-library(readr)
-dataWithPath<- file.path("dataAnonymized","PSYC1anonymized")
-
-#tb<- read_csv(  paste0(dataWithPath,".csv") )
-tb<- readRDS( paste0(dataWithPath,".rda") )
-
-#add practice column
-practiceTrials = 5
-tb<- tb %>% mutate(practice= (trialnum<practiceTrials))
-
-```
-
-Install skimr
-```{r pressure, echo=FALSE}
-#devtools::install_github("ropenscilabs/skimr")
-#install.packages("tidyselect")  and from source to get 0.2.4 needed
-library(skimr)
-```
-
-## Inspect data
-```{r i, echo=FALSE}
-skim(tb)
-```
+FIRST RUN demographicsAndExclusions.Rmd
 
 Load ggplot and dplyr
 ```{r j, echo=FALSE}
@@ -131,6 +106,16 @@ gg<- gg+ stat_summary(fun.data="mean_cl_boot",fun.args=list(conf.int=0.95),geom=
 show(gg)
 ```
 
+```{r wordsByCond}
+wordsByS <- tbTwo %>% filter(stimType=="word") %>% group_by(subject,spatial) %>% summarise_at(c("correct0","correct1"),mean)
+wordsByCond<- wordsByS %>% group_by(spatial)  %>% summarise_all(mean)
+wordsByCond
+```
+Thus ,for Caleb:
+When participants saw (3 letter words) words oriented left to right the accuracy for the left word was 65.7% and the accuracy for the right word was 70.6%.
+
+When participants saw (3 letter words) words oriented left to right (but presented top and bottom) the accuracy for the top word was 71.0% and the accuracy for the bottom word was 37.6%.
+
 ```{r nicerPlot}
 ltrs2 <- tbTwo %>% filter(stimType=="letter")
 # gg<- ggplot(ltrs2, aes(x=condExceptStim,y=leftTopBias)) + stat_summary(fun.y="mean",geom="point",size=2, alpha=.5) + facet_grid(.~canonical)
@@ -152,11 +137,6 @@ papaja::apa_beeplot(data=vert, id="subject", dv="leftTopBias", factors="cond",
                     args_swarm = list(cex = .3, bg = c("white"),col="grey50"),
                     , args_error_bars = list(lwd=2.2,length = 0.13))
 abline(h=0)
-t_vert <- t.test(
-  x = (vert %>% filter(cond == "facing down"))$leftTopBias
-  , y = (vert %>% filter(cond == "facing up"))$leftTopBias
-  , paired = FALSE
-)
 
 #apa_print() output looks horrible unless knit into PDF or Word as part of a papaja document
 #papaja::apa_print(t_vert)
@@ -187,6 +167,7 @@ papaja::apa_beeplot(data=horiz, id="subject", dv="leftTopBias", factors="cond",
 abline(h=0)
 ```
 
+The horizontal t-test results are
 ```{r ttestHoriz}
 t_horiz <- t.test(
   x = (horiz %>% filter(cond == "normal"))$leftTopBias
@@ -194,19 +175,53 @@ t_horiz <- t.test(
   , paired = FALSE
 )
 
+t_horiz
 # Let's see what the apa_print() output looks like
 #papaja::apa_print(t_horiz)
+```
 
+For horizontal configuration, the normal and mirror-reversed orientation results with upper and lower confidence intervals are:
+```{r}
 #install.packages("Rmisc")
 library(Rmisc)
-horiz %>% group_by(cond) %>% summarise(upperCI = CI(leftTopBias)[1], lower= CI(leftTopBias)[3])
-horiz %>% filter(cond=="normal") %>% summarise(upper = CI(leftTopBias)[1], mean=mean(leftTopBias), lower= CI(leftTopBias)[3])
-horiz %>% filter(cond=="mirror-reversed") %>% summarise(upper = CI(leftTopBias)[1], mean=mean(leftTopBias), lower= CI(leftTopBias)[3])
+horiz %>% group_by(cond) %>% summarise(upperCI = CI(leftTopBias)[1], mean=mean(leftTopBias), lower= CI(leftTopBias)[3])
+```
 
+For Caleb PSYC1, calculate accuracy per condition, not just bias
+```{r}
+horizEachS<- horiz %>% group_by(cond,subject) %>% summarise_at(.vars = c("correct0","correct1"),
+                 .funs = c(mean="mean"))
+horizEachCond<- horizEachS %>%  group_by(cond) %>% summarise_all(funs(mean))
+````
+
+```{r}
+vertEachS<- vert %>% group_by(cond,subject) %>% summarise_at(.vars = c("correct0","correct1"),
+                 .funs = c(mean="mean"))
+vertEachCond<- vertEachS %>%  group_by(cond) %>% summarise_all(funs(mean))
+````
+
+
+```{r horizCondTtest}
+
+t_horiz <- t.test(
+  x = (horizEachS %>% filter(cond == "mirror-reversed"))$correct0_mean
+  , y = (horiz %>% filter(cond == "mirror-reversed"))$correct1_mean
+  , paired = FALSE
+)
+t_horiz
 ```
 
 ```{r ttestVert}
+t_vert <- t.test(
+  x = (vert %>% filter(cond == "facing down"))$leftTopBias
+  , y = (vert %>% filter(cond == "facing up"))$leftTopBias
+  , paired = FALSE
+)
+t_vert
+```
 
+```{r confidenceIntervalsVert}
+vert %>% group_by(cond) %>% summarise(upperCI = CI(leftTopBias)[1], mean=mean(leftTopBias), lower= CI(leftTopBias)[3])
 ```
 
 Correlate the bias of each participant with their author score.
@@ -235,6 +250,6 @@ hh = hh + geom_text(aes(x = .3, y = .64, label = lm_eqn(lm(leftTopBias ~ authors
 hh
 #cor.test(
 ```
-
+change MEAN ABOVE TO INCLUDE FIRST LANGUAGE READ AND TAKES FIRST INSTNACE IF NOT NUMERIC
 Look at first language read.
 ```

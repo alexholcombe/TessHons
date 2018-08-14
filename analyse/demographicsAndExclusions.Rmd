@@ -1,0 +1,51 @@
+---
+title: "demographicsAndExclusions"
+author: "Alex Holcombe"
+date: "8/14/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load data
+
+```{r load file}
+library(readr)
+dataWithPath<- file.path("dataAnonymized","PSYC1anonymized")
+
+#tb<- read_csv(  paste0(dataWithPath,".csv") )
+tb<- readRDS( paste0(dataWithPath,".rda") )
+
+#add practice column
+practiceTrials = 5
+tb<- tb %>% mutate(practice= (trialnum<practiceTrials))
+
+```
+
+Install skimr
+```{r pressure, echo=FALSE}
+#devtools::install_github("ropenscilabs/skimr")
+#install.packages("tidyselect")  and from source to get 0.2.4 needed
+library(skimr)
+```
+
+
+## Inspect data
+```{r i, echo=FALSE}
+skim(tb)
+```
+
+
+```{r examineDemographics, echo=FALSE}
+#get one trial per subject so can easily examine simple demographics like first language
+firstTrial <- tb %>% filter(trialnum==0)
+table(firstTrial$firstReadLang)
+```
+
+Number of Arabic first readers is `r table(firstTrial$firstReadLang)["Arabic"]` and Farsi is `r table(firstTrial$firstReadLang)["Farsi"]`.
+
+```{r , echo=FALSE}
+table(firstTrial$Yconsent,firstTrial$YshareData, dnn=c("consent","shareData"), useNA="ifany")
+```
