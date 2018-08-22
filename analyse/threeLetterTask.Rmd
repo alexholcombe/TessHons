@@ -1,0 +1,181 @@
+---
+title: "threeLetterTask"
+author: "Alex Holcombe"
+date: "8/14/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Run after demographicsAndExclusions.Rmd
+
+```{r pressure, echo=FALSE}
+library(dplyr)
+three <- tc %>% filter(numSimultaneousStim==3) %>% filter(practice==FALSE)
+```
+
+Num Ss = `r length(unique(three$subject))`
+
+Print % correct
+
+```{r ok, echo=FALSE}
+#Average across Ss first, then average subject averages
+three %>% group_by(subject) %>% summarise_at(c("correct0", "correct1","correct2"), mean, na.rm = TRUE) %>% 
+  summarise_at(c("correct0", "correct1","correct2"), mean, na.rm = TRUE) 
+```
+
+Do exclusions
+
+"Participants will be excluded if their performance is less than 40% correct in the trials after excluding the one-target trials (the experiment uses a staircase that targets 71% correct, but it may take many trials for the staircase to reach their level if they require a long ISI to see the stimulus)."
+
+"Consistently ignoring the instruction to report a particular side first (on each trial, they are told to report one of the stimuli first). This will be assessed by counting as correct all responses that match the stimulus regardless of side, and more than 30% of these being location swaps are grounds for exclusion."
+
+This swap criterion seems pretty weak, but it's a balance between excluding swappers and precluding the possiblity that real swaps occur often even when trying to follow instructions.
+
+```{r excludeLowerPerformers, echo=FALSE}
+th<- three %>% group_by(subject) %>% mutate(avgCorr = (correct0 + correct1 + correct2)/3)
+ti <- th %>% group_by(subject) %>% summarise_at("avgCorr", mean)
+losers <- ti %>% filter(avgCorr<.4)
+print(losers)
+
+losers <- as.numeric( unique(losers$subject) )
+
+#convert subject to numeric
+Ss <- three$subject
+three$subject<- as.numeric(Ss)
+
+#convert losers to numeric
+
+# filter(!(subject %in% losers) )
+three<- three %>% filter(  !(subject %in% losers)   )
+
+#kludge because know there is only one loser.
+#three<- three %>% filter(subject != as.numeric(losers[1]))
+```
+
+Exclude swappers
+```{r excludeSwappers, echo=FALSE}
+#Count as a swap both answer0 = response2 and  answer2 = response0
+#To include middle swaps, count as answer0 = response1, answer1 = response0, answer2=response1, answer1 = response2
+
+#Delete irrelevant columns
+swap <- three %>% select(subject,starts_with("ans"),starts_with("resp"),starts_with("corr"))
+swap <- swap %>% mutate(swap02 = (answer0==response2) & (response2!=answer2)) #matches other one and is not correct (which can happen with repetitions)
+swap <- swap %>% mutate(swap20 = (answer2==response0) & (response0!=answer0)) #matches other one and is not correct (which can happen with repetitions)
+swap <- swap %>% mutate(swap01 = (answer0==response1) & (response1!=answer1)) #matches other one and is not correct (which can happen with repetitions)
+swap <- swap %>% mutate(swap10 = (answer1==response0) & (response0!=answer0)) #matches other one and is not correct (which can happen with repetitions)
+swap <- swap %>% mutate(swap12 = (answer1==response2) & (response2!=answer2)) #matches other one and is not correct (which can happen with repetitions)
+swap <- swap %>% mutate(swap21 = (answer2==response1) & (response1!=answer1)) #matches other one and is not correct (which can happen with repetitions)
+
+#Add up how many swaps.  answer   A B C
+#                        response C B B   - one swap
+swap<-swap %>% mutate(swaps = swap02+swap20+swap01+swap10+swap12+swap21)
+#Maximum that happened = 4.
+# answer  A B A
+#response B A B   Makes 4 swaps. But should we allow swaps to multiple locations from same answer?
+#In this case, 2 is swapped to both 1 and to 3
+# A more restrictive definition of swapping would be just the 3 different ways you could report the 3 letters, 012, 120, 201, plus getting one letter in right position would be 210, 
+#And then want to allow for getting one letter wrong.
+
+#For now, just look at incidence of swap>=2
+```
+
+```{r calculateSwapper, echo=FALSE}
+swap<-swap %>% mutate(twoOrMore = swaps>=2)
+
+ti <- swap %>% group_by(subject) %>% summarise_at(c("twoOrMore","swaps"), mean)
+
+ti <- swap %>% group_by(subject) %>% summarise_at("swaps", mean)
+library(ggplot2)
+ggplot(ti, aes(x=swaps)) + geom_histogram()
+ggplot(ti, aes(x=twoOrMore)) + geom_histogram()
+swappers <- ti %>% filter(twoOrMore>.2)
+print(swappers)
+swappers <-  unique(swappers$subject)
+
+```
+
+
+```{r saveDataForJen, echo=FALSE}
+swappers<- as.numeric(swappers)
+afterExclusions<- three %>% filter(  !(subject %in% swappers)   )
+```
+
+```{r, echo=FALSE}
+collapsed <- afterExclusions %>% group_by(subject) %>% summarise_at(c("correct0", "correct1","correct2"), mean, na.rm = TRUE)
+oneTwo <- t.test(
+  x = collapsed$correct0
+  , y = collapsed$correct1
+  , paired = FALSE
+)
+oneTwo
+
+twoThree <- t.test(
+  x = collapsed$correct1
+  , y = collapsed$correct2
+  , paired = FALSE
+)
+twoThree
+
+```
+
+Look at language.
+```{r, echo=FALSE}
+  
+# summarise_all(funs(if_else(is.numeric(.), mean(.), first(.)))) #Why doesn this give error?
+
+collapsedSubjLang <- three %>% group_by(subject,firstReadLang) %>% summarise_at(c("correct0", "correct1","correct2"), mean, na.rm = TRUE)
+collapsedSubjLang %>% group_by(firstReadLang) %>% summarise_all(mean)  #works
+
+engSino <- t.test(
+  x = (collapsedSubjLang %>% filter(firstReadLang=="Chinese"))$correct0
+  , y = (collapsedSubjLang %>% filter(firstReadLang=="English"))$correct0 
+  , paired = FALSE
+)
+engSino
+
+engSino <- t.test(
+  x = (collapsedSubjLang %>% filter(firstReadLang=="Chinese"))$correct1
+  , y = (collapsedSubjLang %>% filter(firstReadLang=="English"))$correct1
+  , paired = FALSE
+)
+engSino
+
+engSino <- t.test(
+  x = (collapsedSubjLang %>% filter(firstReadLang=="Chinese"))$correct2
+  , y = (collapsedSubjLang %>% filter(firstReadLang=="English"))$correct2 
+  , paired = FALSE
+)
+engSino
+
+
+collapsed <- three %>% group_by(subject) %>% summarise_at(c("correct0", "correct1","correct2"), mean, na.rm = TRUE)
+
+```
+
+Save data for Jen
+```{r}
+dataWithPath<- file.path("dataAnonymized")
+library(readr)
+#currently without most columns, until learn how to preserve text columns etc when taking mean
+write_tsv(collapsed, file.path(dataWithPath,"threeLetterTaskAfterExclusionsCollapsedSs.tsv"))
+write_tsv(afterExclusions, file.path(dataWithPath,"threeLetterTaskAfterExclusions.tsv"))
+
+```
+
+Work out  how to save all non-numeric columns
+
+#try keeping language only
+cc <- three %>% select(correct0,correct1,correct2,firstReadLang)
+#cc %>%  group_by(firstReadLang) %>% summarise_all(funs(if_else(is.numeric(.), mean(.), last(.)))) #Get error
+three %>%  group_by(firstReadLang) %>% summarise_if( is.numeric, mean)
+#collapsed %>% group_by(firstReadLang) %>%  summarise_at(c("correct0", "correct1","correct2"), mean, na.rm = TRUE)
+
+
+```
+
+Look at correlation. 
+
+

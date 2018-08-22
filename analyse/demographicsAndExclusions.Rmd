@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r load file}
 library(readr)
+library(dplyr)
 dataWithPath<- file.path("dataAnonymized","PSYC1anonymized")
 
 #tb<- read_csv(  paste0(dataWithPath,".csv") )
@@ -21,6 +22,7 @@ tb<- readRDS( paste0(dataWithPath,".rda") )
 #add practice column
 practiceTrials = 5
 tb<- tb %>% mutate(practice= (trialnum<practiceTrials))
+tb <- tb %>% mutate(cond = paste(numSimultaneousStim, stimType, spatial, ori, flipped, sep = '_'))
 
 ```
 
@@ -34,18 +36,36 @@ library(skimr)
 
 ## Inspect data
 ```{r i, echo=FALSE}
-skim(tb)
+#skim(tb)
+
+#get one trial per subject so can easily examine simple demographics like first language
+firstTrial <- tb %>% filter(trialnum==0)
+table(firstTrial$cond)
+
 ```
 
 
-```{r examineDemographics, echo=FALSE}
-#get one trial per subject so can easily examine simple demographics like first language
-firstTrial <- tb %>% filter(trialnum==0)
+```{r , echo=FALSE}
+table(firstTrial$Yconsent,firstTrial$YshareData, dnn=c("consent","shareData"), useNA="ifany")
+```
+
+Only 17 people either didn't consent or didn't consent to share data, so just exclude all of them.
+
+```{r, echo=FALSE}
+tc <- tb %>% filter(Yconsent == TRUE, YshareData==TRUE)
+
+```
+
+```{r lang, echo=FALSE}
+firstTrial <- tc %>% filter(trialnum==0)
+
 table(firstTrial$firstReadLang)
 ```
 
 Number of Arabic first readers is `r table(firstTrial$firstReadLang)["Arabic"]` and Farsi is `r table(firstTrial$firstReadLang)["Farsi"]`.
 
-```{r , echo=FALSE}
-table(firstTrial$Yconsent,firstTrial$YshareData, dnn=c("consent","shareData"), useNA="ifany")
+```{r ageSexHandedness, echo=FALSE}
+table(firstTrial$"What is your age?")
+table(firstTrial$"What is your biological sex?")
+table(firstTrial$handedness)
 ```

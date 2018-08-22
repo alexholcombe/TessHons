@@ -1,15 +1,9 @@
-PILOTING CHECK
-* make sure randomization of order sequence is working
 
 TO-DO
+* recover right correct
 
-* recover stim position
-* ICT 12000 grasp get PSYC1002 for jen.  jhum6624
-* Students who can't see GRASP
+* confirm stim position for methods section
 * Write Draft methods 
-* Add the question at the end about taking it seriously
-* Try another way to load a webform, but don't forget need to return consent or not https://stackoverflow.com/questions/36738223/load-a-local-html-file-into-a-qwebview-in-python
-	* The pytml is programmed OSX-speific pathnames
 
 TIMING & DIFFICULTY LEVEL
 * Make letters half brightness, and postmask dynamic and add premask
