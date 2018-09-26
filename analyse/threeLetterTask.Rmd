@@ -80,6 +80,8 @@ swap<-swap %>% mutate(swaps = swap02+swap20+swap01+swap10+swap12+swap21)
 #And then want to allow for getting one letter wrong.
 
 #For now, just look at incidence of swap>=2
+# answer  A B C
+#response B C G
 ```
 
 ```{r calculateSwapper, echo=FALSE}

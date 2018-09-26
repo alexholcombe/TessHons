@@ -57,7 +57,7 @@ newS <- tbAll$subject #new subject list
 newS[] <- lookup$new[match(unlist(newS), lookup$old)] #https://stackoverflow.com/a/35636836/302378
 
 tbAll$subject <- newS
-
+tbAll$file <- NULL
 ```
 
 

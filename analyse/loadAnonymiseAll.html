@@ -91,6 +91,9 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
 }
@@ -22809,7 +22812,8 @@ lookup&lt;- data.frame(old=Ss, new=listOfFakeNames)
 newS &lt;- tbAll$subject #new subject list
 newS[] &lt;- lookup$new[match(unlist(newS), lookup$old)] #https://stackoverflow.com/a/35636836/302378
 
-tbAll$subject &lt;- newS</code></pre>
+tbAll$subject &lt;- newS
+tbAll$file &lt;- NULL</code></pre>
 <p>Save data</p>
 <pre class="r"><code>library(readr) #has better than save.csv https://readr.tidyverse.org/reference/write_delim.html
 pathToSave &lt;- file.path(&quot;dataAnonymized&quot;)
