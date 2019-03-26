@@ -1,0 +1,266 @@
+7.0583 	WARNING 	User requested fullscreen with size [1920 1080], but screen is actually [1440, 900]. Using actual size
+7.6196 	EXP 	Created window1 = Window(allowGUI=False, allowStencil=False, args=UNKNOWN, autoLog=True, bitsMode=UNKNOWN, blendMode='avg', color=array([-0.7, -0.7, -0.7]), colorSpace='rgb', fullscr=UNKNOWN, gamma=None, kwargs=UNKNOWN, lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x10d77ea50>, multiSample=False, name='window1', numSamples=2, pos=[0, 0], screen=0, size=array([2880, 1800]), stereo=False, units='deg', useFBO=False, useRetina=True, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=False, winType=u'pyglet')
+7.6196 	INFO 	Mouse: using default window
+7.6198 	EXP 	window1: units = 'norm'
+7.7765 	EXP 	Created unnamed ImageStim = ImageStim(autoLog=True, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, image='./PISandConsentForm/PIS2underlined.png', interpolate=False, mask=None, maskParams=None, name='unnamed ImageStim', opacity=1.0, ori=0.0, pos=array([-0.5,  0. ]), size=array([1.72083333, 3.89777778]), texRes=128, units='norm', win=Window(...))
+7.8581 	EXP 	Created unnamed ImageStim = ImageStim(autoLog=True, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, image='./PISandConsentForm/PIS2underlined_p2.png', interpolate=False, mask=None, maskParams=None, name='unnamed ImageStim', opacity=1.0, ori=0.0, pos=array([0.5, 0. ]), size=array([1.72083333, 3.89777778]), texRes=128, units='norm', win=Window(...))
+7.8648 	EXP 	Created OKrespZone = GratingStim(autoDraw=False, autoLog=True, blendmode='avg', color=array([1. , 0.5, 0.5]), colorSpace='rgb', contrast=1.0, depth=0, interpolate=False, mask='gauss', maskParams=None, name='OKrespZone', opacity=1.0, ori=0.0, phase=array([0., 0.]), pos=array([-0.2 , -0.92]), rgbPedestal=array([0., 0., 0.]), sf=array([0., 0.]), size=array([2.3, 0.2]), tex='sin', texRes=256, units='norm', win=Window(...))
+8.0058 	EXP 	unnamed ImageStim: size = (1, 2)
+8.0058 	EXP 	unnamed ImageStim: size = (1, 2)
+10.2207 	DATA 	Mouse: Left button down, pos=(619,38)
+10.2364 	EXP 	window1: units = 'deg'
+10.2457 	EXP 	window1: units = 'norm'
+10.2544 	EXP 	Created OKrespZone = GratingStim(autoDraw=False, autoLog=True, blendmode='avg', color=array([1. , 0.5, 0.5]), colorSpace='rgb', contrast=1.0, depth=0, interpolate=False, mask='gauss', maskParams=None, name='OKrespZone', opacity=1.0, ori=0.0, phase=array([0., 0.]), pos=array([-0.2 , -0.92]), rgbPedestal=array([0., 0., 0.]), sf=array([0., 0.]), size=array([2.3, 0.2]), tex='sin', texRes=256, units='norm', win=Window(...))
+10.3537 	EXP 	Created unnamed ImageStim = ImageStim(autoLog=True, color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, image='./PISandConsentForm/consentForm.png', interpolate=False, mask=None, maskParams=None, name='unnamed ImageStim', opacity=1.0, ori=0.0, pos=array([0., 0.]), size=array([1.78333333, 3.56888889]), texRes=128, units='norm', win=Window(...))
+10.3746 	EXP 	Created unnamed GratingStim = GratingStim(autoDraw=False, autoLog=True, blendmode='avg', color=array([1. , 0.5, 0.5]), colorSpace='rgb', contrast=1.0, depth=0, interpolate=False, mask='gauss', maskParams=None, name='unnamed GratingStim', opacity=1.0, ori=0.0, phase=array([0., 0.]), pos=array([-0.2 , -0.42]), rgbPedestal=array([0., 0., 0.]), sf=array([0., 0.]), size=array([0.3, 0.2]), tex='sin', texRes=256, units='norm', win=Window(...))
+10.3939 	EXP 	Created unnamed GratingStim = GratingStim(autoDraw=False, autoLog=True, blendmode='avg', color=array([1. , 0.5, 0.5]), colorSpace='rgb', contrast=1.0, depth=0, interpolate=False, mask='gauss', maskParams=None, name='unnamed GratingStim', opacity=1.0, ori=0.0, phase=array([0., 0.]), pos=array([ 0.1 , -0.42]), rgbPedestal=array([0., 0., 0.]), sf=array([0., 0.]), size=array([0.3, 0.2]), tex='sin', texRes=256, units='norm', win=Window(...))
+10.4050 	EXP 	Created unnamed GratingStim = GratingStim(autoDraw=False, autoLog=True, blendmode='avg', color=array([1. , 0.5, 0.5]), colorSpace='rgb', contrast=1.0, depth=0, interpolate=False, mask='gauss', maskParams=None, name='unnamed GratingStim', opacity=1.0, ori=0.0, phase=array([0., 0.]), pos=array([-0.2 , -0.72]), rgbPedestal=array([0., 0., 0.]), sf=array([0., 0.]), size=array([0.3, 0.2]), tex='sin', texRes=256, units='norm', win=Window(...))
+10.4178 	EXP 	Created unnamed GratingStim = GratingStim(autoDraw=False, autoLog=True, blendmode='avg', color=array([1. , 0.5, 0.5]), colorSpace='rgb', contrast=1.0, depth=0, interpolate=False, mask='gauss', maskParams=None, name='unnamed GratingStim', opacity=1.0, ori=0.0, phase=array([0., 0.]), pos=array([ 0.1 , -0.72]), rgbPedestal=array([0., 0., 0.]), sf=array([0., 0.]), size=array([0.3, 0.2]), tex='sin', texRes=256, units='norm', win=Window(...))
+10.4215 	DATA 	Mouse:  Left button up, pos=(619,38)
+10.4305 	EXP 	unnamed ImageStim: size = (1.1, 2)
+11.5373 	DATA 	Mouse: Left button down, pos=(576,281)
+11.6037 	DATA 	Mouse:  Left button up, pos=(576,281)
+12.3531 	DATA 	Mouse: Left button down, pos=(583,139)
+12.4371 	DATA 	Mouse:  Left button up, pos=(583,139)
+13.4186 	DATA 	Mouse: Left button down, pos=(583,44)
+13.4351 	EXP 	window1: units = 'deg'
+13.7207 	EXP 	window1: mouseVisible = True
+22.2940 	WARNING 	User requested fullscreen with size [1920 1080], but screen is actually [1440, 900]. Using actual size
+22.7554 	EXP 	Created window1 = Window(allowGUI=False, allowStencil=False, args=UNKNOWN, autoLog=True, bitsMode=UNKNOWN, blendMode='avg', color=array([-0.7, -0.7, -0.7]), colorSpace='rgb', fullscr=UNKNOWN, gamma=None, kwargs=UNKNOWN, lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x10d77ea50>, multiSample=False, name='window1', numSamples=2, pos=[0, 0], screen=0, size=array([2880, 1800]), stereo=False, units='deg', useFBO=False, useRetina=True, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=False, winType=u'pyglet')
+23.1608 	INFO 	Successfully set darwin thread to realtime
+24.2410 	INFO 	#[ PsychoPy2 RuntimeInfoStart ]
+  #[[ PsychoPy ]] #---------
+    psychopyVersion: 1.90.2
+    psychopyHaveExtRush: True
+  #[[ Experiment ]] #---------
+    experimentAuthVersion: None
+    experimentAuthor: None
+    experimentRunTime: 2018_07_30 08:00 (Year_Month_Day Hour:Min)
+    experimentRunTime.epoch: 1532901602
+    experimentScript: psyc1002.py
+    experimentScript.digestSHA1: 570a8aed1f3b08637cb17dcbbdfd78fd53748a40
+    experimentScript.directory: /Users/alexh 1/Documents/attention_tempresltn/letters_words/PSYC1
+  #[[ System ]] #---------
+    systemHaveInternetAccess: True
+    systemHostName: MacBook-Pro-2.gateway
+    systemLocale: C
+    systemMemFreeRAM: 5448.890625
+    systemMemTotalRAM: 16384.0
+    systemPlatform: darwin 10.13.3 x86_64
+    systemPyoVersion: -
+    systemRebooted: Jul 26 10:46
+    systemSec.OpenSSLVersion: LibreSSL 2.2.7
+    systemSec.pythonSSL: True
+    systemTimeNumpySD1000000_sec: 0.0039
+    systemUser: alexh
+    systemUserID: 501
+    systemUserProcCmdPid: lsd photoanalysisd fmfd CallHistoryPluginHelper universalaccessd com.apple.CloudPhotosConfiguration pkd com.apple.Safari.SafeBrowsing.Service WiFiProxy FinderSyncAPIExtension diagnostics_agent personad media-indexer ''Keychain Access'' com.apple.WebKit.WebContent callservicesd com.apple.WebKit.Networking cloudphotosd CoreServicesUIAgent ''Android File Transfer Agent'' SymQuickMenu coreauthd AudioComponentRegistrar com.apple.WebKit.Plugin.64 storeaccountd imagent -bash zotero AppleIDAuthAgent Safari ''Microsoft Word'' ''Google Chrome Helper'' python colorsync.useragent parsecd mpv imklaunchagent EscrowSecurityAlert SiriNCService crashpad_handler cdpd pboard ScopedBookmarkAgent SocialPushAgent storelegacy cloudd com.apple.CommerceKit.TransactionService com.omnigroup.OmniSoftwareUpdate.OSUCheckService fontd mediaremoteagent ''Backup and Sync'' Evernote CMFSyncAgent photolibraryd IMAutomaticHistoryDeletionAgent ''Microsoft PowerPoint'' com.apple.hiservices-xpcservice storeassetd keyboardservicesd quicklookd rapportd RStudio mdworker AirPlayUIAgent Finder assistant_service sharingd nsurlsessiond ViewBridgeAuxiliary pbs ContactsAgent assistantd CommCenter passd mdwrite trustd bird owncloud_crash_reporter deleted ContactsAccountsService OSDUIHelper com.apple.photomoments CalNCService dbkextd suggestd knowledge-agent videosubscriptionsd routined EvernoteHelper Slack cloudpaird garcon com.apple.speech.speechsynthesisd com.apple.iTunesLibraryService IMRemoteURLConnectionAgent softwareupdate_notify_agent Calendar corespotlightd com.apple.quicklook.ThumbnailsAgent com.apple.ColorSyncXPCAgent akd ''Microsoft Excel'' storeuid PAH_Extension com.apple.WebKit.Plugin.32 Contacts SafariBookmarksSyncAgent diskspaced DocumentPopoverViewService accountsd DropboxFolderTagger PrinterProxy soagent Preview com.apple.audio.SandboxHelper PsychoPy2 corespeechd Anki identityservicesd com.apple.Safari.SearchHelper com.apple.geod AlertNotificationService com.apple.WebKit.Databases talagent AppleSpell DiskUnmountWatcher ''Slack Helper'' com.apple.tonelibraryd networkserviceproxy com.apple.CloudDocs.MobileDocumentsFileProvider storedownloadd nsurlstoraged Spotlight DropboxActivityProvider commerce icdd Siri ''Google Chrome'' IMDPersistenceAgent distnoted NotificationCenter fileproviderd dbfseventsd rsession LaterAgent MTLCompilerService WiFiAgent ReportCrash mapspushd siriknowledged CalendarAgent Terminal ctkd APFSUserAgent sharedfilelistd recentsd com.apple.Safari.ImageDecoder ''App Store'' backgroundtaskmanagementagent CoreLocationAgent silhouette iconservicesagent spindump_agent UserEventAgent Dock ctkahp followupd OmniOutliner ckkeyrolld Dropbox tccd com.apple.DictionaryServiceHelper ContextService com.apple.Safari.History contactsdonationagent SystemUIServer USBAgent com.apple.CommerceKit.StoreAEService Reminders com.apple.photomodel CloudKeychainProxy TextWrangler nbagent com.apple.appstore.PluginXPCService VTDecoderXPCService swcd KeychainSyncingOverIDSProxy com.apple.accessibility.mediaaccessibilityd useractivityd secd crash-catcher com.apple.dock.extra printtool QtWebEngineProcess com.apple.Notes.datastore cfprefsd usernoted secinitd
+    systemUserProcCount: 277
+    systemUserProcFlagged: iTunes Dropbox ''Google Chrome'' Safari mdworker
+    systemUsersCount: 1
+  #[[ Window ]] #---------
+    windowWinType: pyglet
+    windowWaitBlanking: False
+    windowUseNativeGamma: True
+    windowUnits: deg
+    windowSize_pix: [2880 1800]
+    windowScreen: 0
+    windowRgb: [-0.7 -0.7 -0.7]
+    windowRefreshTimeSD_ms: 0.491
+    windowRefreshTimeMedian_ms: 16.708
+    windowRefreshTimeAvg_ms: 16.685
+    windowRefreshThreshold_sec: 0.0200
+    windowRecordFrameIntervals: False
+    windowPos_pix: [0, 0]
+    windowMonitor.name: testmonitor
+    windowMonitor.getWidth_cm: 57.0
+    windowMonitor.getLinearizeMethod: 1
+    windowMonitor.getGammaGrid: [[ 0.  1.  1. nan nan nan]
+ [ 0.  1.  1. nan nan nan]
+ [ 0.  1.  1. nan nan nan]
+ [ 0.  1.  1. nan nan nan]]
+    windowMonitor.getDistance_cm: 57.0
+    windowMonitor.gammaInterpolator2: None
+    windowMonitor.gammaInterpolator: None
+    windowMonitor.currentCalibName: 2013_03_13 10:41
+    windowIsFullScr: True
+    windowHaveShaders: True
+    windowAllowGUI: False
+  #[[ Python ]] #---------
+    pythonWxVersion: 3.0.1.1 osx-cocoa (classic)
+    pythonVersion: 2.7.12
+    pythonScipyVersion: 1.0.0
+    pythonPygletVersion: 1.3.1
+    pythonPygameVersion: 1.9.3
+    pythonNumpyVersion: 1.14.2
+    pythonMatplotlibVersion: 2.1.2
+    pythonFullVersion: 2.7.12 (v2.7.12:d33e0cf91556, Jun 26 2016, 12:10:39)  [GCC 4.2.1 (Apple Inc. build 5666) (dot 3)]
+    pythonExecutable: /Applications/PsychoPy2_1.90.2.app/Contents/MacOS/python
+  #[[ OpenGL ]] #---------
+    openGLmaxVerticesInVertexArray: 1048575
+    False: openGLext.GL_STEREO
+    True: openGLext.GL_EXT_framebuffer_object
+    True: openGLext.GL_ARB_vertex_shader
+    True: openGLext.GL_ARB_texture_non_power_of_two
+    True: openGLext.GL_ARB_texture_float
+    True: openGLext.GL_ARB_shader_objects
+    True: openGLext.GL_ARB_multitexture
+    True: openGLext.GL_ARB_fragment_program
+    openGLVersion: 2.1 NVIDIA-10.28.10 355.11.10.10.20.111
+    openGLVendor: NVIDIA Corporation
+    openGLRenderingEngine: NVIDIA GeForce GT 750M OpenGL Engine
+#[ PsychoPy2 RuntimeInfoEnd ]
+
+24.2411 	ERROR 	Screen apparently NOT the desired resolution of 1920x1080 pixels!!
+24.2717 	EXP 	window1: recordFrameIntervals = True
+25.1052 	EXP 	window1: recordFrameIntervals = False
+25.1057 	INFO 	Frames per second ~=59.8, which is close enough to desired val of 60.0
+25.2689 	EXP 	Created sequence: random, trialTypes=8, nReps=50, seed=None
+25.4336 	INFO 	Mouse: using default window
+25.4408 	EXP 	Created OKrespZone = GratingStim(autoDraw=False, autoLog=True, blendmode='avg', color=array([1., 1., 1.]), colorSpace='rgb', contrast=1.0, depth=0, interpolate=False, mask='gauss', maskParams=None, name='OKrespZone', opacity=1.0, ori=0.0, phase=array([0., 0.]), pos=array([0.  , 0.88]), rgbPedestal=array([0., 0., 0.]), sf=array([0., 0.]), size=array([2. , 0.2]), tex='sin', texRes=256, units='norm', win=Window(...))
+28.9292 	DATA 	Mouse: Left button down, pos=(975,508)
+28.9863 	DATA 	Mouse:  Left button up, pos=(975,508)
+29.5071 	DATA 	Mouse: Left button down, pos=(897,431)
+29.5711 	DATA 	Mouse:  Left button up, pos=(897,431)
+30.0051 	DATA 	Mouse: Left button down, pos=(753,365)
+30.0932 	DATA 	Mouse:  Left button up, pos=(753,365)
+30.4910 	DATA 	Mouse: Left button down, pos=(593,297)
+30.5790 	DATA 	Mouse:  Left button up, pos=(593,297)
+30.9811 	DATA 	Mouse: Left button down, pos=(468,205)
+31.0613 	DATA 	Mouse:  Left button up, pos=(468,205)
+31.4770 	DATA 	Mouse: Left button down, pos=(364,149)
+31.5490 	DATA 	Mouse:  Left button up, pos=(364,149)
+31.9994 	DATA 	Mouse: Left button down, pos=(195,479)
+32.0950 	DATA 	Mouse:  Left button up, pos=(195,479)
+32.5210 	DATA 	Mouse: Left button down, pos=(328,548)
+32.5850 	DATA 	Mouse:  Left button up, pos=(328,548)
+33.0592 	DATA 	Mouse: Left button down, pos=(377,461)
+33.1309 	DATA 	Mouse:  Left button up, pos=(377,461)
+33.5790 	DATA 	Mouse: Left button down, pos=(577,574)
+33.6355 	DATA 	Mouse:  Left button up, pos=(577,574)
+35.1329 	DATA 	Mouse: Left button down, pos=(679,555)
+35.2008 	DATA 	Mouse:  Left button up, pos=(679,555)
+35.6789 	DATA 	Mouse: Left button down, pos=(675,509)
+35.7378 	DATA 	Mouse:  Left button up, pos=(675,509)
+36.2710 	DATA 	Mouse: Left button down, pos=(532,506)
+36.3452 	DATA 	Mouse:  Left button up, pos=(532,506)
+57.4135 	DATA 	Mouse: Left button down, pos=(661,842)
+57.4203 	INFO 	Experiment will have 400 trials. Letters will be drawn with superposed noise of 0.00%
+57.4381 	EXP 	New trial (rep=0, index=0): {'leftStreamFlip': False, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+57.4382 	INFO 	Starting main part of experiment
+57.4935 	DATA 	Mouse:  Left button up, pos=(661,842)
+58.6263 	INFO 	numtrials=400 and this trialDurFrames=12 or 200.0 ms  task=T1
+60.5083 	EXP 	window1: recordFrameIntervals = False
+60.5361 	INFO 	Mouse: using default window
+61.7775 	DATA 	Keypress: a
+61.9102 	EXP 	New trial (rep=0, index=1): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+63.0128 	DATA 	Keypress: j
+64.2272 	INFO 	numtrials=400 and this trialDurFrames=8 or 133.333333333 ms  task=T1
+65.9440 	EXP 	window1: recordFrameIntervals = False
+65.9579 	INFO 	Mouse: using default window
+66.9610 	DATA 	Keypress: u
+67.5304 	DATA 	Keypress: h
+67.6775 	EXP 	New trial (rep=0, index=2): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+67.6944 	INFO 	numtrials=400 and this trialDurFrames=5 or 83.3333333333 ms  task=T1
+69.4945 	EXP 	window1: recordFrameIntervals = False
+69.5084 	INFO 	Mouse: using default window
+70.7456 	DATA 	Keypress: f
+71.4127 	DATA 	Keypress: g
+71.5449 	EXP 	New trial (rep=0, index=3): {'leftStreamFlip': False, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+71.5619 	INFO 	numtrials=400 and this trialDurFrames=3 or 50.0 ms  task=T1
+72.6951 	EXP 	window1: recordFrameIntervals = False
+72.7088 	INFO 	Mouse: using default window
+74.3802 	DATA 	Keypress: c
+74.5287 	EXP 	New trial (rep=0, index=4): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+74.5436 	INFO 	numtrials=400 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+75.6787 	EXP 	window1: recordFrameIntervals = False
+75.6926 	INFO 	Mouse: using default window
+76.4481 	DATA 	Keypress: u
+76.9319 	DATA 	Keypress: k
+77.0792 	EXP 	New trial (rep=0, index=5): {'leftStreamFlip': False, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+77.0943 	INFO 	numtrials=400 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+78.3626 	EXP 	window1: recordFrameIntervals = False
+78.3765 	INFO 	Mouse: using default window
+79.2825 	DATA 	Keypress: k
+79.4246 	EXP 	New trial (rep=0, index=6): {'leftStreamFlip': False, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+79.4457 	INFO 	numtrials=400 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+80.6965 	EXP 	window1: recordFrameIntervals = False
+80.7103 	INFO 	Mouse: using default window
+81.7302 	DATA 	Keypress: s
+81.8642 	EXP 	New trial (rep=0, index=7): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+81.8789 	INFO 	numtrials=400 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+83.0298 	EXP 	window1: recordFrameIntervals = False
+83.0437 	INFO 	Mouse: using default window
+84.0829 	DATA 	Keypress: t
+84.6329 	DATA 	Keypress: m
+84.7808 	EXP 	New trial (rep=1, index=0): {'leftStreamFlip': False, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+84.7966 	INFO 	numtrials=400 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+86.0970 	EXP 	window1: recordFrameIntervals = False
+86.1107 	INFO 	Mouse: using default window
+87.0482 	DATA 	Keypress: g
+87.1773 	EXP 	New trial (rep=1, index=1): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+87.1967 	INFO 	numtrials=400 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+88.4304 	EXP 	window1: recordFrameIntervals = False
+88.4443 	INFO 	Mouse: using default window
+89.2810 	DATA 	Keypress: n
+89.5991 	DATA 	Keypress: u
+89.7283 	EXP 	New trial (rep=1, index=2): {'leftStreamFlip': False, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+89.7474 	INFO 	numtrials=400 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+91.0142 	EXP 	window1: recordFrameIntervals = False
+91.0281 	INFO 	Mouse: using default window
+92.3481 	DATA 	Keypress: z
+92.4813 	EXP 	New trial (rep=1, index=3): {'leftStreamFlip': False, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+92.4977 	INFO 	numtrials=400 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+93.8146 	EXP 	window1: recordFrameIntervals = False
+93.8286 	INFO 	Mouse: using default window
+94.8348 	DATA 	Keypress: a
+94.9770 	EXP 	New trial (rep=1, index=4): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+94.9978 	INFO 	numtrials=400 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+96.1484 	EXP 	window1: recordFrameIntervals = False
+96.1622 	INFO 	Mouse: using default window
+97.2683 	DATA 	Keypress: y
+97.6682 	DATA 	Keypress: z
+97.8128 	EXP 	New trial (rep=1, index=5): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+97.8319 	INFO 	numtrials=400 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+99.1320 	EXP 	window1: recordFrameIntervals = False
+99.1466 	INFO 	Mouse: using default window
+100.0694 	DATA 	Keypress: j
+100.7839 	DATA 	Keypress: t
+100.9105 	EXP 	New trial (rep=1, index=6): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+100.9323 	INFO 	numtrials=400 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+102.0990 	EXP 	window1: recordFrameIntervals = False
+102.1128 	INFO 	Mouse: using default window
+103.4690 	DATA 	Keypress: k
+103.7346 	DATA 	Keypress: g
+103.8621 	EXP 	New trial (rep=1, index=7): {'leftStreamFlip': False, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+103.8821 	INFO 	numtrials=400 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+105.0496 	EXP 	window1: recordFrameIntervals = False
+105.0635 	INFO 	Mouse: using default window
+105.7856 	DATA 	Keypress: k
+105.9294 	EXP 	New trial (rep=2, index=0): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+105.9492 	INFO 	numtrials=400 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+107.0833 	EXP 	window1: recordFrameIntervals = False
+107.0972 	INFO 	Mouse: using default window
+108.0174 	DATA 	Keypress: c
+108.4355 	DATA 	Keypress: m
+108.5793 	EXP 	New trial (rep=2, index=1): {'leftStreamFlip': False, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+108.5996 	INFO 	numtrials=400 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+109.7999 	EXP 	window1: recordFrameIntervals = False
+109.8135 	INFO 	Mouse: using default window
+110.9188 	DATA 	Keypress: a
+111.0475 	EXP 	New trial (rep=2, index=2): {'leftStreamFlip': False, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+111.0663 	INFO 	numtrials=400 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+112.3662 	EXP 	window1: recordFrameIntervals = False
+112.3814 	INFO 	Mouse: using default window
+114.4678 	DATA 	Keypress: c
+114.5972 	EXP 	New trial (rep=2, index=3): {'leftStreamFlip': False, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+114.6173 	INFO 	numtrials=400 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+115.7513 	EXP 	window1: recordFrameIntervals = False
+115.7649 	INFO 	Mouse: using default window
+117.4015 	DATA 	Keypress: lshift
+117.6015 	DATA 	Keypress: lctrl
+117.7188 	DATA 	Keypress: z
+117.7348 	INFO 	Stopping at 08:01 on 30 Jul 2018
+117.7349 	ERROR 	user aborted experiment on keypress with trials done=19 of 401
+117.7353 	INFO 	Program terminating normally.
+118.0154 	EXP 	window1: mouseVisible = True

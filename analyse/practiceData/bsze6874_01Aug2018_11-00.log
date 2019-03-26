@@ -1,0 +1,2343 @@
+4.1760 	WARNING 	Monitor specification not found. Creating a temporary one...
+15.9420 	EXP 	Created window1 = Window(allowGUI=False, allowStencil=False, autoLog=True, bitsMode=UNKNOWN, blendMode='avg', color=array([-0.7, -0.7, -0.7]), colorSpace='rgb', fullscr=UNKNOWN, gamma=None, lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x1AA49190>, name='window1', pos=[0, 0], screen=0, size=array([1920, 1080]), stereo=False, units='deg', useFBO=False, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=False, winType='pyglet')
+15.9421 	INFO 	Mouse: using default window
+15.9426 	EXP 	window1: units = 'norm'
+16.0882 	EXP 	Created unnamed ImageStim = ImageStim(autoLog=True, color=array([ 1.,  1.,  1.]), colorSpace='rgb', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, image=str(...), interpolate=False, mask=None, maskParams=None, name='unnamed ImageStim', opacity=1.0, ori=0.0, pos=array([-0.5,  0. ]), size=array([ 1.290625  ,  3.24814815]), texRes=128, units='norm', win=Window(...))
+16.1674 	EXP 	Created unnamed ImageStim = ImageStim(autoLog=True, color=array([ 1.,  1.,  1.]), colorSpace='rgb', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, image=str(...), interpolate=False, mask=None, maskParams=None, name='unnamed ImageStim', opacity=1.0, ori=0.0, pos=array([ 0.5,  0. ]), size=array([ 1.290625  ,  3.24814815]), texRes=128, units='norm', win=Window(...))
+16.1827 	EXP 	Created OKrespZone = GratingStim(autoDraw=False, autoLog=True, color=array([ 1. ,  0.5,  0.5]), colorSpace='rgb', contrast=1.0, depth=0, interpolate=False, mask='gauss', maskParams=None, name='OKrespZone', opacity=1.0, ori=0.0, phase=array([ 0.,  0.]), pos=array([-0.2 , -0.92]), rgbPedestal=array([ 0.,  0.,  0.]), sf=array([ 0.,  0.]), size=array([ 2.3,  0.2]), tex='sin', texRes=256, units='norm', win=Window(...))
+16.3982 	EXP 	unnamed ImageStim: size = (1, 2)
+16.3982 	EXP 	unnamed ImageStim: size = (1, 2)
+88.2908 	DATA 	Mouse: Left button down, pos=(487,368)
+88.3540 	DATA 	Mouse:  Left button up, pos=(487,368)
+91.1382 	DATA 	Mouse: Left button down, pos=(820,60)
+91.1535 	EXP 	window1: units = 'deg'
+91.1538 	EXP 	window1: units = 'norm'
+91.1742 	EXP 	Created OKrespZone = GratingStim(autoDraw=False, autoLog=True, color=array([ 1. ,  0.5,  0.5]), colorSpace='rgb', contrast=1.0, depth=0, interpolate=False, mask='gauss', maskParams=None, name='OKrespZone', opacity=1.0, ori=0.0, phase=array([ 0.,  0.]), pos=array([-0.2 , -0.92]), rgbPedestal=array([ 0.,  0.,  0.]), sf=array([ 0.,  0.]), size=array([ 2.3,  0.2]), tex='sin', texRes=256, units='norm', win=Window(...))
+91.2782 	EXP 	Created unnamed ImageStim = ImageStim(autoLog=True, color=array([ 1.,  1.,  1.]), colorSpace='rgb', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, image='abgdj\\PISandConsentForm\\consentForm.png', interpolate=False, mask=None, maskParams=None, name='unnamed ImageStim', opacity=1.0, ori=0.0, pos=array([ 0.,  0.]), size=array([ 1.3375    ,  2.97407407]), texRes=128, units='norm', win=Window(...))
+91.3155 	EXP 	Created unnamed GratingStim = GratingStim(autoDraw=False, autoLog=True, color=array([ 1. ,  0.5,  0.5]), colorSpace='rgb', contrast=1.0, depth=0, interpolate=False, mask='gauss', maskParams=None, name='unnamed GratingStim', opacity=1.0, ori=0.0, phase=array([ 0.,  0.]), pos=array([-0.2 , -0.42]), rgbPedestal=array([ 0.,  0.,  0.]), sf=array([ 0.,  0.]), size=array([ 0.3,  0.2]), tex='sin', texRes=256, units='norm', win=Window(...))
+91.3721 	EXP 	Created unnamed GratingStim = GratingStim(autoDraw=False, autoLog=True, color=array([ 1. ,  0.5,  0.5]), colorSpace='rgb', contrast=1.0, depth=0, interpolate=False, mask='gauss', maskParams=None, name='unnamed GratingStim', opacity=1.0, ori=0.0, phase=array([ 0.,  0.]), pos=array([ 0.1 , -0.42]), rgbPedestal=array([ 0.,  0.,  0.]), sf=array([ 0.,  0.]), size=array([ 0.3,  0.2]), tex='sin', texRes=256, units='norm', win=Window(...))
+91.3939 	EXP 	Created unnamed GratingStim = GratingStim(autoDraw=False, autoLog=True, color=array([ 1. ,  0.5,  0.5]), colorSpace='rgb', contrast=1.0, depth=0, interpolate=False, mask='gauss', maskParams=None, name='unnamed GratingStim', opacity=1.0, ori=0.0, phase=array([ 0.,  0.]), pos=array([-0.2 , -0.72]), rgbPedestal=array([ 0.,  0.,  0.]), sf=array([ 0.,  0.]), size=array([ 0.3,  0.2]), tex='sin', texRes=256, units='norm', win=Window(...))
+91.4159 	EXP 	Created unnamed GratingStim = GratingStim(autoDraw=False, autoLog=True, color=array([ 1. ,  0.5,  0.5]), colorSpace='rgb', contrast=1.0, depth=0, interpolate=False, mask='gauss', maskParams=None, name='unnamed GratingStim', opacity=1.0, ori=0.0, phase=array([ 0.,  0.]), pos=array([ 0.1 , -0.72]), rgbPedestal=array([ 0.,  0.,  0.]), sf=array([ 0.,  0.]), size=array([ 0.3,  0.2]), tex='sin', texRes=256, units='norm', win=Window(...))
+91.4196 	DATA 	Mouse:  Left button up, pos=(820,60)
+91.4262 	EXP 	unnamed ImageStim: size = (1.1, 2)
+95.8708 	DATA 	Mouse: Left button down, pos=(769,314)
+95.9539 	DATA 	Mouse:  Left button up, pos=(769,314)
+96.6545 	DATA 	Mouse: Left button down, pos=(758,149)
+96.7206 	DATA 	Mouse:  Left button up, pos=(758,149)
+99.4038 	DATA 	Mouse: Left button down, pos=(831,54)
+99.4207 	EXP 	window1: units = 'deg'
+99.4278 	EXP 	window1: mouseVisible = True
+116.4913 	EXP 	Created window1 = Window(allowGUI=False, allowStencil=False, autoLog=True, bitsMode=UNKNOWN, blendMode='avg', color=array([-0.7, -0.7, -0.7]), colorSpace='rgb', fullscr=UNKNOWN, gamma=None, lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x1AA49190>, name='window1', pos=[0, 0], screen=0, size=array([1920, 1080]), stereo=False, units='deg', useFBO=False, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=False, winType='pyglet')
+121.2743 	INFO 	#[ PsychoPy2 RuntimeInfoStart ]
+  #[[ PsychoPy ]] #---------
+    psychopyVersion: 1.84.2
+    psychopyHaveExtRush: True
+  #[[ Experiment ]] #---------
+    experimentAuthor: None
+    experimentAuthVersion: None
+    experimentRunTime: 2018_08_01 11:02 (Year_Month_Day Hour:Min)
+    experimentRunTime.epoch: 1533085343
+    experimentScript: psyc1002.py
+    experimentScript.digestSHA1: 54192af97dd76e67dd8faf41f61890fe38fff5f8
+    experimentScript.directory: U:\PSYC1002\abgdj
+  #[[ System ]] #---------
+    systemHaveInternetAccess: True
+    systemHostName: W5FD1LG2
+    systemLocale: English_United States.1252
+    systemMemFreeRAM: 4269.55859375
+    systemMemTotalRAM: 8076.9453125
+    systemPlatform: windowsversion=sys.getwindowsversion(major=6, minor=2, build=9200, platform=2, service_pack='')
+    systemPyo.InputDevices: {4: {'host api index': 2, 'latency': 0.008707483299076557, 'default sr': 44100, 'name': u'Realtek ASIO'}}
+    systemPyo.OutputDevices: {0: {'host api index': 0, 'latency': 0.09000000357627869, 'default sr': 44100, 'name': u'Microsoft Sound Mapper - Output'}, 1: {'host api index': 0, 'latency': 0.09000000357627869, 'default sr': 44100, 'name': u'Speakers / Headphones (Realtek '}, 2: {'host api index': 1, 'latency': 0.11999999731779099, 'default sr': 44100, 'name': u'Primary Sound Driver'}, 3: {'host api index': 1, 'latency': 0.11999999731779099, 'default sr': 44100, 'name': u'Speakers / Headphones (Realtek High Definition Audio)'}, 4: {'host api index': 2, 'latency': 0.008707483299076557, 'default sr': 44100, 'name': u'Realtek ASIO'}, 5: {'host api index': 3, 'latency': 0.003000000026077032, 'default sr': 48000, 'name': u'Speakers / Headphones (Realtek High Definition Audio)'}}
+    systemPyoVersion: 0.8.0
+    systemRebooted: System Boot Time:          8/1/2018, 2:04:53 AM
+    systemSec.pythonSSL: True
+    systemTimeNumpySD1000000_sec: 0.0074
+    systemUser: bsze6874
+    systemUserID: 1000
+    systemUserProcCmdPid: LabStatsUserSpace.exe dwm.exe TiWorker.exe CmRcService.exe nierserver.exe LabStatsClient.exe tagsrv.exe SearchUI.exe DWRCST.EXE OneDrive.exe nipxism.exe WmiPrvSE.exe niLxiDiscovery.exe SecurityHealthService.exe redirector.exe SearchProtocolHost.exe server_admin.exe pc-client.exe lkads.exe svchost.exe ni_usbmon.exe AGSService.exe System SISIDSService.exe SelfServicePlugin.exe explorer.exe smss.exe ApplicationWebServer.exe RuntimeBroker.exe acrotray.exe niauth_daemon.exe cmd.exe nidmsrv.exe Receiver.exe SISIPSService.exe lktsrv.exe lsass.exe python.exe RtkNGUI64.exe sisipsutil.exe AdobeUpdateService.exe armsvc.exe ssonsvr.exe concentr.exe nidevldu.exe taskhostw.exe ctfmon.exe RAVBg64.exe ''Memory Compression'' NIWebServiceContainer.exe nimxs.exe RtkAudioService64.exe SystemWebServer.exe tasklist.exe snowagent.exe CcmExec.exe SmcGui.exe nicitdl5.exe services.exe niDiscSvc.exe sqlwriter.exe MSASCuiL.exe SCNotification.exe nimdnsResponder.exe server_runtime.exe DWRCS.EXE sihost.exe spoolsv.exe wininit.exe winlogon.exe ShellExperienceHost.exe nidevmon.exe SearchIndexer.exe csrss.exe ''intelliadmin idletime.exe'' TrustedInstaller.exe audiodg.exe fontdrvhost.exe unsecapp.exe ccSvcHst.exe wfcrun32.exe nisvcloc.exe server_eventlog.exe lkcitdl.exe AuthManSvr.exe conhost.exe
+    systemUserProcCount: 175
+    systemUserProcFlagged: Explorer
+    systemUsersCount: False
+  #[[ Window ]] #---------
+    windowWinType: pyglet
+    windowWaitBlanking: False
+    windowUseNativeGamma: True
+    windowUnits: deg
+    windowSize_pix: [1920 1080]
+    windowScreen: 0
+    windowRgb: [-0.7 -0.7 -0.7]
+    windowRefreshTimeSD_ms: 0.318
+    windowRefreshTimeMedian_ms: 16.671
+    windowRefreshTimeAvg_ms: 16.667
+    windowRefreshThreshold_sec: 0.0200
+    windowRecordFrameIntervals: False
+    windowPos_pix: [0, 0]
+    windowMonitor.name: testmonitor
+    windowMonitor.getWidth_cm: 57.0
+    windowMonitor.getLinearizeMethod: 1
+    windowMonitor.getGammaGrid: [[  0.   1.   1.  nan  nan  nan]
+ [  0.   1.   1.  nan  nan  nan]
+ [  0.   1.   1.  nan  nan  nan]
+ [  0.   1.   1.  nan  nan  nan]]
+    windowMonitor.getDistance_cm: 57.0
+    windowMonitor.gammaInterpolator2: None
+    windowMonitor.gammaInterpolator: None
+    windowMonitor.currentCalibName: 2018_08_01 11:00
+    windowIsFullScr: True
+    windowHaveShaders: True
+    windowAllowGUI: False
+  #[[ Python ]] #---------
+    pythonWxVersion: 3.0.2.0 msw (classic)
+    pythonVersion: 2.7.11
+    pythonScipyVersion: 0.17.1
+    pythonPygletVersion: 1.2.4
+    pythonPygameVersion: 1.9.2pre
+    pythonNumpyVersion: 1.11.0
+    pythonMatplotlibVersion: 1.5.1
+    pythonFullVersion: 2.7.11 (v2.7.11:6d1b6a68f775, Dec  5 2015, 20:32:19) [MSC v.1500 32 bit (Intel)]
+    pythonExecutable: C:\Program Files (x86)\PsychoPy2\python.exe
+  #[[ OpenGL ]] #---------
+    openGLVersion: 4.4.0 - Build 21.20.16.4627
+    openGLVendor: Intel
+    openGLRenderingEngine: Intel(R) HD Graphics 530
+    openGLmaxVerticesInVertexArray: 1048576
+    False: openGLext.GL_STEREO
+    True: openGLext.GL_EXT_framebuffer_object
+    True: openGLext.GL_ARB_vertex_shader
+    True: openGLext.GL_ARB_texture_non_power_of_two
+    True: openGLext.GL_ARB_texture_float
+    True: openGLext.GL_ARB_shader_objects
+    True: openGLext.GL_ARB_multitexture
+    True: openGLext.GL_ARB_fragment_program
+#[ PsychoPy2 RuntimeInfoEnd ]
+
+121.3205 	EXP 	window1: recordFrameIntervals = True
+122.1537 	EXP 	window1: recordFrameIntervals = False
+122.1604 	INFO 	Frames per second ~=60.1, which is close enough to desired val of 60.0
+122.3011 	EXP 	Created sequence: random, trialTypes=12, nReps=30, seed=None
+122.4877 	INFO 	Mouse: using default window
+122.5098 	EXP 	Created OKrespZone = GratingStim(autoDraw=False, autoLog=True, color=array([ 1.,  1.,  1.]), colorSpace='rgb', contrast=1.0, depth=0, interpolate=False, mask='gauss', maskParams=None, name='OKrespZone', opacity=1.0, ori=0.0, phase=array([ 0.,  0.]), pos=array([ 0.  ,  0.88]), rgbPedestal=array([ 0.,  0.,  0.]), sf=array([ 0.,  0.]), size=array([ 2. ,  0.2]), tex='sin', texRes=256, units='norm', win=Window(...))
+130.8732 	DATA 	Mouse: Left button down, pos=(133,955)
+130.9922 	DATA 	Mouse:  Left button up, pos=(133,955)
+135.9292 	DATA 	Mouse: Left button down, pos=(87,201)
+135.9921 	DATA 	Mouse:  Left button up, pos=(87,201)
+142.4013 	DATA 	Mouse: Left button down, pos=(307,607)
+142.4569 	DATA 	Mouse:  Left button up, pos=(307,607)
+163.1216 	DATA 	Mouse: Right button down, pos=(917,968)
+163.5121 	DATA 	Mouse:  Right button up, pos=(924,927)
+176.9211 	DATA 	Mouse: Left button down, pos=(1332,751)
+177.0001 	DATA 	Mouse:  Left button up, pos=(1332,750)
+184.0415 	DATA 	Mouse: Left button down, pos=(1552,455)
+184.1280 	DATA 	Mouse:  Left button up, pos=(1552,455)
+184.8241 	DATA 	Mouse: Left button down, pos=(1552,455)
+184.9202 	DATA 	Mouse:  Left button up, pos=(1552,455)
+188.7609 	DATA 	Mouse: Left button down, pos=(1734,181)
+188.8401 	DATA 	Mouse:  Left button up, pos=(1734,182)
+191.9370 	DATA 	Mouse: Left button down, pos=(1749,677)
+191.9936 	DATA 	Mouse:  Left button up, pos=(1749,677)
+192.8407 	DATA 	Mouse: Left button down, pos=(1743,752)
+192.8976 	DATA 	Mouse:  Left button up, pos=(1743,752)
+200.1213 	DATA 	Mouse: Left button down, pos=(175,511)
+200.1765 	DATA 	Mouse:  Left button up, pos=(175,511)
+201.4733 	DATA 	Mouse: Left button down, pos=(165,401)
+201.5601 	DATA 	Mouse:  Left button up, pos=(165,401)
+203.6093 	DATA 	Mouse: Left button down, pos=(167,319)
+203.6636 	DATA 	Mouse:  Left button up, pos=(167,319)
+204.7608 	DATA 	Mouse: Left button down, pos=(154,310)
+204.8241 	DATA 	Mouse:  Left button up, pos=(154,310)
+206.2641 	DATA 	Mouse: Left button down, pos=(154,310)
+206.3282 	DATA 	Mouse:  Left button up, pos=(154,310)
+206.5780 	DATA 	Mouse: Right button down, pos=(159,263)
+206.7201 	DATA 	Mouse:  Right button up, pos=(159,257)
+206.9772 	DATA 	Mouse: Left button down, pos=(159,257)
+207.0960 	DATA 	Mouse:  Left button up, pos=(159,257)
+212.8887 	DATA 	Mouse: Left button down, pos=(321,753)
+212.9840 	DATA 	Mouse:  Left button up, pos=(321,753)
+213.6406 	DATA 	Mouse: Left button down, pos=(315,688)
+213.7280 	DATA 	Mouse:  Left button up, pos=(315,688)
+215.0488 	DATA 	Mouse: Left button down, pos=(310,949)
+215.1520 	DATA 	Mouse:  Left button up, pos=(310,949)
+217.3685 	DATA 	Mouse: Left button down, pos=(341,813)
+217.4480 	DATA 	Mouse:  Left button up, pos=(341,813)
+220.6647 	DATA 	Mouse: Left button down, pos=(327,271)
+220.7205 	DATA 	Mouse:  Left button up, pos=(327,271)
+221.3528 	DATA 	Mouse: Left button down, pos=(328,266)
+221.4320 	DATA 	Mouse:  Left button up, pos=(328,266)
+222.1053 	DATA 	Mouse: Left button down, pos=(315,246)
+222.1921 	DATA 	Mouse:  Left button up, pos=(315,246)
+222.8090 	DATA 	Mouse: Left button down, pos=(349,525)
+222.8879 	DATA 	Mouse:  Left button up, pos=(349,525)
+227.6652 	DATA 	Mouse: Left button down, pos=(356,52)
+227.7521 	DATA 	Mouse:  Left button up, pos=(356,52)
+230.5128 	DATA 	Mouse: Left button down, pos=(299,112)
+230.6081 	DATA 	Mouse:  Left button up, pos=(299,112)
+233.3129 	DATA 	Mouse: Left button down, pos=(501,747)
+233.3699 	DATA 	Mouse:  Left button up, pos=(501,747)
+235.2490 	DATA 	Mouse: Left button down, pos=(509,595)
+235.3440 	DATA 	Mouse:  Left button up, pos=(509,595)
+236.7050 	DATA 	Mouse: Left button down, pos=(547,893)
+236.7920 	DATA 	Mouse:  Left button up, pos=(547,893)
+240.1692 	DATA 	Mouse: Left button down, pos=(553,540)
+240.2247 	DATA 	Mouse:  Left button up, pos=(553,540)
+241.8887 	DATA 	Mouse: Left button down, pos=(516,230)
+241.9760 	DATA 	Mouse:  Left button up, pos=(516,230)
+242.8086 	DATA 	Mouse: Left button down, pos=(525,192)
+242.8634 	DATA 	Mouse:  Left button up, pos=(525,192)
+244.6336 	DATA 	Mouse: Left button down, pos=(590,62)
+244.7360 	DATA 	Mouse:  Left button up, pos=(590,62)
+247.1694 	DATA 	Mouse: Left button down, pos=(784,948)
+247.2241 	DATA 	Mouse:  Left button up, pos=(784,948)
+247.6648 	DATA 	Mouse: Right button down, pos=(751,808)
+247.8962 	DATA 	Mouse:  Right button up, pos=(747,781)
+248.6485 	DATA 	Mouse: Left button down, pos=(730,757)
+248.7203 	DATA 	Mouse:  Left button up, pos=(730,757)
+250.7935 	DATA 	Mouse: Left button down, pos=(756,872)
+250.8640 	DATA 	Mouse:  Left button up, pos=(756,872)
+252.4899 	DATA 	Mouse: Left button down, pos=(723,601)
+252.5447 	DATA 	Mouse:  Left button up, pos=(723,601)
+253.8013 	DATA 	Mouse: Left button down, pos=(735,463)
+253.8959 	DATA 	Mouse:  Left button up, pos=(735,463)
+254.7452 	DATA 	Mouse: Left button down, pos=(747,329)
+254.8560 	DATA 	Mouse:  Left button up, pos=(747,323)
+257.1128 	DATA 	Mouse: Left button down, pos=(732,179)
+257.1920 	DATA 	Mouse:  Left button up, pos=(732,179)
+258.1523 	DATA 	Mouse: Left button down, pos=(800,55)
+258.2559 	DATA 	Mouse:  Left button up, pos=(800,55)
+259.6328 	DATA 	Mouse: Left button down, pos=(926,879)
+259.7362 	DATA 	Mouse:  Left button up, pos=(926,878)
+261.7452 	DATA 	Mouse: Left button down, pos=(975,937)
+261.8399 	DATA 	Mouse:  Left button up, pos=(975,937)
+263.1050 	DATA 	Mouse: Left button down, pos=(937,731)
+263.1839 	DATA 	Mouse:  Left button up, pos=(937,731)
+264.9452 	DATA 	Mouse: Left button down, pos=(926,617)
+265.0160 	DATA 	Mouse:  Left button up, pos=(926,617)
+265.8494 	DATA 	Mouse: Left button down, pos=(931,465)
+265.9284 	DATA 	Mouse:  Left button up, pos=(931,464)
+266.8967 	DATA 	Mouse: Left button down, pos=(924,392)
+266.9839 	DATA 	Mouse:  Left button up, pos=(924,392)
+269.1776 	DATA 	Mouse: Left button down, pos=(952,190)
+269.2398 	DATA 	Mouse:  Left button up, pos=(952,190)
+270.0721 	DATA 	Mouse: Left button down, pos=(924,108)
+270.1293 	DATA 	Mouse:  Left button up, pos=(924,108)
+270.8327 	DATA 	Mouse: Left button down, pos=(914,54)
+270.9039 	DATA 	Mouse:  Left button up, pos=(914,54)
+273.1938 	DATA 	Mouse: Left button down, pos=(1139,823)
+273.2514 	DATA 	Mouse:  Left button up, pos=(1139,823)
+274.5698 	DATA 	Mouse: Left button down, pos=(1113,668)
+274.6264 	DATA 	Mouse:  Left button up, pos=(1113,668)
+275.6087 	DATA 	Mouse: Left button down, pos=(1150,538)
+275.6879 	DATA 	Mouse:  Left button up, pos=(1150,538)
+276.2320 	DATA 	Mouse: Left button down, pos=(1150,538)
+276.3119 	DATA 	Mouse:  Left button up, pos=(1150,538)
+276.8735 	DATA 	Mouse: Left button down, pos=(1151,538)
+276.9440 	DATA 	Mouse:  Left button up, pos=(1151,538)
+278.2328 	DATA 	Mouse: Left button down, pos=(1154,476)
+278.3039 	DATA 	Mouse:  Left button up, pos=(1154,475)
+278.8166 	DATA 	Mouse: Left button down, pos=(1168,398)
+278.9040 	DATA 	Mouse:  Left button up, pos=(1169,393)
+279.5374 	DATA 	Mouse: Left button down, pos=(1153,614)
+279.6399 	DATA 	Mouse:  Left button up, pos=(1153,614)
+280.2649 	DATA 	Mouse: Left button down, pos=(1151,596)
+280.3520 	DATA 	Mouse:  Left button up, pos=(1151,596)
+280.8896 	DATA 	Mouse: Left button down, pos=(1160,536)
+281.0159 	DATA 	Mouse:  Left button up, pos=(1160,538)
+282.8655 	DATA 	Mouse: Left button down, pos=(1162,258)
+282.9438 	DATA 	Mouse:  Left button up, pos=(1162,259)
+284.2729 	DATA 	Mouse: Left button down, pos=(1112,118)
+284.3439 	DATA 	Mouse:  Left button up, pos=(1112,117)
+284.9934 	DATA 	Mouse: Left button down, pos=(1124,62)
+285.0638 	DATA 	Mouse:  Left button up, pos=(1125,61)
+288.0734 	DATA 	Mouse: Left button down, pos=(1323,885)
+288.1759 	DATA 	Mouse:  Left button up, pos=(1323,885)
+289.7519 	DATA 	Mouse: Left button down, pos=(1323,885)
+289.8399 	DATA 	Mouse:  Left button up, pos=(1323,885)
+290.3126 	DATA 	Mouse: Left button down, pos=(1361,954)
+290.3919 	DATA 	Mouse:  Left button up, pos=(1361,954)
+292.2014 	DATA 	Mouse: Left button down, pos=(1331,526)
+292.3198 	DATA 	Mouse:  Left button up, pos=(1331,526)
+294.9533 	DATA 	Mouse: Left button down, pos=(1313,414)
+295.0559 	DATA 	Mouse:  Left button up, pos=(1313,413)
+296.5371 	DATA 	Mouse: Left button down, pos=(1341,262)
+296.6238 	DATA 	Mouse:  Left button up, pos=(1341,262)
+298.1135 	DATA 	Mouse: Right button down, pos=(1361,133)
+298.3680 	DATA 	Mouse:  Right button up, pos=(1377,104)
+299.9135 	DATA 	Mouse: Left button down, pos=(1554,258)
+299.9840 	DATA 	Mouse:  Left button up, pos=(1554,259)
+303.1366 	DATA 	Mouse: Left button down, pos=(1545,888)
+303.2559 	DATA 	Mouse:  Left button up, pos=(1545,888)
+304.4731 	DATA 	Mouse: Left button down, pos=(1529,667)
+304.5679 	DATA 	Mouse:  Left button up, pos=(1529,667)
+307.0171 	DATA 	Mouse: Left button down, pos=(1554,813)
+307.0878 	DATA 	Mouse:  Left button up, pos=(1554,813)
+307.7291 	DATA 	Mouse: Left button down, pos=(1531,816)
+307.8319 	DATA 	Mouse:  Left button up, pos=(1531,816)
+309.1123 	DATA 	Mouse: Left button down, pos=(1523,473)
+309.1919 	DATA 	Mouse:  Left button up, pos=(1523,473)
+310.3530 	DATA 	Mouse: Left button down, pos=(1508,382)
+310.4100 	DATA 	Mouse:  Left button up, pos=(1508,382)
+312.5692 	DATA 	Mouse: Left button down, pos=(1519,57)
+312.6719 	DATA 	Mouse:  Left button up, pos=(1519,57)
+313.6326 	DATA 	Mouse: Left button down, pos=(1513,50)
+313.7678 	DATA 	Mouse:  Left button up, pos=(1513,50)
+313.9839 	DATA 	Mouse: Left button down, pos=(1513,50)
+314.0719 	DATA 	Mouse:  Left button up, pos=(1513,50)
+316.2728 	DATA 	Mouse: Left button down, pos=(1713,470)
+316.3598 	DATA 	Mouse:  Left button up, pos=(1713,470)
+318.0488 	DATA 	Mouse: Left button down, pos=(1709,354)
+318.1046 	DATA 	Mouse:  Left button up, pos=(1709,352)
+321.1217 	DATA 	Mouse: Left button down, pos=(964,1055)
+321.1466 	INFO 	Experiment will have 360 trials. Letters will be drawn with superposed noise of 0.00%
+321.1610 	EXP 	New trial (rep=0, index=0): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+321.1611 	INFO 	Starting main part of experiment
+321.1875 	DATA 	Mouse:  Left button up, pos=(964,1055)
+322.3537 	INFO 	numtrials=360 and this trialDurFrames=12 or 200.0 ms  task=T1
+324.0716 	EXP 	window1: recordFrameIntervals = False
+324.0883 	INFO 	Mouse: using default window
+329.1399 	DATA 	Keypress: a
+331.1229 	DATA 	Keypress: n
+331.4879 	EXP 	New trial (rep=0, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+341.0050 	INFO 	numtrials=360 and this trialDurFrames=8 or 133.333333333 ms  task=T1
+342.8038 	EXP 	window1: recordFrameIntervals = False
+342.8121 	INFO 	Mouse: using default window
+347.3552 	DATA 	Keypress: d
+350.0229 	DATA 	Keypress: e
+350.1705 	EXP 	New trial (rep=0, index=2): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+350.1871 	INFO 	numtrials=360 and this trialDurFrames=5 or 83.3333333333 ms  task=T1
+351.7219 	EXP 	window1: recordFrameIntervals = False
+351.7420 	INFO 	Mouse: using default window
+354.7544 	DATA 	Keypress: e
+354.9026 	EXP 	New trial (rep=0, index=3): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+354.9196 	INFO 	numtrials=360 and this trialDurFrames=3 or 50.0 ms  task=T1
+355.8873 	EXP 	window1: recordFrameIntervals = False
+355.8956 	INFO 	Mouse: using default window
+359.0418 	DATA 	Keypress: h
+360.7565 	DATA 	Keypress: r
+360.9089 	EXP 	New trial (rep=0, index=4): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+360.9362 	INFO 	numtrials=360 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+361.9713 	EXP 	window1: recordFrameIntervals = False
+361.9832 	INFO 	Mouse: using default window
+366.1386 	DATA 	Keypress: f
+366.2818 	EXP 	New trial (rep=0, index=5): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+366.3031 	INFO 	numtrials=360 and this trialDurFrames=5 or 83.3333333333 ms  task=T1
+367.4877 	EXP 	window1: recordFrameIntervals = False
+367.5013 	INFO 	Mouse: using default window
+371.9372 	DATA 	Keypress: h
+372.5722 	DATA 	Keypress: t
+372.7127 	EXP 	New trial (rep=0, index=6): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+372.7372 	INFO 	numtrials=360 and this trialDurFrames=5 or 83.3333333333 ms  task=T1
+373.8054 	EXP 	window1: recordFrameIntervals = False
+373.8144 	INFO 	Mouse: using default window
+381.2386 	DATA 	Keypress: w
+381.3817 	EXP 	New trial (rep=0, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+381.4048 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+382.4706 	EXP 	window1: recordFrameIntervals = False
+382.4806 	INFO 	Mouse: using default window
+384.5537 	DATA 	Keypress: e
+385.0888 	DATA 	Keypress: q
+385.2521 	EXP 	New trial (rep=0, index=8): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+385.2698 	INFO 	numtrials=360 and this trialDurFrames=5 or 83.3333333333 ms  task=T1
+386.4386 	EXP 	window1: recordFrameIntervals = False
+386.4622 	INFO 	Mouse: using default window
+390.0215 	DATA 	Keypress: f
+390.1673 	EXP 	New trial (rep=0, index=9): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+390.1863 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+391.2538 	EXP 	window1: recordFrameIntervals = False
+391.2624 	INFO 	Mouse: using default window
+393.4250 	DATA 	Keypress: m
+394.1210 	DATA 	Keypress: f
+394.2644 	EXP 	New trial (rep=0, index=10): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+394.2863 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+395.4381 	EXP 	window1: recordFrameIntervals = False
+395.4555 	INFO 	Mouse: using default window
+397.4382 	DATA 	Keypress: f
+398.2587 	DATA 	Keypress: t
+398.4242 	EXP 	New trial (rep=0, index=11): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+398.4377 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+399.6044 	EXP 	window1: recordFrameIntervals = False
+399.6133 	INFO 	Mouse: using default window
+401.8382 	DATA 	Keypress: t
+405.9888 	DATA 	Keypress: l
+406.1346 	EXP 	New trial (rep=1, index=0): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+406.1529 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+407.2883 	EXP 	window1: recordFrameIntervals = False
+407.3052 	INFO 	Mouse: using default window
+409.3720 	DATA 	Keypress: y
+409.9871 	DATA 	Keypress: n
+410.1329 	EXP 	New trial (rep=1, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+410.1529 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+411.2386 	EXP 	window1: recordFrameIntervals = False
+411.2621 	INFO 	Mouse: using default window
+414.1542 	DATA 	Keypress: k
+414.6372 	DATA 	Keypress: n
+414.7826 	EXP 	New trial (rep=1, index=2): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+414.8027 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+415.9374 	EXP 	window1: recordFrameIntervals = False
+415.9466 	INFO 	Mouse: using default window
+418.2037 	DATA 	Keypress: g
+419.0219 	DATA 	Keypress: f
+419.1674 	EXP 	New trial (rep=1, index=3): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+419.1862 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+420.3215 	EXP 	window1: recordFrameIntervals = False
+420.3347 	INFO 	Mouse: using default window
+421.5398 	DATA 	Keypress: m
+421.6821 	EXP 	New trial (rep=1, index=4): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+421.7029 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+422.7887 	EXP 	window1: recordFrameIntervals = False
+422.8079 	INFO 	Mouse: using default window
+424.4049 	DATA 	Keypress: g
+428.7055 	DATA 	Keypress: g
+428.8507 	EXP 	New trial (rep=1, index=5): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+428.8699 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+429.8887 	EXP 	window1: recordFrameIntervals = False
+429.9089 	INFO 	Mouse: using default window
+431.5038 	DATA 	Keypress: i
+431.6461 	EXP 	New trial (rep=1, index=6): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+431.6696 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+432.8048 	EXP 	window1: recordFrameIntervals = False
+432.8139 	INFO 	Mouse: using default window
+434.5893 	DATA 	Keypress: u
+435.3540 	DATA 	Keypress: g
+435.4965 	EXP 	New trial (rep=1, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+435.5196 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+436.6219 	EXP 	window1: recordFrameIntervals = False
+436.6419 	INFO 	Mouse: using default window
+439.4422 	DATA 	Keypress: g
+440.4724 	DATA 	Keypress: e
+440.6155 	EXP 	New trial (rep=1, index=8): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+440.6363 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+441.8704 	EXP 	window1: recordFrameIntervals = False
+441.8811 	INFO 	Mouse: using default window
+442.9548 	DATA 	Keypress: t
+443.1003 	EXP 	New trial (rep=1, index=9): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+443.1201 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+444.2047 	EXP 	window1: recordFrameIntervals = False
+444.2160 	INFO 	Mouse: using default window
+445.1705 	DATA 	Keypress: q
+445.8255 	DATA 	Keypress: m
+445.9884 	EXP 	New trial (rep=1, index=10): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+446.0046 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+447.1707 	EXP 	window1: recordFrameIntervals = False
+447.1800 	INFO 	Mouse: using default window
+449.3540 	DATA 	Keypress: r
+449.5539 	DATA 	Keypress: t
+449.6966 	EXP 	New trial (rep=1, index=11): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+449.7194 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+450.9374 	EXP 	window1: recordFrameIntervals = False
+450.9460 	INFO 	Mouse: using default window
+452.1209 	DATA 	Keypress: u
+452.2621 	EXP 	New trial (rep=2, index=0): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+452.2873 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+453.3204 	EXP 	window1: recordFrameIntervals = False
+453.3291 	INFO 	Mouse: using default window
+454.9539 	DATA 	Keypress: y
+455.5872 	DATA 	Keypress: c
+455.7288 	EXP 	New trial (rep=2, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+455.7531 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+456.8038 	EXP 	window1: recordFrameIntervals = False
+456.8118 	INFO 	Mouse: using default window
+458.5538 	DATA 	Keypress: d
+460.1871 	DATA 	Keypress: e
+460.3295 	EXP 	New trial (rep=2, index=2): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+460.3525 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+461.6039 	EXP 	window1: recordFrameIntervals = False
+461.6118 	INFO 	Mouse: using default window
+464.6205 	DATA 	Keypress: e
+466.4046 	DATA 	Keypress: t
+466.5524 	EXP 	New trial (rep=2, index=3): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+466.5697 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+467.6042 	EXP 	window1: recordFrameIntervals = False
+467.6138 	INFO 	Mouse: using default window
+469.3221 	DATA 	Keypress: i
+470.2731 	DATA 	Keypress: e
+470.4264 	EXP 	New trial (rep=2, index=4): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+470.4529 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+471.5379 	EXP 	window1: recordFrameIntervals = False
+471.5474 	INFO 	Mouse: using default window
+473.8062 	DATA 	Keypress: u
+473.9481 	EXP 	New trial (rep=2, index=5): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+473.9694 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+475.0551 	EXP 	window1: recordFrameIntervals = False
+475.0731 	INFO 	Mouse: using default window
+476.0730 	DATA 	Keypress: e
+476.6727 	DATA 	Keypress: i
+476.8142 	EXP 	New trial (rep=2, index=6): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+476.8364 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+478.0212 	EXP 	window1: recordFrameIntervals = False
+478.0317 	INFO 	Mouse: using default window
+479.8725 	DATA 	Keypress: t
+481.0089 	DATA 	Keypress: r
+481.1666 	EXP 	New trial (rep=2, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+481.1882 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+482.3884 	EXP 	window1: recordFrameIntervals = False
+482.4044 	INFO 	Mouse: using default window
+484.1228 	DATA 	Keypress: t
+485.1544 	DATA 	Keypress: e
+485.2985 	EXP 	New trial (rep=2, index=8): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+485.3196 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+486.4720 	EXP 	window1: recordFrameIntervals = False
+486.4931 	INFO 	Mouse: using default window
+487.2721 	DATA 	Keypress: k
+487.4172 	EXP 	New trial (rep=2, index=9): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+487.4362 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+488.6883 	EXP 	window1: recordFrameIntervals = False
+488.7067 	INFO 	Mouse: using default window
+489.7221 	DATA 	Keypress: z
+489.8672 	EXP 	New trial (rep=2, index=10): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+489.8862 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+490.9052 	EXP 	window1: recordFrameIntervals = False
+490.9249 	INFO 	Mouse: using default window
+491.9727 	DATA 	Keypress: t
+492.1127 	EXP 	New trial (rep=2, index=11): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+492.1364 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+493.3540 	EXP 	window1: recordFrameIntervals = False
+493.3633 	INFO 	Mouse: using default window
+495.5222 	DATA 	Keypress: z
+496.3541 	DATA 	Keypress: k
+496.4970 	EXP 	New trial (rep=3, index=0): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+496.5198 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+497.5872 	EXP 	window1: recordFrameIntervals = False
+497.5949 	INFO 	Mouse: using default window
+500.4374 	DATA 	Keypress: c
+501.4886 	DATA 	Keypress: t
+501.6317 	EXP 	New trial (rep=3, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+501.6525 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+502.7703 	EXP 	window1: recordFrameIntervals = False
+502.7780 	INFO 	Mouse: using default window
+503.9206 	DATA 	Keypress: z
+504.4872 	DATA 	Keypress: c
+504.6297 	EXP 	New trial (rep=3, index=2): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+504.6525 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+505.7536 	EXP 	window1: recordFrameIntervals = False
+505.7624 	INFO 	Mouse: using default window
+506.3709 	DATA 	Keypress: k
+506.5138 	EXP 	New trial (rep=3, index=3): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+506.5357 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+507.6204 	EXP 	window1: recordFrameIntervals = False
+507.6276 	INFO 	Mouse: using default window
+508.1710 	DATA 	Keypress: m
+508.3108 	EXP 	New trial (rep=3, index=4): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+508.3373 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+509.4206 	EXP 	window1: recordFrameIntervals = False
+509.4285 	INFO 	Mouse: using default window
+511.2371 	DATA 	Keypress: y
+512.5704 	DATA 	Keypress: t
+512.7130 	EXP 	New trial (rep=3, index=5): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+512.7361 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+513.9201 	EXP 	window1: recordFrameIntervals = False
+513.9290 	INFO 	Mouse: using default window
+515.5374 	DATA 	Keypress: t
+516.5875 	DATA 	Keypress: z
+516.7317 	EXP 	New trial (rep=3, index=6): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+516.7526 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+517.9383 	EXP 	window1: recordFrameIntervals = False
+517.9580 	INFO 	Mouse: using default window
+519.9043 	DATA 	Keypress: y
+520.2373 	DATA 	Keypress: u
+520.3795 	EXP 	New trial (rep=3, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+520.4032 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+521.5214 	EXP 	window1: recordFrameIntervals = False
+521.5376 	INFO 	Mouse: using default window
+523.3212 	DATA 	Keypress: g
+523.9542 	DATA 	Keypress: g
+524.0995 	EXP 	New trial (rep=3, index=8): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+524.1195 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+525.3711 	EXP 	window1: recordFrameIntervals = False
+525.3882 	INFO 	Mouse: using default window
+526.2742 	DATA 	Keypress: y
+526.4347 	EXP 	New trial (rep=3, index=9): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+526.4529 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+527.5036 	EXP 	window1: recordFrameIntervals = False
+527.5115 	INFO 	Mouse: using default window
+529.8571 	DATA 	Keypress: d
+530.0151 	EXP 	New trial (rep=3, index=10): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+530.0360 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+531.2044 	EXP 	window1: recordFrameIntervals = False
+531.2154 	INFO 	Mouse: using default window
+532.5372 	DATA 	Keypress: t
+534.8205 	DATA 	Keypress: n
+534.9632 	EXP 	New trial (rep=3, index=11): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+534.9858 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+536.1203 	EXP 	window1: recordFrameIntervals = False
+536.1282 	INFO 	Mouse: using default window
+537.2047 	DATA 	Keypress: n
+538.2877 	DATA 	Keypress: t
+538.4524 	EXP 	New trial (rep=4, index=0): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+538.4693 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+539.5549 	EXP 	window1: recordFrameIntervals = False
+539.5728 	INFO 	Mouse: using default window
+541.0036 	DATA 	Keypress: n
+541.1452 	EXP 	New trial (rep=4, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+541.1702 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+542.1869 	EXP 	window1: recordFrameIntervals = False
+542.1951 	INFO 	Mouse: using default window
+543.2713 	DATA 	Keypress: k
+544.0039 	DATA 	Keypress: i
+544.1496 	EXP 	New trial (rep=4, index=2): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+544.1695 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+545.3369 	EXP 	window1: recordFrameIntervals = False
+545.3451 	INFO 	Mouse: using default window
+545.8409 	DATA 	Keypress: k
+545.9991 	EXP 	New trial (rep=4, index=3): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+546.0212 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+547.0534 	EXP 	window1: recordFrameIntervals = False
+547.0617 	INFO 	Mouse: using default window
+549.7887 	DATA 	Keypress: a
+551.1566 	DATA 	Keypress: i
+551.2989 	EXP 	New trial (rep=4, index=4): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+551.3194 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+552.3704 	EXP 	window1: recordFrameIntervals = False
+552.3790 	INFO 	Mouse: using default window
+553.3372 	DATA 	Keypress: g
+553.8048 	DATA 	Keypress: z
+553.9483 	EXP 	New trial (rep=4, index=5): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+553.9696 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+555.2033 	EXP 	window1: recordFrameIntervals = False
+555.2117 	INFO 	Mouse: using default window
+559.0380 	DATA 	Keypress: h
+559.7373 	DATA 	Keypress: i
+559.8825 	EXP 	New trial (rep=4, index=6): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+559.9034 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+561.0879 	EXP 	window1: recordFrameIntervals = False
+561.1034 	INFO 	Mouse: using default window
+562.4377 	DATA 	Keypress: g
+562.5810 	EXP 	New trial (rep=4, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+562.6028 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+563.7040 	EXP 	window1: recordFrameIntervals = False
+563.7155 	INFO 	Mouse: using default window
+564.5542 	DATA 	Keypress: u
+564.8539 	DATA 	Keypress: a
+564.9933 	EXP 	New trial (rep=4, index=8): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+565.0203 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+566.1204 	EXP 	window1: recordFrameIntervals = False
+566.1278 	INFO 	Mouse: using default window
+568.4204 	DATA 	Keypress: e
+569.9046 	DATA 	Keypress: f
+570.0484 	EXP 	New trial (rep=4, index=9): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+570.0698 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+571.1538 	EXP 	window1: recordFrameIntervals = False
+571.1628 	INFO 	Mouse: using default window
+573.0213 	DATA 	Keypress: g
+573.1675 	EXP 	New trial (rep=4, index=10): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+573.1859 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+574.4379 	EXP 	window1: recordFrameIntervals = False
+574.4490 	INFO 	Mouse: using default window
+576.3545 	DATA 	Keypress: r
+577.1718 	DATA 	Keypress: t
+577.3137 	EXP 	New trial (rep=4, index=11): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+577.3360 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+578.4044 	EXP 	window1: recordFrameIntervals = False
+578.4232 	INFO 	Mouse: using default window
+580.1380 	DATA 	Keypress: m
+581.3041 	DATA 	Keypress: r
+581.4434 	EXP 	New trial (rep=5, index=0): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+581.4701 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+582.6370 	EXP 	window1: recordFrameIntervals = False
+582.6444 	INFO 	Mouse: using default window
+583.4035 	DATA 	Keypress: k
+583.5460 	EXP 	New trial (rep=5, index=1): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+583.5691 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+584.6208 	EXP 	window1: recordFrameIntervals = False
+584.6336 	INFO 	Mouse: using default window
+585.4876 	DATA 	Keypress: m
+585.6298 	EXP 	New trial (rep=5, index=2): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+585.6531 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+586.8875 	EXP 	window1: recordFrameIntervals = False
+586.8946 	INFO 	Mouse: using default window
+588.0208 	DATA 	Keypress: x
+589.0373 	DATA 	Keypress: t
+589.1822 	EXP 	New trial (rep=5, index=3): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+589.2028 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+590.2370 	EXP 	window1: recordFrameIntervals = False
+590.2448 	INFO 	Mouse: using default window
+591.0873 	DATA 	Keypress: z
+591.6540 	DATA 	Keypress: r
+591.7978 	EXP 	New trial (rep=5, index=4): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+591.8195 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+592.8367 	EXP 	window1: recordFrameIntervals = False
+592.8440 	INFO 	Mouse: using default window
+594.3710 	DATA 	Keypress: e
+594.5106 	EXP 	New trial (rep=5, index=5): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+594.5372 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+594.9542 	DATA 	Keypress: f
+595.7033 	EXP 	window1: recordFrameIntervals = False
+595.7120 	INFO 	Mouse: using default window
+596.8709 	DATA 	Keypress: a
+598.3046 	DATA 	Keypress: y
+598.4479 	EXP 	New trial (rep=5, index=6): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+598.4695 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+599.5049 	EXP 	window1: recordFrameIntervals = False
+599.5181 	INFO 	Mouse: using default window
+600.8207 	DATA 	Keypress: a
+600.9656 	EXP 	New trial (rep=5, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+600.9861 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+602.0368 	EXP 	window1: recordFrameIntervals = False
+602.0444 	INFO 	Mouse: using default window
+604.0227 	DATA 	Keypress: h
+605.6722 	DATA 	Keypress: z
+605.8192 	EXP 	New trial (rep=5, index=8): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+605.8362 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+607.0034 	EXP 	window1: recordFrameIntervals = False
+607.0150 	INFO 	Mouse: using default window
+608.6879 	DATA 	Keypress: y
+609.1888 	DATA 	Keypress: t
+609.3313 	EXP 	New trial (rep=5, index=9): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+609.3528 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+610.3872 	EXP 	window1: recordFrameIntervals = False
+610.3959 	INFO 	Mouse: using default window
+611.3555 	DATA 	Keypress: m
+612.0551 	DATA 	Keypress: t
+612.1970 	EXP 	New trial (rep=5, index=10): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+612.2196 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+613.4369 	EXP 	window1: recordFrameIntervals = False
+613.4459 	INFO 	Mouse: using default window
+614.4039 	DATA 	Keypress: d
+615.0710 	DATA 	Keypress: i
+615.2133 	EXP 	New trial (rep=5, index=11): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+615.2363 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+616.3198 	EXP 	window1: recordFrameIntervals = False
+616.3279 	INFO 	Mouse: using default window
+617.4380 	DATA 	Keypress: y
+618.0709 	DATA 	Keypress: a
+618.2167 	EXP 	New trial (rep=6, index=0): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+618.2361 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+619.3030 	EXP 	window1: recordFrameIntervals = False
+619.3111 	INFO 	Mouse: using default window
+620.6038 	DATA 	Keypress: s
+621.1872 	DATA 	Keypress: a
+621.3282 	EXP 	New trial (rep=6, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+621.3535 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+622.5536 	EXP 	window1: recordFrameIntervals = False
+622.5617 	INFO 	Mouse: using default window
+623.6040 	DATA 	Keypress: e
+624.2706 	DATA 	Keypress: s
+624.4121 	EXP 	New trial (rep=6, index=2): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+624.4374 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+625.6040 	EXP 	window1: recordFrameIntervals = False
+625.6115 	INFO 	Mouse: using default window
+627.3204 	DATA 	Keypress: e
+628.7207 	DATA 	Keypress: i
+628.8649 	EXP 	New trial (rep=6, index=3): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+628.8861 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+629.9710 	EXP 	window1: recordFrameIntervals = False
+629.9828 	INFO 	Mouse: using default window
+631.0721 	DATA 	Keypress: i
+631.8221 	DATA 	Keypress: e
+631.9641 	EXP 	New trial (rep=6, index=4): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+631.9863 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+633.2038 	EXP 	window1: recordFrameIntervals = False
+633.2135 	INFO 	Mouse: using default window
+634.0222 	DATA 	Keypress: t
+634.1672 	EXP 	New trial (rep=6, index=5): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+634.1860 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+635.3204 	EXP 	window1: recordFrameIntervals = False
+635.3283 	INFO 	Mouse: using default window
+636.3888 	DATA 	Keypress: q
+636.9218 	DATA 	Keypress: i
+637.0615 	EXP 	New trial (rep=6, index=6): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+637.0871 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+638.3208 	EXP 	window1: recordFrameIntervals = False
+638.3301 	INFO 	Mouse: using default window
+640.0556 	DATA 	Keypress: x
+640.9556 	DATA 	Keypress: a
+641.0996 	EXP 	New trial (rep=6, index=7): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+641.1196 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+642.1382 	EXP 	window1: recordFrameIntervals = False
+642.1608 	INFO 	Mouse: using default window
+643.0241 	DATA 	Keypress: a
+643.1830 	EXP 	New trial (rep=6, index=8): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+643.2031 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+644.3383 	EXP 	window1: recordFrameIntervals = False
+644.3555 	INFO 	Mouse: using default window
+647.5066 	DATA 	Keypress: y
+648.2059 	DATA 	Keypress: a
+648.3532 	EXP 	New trial (rep=6, index=9): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+648.3693 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+649.5384 	EXP 	window1: recordFrameIntervals = False
+649.5544 	INFO 	Mouse: using default window
+650.8061 	DATA 	Keypress: e
+651.3887 	DATA 	Keypress: a
+651.5355 	EXP 	New trial (rep=6, index=10): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+651.5528 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+652.5886 	EXP 	window1: recordFrameIntervals = False
+652.6113 	INFO 	Mouse: using default window
+653.6043 	DATA 	Keypress: z
+653.7464 	EXP 	New trial (rep=6, index=11): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+653.7695 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+654.9881 	EXP 	window1: recordFrameIntervals = False
+655.0037 	INFO 	Mouse: using default window
+655.6066 	DATA 	Keypress: d
+655.7473 	EXP 	New trial (rep=7, index=0): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+655.7692 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+656.9203 	EXP 	window1: recordFrameIntervals = False
+656.9295 	INFO 	Mouse: using default window
+658.5056 	DATA 	Keypress: u
+660.2060 	DATA 	Keypress: m
+660.3479 	EXP 	New trial (rep=7, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+660.3696 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+661.5545 	EXP 	window1: recordFrameIntervals = False
+661.5637 	INFO 	Mouse: using default window
+663.2892 	DATA 	Keypress: n
+663.4585 	DATA 	Keypress: d
+663.6181 	EXP 	New trial (rep=7, index=2): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+663.6361 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+664.8213 	EXP 	window1: recordFrameIntervals = False
+664.8370 	INFO 	Mouse: using default window
+666.9894 	DATA 	Keypress: d
+667.6370 	DATA 	Keypress: e
+667.7797 	EXP 	New trial (rep=7, index=3): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+667.8026 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+668.8217 	EXP 	window1: recordFrameIntervals = False
+668.8392 	INFO 	Mouse: using default window
+670.6255 	DATA 	Keypress: y
+670.7814 	EXP 	New trial (rep=7, index=4): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+670.8029 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+671.9219 	EXP 	window1: recordFrameIntervals = False
+671.9409 	INFO 	Mouse: using default window
+672.8557 	DATA 	Keypress: t
+672.9968 	EXP 	New trial (rep=7, index=5): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+673.0195 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+674.2037 	EXP 	window1: recordFrameIntervals = False
+674.2114 	INFO 	Mouse: using default window
+675.5716 	DATA 	Keypress: e
+676.7235 	DATA 	Keypress: q
+676.8663 	EXP 	New trial (rep=7, index=6): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+676.8861 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+677.9543 	EXP 	window1: recordFrameIntervals = False
+677.9648 	INFO 	Mouse: using default window
+680.0556 	DATA 	Keypress: y
+681.0418 	DATA 	Keypress: z
+681.1988 	EXP 	New trial (rep=7, index=7): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+681.2194 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+682.4216 	EXP 	window1: recordFrameIntervals = False
+682.4410 	INFO 	Mouse: using default window
+684.3719 	DATA 	Keypress: z
+684.5136 	EXP 	New trial (rep=7, index=8): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+684.5362 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+685.5878 	EXP 	window1: recordFrameIntervals = False
+685.5989 	INFO 	Mouse: using default window
+687.1237 	DATA 	Keypress: n
+687.4575 	DATA 	Keypress: t
+687.6148 	EXP 	New trial (rep=7, index=9): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+687.6360 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+688.7547 	EXP 	window1: recordFrameIntervals = False
+688.7642 	INFO 	Mouse: using default window
+690.4043 	DATA 	Keypress: z
+690.6564 	DATA 	Keypress: y
+690.7989 	EXP 	New trial (rep=7, index=10): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+690.8195 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+692.0703 	EXP 	window1: recordFrameIntervals = False
+692.0780 	INFO 	Mouse: using default window
+693.3204 	DATA 	Keypress: comma
+694.2878 	DATA 	Keypress: m
+694.4458 	EXP 	New trial (rep=7, index=11): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+694.4709 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+695.6201 	EXP 	window1: recordFrameIntervals = False
+695.6297 	INFO 	Mouse: using default window
+697.6203 	DATA 	Keypress: q
+697.9871 	DATA 	Keypress: t
+698.1294 	EXP 	New trial (rep=8, index=0): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+698.1526 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+699.3371 	EXP 	window1: recordFrameIntervals = False
+699.3453 	INFO 	Mouse: using default window
+701.0700 	DATA 	Keypress: n
+701.6873 	DATA 	Keypress: m
+701.8275 	EXP 	New trial (rep=8, index=1): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+701.8530 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+703.0703 	EXP 	window1: recordFrameIntervals = False
+703.0789 	INFO 	Mouse: using default window
+705.0704 	DATA 	Keypress: u
+705.2132 	EXP 	New trial (rep=8, index=2): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+705.2358 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+706.3204 	EXP 	window1: recordFrameIntervals = False
+706.3297 	INFO 	Mouse: using default window
+707.5039 	DATA 	Keypress: t
+707.9875 	DATA 	Keypress: d
+708.1303 	EXP 	New trial (rep=8, index=3): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+708.1530 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+709.2366 	EXP 	window1: recordFrameIntervals = False
+709.2443 	INFO 	Mouse: using default window
+709.9539 	DATA 	Keypress: d
+710.0976 	EXP 	New trial (rep=8, index=4): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+710.1198 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+711.2039 	EXP 	window1: recordFrameIntervals = False
+711.2118 	INFO 	Mouse: using default window
+712.1875 	DATA 	Keypress: a
+713.8038 	DATA 	Keypress: z
+713.9468 	EXP 	New trial (rep=8, index=5): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+713.9692 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+715.1037 	EXP 	window1: recordFrameIntervals = False
+715.1123 	INFO 	Mouse: using default window
+716.4373 	DATA 	Keypress: d
+716.9037 	DATA 	Keypress: n
+717.0463 	EXP 	New trial (rep=8, index=6): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+717.0701 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+718.0868 	EXP 	window1: recordFrameIntervals = False
+718.0967 	INFO 	Mouse: using default window
+719.1040 	DATA 	Keypress: m
+719.4535 	DATA 	Keypress: k
+719.5950 	EXP 	New trial (rep=8, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+719.6200 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+720.7865 	EXP 	window1: recordFrameIntervals = False
+720.7956 	INFO 	Mouse: using default window
+721.7703 	DATA 	Keypress: i
+723.2563 	DATA 	Keypress: f
+723.3980 	EXP 	New trial (rep=8, index=8): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+723.4190 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+724.5708 	EXP 	window1: recordFrameIntervals = False
+724.5809 	INFO 	Mouse: using default window
+725.1874 	DATA 	Keypress: u
+725.3288 	EXP 	New trial (rep=8, index=9): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+725.3523 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+726.4203 	EXP 	window1: recordFrameIntervals = False
+726.4295 	INFO 	Mouse: using default window
+727.9376 	DATA 	Keypress: n
+728.0788 	EXP 	New trial (rep=8, index=10): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+728.1035 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+729.3201 	EXP 	window1: recordFrameIntervals = False
+729.3301 	INFO 	Mouse: using default window
+730.1367 	DATA 	Keypress: c
+730.5203 	DATA 	Keypress: t
+730.6645 	EXP 	New trial (rep=8, index=11): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+730.6860 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+731.8874 	EXP 	window1: recordFrameIntervals = False
+731.8964 	INFO 	Mouse: using default window
+732.5039 	DATA 	Keypress: c
+732.7538 	DATA 	Keypress: n
+732.8946 	EXP 	New trial (rep=9, index=0): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+732.9202 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+734.0703 	EXP 	window1: recordFrameIntervals = False
+734.0789 	INFO 	Mouse: using default window
+736.0204 	DATA 	Keypress: n
+736.4382 	DATA 	Keypress: s
+736.5813 	EXP 	New trial (rep=9, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+736.6026 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+737.6208 	EXP 	window1: recordFrameIntervals = False
+737.6300 	INFO 	Mouse: using default window
+738.7886 	DATA 	Keypress: t
+739.1706 	DATA 	Keypress: c
+739.3140 	EXP 	New trial (rep=9, index=2): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+739.3360 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+740.4536 	EXP 	window1: recordFrameIntervals = False
+740.4636 	INFO 	Mouse: using default window
+741.9873 	DATA 	Keypress: z
+742.5876 	DATA 	Keypress: c
+742.7325 	EXP 	New trial (rep=9, index=3): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+742.7527 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+743.9535 	EXP 	window1: recordFrameIntervals = False
+743.9626 	INFO 	Mouse: using default window
+748.2371 	DATA 	Keypress: m
+748.3808 	EXP 	New trial (rep=9, index=4): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+748.4031 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+749.6541 	EXP 	window1: recordFrameIntervals = False
+749.6629 	INFO 	Mouse: using default window
+751.0202 	DATA 	Keypress: z
+752.2044 	DATA 	Keypress: e
+752.3479 	EXP 	New trial (rep=9, index=5): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+752.3708 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+753.3866 	EXP 	window1: recordFrameIntervals = False
+753.3941 	INFO 	Mouse: using default window
+754.2037 	DATA 	Keypress: d
+754.3401 	EXP 	New trial (rep=9, index=6): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+754.3527 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+755.4035 	EXP 	window1: recordFrameIntervals = False
+755.4119 	INFO 	Mouse: using default window
+756.5712 	DATA 	Keypress: y
+757.0702 	DATA 	Keypress: g
+757.2069 	EXP 	New trial (rep=9, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+757.2191 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+758.3707 	EXP 	window1: recordFrameIntervals = False
+758.3794 	INFO 	Mouse: using default window
+759.5206 	DATA 	Keypress: t
+760.8200 	DATA 	Keypress: k
+760.9585 	EXP 	New trial (rep=9, index=8): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+760.9701 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+762.1548 	EXP 	window1: recordFrameIntervals = False
+762.1763 	INFO 	Mouse: using default window
+762.8871 	DATA 	Keypress: t
+763.0345 	EXP 	New trial (rep=9, index=9): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+763.0529 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+764.0884 	EXP 	window1: recordFrameIntervals = False
+764.1062 	INFO 	Mouse: using default window
+764.9036 	DATA 	Keypress: m
+765.4388 	DATA 	Keypress: t
+765.5830 	EXP 	New trial (rep=9, index=10): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+765.6026 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+766.7053 	EXP 	window1: recordFrameIntervals = False
+766.7289 	INFO 	Mouse: using default window
+767.4732 	DATA 	Keypress: a
+767.6163 	EXP 	New trial (rep=9, index=11): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+767.6361 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+768.8052 	EXP 	window1: recordFrameIntervals = False
+768.8231 	INFO 	Mouse: using default window
+769.7893 	DATA 	Keypress: k
+770.1209 	DATA 	Keypress: d
+770.2636 	EXP 	New trial (rep=10, index=0): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+770.2859 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+771.5372 	EXP 	window1: recordFrameIntervals = False
+771.5482 	INFO 	Mouse: using default window
+773.0708 	DATA 	Keypress: t
+773.3704 	DATA 	Keypress: d
+773.5134 	EXP 	New trial (rep=10, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+773.5361 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+774.7544 	EXP 	window1: recordFrameIntervals = False
+774.7640 	INFO 	Mouse: using default window
+775.6874 	DATA 	Keypress: z
+776.0384 	DATA 	Keypress: s
+776.1832 	EXP 	New trial (rep=10, index=2): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+776.2027 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+777.2381 	EXP 	window1: recordFrameIntervals = False
+777.2561 	INFO 	Mouse: using default window
+778.6727 	DATA 	Keypress: t
+779.6888 	DATA 	Keypress: z
+779.8332 	EXP 	New trial (rep=10, index=3): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+779.8529 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+780.9886 	EXP 	window1: recordFrameIntervals = False
+781.0086 	INFO 	Mouse: using default window
+781.5721 	DATA 	Keypress: a
+781.7102 	EXP 	New trial (rep=10, index=4): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+781.7369 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+782.7874 	EXP 	window1: recordFrameIntervals = False
+782.7970 	INFO 	Mouse: using default window
+784.9054 	DATA 	Keypress: u
+785.0484 	EXP 	New trial (rep=10, index=5): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+785.0690 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+786.1048 	EXP 	window1: recordFrameIntervals = False
+786.1256 	INFO 	Mouse: using default window
+787.1230 	DATA 	Keypress: k
+787.9712 	DATA 	Keypress: e
+788.1110 	EXP 	New trial (rep=10, index=6): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+788.1362 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+789.1535 	EXP 	window1: recordFrameIntervals = False
+789.1612 	INFO 	Mouse: using default window
+790.3872 	DATA 	Keypress: s
+790.7043 	DATA 	Keypress: k
+790.8493 	EXP 	New trial (rep=10, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+790.8692 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+791.9533 	EXP 	window1: recordFrameIntervals = False
+791.9608 	INFO 	Mouse: using default window
+793.9370 	DATA 	Keypress: i
+794.7702 	DATA 	Keypress: s
+794.9123 	EXP 	New trial (rep=10, index=8): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+794.9364 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+796.1868 	EXP 	window1: recordFrameIntervals = False
+796.1943 	INFO 	Mouse: using default window
+797.8206 	DATA 	Keypress: u
+798.2704 	DATA 	Keypress: d
+798.4174 	EXP 	New trial (rep=10, index=9): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+798.4358 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+799.5367 	EXP 	window1: recordFrameIntervals = False
+799.5447 	INFO 	Mouse: using default window
+800.4044 	DATA 	Keypress: d
+800.5538 	DATA 	Keypress: i
+800.6927 	EXP 	New trial (rep=10, index=10): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+800.7201 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+801.8534 	EXP 	window1: recordFrameIntervals = False
+801.8617 	INFO 	Mouse: using default window
+803.9872 	DATA 	Keypress: u
+804.1313 	EXP 	New trial (rep=10, index=11): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+804.1524 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+804.1592 	DATA 	Keypress: e
+805.2700 	EXP 	window1: recordFrameIntervals = False
+805.2781 	INFO 	Mouse: using default window
+806.5371 	DATA 	Keypress: t
+806.6834 	EXP 	New trial (rep=11, index=0): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+806.7027 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+807.9536 	EXP 	window1: recordFrameIntervals = False
+807.9618 	INFO 	Mouse: using default window
+809.7545 	DATA 	Keypress: e
+810.4375 	DATA 	Keypress: q
+810.5795 	EXP 	New trial (rep=11, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+810.6024 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+811.6533 	EXP 	window1: recordFrameIntervals = False
+811.6611 	INFO 	Mouse: using default window
+812.3380 	DATA 	Keypress: a
+812.9703 	DATA 	Keypress: e
+813.1168 	EXP 	New trial (rep=11, index=2): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+813.1377 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+814.2383 	EXP 	window1: recordFrameIntervals = False
+814.2596 	INFO 	Mouse: using default window
+814.7374 	DATA 	Keypress: c
+814.8814 	EXP 	New trial (rep=11, index=3): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+814.9031 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+816.1203 	EXP 	window1: recordFrameIntervals = False
+816.1288 	INFO 	Mouse: using default window
+817.0708 	DATA 	Keypress: u
+817.3538 	DATA 	Keypress: e
+817.4956 	EXP 	New trial (rep=11, index=4): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+817.5195 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+818.5702 	EXP 	window1: recordFrameIntervals = False
+818.5787 	INFO 	Mouse: using default window
+819.6370 	DATA 	Keypress: m
+819.8537 	DATA 	Keypress: s
+819.9949 	EXP 	New trial (rep=11, index=5): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+820.0199 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+821.1037 	EXP 	window1: recordFrameIntervals = False
+821.1115 	INFO 	Mouse: using default window
+821.5207 	DATA 	Keypress: s
+821.6636 	EXP 	New trial (rep=11, index=6): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+821.6859 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+821.8544 	DATA 	Keypress: e
+822.8709 	EXP 	window1: recordFrameIntervals = False
+822.8783 	INFO 	Mouse: using default window
+824.7543 	DATA 	Keypress: a
+825.1538 	DATA 	Keypress: s
+825.2935 	EXP 	New trial (rep=11, index=7): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+825.3190 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+826.4370 	EXP 	window1: recordFrameIntervals = False
+826.4458 	INFO 	Mouse: using default window
+827.1372 	DATA 	Keypress: e
+827.2765 	EXP 	New trial (rep=11, index=8): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+827.3037 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+828.4871 	EXP 	window1: recordFrameIntervals = False
+828.4959 	INFO 	Mouse: using default window
+829.4037 	DATA 	Keypress: n
+829.7037 	DATA 	Keypress: m
+829.8436 	EXP 	New trial (rep=11, index=9): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+829.8702 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+831.1202 	EXP 	window1: recordFrameIntervals = False
+831.1285 	INFO 	Mouse: using default window
+831.8209 	DATA 	Keypress: n
+831.9572 	EXP 	New trial (rep=11, index=10): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+831.9692 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+833.1202 	EXP 	window1: recordFrameIntervals = False
+833.1292 	INFO 	Mouse: using default window
+834.4037 	DATA 	Keypress: y
+835.1868 	DATA 	Keypress: i
+835.3326 	EXP 	New trial (rep=11, index=11): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+835.3524 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+836.5198 	EXP 	window1: recordFrameIntervals = False
+836.5277 	INFO 	Mouse: using default window
+837.1208 	DATA 	Keypress: i
+837.6207 	DATA 	Keypress: n
+837.7671 	EXP 	New trial (rep=12, index=0): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+837.7857 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+839.0037 	EXP 	window1: recordFrameIntervals = False
+839.0119 	INFO 	Mouse: using default window
+840.0543 	DATA 	Keypress: a
+840.2002 	EXP 	New trial (rep=12, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+840.2190 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+841.4374 	EXP 	window1: recordFrameIntervals = False
+841.4466 	INFO 	Mouse: using default window
+842.1209 	DATA 	Keypress: a
+842.9205 	DATA 	Keypress: d
+843.0623 	EXP 	New trial (rep=12, index=2): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+843.0857 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+844.2870 	EXP 	window1: recordFrameIntervals = False
+844.2951 	INFO 	Mouse: using default window
+845.2389 	DATA 	Keypress: i
+845.4418 	DATA 	Keypress: e
+845.6031 	EXP 	New trial (rep=12, index=3): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+845.6193 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+846.8547 	EXP 	window1: recordFrameIntervals = False
+846.8665 	INFO 	Mouse: using default window
+847.7037 	DATA 	Keypress: m
+847.9559 	DATA 	Keypress: n
+848.1002 	EXP 	New trial (rep=12, index=4): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+848.1195 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+849.1715 	EXP 	window1: recordFrameIntervals = False
+849.1807 	INFO 	Mouse: using default window
+849.6538 	DATA 	Keypress: e
+849.8887 	DATA 	Keypress: t
+850.0358 	EXP 	New trial (rep=12, index=5): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+850.0527 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+851.1366 	EXP 	window1: recordFrameIntervals = False
+851.1442 	INFO 	Mouse: using default window
+851.7379 	DATA 	Keypress: a
+851.8841 	EXP 	New trial (rep=12, index=6): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+851.9026 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+852.9213 	EXP 	window1: recordFrameIntervals = False
+852.9332 	INFO 	Mouse: using default window
+853.4054 	DATA 	Keypress: z
+853.5515 	EXP 	New trial (rep=12, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+853.5695 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+854.6042 	EXP 	window1: recordFrameIntervals = False
+854.6141 	INFO 	Mouse: using default window
+856.2367 	DATA 	Keypress: y
+856.3869 	DATA 	Keypress: s
+856.5298 	EXP 	New trial (rep=12, index=8): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+856.5524 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+857.6369 	EXP 	window1: recordFrameIntervals = False
+857.6441 	INFO 	Mouse: using default window
+858.1044 	DATA 	Keypress: k
+858.2458 	EXP 	New trial (rep=12, index=9): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+858.2696 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+859.3203 	EXP 	window1: recordFrameIntervals = False
+859.3296 	INFO 	Mouse: using default window
+859.9381 	DATA 	Keypress: m
+860.4542 	DATA 	Keypress: 1
+861.5209 	DATA 	Keypress: i
+861.6649 	EXP 	New trial (rep=12, index=10): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+861.6857 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+862.9378 	EXP 	window1: recordFrameIntervals = False
+862.9521 	INFO 	Mouse: using default window
+863.4250 	DATA 	Keypress: i
+863.6872 	DATA 	Keypress: m
+863.8287 	EXP 	New trial (rep=12, index=11): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+863.8530 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+865.0544 	EXP 	window1: recordFrameIntervals = False
+865.0639 	INFO 	Mouse: using default window
+866.0726 	DATA 	Keypress: n
+866.3057 	DATA 	Keypress: m
+866.4514 	EXP 	New trial (rep=13, index=0): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+866.4692 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+867.6379 	EXP 	window1: recordFrameIntervals = False
+867.6539 	INFO 	Mouse: using default window
+868.9706 	DATA 	Keypress: l
+869.3219 	DATA 	Keypress: k
+869.4672 	EXP 	New trial (rep=13, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+869.4859 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+870.5532 	EXP 	window1: recordFrameIntervals = False
+870.5612 	INFO 	Mouse: using default window
+871.4408 	DATA 	Keypress: e
+872.7869 	DATA 	Keypress: t
+872.9364 	EXP 	New trial (rep=13, index=2): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+872.9525 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+874.1375 	EXP 	window1: recordFrameIntervals = False
+874.1483 	INFO 	Mouse: using default window
+875.2388 	DATA 	Keypress: z
+875.5056 	DATA 	Keypress: s
+875.6513 	EXP 	New trial (rep=13, index=3): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+875.6694 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+876.7712 	EXP 	window1: recordFrameIntervals = False
+876.7873 	INFO 	Mouse: using default window
+878.5716 	DATA 	Keypress: d
+879.9889 	DATA 	Keypress: e
+880.1326 	EXP 	New trial (rep=13, index=4): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+880.1526 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+881.3543 	EXP 	window1: recordFrameIntervals = False
+881.3652 	INFO 	Mouse: using default window
+882.2380 	DATA 	Keypress: n
+882.3802 	EXP 	New trial (rep=13, index=5): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+882.4044 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+883.6547 	EXP 	window1: recordFrameIntervals = False
+883.6660 	INFO 	Mouse: using default window
+884.7721 	DATA 	Keypress: t
+885.4565 	DATA 	Keypress: i
+885.5996 	EXP 	New trial (rep=13, index=6): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+885.6193 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+886.7881 	EXP 	window1: recordFrameIntervals = False
+886.8038 	INFO 	Mouse: using default window
+888.4222 	DATA 	Keypress: s
+888.6251 	DATA 	Keypress: k
+888.7830 	EXP 	New trial (rep=13, index=7): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+888.8027 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+889.8552 	EXP 	window1: recordFrameIntervals = False
+889.8684 	INFO 	Mouse: using default window
+890.2718 	DATA 	Keypress: m
+890.4338 	EXP 	New trial (rep=13, index=8): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+890.4526 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+891.5369 	EXP 	window1: recordFrameIntervals = False
+891.5468 	INFO 	Mouse: using default window
+891.9233 	DATA 	Keypress: i
+892.0809 	EXP 	New trial (rep=13, index=9): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+892.1027 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+893.3540 	EXP 	window1: recordFrameIntervals = False
+893.3632 	INFO 	Mouse: using default window
+894.2417 	DATA 	Keypress: t
+894.9390 	DATA 	Keypress: i
+895.0840 	EXP 	New trial (rep=13, index=10): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+895.1026 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+896.3212 	EXP 	window1: recordFrameIntervals = False
+896.3323 	INFO 	Mouse: using default window
+897.0079 	DATA 	Keypress: d
+897.1653 	EXP 	New trial (rep=13, index=11): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+897.1859 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+898.4379 	EXP 	window1: recordFrameIntervals = False
+898.4492 	INFO 	Mouse: using default window
+899.2221 	DATA 	Keypress: z
+899.6205 	DATA 	Keypress: s
+899.7658 	EXP 	New trial (rep=14, index=0): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+899.7862 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+900.9213 	EXP 	window1: recordFrameIntervals = False
+900.9331 	INFO 	Mouse: using default window
+901.5229 	DATA 	Keypress: s
+901.8410 	DATA 	Keypress: i
+902.0004 	EXP 	New trial (rep=14, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+902.0194 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+903.0379 	EXP 	window1: recordFrameIntervals = False
+903.0555 	INFO 	Mouse: using default window
+904.1219 	DATA 	Keypress: i
+904.9393 	DATA 	Keypress: n
+905.0825 	EXP 	New trial (rep=14, index=2): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+905.1027 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+906.3382 	EXP 	window1: recordFrameIntervals = False
+906.3567 	INFO 	Mouse: using default window
+907.2726 	DATA 	Keypress: t
+907.4197 	EXP 	New trial (rep=14, index=3): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+907.4380 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+908.5051 	EXP 	window1: recordFrameIntervals = False
+908.5230 	INFO 	Mouse: using default window
+909.5557 	DATA 	Keypress: m
+909.8048 	DATA 	Keypress: n
+909.9487 	EXP 	New trial (rep=14, index=4): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+909.9694 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+911.1882 	EXP 	window1: recordFrameIntervals = False
+911.2023 	INFO 	Mouse: using default window
+912.0395 	DATA 	Keypress: y
+912.1830 	EXP 	New trial (rep=14, index=5): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+912.2025 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+913.4202 	EXP 	window1: recordFrameIntervals = False
+913.4281 	INFO 	Mouse: using default window
+914.5374 	DATA 	Keypress: c
+914.6718 	DATA 	Keypress: k
+914.8158 	EXP 	New trial (rep=14, index=6): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+914.8360 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+915.8545 	EXP 	window1: recordFrameIntervals = False
+915.8637 	INFO 	Mouse: using default window
+916.7719 	DATA 	Keypress: m
+917.6225 	DATA 	Keypress: z
+917.7629 	EXP 	New trial (rep=14, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+917.7879 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+919.0046 	EXP 	window1: recordFrameIntervals = False
+919.0251 	INFO 	Mouse: using default window
+919.9711 	DATA 	Keypress: i
+920.2210 	DATA 	Keypress: t
+920.3635 	EXP 	New trial (rep=14, index=8): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+920.3872 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+921.6202 	EXP 	window1: recordFrameIntervals = False
+921.6269 	INFO 	Mouse: using default window
+922.2074 	DATA 	Keypress: i
+922.3635 	EXP 	New trial (rep=14, index=9): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+922.3860 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+923.4052 	EXP 	window1: recordFrameIntervals = False
+923.4156 	INFO 	Mouse: using default window
+924.1220 	DATA 	Keypress: i
+924.2689 	EXP 	New trial (rep=14, index=10): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+924.2876 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+925.3701 	EXP 	window1: recordFrameIntervals = False
+925.3783 	INFO 	Mouse: using default window
+926.6545 	DATA 	Keypress: y
+927.1398 	DATA 	Keypress: q
+927.2793 	EXP 	New trial (rep=14, index=11): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+927.3028 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+928.3875 	EXP 	window1: recordFrameIntervals = False
+928.3983 	INFO 	Mouse: using default window
+929.6226 	DATA 	Keypress: s
+929.9229 	DATA 	Keypress: q
+930.0617 	EXP 	New trial (rep=15, index=0): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+930.0861 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+931.1376 	EXP 	window1: recordFrameIntervals = False
+931.1469 	INFO 	Mouse: using default window
+933.5879 	DATA 	Keypress: r
+933.8411 	DATA 	Keypress: t
+933.9944 	EXP 	New trial (rep=15, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+934.0195 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+935.0370 	EXP 	window1: recordFrameIntervals = False
+935.0445 	INFO 	Mouse: using default window
+936.0368 	DATA 	Keypress: e
+936.3533 	DATA 	Keypress: c
+936.4952 	EXP 	New trial (rep=15, index=2): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+936.5190 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+937.7708 	EXP 	window1: recordFrameIntervals = False
+937.7870 	INFO 	Mouse: using default window
+938.5888 	DATA 	Keypress: u
+938.8719 	DATA 	Keypress: n
+939.0125 	EXP 	New trial (rep=15, index=3): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+939.0361 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+940.1882 	EXP 	window1: recordFrameIntervals = False
+940.2091 	INFO 	Mouse: using default window
+941.0735 	DATA 	Keypress: i
+941.2155 	EXP 	New trial (rep=15, index=4): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+941.2358 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+942.4209 	EXP 	window1: recordFrameIntervals = False
+942.4365 	INFO 	Mouse: using default window
+943.1552 	DATA 	Keypress: u
+943.4051 	DATA 	Keypress: c
+943.5452 	EXP 	New trial (rep=15, index=5): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+943.5693 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+944.7545 	EXP 	window1: recordFrameIntervals = False
+944.7663 	INFO 	Mouse: using default window
+945.2552 	DATA 	Keypress: e
+945.3944 	EXP 	New trial (rep=15, index=6): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+945.4203 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+946.5379 	EXP 	window1: recordFrameIntervals = False
+946.5546 	INFO 	Mouse: using default window
+947.4202 	DATA 	Keypress: m
+947.6535 	DATA 	Keypress: s
+947.7998 	EXP 	New trial (rep=15, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+947.8194 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+948.8709 	EXP 	window1: recordFrameIntervals = False
+948.8819 	INFO 	Mouse: using default window
+949.8370 	DATA 	Keypress: i
+949.9057 	DATA 	Keypress: t
+950.0512 	EXP 	New trial (rep=15, index=8): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+950.0693 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+951.0882 	EXP 	window1: recordFrameIntervals = False
+951.0971 	INFO 	Mouse: using default window
+952.2086 	DATA 	Keypress: i
+952.3884 	DATA 	Keypress: g
+952.5324 	EXP 	New trial (rep=15, index=9): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+952.5526 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+953.6712 	EXP 	window1: recordFrameIntervals = False
+953.6870 	INFO 	Mouse: using default window
+954.3394 	DATA 	Keypress: d
+954.5219 	DATA 	Keypress: n
+954.6636 	EXP 	New trial (rep=15, index=10): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+954.6860 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+955.7035 	EXP 	window1: recordFrameIntervals = False
+955.7132 	INFO 	Mouse: using default window
+956.3887 	DATA 	Keypress: u
+956.5333 	EXP 	New trial (rep=15, index=11): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+956.5527 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+957.5885 	EXP 	window1: recordFrameIntervals = False
+957.6083 	INFO 	Mouse: using default window
+958.7059 	DATA 	Keypress: a
+958.8522 	EXP 	New trial (rep=16, index=0): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+958.8693 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+960.0217 	EXP 	window1: recordFrameIntervals = False
+960.0404 	INFO 	Mouse: using default window
+960.8060 	DATA 	Keypress: i
+960.9514 	EXP 	New trial (rep=16, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+960.9708 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+962.0364 	EXP 	window1: recordFrameIntervals = False
+962.0437 	INFO 	Mouse: using default window
+962.8700 	DATA 	Keypress: a
+963.0705 	DATA 	Keypress: g
+963.2219 	EXP 	New trial (rep=16, index=2): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+963.2359 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+964.2714 	EXP 	window1: recordFrameIntervals = False
+964.2913 	INFO 	Mouse: using default window
+964.6884 	DATA 	Keypress: k
+964.8299 	EXP 	New trial (rep=16, index=3): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+964.8525 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+965.9543 	EXP 	window1: recordFrameIntervals = False
+965.9711 	INFO 	Mouse: using default window
+966.7055 	DATA 	Keypress: g
+967.0203 	DATA 	Keypress: e
+967.1656 	EXP 	New trial (rep=16, index=4): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+967.1861 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+968.2382 	EXP 	window1: recordFrameIntervals = False
+968.2622 	INFO 	Mouse: using default window
+969.2386 	DATA 	Keypress: n
+969.3709 	DATA 	Keypress: g
+969.5151 	EXP 	New trial (rep=16, index=5): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+969.5359 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+970.6043 	EXP 	window1: recordFrameIntervals = False
+970.6137 	INFO 	Mouse: using default window
+971.3054 	DATA 	Keypress: n
+971.4883 	DATA 	Keypress: i
+971.6332 	EXP 	New trial (rep=16, index=6): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+971.6546 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+972.7881 	EXP 	window1: recordFrameIntervals = False
+972.8118 	INFO 	Mouse: using default window
+973.8048 	DATA 	Keypress: y
+974.0872 	DATA 	Keypress: y
+974.2363 	EXP 	New trial (rep=16, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+974.2525 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+975.3701 	EXP 	window1: recordFrameIntervals = False
+975.3779 	INFO 	Mouse: using default window
+976.4059 	DATA 	Keypress: i
+976.5372 	DATA 	Keypress: t
+976.6833 	EXP 	New trial (rep=16, index=8): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+976.7026 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+977.7871 	EXP 	window1: recordFrameIntervals = False
+977.8021 	INFO 	Mouse: using default window
+978.3054 	DATA 	Keypress: g
+978.4519 	EXP 	New trial (rep=16, index=9): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+978.4693 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+979.5032 	EXP 	window1: recordFrameIntervals = False
+979.5118 	INFO 	Mouse: using default window
+980.2238 	DATA 	Keypress: z
+980.7387 	DATA 	Keypress: t
+980.8829 	EXP 	New trial (rep=16, index=10): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+980.9042 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+981.9383 	EXP 	window1: recordFrameIntervals = False
+981.9564 	INFO 	Mouse: using default window
+982.6054 	DATA 	Keypress: s
+982.7455 	EXP 	New trial (rep=16, index=11): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+982.7694 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+983.9377 	EXP 	window1: recordFrameIntervals = False
+983.9472 	INFO 	Mouse: using default window
+985.0569 	DATA 	Keypress: k
+985.5392 	DATA 	Keypress: g
+985.6833 	EXP 	New trial (rep=17, index=0): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+985.7027 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+986.7882 	EXP 	window1: recordFrameIntervals = False
+986.8035 	INFO 	Mouse: using default window
+987.3917 	DATA 	Keypress: m
+987.5889 	DATA 	Keypress: n
+987.7314 	EXP 	New trial (rep=17, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+987.7527 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+988.9547 	EXP 	window1: recordFrameIntervals = False
+988.9718 	INFO 	Mouse: using default window
+989.9892 	DATA 	Keypress: d
+990.1706 	DATA 	Keypress: n
+990.3125 	EXP 	New trial (rep=17, index=2): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+990.3358 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+991.4879 	EXP 	window1: recordFrameIntervals = False
+991.5067 	INFO 	Mouse: using default window
+992.0393 	DATA 	Keypress: k
+992.1817 	EXP 	New trial (rep=17, index=3): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+992.2027 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+993.3056 	EXP 	window1: recordFrameIntervals = False
+993.3154 	INFO 	Mouse: using default window
+993.7389 	DATA 	Keypress: i
+993.8824 	EXP 	New trial (rep=17, index=4): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+993.9027 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+995.0882 	EXP 	window1: recordFrameIntervals = False
+995.0980 	INFO 	Mouse: using default window
+996.2238 	DATA 	Keypress: n
+996.4220 	DATA 	Keypress: i
+996.5678 	EXP 	New trial (rep=17, index=5): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+996.5861 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+997.7881 	EXP 	window1: recordFrameIntervals = False
+997.8052 	INFO 	Mouse: using default window
+999.2202 	DATA 	Keypress: t
+999.4373 	DATA 	Keypress: e
+999.5821 	EXP 	New trial (rep=17, index=6): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+999.6025 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1000.6551 	EXP 	window1: recordFrameIntervals = False
+1000.6772 	INFO 	Mouse: using default window
+1002.0718 	DATA 	Keypress: k
+1002.3550 	DATA 	Keypress: g
+1002.5004 	EXP 	New trial (rep=17, index=7): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1002.5192 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1003.6049 	EXP 	window1: recordFrameIntervals = False
+1003.6236 	INFO 	Mouse: using default window
+1004.0556 	DATA 	Keypress: k
+1004.2005 	EXP 	New trial (rep=17, index=8): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1004.2192 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1005.3041 	EXP 	window1: recordFrameIntervals = False
+1005.3208 	INFO 	Mouse: using default window
+1006.2565 	DATA 	Keypress: n
+1006.4059 	DATA 	Keypress: z
+1006.5502 	EXP 	New trial (rep=17, index=9): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1006.5694 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1007.7043 	EXP 	window1: recordFrameIntervals = False
+1007.7146 	INFO 	Mouse: using default window
+1009.0726 	DATA 	Keypress: t
+1009.4206 	DATA 	Keypress: u
+1009.5647 	EXP 	New trial (rep=17, index=10): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1009.5860 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1010.7049 	EXP 	window1: recordFrameIntervals = False
+1010.7246 	INFO 	Mouse: using default window
+1011.5871 	DATA 	Keypress: n
+1011.9869 	DATA 	Keypress: y
+1012.1305 	EXP 	New trial (rep=17, index=11): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1012.1525 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1013.3700 	EXP 	window1: recordFrameIntervals = False
+1013.3770 	INFO 	Mouse: using default window
+1013.7890 	DATA 	Keypress: e
+1013.9336 	EXP 	New trial (rep=18, index=0): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1013.9525 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1014.9709 	EXP 	window1: recordFrameIntervals = False
+1014.9818 	INFO 	Mouse: using default window
+1016.1051 	DATA 	Keypress: i
+1016.4393 	DATA 	Keypress: m
+1016.5807 	EXP 	New trial (rep=18, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1016.6027 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1017.6716 	EXP 	window1: recordFrameIntervals = False
+1017.6903 	INFO 	Mouse: using default window
+1018.7726 	DATA 	Keypress: h
+1019.0206 	DATA 	Keypress: d
+1019.1648 	EXP 	New trial (rep=18, index=2): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1019.1860 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1020.2366 	EXP 	window1: recordFrameIntervals = False
+1020.2457 	INFO 	Mouse: using default window
+1021.3703 	DATA 	Keypress: z
+1021.9727 	DATA 	Keypress: t
+1022.1190 	EXP 	New trial (rep=18, index=3): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1022.1360 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1023.2206 	EXP 	window1: recordFrameIntervals = False
+1023.2299 	INFO 	Mouse: using default window
+1024.1551 	DATA 	Keypress: a
+1024.3391 	DATA 	Keypress: i
+1024.4831 	EXP 	New trial (rep=18, index=4): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1024.5026 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1025.5550 	EXP 	window1: recordFrameIntervals = False
+1025.5759 	INFO 	Mouse: using default window
+1026.1213 	DATA 	Keypress: s
+1026.2632 	EXP 	New trial (rep=18, index=5): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1026.2860 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1027.3874 	EXP 	window1: recordFrameIntervals = False
+1027.3948 	INFO 	Mouse: using default window
+1027.9054 	DATA 	Keypress: s
+1028.2727 	DATA 	Keypress: n
+1028.4202 	EXP 	New trial (rep=18, index=6): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1028.4361 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1029.5380 	EXP 	window1: recordFrameIntervals = False
+1029.5550 	INFO 	Mouse: using default window
+1030.0219 	DATA 	Keypress: i
+1030.1621 	EXP 	New trial (rep=18, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1030.1869 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1031.2710 	EXP 	window1: recordFrameIntervals = False
+1031.2821 	INFO 	Mouse: using default window
+1032.0205 	DATA 	Keypress: z
+1032.3062 	DATA 	Keypress: u
+1032.4500 	EXP 	New trial (rep=18, index=8): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1032.4692 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1033.5202 	EXP 	window1: recordFrameIntervals = False
+1033.5317 	INFO 	Mouse: using default window
+1034.0377 	DATA 	Keypress: g
+1034.1807 	EXP 	New trial (rep=18, index=9): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1034.2025 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1035.2377 	EXP 	window1: recordFrameIntervals = False
+1035.2493 	INFO 	Mouse: using default window
+1036.4883 	DATA 	Keypress: z
+1036.7056 	DATA 	Keypress: m
+1036.8491 	EXP 	New trial (rep=18, index=10): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1036.8693 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1038.1211 	EXP 	window1: recordFrameIntervals = False
+1038.1387 	INFO 	Mouse: using default window
+1039.2890 	DATA 	Keypress: i
+1040.6721 	DATA 	Keypress: y
+1040.8302 	EXP 	New trial (rep=18, index=11): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1040.8543 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1042.0716 	EXP 	window1: recordFrameIntervals = False
+1042.0960 	INFO 	Mouse: using default window
+1042.9549 	DATA 	Keypress: i
+1043.0992 	EXP 	New trial (rep=19, index=0): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1043.1190 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1044.1371 	EXP 	window1: recordFrameIntervals = False
+1044.1463 	INFO 	Mouse: using default window
+1045.4724 	DATA 	Keypress: i
+1045.6247 	EXP 	New trial (rep=19, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1045.6367 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1046.8209 	EXP 	window1: recordFrameIntervals = False
+1046.8301 	INFO 	Mouse: using default window
+1047.5560 	DATA 	Keypress: i
+1047.7215 	DATA 	Keypress: s
+1047.8627 	EXP 	New trial (rep=19, index=2): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1047.8860 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1048.9712 	EXP 	window1: recordFrameIntervals = False
+1048.9809 	INFO 	Mouse: using default window
+1049.5053 	DATA 	Keypress: s
+1049.6879 	DATA 	Keypress: n
+1049.8302 	EXP 	New trial (rep=19, index=3): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1049.8528 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1050.9878 	EXP 	window1: recordFrameIntervals = False
+1050.9977 	INFO 	Mouse: using default window
+1052.0875 	DATA 	Keypress: z
+1052.5915 	DATA 	Keypress: s
+1052.7638 	EXP 	New trial (rep=19, index=4): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1052.7859 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1053.9378 	EXP 	window1: recordFrameIntervals = False
+1053.9549 	INFO 	Mouse: using default window
+1054.3546 	DATA 	Keypress: i
+1055.2050 	DATA 	Keypress: s
+1055.3475 	EXP 	New trial (rep=19, index=5): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1055.3691 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1056.3878 	EXP 	window1: recordFrameIntervals = False
+1056.4064 	INFO 	Mouse: using default window
+1056.8219 	DATA 	Keypress: s
+1057.2397 	DATA 	Keypress: y
+1057.3834 	EXP 	New trial (rep=19, index=6): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1057.4025 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1058.5049 	EXP 	window1: recordFrameIntervals = False
+1058.5148 	INFO 	Mouse: using default window
+1059.0556 	DATA 	Keypress: e
+1059.1967 	EXP 	New trial (rep=19, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1059.2192 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1060.2549 	EXP 	window1: recordFrameIntervals = False
+1060.2789 	INFO 	Mouse: using default window
+1061.3370 	DATA 	Keypress: s
+1061.6393 	DATA 	Keypress: d
+1061.7855 	EXP 	New trial (rep=19, index=8): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1061.8024 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1063.0370 	EXP 	window1: recordFrameIntervals = False
+1063.0454 	INFO 	Mouse: using default window
+1064.1220 	DATA 	Keypress: n
+1064.2551 	DATA 	Keypress: t
+1064.4132 	EXP 	New trial (rep=19, index=9): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1064.4359 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1065.6034 	EXP 	window1: recordFrameIntervals = False
+1065.6118 	INFO 	Mouse: using default window
+1068.1719 	DATA 	Keypress: t
+1068.4039 	DATA 	Keypress: c
+1068.5532 	EXP 	New trial (rep=19, index=10): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1068.5692 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1069.6548 	EXP 	window1: recordFrameIntervals = False
+1069.6656 	INFO 	Mouse: using default window
+1071.0709 	DATA 	Keypress: n
+1071.2126 	EXP 	New trial (rep=19, index=11): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1071.2361 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1072.3043 	EXP 	window1: recordFrameIntervals = False
+1072.3198 	INFO 	Mouse: using default window
+1073.0086 	DATA 	Keypress: g
+1073.1698 	EXP 	New trial (rep=20, index=0): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1073.1855 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1074.3045 	EXP 	window1: recordFrameIntervals = False
+1074.3137 	INFO 	Mouse: using default window
+1075.1204 	DATA 	Keypress: c
+1075.3871 	DATA 	Keypress: z
+1075.5579 	EXP 	New trial (rep=20, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1075.5692 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1076.7885 	EXP 	window1: recordFrameIntervals = False
+1076.8037 	INFO 	Mouse: using default window
+1078.3881 	DATA 	Keypress: s
+1078.5718 	DATA 	Keypress: h
+1078.7164 	EXP 	New trial (rep=20, index=2): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1078.7359 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1079.9549 	EXP 	window1: recordFrameIntervals = False
+1079.9677 	INFO 	Mouse: using default window
+1080.6725 	DATA 	Keypress: z
+1080.8138 	EXP 	New trial (rep=20, index=3): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1080.8357 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1081.9373 	EXP 	window1: recordFrameIntervals = False
+1081.9512 	INFO 	Mouse: using default window
+1082.5385 	DATA 	Keypress: n
+1082.9720 	DATA 	Keypress: d
+1083.1132 	EXP 	New trial (rep=20, index=4): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1083.1360 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1084.1879 	EXP 	window1: recordFrameIntervals = False
+1084.1970 	INFO 	Mouse: using default window
+1085.0072 	DATA 	Keypress: h
+1085.2051 	DATA 	Keypress: i
+1085.3456 	EXP 	New trial (rep=20, index=5): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1085.3704 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1086.4549 	EXP 	window1: recordFrameIntervals = False
+1086.4726 	INFO 	Mouse: using default window
+1086.8384 	DATA 	Keypress: i
+1086.9793 	EXP 	New trial (rep=20, index=6): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1087.0025 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1088.0876 	EXP 	window1: recordFrameIntervals = False
+1088.1036 	INFO 	Mouse: using default window
+1088.6714 	DATA 	Keypress: g
+1088.9225 	DATA 	Keypress: s
+1089.0638 	EXP 	New trial (rep=20, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1089.0879 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1090.3542 	EXP 	window1: recordFrameIntervals = False
+1090.3707 	INFO 	Mouse: using default window
+1093.6057 	DATA 	Keypress: s
+1093.8415 	DATA 	Keypress: u
+1093.9985 	EXP 	New trial (rep=20, index=8): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1094.0192 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1095.1049 	EXP 	window1: recordFrameIntervals = False
+1095.1234 	INFO 	Mouse: using default window
+1096.0546 	DATA 	Keypress: s
+1096.2024 	EXP 	New trial (rep=20, index=9): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1096.2190 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1097.3707 	EXP 	window1: recordFrameIntervals = False
+1097.3863 	INFO 	Mouse: using default window
+1098.3560 	DATA 	Keypress: c
+1098.4884 	DATA 	Keypress: e
+1098.6296 	EXP 	New trial (rep=20, index=10): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1098.6525 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1099.8545 	EXP 	window1: recordFrameIntervals = False
+1099.8719 	INFO 	Mouse: using default window
+1100.3891 	DATA 	Keypress: y
+1100.5323 	EXP 	New trial (rep=20, index=11): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1100.5525 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1101.7216 	EXP 	window1: recordFrameIntervals = False
+1101.7396 	INFO 	Mouse: using default window
+1102.4553 	DATA 	Keypress: z
+1102.5704 	DATA 	Keypress: k
+1102.7121 	EXP 	New trial (rep=21, index=0): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1102.7361 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1103.8547 	EXP 	window1: recordFrameIntervals = False
+1103.8784 	INFO 	Mouse: using default window
+1104.3068 	DATA 	Keypress: g
+1104.4581 	EXP 	New trial (rep=21, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1104.4858 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1105.7383 	EXP 	window1: recordFrameIntervals = False
+1105.7568 	INFO 	Mouse: using default window
+1106.6534 	DATA 	Keypress: h
+1106.8390 	DATA 	Keypress: i
+1106.9797 	EXP 	New trial (rep=21, index=2): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1107.0024 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1108.1042 	EXP 	window1: recordFrameIntervals = False
+1108.1179 	INFO 	Mouse: using default window
+1108.7208 	DATA 	Keypress: c
+1108.9390 	DATA 	Keypress: z
+1109.0985 	EXP 	New trial (rep=21, index=3): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1109.1193 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1110.3050 	EXP 	window1: recordFrameIntervals = False
+1110.3177 	INFO 	Mouse: using default window
+1113.8878 	DATA 	Keypress: i
+1114.1225 	DATA 	Keypress: u
+1114.2654 	EXP 	New trial (rep=21, index=4): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1114.2860 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1115.3384 	EXP 	window1: recordFrameIntervals = False
+1115.3618 	INFO 	Mouse: using default window
+1115.8367 	DATA 	Keypress: c
+1116.0892 	DATA 	Keypress: e
+1116.2464 	EXP 	New trial (rep=21, index=5): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1116.2691 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1117.5044 	EXP 	window1: recordFrameIntervals = False
+1117.5144 	INFO 	Mouse: using default window
+1118.0201 	DATA 	Keypress: y
+1118.1644 	EXP 	New trial (rep=21, index=6): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1118.1861 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1119.2869 	EXP 	window1: recordFrameIntervals = False
+1119.2961 	INFO 	Mouse: using default window
+1119.8877 	DATA 	Keypress: n
+1120.0332 	EXP 	New trial (rep=21, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1120.0525 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1121.0716 	EXP 	window1: recordFrameIntervals = False
+1121.0846 	INFO 	Mouse: using default window
+1121.5386 	DATA 	Keypress: d
+1121.9558 	DATA 	Keypress: s
+1122.1134 	EXP 	New trial (rep=21, index=8): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1122.1358 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1123.1550 	EXP 	window1: recordFrameIntervals = False
+1123.1690 	INFO 	Mouse: using default window
+1123.5893 	DATA 	Keypress: n
+1123.7356 	EXP 	New trial (rep=21, index=9): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1123.7525 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1124.8043 	EXP 	window1: recordFrameIntervals = False
+1124.8155 	INFO 	Mouse: using default window
+1125.3389 	DATA 	Keypress: n
+1125.5887 	DATA 	Keypress: d
+1125.7332 	EXP 	New trial (rep=21, index=10): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1125.7526 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1126.9539 	EXP 	window1: recordFrameIntervals = False
+1126.9635 	INFO 	Mouse: using default window
+1127.3545 	DATA 	Keypress: n
+1127.4887 	DATA 	Keypress: i
+1127.6333 	EXP 	New trial (rep=21, index=11): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1127.6524 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1128.7700 	EXP 	window1: recordFrameIntervals = False
+1128.7778 	INFO 	Mouse: using default window
+1129.4874 	DATA 	Keypress: c
+1129.5875 	DATA 	Keypress: n
+1129.7327 	EXP 	New trial (rep=22, index=0): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1129.7526 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1130.8217 	EXP 	window1: recordFrameIntervals = False
+1130.8418 	INFO 	Mouse: using default window
+1131.6723 	DATA 	Keypress: i
+1131.8246 	DATA 	Keypress: z
+1131.9860 	EXP 	New trial (rep=22, index=1): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1132.0023 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1133.1215 	EXP 	window1: recordFrameIntervals = False
+1133.1406 	INFO 	Mouse: using default window
+1133.7914 	DATA 	Keypress: s
+1133.9540 	EXP 	New trial (rep=22, index=2): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1133.9691 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1135.1715 	EXP 	window1: recordFrameIntervals = False
+1135.1899 	INFO 	Mouse: using default window
+1135.9218 	DATA 	Keypress: d
+1136.0623 	EXP 	New trial (rep=22, index=3): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1136.0860 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1137.2533 	EXP 	window1: recordFrameIntervals = False
+1137.2618 	INFO 	Mouse: using default window
+1138.4534 	DATA 	Keypress: e
+1138.5946 	EXP 	New trial (rep=22, index=4): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1138.6191 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1139.7549 	EXP 	window1: recordFrameIntervals = False
+1139.7734 	INFO 	Mouse: using default window
+1140.2733 	DATA 	Keypress: z
+1140.3372 	DATA 	Keypress: i
+1140.4826 	EXP 	New trial (rep=22, index=5): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1140.5040 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1141.6713 	EXP 	window1: recordFrameIntervals = False
+1141.6881 	INFO 	Mouse: using default window
+1143.9222 	DATA 	Keypress: y
+1144.9915 	DATA 	Keypress: u
+1145.1464 	EXP 	New trial (rep=22, index=6): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1145.1711 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1146.3877 	EXP 	window1: recordFrameIntervals = False
+1146.3989 	INFO 	Mouse: using default window
+1148.0039 	DATA 	Keypress: u
+1148.2049 	DATA 	Keypress: y
+1148.3518 	EXP 	New trial (rep=22, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1148.3692 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1149.0873 	DATA 	Keypress: space
+1149.4049 	EXP 	window1: recordFrameIntervals = False
+1149.4253 	INFO 	Mouse: using default window
+1150.0217 	DATA 	Keypress: n
+1150.1535 	DATA 	Keypress: d
+1150.2994 	EXP 	New trial (rep=22, index=8): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1150.3191 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1151.4200 	EXP 	window1: recordFrameIntervals = False
+1151.4288 	INFO 	Mouse: using default window
+1152.2070 	DATA 	Keypress: s
+1152.2869 	DATA 	Keypress: i
+1152.4301 	EXP 	New trial (rep=22, index=9): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1152.4525 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1153.4701 	EXP 	window1: recordFrameIntervals = False
+1153.4774 	INFO 	Mouse: using default window
+1153.9559 	DATA 	Keypress: e
+1154.0996 	EXP 	New trial (rep=22, index=10): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1154.1192 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1155.2034 	EXP 	window1: recordFrameIntervals = False
+1155.2121 	INFO 	Mouse: using default window
+1156.0539 	DATA 	Keypress: n
+1156.1884 	DATA 	Keypress: d
+1156.3323 	EXP 	New trial (rep=22, index=11): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1156.3524 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1157.3880 	EXP 	window1: recordFrameIntervals = False
+1157.4076 	INFO 	Mouse: using default window
+1157.9223 	DATA 	Keypress: n
+1158.0553 	DATA 	Keypress: t
+1158.1978 	EXP 	New trial (rep=23, index=0): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1158.2191 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1159.4714 	EXP 	window1: recordFrameIntervals = False
+1159.4897 	INFO 	Mouse: using default window
+1160.0558 	DATA 	Keypress: t
+1160.1967 	EXP 	New trial (rep=23, index=1): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1160.2207 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1161.4212 	EXP 	window1: recordFrameIntervals = False
+1161.4405 	INFO 	Mouse: using default window
+1161.8084 	DATA 	Keypress: e
+1161.9631 	EXP 	New trial (rep=23, index=2): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1161.9879 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1163.1039 	EXP 	window1: recordFrameIntervals = False
+1163.1174 	INFO 	Mouse: using default window
+1164.0389 	DATA 	Keypress: u
+1164.2083 	DATA 	Keypress: n
+1164.3641 	EXP 	New trial (rep=23, index=3): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1164.3860 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1165.6382 	EXP 	window1: recordFrameIntervals = False
+1165.6485 	INFO 	Mouse: using default window
+1166.6416 	DATA 	Keypress: i
+1166.8559 	DATA 	Keypress: u
+1167.0131 	EXP 	New trial (rep=23, index=4): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1167.0358 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1168.0705 	EXP 	window1: recordFrameIntervals = False
+1168.0815 	INFO 	Mouse: using default window
+1171.3051 	DATA 	Keypress: i
+1171.4038 	DATA 	Keypress: u
+1171.5540 	EXP 	New trial (rep=23, index=5): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1171.5692 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1172.7202 	EXP 	window1: recordFrameIntervals = False
+1172.7329 	INFO 	Mouse: using default window
+1173.9381 	DATA 	Keypress: n
+1174.0540 	DATA 	Keypress: a
+1174.1974 	EXP 	New trial (rep=23, index=6): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1174.2191 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1175.3549 	EXP 	window1: recordFrameIntervals = False
+1175.3742 	INFO 	Mouse: using default window
+1176.9561 	DATA 	Keypress: z
+1177.3558 	DATA 	Keypress: n
+1177.4963 	EXP 	New trial (rep=23, index=7): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1177.5192 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1178.5548 	EXP 	window1: recordFrameIntervals = False
+1178.5648 	INFO 	Mouse: using default window
+1180.5720 	DATA 	Keypress: n
+1180.7152 	EXP 	New trial (rep=23, index=8): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1180.7361 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1181.8047 	EXP 	window1: recordFrameIntervals = False
+1181.8165 	INFO 	Mouse: using default window
+1184.1888 	DATA 	Keypress: u
+1184.5220 	DATA 	Keypress: n
+1184.6639 	EXP 	New trial (rep=23, index=9): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1184.6858 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1185.7874 	EXP 	window1: recordFrameIntervals = False
+1185.8061 	INFO 	Mouse: using default window
+1186.8719 	DATA 	Keypress: e
+1186.9727 	DATA 	Keypress: i
+1187.1138 	EXP 	New trial (rep=23, index=10): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1187.1360 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1188.1716 	EXP 	window1: recordFrameIntervals = False
+1188.1900 	INFO 	Mouse: using default window
+1188.9220 	DATA 	Keypress: s
+1189.0379 	DATA 	Keypress: n
+1189.1824 	EXP 	New trial (rep=23, index=11): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1189.2026 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1190.4048 	EXP 	window1: recordFrameIntervals = False
+1190.4184 	INFO 	Mouse: using default window
+1191.0249 	DATA 	Keypress: g
+1191.1846 	EXP 	New trial (rep=24, index=0): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1191.2025 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1192.3045 	EXP 	window1: recordFrameIntervals = False
+1192.3150 	INFO 	Mouse: using default window
+1193.3052 	DATA 	Keypress: u
+1193.4465 	EXP 	New trial (rep=24, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1193.4691 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1194.6032 	EXP 	window1: recordFrameIntervals = False
+1194.6114 	INFO 	Mouse: using default window
+1195.3058 	DATA 	Keypress: i
+1195.5063 	DATA 	Keypress: a
+1195.6476 	EXP 	New trial (rep=24, index=2): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1195.6709 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1196.9383 	EXP 	window1: recordFrameIntervals = False
+1196.9482 	INFO 	Mouse: using default window
+1197.7884 	DATA 	Keypress: u
+1198.6242 	DATA 	Keypress: i
+1198.7799 	EXP 	New trial (rep=24, index=3): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1198.8025 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1200.0210 	EXP 	window1: recordFrameIntervals = False
+1200.0327 	INFO 	Mouse: using default window
+1201.5387 	DATA 	Keypress: u
+1201.7039 	DATA 	Keypress: i
+1201.8479 	EXP 	New trial (rep=24, index=4): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1201.8690 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1203.0550 	EXP 	window1: recordFrameIntervals = False
+1203.0632 	INFO 	Mouse: using default window
+1203.7545 	DATA 	Keypress: c
+1203.8708 	DATA 	Keypress: k
+1204.0176 	EXP 	New trial (rep=24, index=5): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1204.0359 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1205.0534 	EXP 	window1: recordFrameIntervals = False
+1205.0628 	INFO 	Mouse: using default window
+1205.7059 	DATA 	Keypress: e
+1205.8374 	DATA 	Keypress: t
+1205.9816 	EXP 	New trial (rep=24, index=6): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1206.0025 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1207.0218 	EXP 	window1: recordFrameIntervals = False
+1207.0319 	INFO 	Mouse: using default window
+1207.6718 	DATA 	Keypress: a
+1207.8115 	EXP 	New trial (rep=24, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1207.8359 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1209.0550 	EXP 	window1: recordFrameIntervals = False
+1209.0653 	INFO 	Mouse: using default window
+1210.3369 	DATA 	Keypress: u
+1210.5561 	DATA 	Keypress: t
+1210.6941 	EXP 	New trial (rep=24, index=8): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1210.7193 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1211.9548 	EXP 	window1: recordFrameIntervals = False
+1211.9725 	INFO 	Mouse: using default window
+1212.8057 	DATA 	Keypress: e
+1212.9494 	EXP 	New trial (rep=24, index=9): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1212.9706 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1214.2040 	EXP 	window1: recordFrameIntervals = False
+1214.2197 	INFO 	Mouse: using default window
+1217.1890 	DATA 	Keypress: s
+1217.5219 	DATA 	Keypress: m
+1217.6672 	EXP 	New trial (rep=24, index=10): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1217.6863 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1218.7376 	EXP 	window1: recordFrameIntervals = False
+1218.7495 	INFO 	Mouse: using default window
+1219.8397 	DATA 	Keypress: g
+1219.9871 	DATA 	Keypress: y
+1220.1329 	EXP 	New trial (rep=24, index=11): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1220.1524 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1221.3706 	EXP 	window1: recordFrameIntervals = False
+1221.3796 	INFO 	Mouse: using default window
+1221.8559 	DATA 	Keypress: d
+1221.9995 	EXP 	New trial (rep=25, index=0): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1222.0190 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1223.2549 	EXP 	window1: recordFrameIntervals = False
+1223.2782 	INFO 	Mouse: using default window
+1224.0368 	DATA 	Keypress: c
+1224.5551 	DATA 	Keypress: i
+1224.6959 	EXP 	New trial (rep=25, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1224.7191 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1225.7706 	EXP 	window1: recordFrameIntervals = False
+1225.7828 	INFO 	Mouse: using default window
+1226.7372 	DATA 	Keypress: a
+1226.8723 	DATA 	Keypress: i
+1227.0187 	EXP 	New trial (rep=25, index=2): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1227.0355 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1228.2212 	EXP 	window1: recordFrameIntervals = False
+1228.2391 	INFO 	Mouse: using default window
+1228.6725 	DATA 	Keypress: e
+1228.8118 	EXP 	New trial (rep=25, index=3): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1228.8366 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1229.9707 	EXP 	window1: recordFrameIntervals = False
+1229.9814 	INFO 	Mouse: using default window
+1231.0416 	DATA 	Keypress: y
+1231.1369 	DATA 	Keypress: n
+1231.2837 	EXP 	New trial (rep=25, index=4): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1231.3024 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1232.4544 	EXP 	window1: recordFrameIntervals = False
+1232.4728 	INFO 	Mouse: using default window
+1233.8713 	DATA 	Keypress: c
+1234.2083 	DATA 	Keypress: i
+1234.3672 	EXP 	New trial (rep=25, index=5): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1234.3857 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1235.5044 	EXP 	window1: recordFrameIntervals = False
+1235.5165 	INFO 	Mouse: using default window
+1236.3053 	DATA 	Keypress: y
+1236.4445 	EXP 	New trial (rep=25, index=6): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1236.4691 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1237.5033 	EXP 	window1: recordFrameIntervals = False
+1237.5112 	INFO 	Mouse: using default window
+1238.2057 	DATA 	Keypress: g
+1238.3484 	EXP 	New trial (rep=25, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1238.3690 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1239.3878 	EXP 	window1: recordFrameIntervals = False
+1239.4045 	INFO 	Mouse: using default window
+1240.7382 	DATA 	Keypress: n
+1240.8542 	DATA 	Keypress: e
+1240.9973 	EXP 	New trial (rep=25, index=8): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1241.0190 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1242.2035 	EXP 	window1: recordFrameIntervals = False
+1242.2140 	INFO 	Mouse: using default window
+1243.2039 	DATA 	Keypress: n
+1243.3041 	DATA 	Keypress: y
+1243.4479 	EXP 	New trial (rep=25, index=9): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1243.4691 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1244.5213 	EXP 	window1: recordFrameIntervals = False
+1244.5421 	INFO 	Mouse: using default window
+1245.0883 	DATA 	Keypress: i
+1245.2313 	EXP 	New trial (rep=25, index=10): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1245.2523 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1246.2716 	EXP 	window1: recordFrameIntervals = False
+1246.2944 	INFO 	Mouse: using default window
+1247.9701 	DATA 	Keypress: i
+1248.1706 	DATA 	Keypress: u
+1248.3138 	EXP 	New trial (rep=25, index=11): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1248.3357 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1249.3715 	EXP 	window1: recordFrameIntervals = False
+1249.3907 	INFO 	Mouse: using default window
+1250.0889 	DATA 	Keypress: m
+1250.3721 	DATA 	Keypress: n
+1250.5122 	EXP 	New trial (rep=26, index=0): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1250.5358 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1251.6207 	EXP 	window1: recordFrameIntervals = False
+1251.6319 	INFO 	Mouse: using default window
+1252.5217 	DATA 	Keypress: n
+1252.7392 	DATA 	Keypress: i
+1252.9009 	EXP 	New trial (rep=26, index=1): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1252.9193 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1254.1715 	EXP 	window1: recordFrameIntervals = False
+1254.1894 	INFO 	Mouse: using default window
+1254.7065 	DATA 	Keypress: k
+1254.8514 	EXP 	New trial (rep=26, index=2): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1254.8691 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1256.1040 	EXP 	window1: recordFrameIntervals = False
+1256.1157 	INFO 	Mouse: using default window
+1257.0718 	DATA 	Keypress: k
+1257.2383 	DATA 	Keypress: s
+1257.3851 	EXP 	New trial (rep=26, index=3): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1257.4024 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1258.5376 	EXP 	window1: recordFrameIntervals = False
+1258.5537 	INFO 	Mouse: using default window
+1259.8084 	DATA 	Keypress: i
+1259.9040 	DATA 	Keypress: g
+1260.0518 	EXP 	New trial (rep=26, index=4): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1260.0691 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1261.1382 	EXP 	window1: recordFrameIntervals = False
+1261.1496 	INFO 	Mouse: using default window
+1261.9217 	DATA 	Keypress: z
+1262.0034 	DATA 	Keypress: u
+1262.1493 	EXP 	New trial (rep=26, index=5): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1262.1689 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1263.2215 	EXP 	window1: recordFrameIntervals = False
+1263.2384 	INFO 	Mouse: using default window
+1263.6883 	DATA 	Keypress: k
+1263.8320 	EXP 	New trial (rep=26, index=6): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1263.8524 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1264.9206 	EXP 	window1: recordFrameIntervals = False
+1264.9299 	INFO 	Mouse: using default window
+1265.7715 	DATA 	Keypress: n
+1265.9549 	DATA 	Keypress: a
+1266.0952 	EXP 	New trial (rep=26, index=7): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1266.1192 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1267.1697 	EXP 	window1: recordFrameIntervals = False
+1267.1777 	INFO 	Mouse: using default window
+1267.8083 	DATA 	Keypress: a
+1267.9635 	EXP 	New trial (rep=26, index=8): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1267.9860 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1269.2381 	EXP 	window1: recordFrameIntervals = False
+1269.2559 	INFO 	Mouse: using default window
+1269.6702 	DATA 	Keypress: e
+1269.8136 	EXP 	New trial (rep=26, index=9): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1269.8357 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1270.9040 	EXP 	window1: recordFrameIntervals = False
+1270.9175 	INFO 	Mouse: using default window
+1271.9548 	DATA 	Keypress: z
+1272.1880 	DATA 	Keypress: g
+1272.3300 	EXP 	New trial (rep=26, index=10): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1272.3526 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1273.5033 	EXP 	window1: recordFrameIntervals = False
+1273.5139 	INFO 	Mouse: using default window
+1274.4367 	DATA 	Keypress: a
+1274.6891 	DATA 	Keypress: f
+1274.8361 	EXP 	New trial (rep=26, index=11): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1274.8541 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1275.8875 	EXP 	window1: recordFrameIntervals = False
+1275.8993 	INFO 	Mouse: using default window
+1276.7537 	DATA 	Keypress: y
+1276.7538 	DATA 	Keypress: t
+1277.0892 	DATA 	Keypress: g
+1277.2355 	EXP 	New trial (rep=27, index=0): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1277.2525 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1278.4382 	EXP 	window1: recordFrameIntervals = False
+1278.4472 	INFO 	Mouse: using default window
+1279.6547 	DATA 	Keypress: y
+1279.7728 	DATA 	Keypress: g
+1279.9178 	EXP 	New trial (rep=27, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1279.9374 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1281.1883 	EXP 	window1: recordFrameIntervals = False
+1281.2070 	INFO 	Mouse: using default window
+1282.3236 	DATA 	Keypress: m
+1282.6877 	DATA 	Keypress: i
+1282.8317 	EXP 	New trial (rep=27, index=2): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1282.8522 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1283.8873 	EXP 	window1: recordFrameIntervals = False
+1283.8984 	INFO 	Mouse: using default window
+1284.9214 	DATA 	Keypress: g
+1285.0379 	DATA 	Keypress: i
+1285.1860 	EXP 	New trial (rep=27, index=3): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1285.2024 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1286.3042 	EXP 	window1: recordFrameIntervals = False
+1286.3138 	INFO 	Mouse: using default window
+1287.0199 	DATA 	Keypress: u
+1287.3393 	DATA 	Keypress: s
+1287.4838 	EXP 	New trial (rep=27, index=4): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1287.5024 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1288.6536 	EXP 	window1: recordFrameIntervals = False
+1288.6624 	INFO 	Mouse: using default window
+1289.1722 	DATA 	Keypress: t
+1289.3137 	EXP 	New trial (rep=27, index=5): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1289.3358 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1290.5038 	EXP 	window1: recordFrameIntervals = False
+1290.5173 	INFO 	Mouse: using default window
+1291.4874 	DATA 	Keypress: s
+1291.6728 	DATA 	Keypress: g
+1291.8124 	EXP 	New trial (rep=27, index=6): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1291.8376 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1293.0549 	EXP 	window1: recordFrameIntervals = False
+1293.0745 	INFO 	Mouse: using default window
+1294.1724 	DATA 	Keypress: m
+1294.3152 	EXP 	New trial (rep=27, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1294.3377 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1295.6033 	EXP 	window1: recordFrameIntervals = False
+1295.6114 	INFO 	Mouse: using default window
+1296.5034 	DATA 	Keypress: t
+1296.6207 	DATA 	Keypress: i
+1296.7684 	EXP 	New trial (rep=27, index=8): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1296.7858 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1297.9377 	EXP 	window1: recordFrameIntervals = False
+1297.9460 	INFO 	Mouse: using default window
+1298.4725 	DATA 	Keypress: s
+1298.6338 	EXP 	New trial (rep=27, index=9): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1298.6526 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1299.8700 	EXP 	window1: recordFrameIntervals = False
+1299.8806 	INFO 	Mouse: using default window
+1300.7559 	DATA 	Keypress: k
+1301.1214 	DATA 	Keypress: n
+1301.2630 	EXP 	New trial (rep=27, index=10): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1301.2857 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1302.5214 	EXP 	window1: recordFrameIntervals = False
+1302.5438 	INFO 	Mouse: using default window
+1304.1223 	DATA 	Keypress: k
+1304.3715 	DATA 	Keypress: n
+1304.5153 	EXP 	New trial (rep=27, index=11): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1304.5356 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1305.7044 	EXP 	window1: recordFrameIntervals = False
+1305.7212 	INFO 	Mouse: using default window
+1306.2406 	DATA 	Keypress: n
+1306.3943 	EXP 	New trial (rep=28, index=0): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1306.4211 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1307.6383 	EXP 	window1: recordFrameIntervals = False
+1307.6608 	INFO 	Mouse: using default window
+1308.9371 	DATA 	Keypress: g
+1309.1223 	DATA 	Keypress: y
+1309.2654 	EXP 	New trial (rep=28, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1309.2860 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1310.4546 	EXP 	window1: recordFrameIntervals = False
+1310.4700 	INFO 	Mouse: using default window
+1311.0719 	DATA 	Keypress: i
+1311.2369 	DATA 	Keypress: m
+1311.3832 	EXP 	New trial (rep=28, index=2): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1311.4024 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1312.4532 	EXP 	window1: recordFrameIntervals = False
+1312.4623 	INFO 	Mouse: using default window
+1313.3056 	DATA 	Keypress: m
+1313.4215 	DATA 	Keypress: g
+1313.5645 	EXP 	New trial (rep=28, index=3): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1313.5860 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1314.8379 	EXP 	window1: recordFrameIntervals = False
+1314.8581 	INFO 	Mouse: using default window
+1315.6549 	DATA 	Keypress: e
+1315.8888 	DATA 	Keypress: z
+1316.0297 	EXP 	New trial (rep=28, index=4): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1316.0521 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1317.2214 	EXP 	window1: recordFrameIntervals = False
+1317.2382 	INFO 	Mouse: using default window
+1317.7892 	DATA 	Keypress: t
+1317.9347 	EXP 	New trial (rep=28, index=5): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1317.9525 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1319.1877 	EXP 	window1: recordFrameIntervals = False
+1319.2036 	INFO 	Mouse: using default window
+1319.6221 	DATA 	Keypress: m
+1319.7627 	EXP 	New trial (rep=28, index=6): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1319.7858 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1321.0379 	EXP 	window1: recordFrameIntervals = False
+1321.0608 	INFO 	Mouse: using default window
+1321.7058 	DATA 	Keypress: t
+1321.8489 	EXP 	New trial (rep=28, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1321.8691 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1322.9048 	EXP 	window1: recordFrameIntervals = False
+1322.9261 	INFO 	Mouse: using default window
+1323.9215 	DATA 	Keypress: y
+1324.0202 	DATA 	Keypress: t
+1324.1709 	EXP 	New trial (rep=28, index=8): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1324.1856 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1325.3215 	EXP 	window1: recordFrameIntervals = False
+1325.3401 	INFO 	Mouse: using default window
+1326.0394 	DATA 	Keypress: m
+1326.8055 	DATA 	Keypress: 1
+1327.9885 	DATA 	Keypress: i
+1328.1324 	EXP 	New trial (rep=28, index=9): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1328.1524 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1329.2714 	EXP 	window1: recordFrameIntervals = False
+1329.2906 	INFO 	Mouse: using default window
+1329.9061 	DATA 	Keypress: u
+1330.2369 	DATA 	Keypress: s
+1330.3822 	EXP 	New trial (rep=28, index=10): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1330.4021 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1331.5033 	EXP 	window1: recordFrameIntervals = False
+1331.5126 	INFO 	Mouse: using default window
+1331.8723 	DATA 	Keypress: s
+1332.0118 	EXP 	New trial (rep=28, index=11): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1332.0360 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1333.2542 	EXP 	window1: recordFrameIntervals = False
+1333.2659 	INFO 	Mouse: using default window
+1334.3061 	DATA 	Keypress: y
+1334.4552 	DATA 	Keypress: n
+1334.6005 	EXP 	New trial (rep=29, index=0): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1334.6192 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1335.6547 	EXP 	window1: recordFrameIntervals = False
+1335.6654 	INFO 	Mouse: using default window
+1336.0383 	DATA 	Keypress: k
+1336.1791 	EXP 	New trial (rep=29, index=1): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1336.2026 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1337.4542 	EXP 	window1: recordFrameIntervals = False
+1337.4635 	INFO 	Mouse: using default window
+1338.4224 	DATA 	Keypress: s
+1339.0706 	DATA 	Keypress: z
+1339.2323 	EXP 	New trial (rep=29, index=2): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1339.2523 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1340.3211 	EXP 	window1: recordFrameIntervals = False
+1340.3326 	INFO 	Mouse: using default window
+1340.9915 	DATA 	Keypress: g
+1341.5218 	DATA 	Keypress: u
+1341.6713 	EXP 	New trial (rep=29, index=3): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1341.6859 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1342.7707 	EXP 	window1: recordFrameIntervals = False
+1342.7823 	INFO 	Mouse: using default window
+1343.3868 	DATA 	Keypress: k
+1343.8726 	DATA 	Keypress: i
+1344.0164 	EXP 	New trial (rep=29, index=4): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1344.0358 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1345.2713 	EXP 	window1: recordFrameIntervals = False
+1345.2900 	INFO 	Mouse: using default window
+1347.4042 	DATA 	Keypress: y
+1347.5462 	EXP 	New trial (rep=29, index=5): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1347.5690 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1348.6549 	EXP 	window1: recordFrameIntervals = False
+1348.6646 	INFO 	Mouse: using default window
+1349.3387 	DATA 	Keypress: k
+1349.4947 	EXP 	New trial (rep=29, index=6): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1349.5192 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1350.6373 	EXP 	window1: recordFrameIntervals = False
+1350.6479 	INFO 	Mouse: using default window
+1351.9882 	DATA 	Keypress: y
+1352.2715 	DATA 	Keypress: g
+1352.4203 	EXP 	New trial (rep=29, index=7): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1352.4360 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1353.4700 	EXP 	window1: recordFrameIntervals = False
+1353.4790 	INFO 	Mouse: using default window
+1355.0548 	DATA 	Keypress: k
+1355.3033 	DATA 	Keypress: c
+1355.4501 	EXP 	New trial (rep=29, index=8): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1355.4692 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1356.6541 	EXP 	window1: recordFrameIntervals = False
+1356.6651 	INFO 	Mouse: using default window
+1357.4869 	DATA 	Keypress: s
+1357.7721 	DATA 	Keypress: g
+1357.9128 	EXP 	New trial (rep=29, index=9): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+1357.9357 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1358.9712 	EXP 	window1: recordFrameIntervals = False
+1358.9797 	INFO 	Mouse: using default window
+1359.8890 	DATA 	Keypress: n
+1360.0215 	DATA 	Keypress: d
+1360.1671 	EXP 	New trial (rep=29, index=10): {'leftStreamFlip': True, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1360.1857 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1361.3539 	EXP 	window1: recordFrameIntervals = False
+1361.3690 	INFO 	Mouse: using default window
+1362.0717 	DATA 	Keypress: n
+1362.2896 	DATA 	Keypress: c
+1362.4332 	EXP 	New trial (rep=29, index=11): {'leftStreamFlip': True, 'oneTarget': True, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': True, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+1362.4524 	INFO 	numtrials=360 and this trialDurFrames=6 or 100.0 ms  task=T1
+1363.5368 	EXP 	window1: recordFrameIntervals = False
+1363.5454 	INFO 	Mouse: using default window
+1363.9385 	DATA 	Keypress: d
+1364.0712 	INFO 	Stopping at 11:23 on 01 Aug 2018
+1364.0722 	INFO 	Experiment timed out with trials done=360 of 361
+1364.0788 	INFO 	Program terminating normally.

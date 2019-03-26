@@ -1,0 +1,20 @@
+experimentPhase	trialnum	subject	task	oneTarget	noisePercent	ISIframes	ltrColorThis	leftStreamFlip	rightStreamFlip	rightResponseFirst	probe	trialInstructionPos	responseOrder0	answer0	response0	correct0	responseOrder1	answer1	response1	correct1	timingBlips
+main	0 	alexh 	 T1 	 True 	 0.0 	10 	0.9 	False 	False 	False 	both 	(0, 1) 	0 	A 	A 	1 	-99 	-99 	-99 	-99 	0
+main	1 	alexh 	 T1 	 False 	 0.0 	6 	0.9 	False 	False 	True 	both 	(0, 1) 	1 	H 	H 	1 	0 	U 	U 	1 	0
+main	2 	alexh 	 T1 	 False 	 0.0 	3 	0.9 	False 	False 	False 	both 	(0, 1) 	0 	F 	F 	1 	1 	C 	G 	0 	0
+main	3 	alexh 	 T1 	 True 	 0.0 	1.0 	0.9 	False 	False 	False 	both 	(0, -1) 	0 	R 	C 	0 	-99 	-99 	-99 	-99 	0
+main	4 	alexh 	 T1 	 False 	 0.0 	2.0 	0.5 	False 	False 	False 	both 	(0, -1) 	0 	U 	U 	1 	1 	K 	K 	1 	0
+main	5 	alexh 	 T1 	 True 	 0.0 	2.0 	0.0 	False 	False 	True 	both 	(0, 1) 	0 	N 	K 	0 	-99 	-99 	-99 	-99 	0
+main	6 	alexh 	 T1 	 True 	 0.0 	2.0 	0.4 	False 	False 	True 	both 	(0, -1) 	0 	R 	S 	0 	-99 	-99 	-99 	-99 	0
+main	7 	alexh 	 T1 	 False 	 0.0 	2.0 	0.8 	False 	False 	True 	both 	(0, -1) 	1 	M 	M 	1 	0 	T 	T 	1 	0
+main	8 	alexh 	 T1 	 True 	 0.0 	2.0 	0.8 	False 	False 	False 	both 	(0, 1) 	0 	G 	G 	1 	-99 	-99 	-99 	-99 	0
+main	9 	alexh 	 T1 	 False 	 0.0 	2.0 	0.8 	False 	False 	False 	both 	(0, -1) 	0 	N 	N 	1 	1 	U 	U 	1 	0
+main	10 	alexh 	 T1 	 True 	 0.0 	2.0 	0.5 	False 	False 	True 	both 	(0, -1) 	0 	H 	Z 	0 	-99 	-99 	-99 	-99 	0
+main	11 	alexh 	 T1 	 True 	 0.0 	2.0 	0.7 	False 	False 	True 	both 	(0, 1) 	0 	Y 	A 	0 	-99 	-99 	-99 	-99 	0
+main	12 	alexh 	 T1 	 False 	 0.0 	2.0 	0.9 	False 	False 	True 	both 	(0, -1) 	1 	Z 	Z 	1 	0 	Y 	Y 	1 	0
+main	13 	alexh 	 T1 	 False 	 0.0 	2.0 	0.9 	False 	False 	False 	both 	(0, 1) 	0 	J 	J 	1 	1 	T 	T 	1 	0
+main	14 	alexh 	 T1 	 False 	 0.0 	2.0 	0.9 	False 	False 	True 	both 	(0, 1) 	1 	G 	G 	1 	0 	K 	K 	1 	0
+main	15 	alexh 	 T1 	 True 	 0.0 	2.0 	0.8 	False 	False 	False 	both 	(0, -1) 	0 	K 	K 	1 	-99 	-99 	-99 	-99 	0
+main	16 	alexh 	 T1 	 False 	 0.0 	2.0 	0.8 	False 	False 	False 	both 	(0, -1) 	0 	C 	C 	1 	1 	M 	M 	1 	0
+main	17 	alexh 	 T1 	 True 	 0.0 	2.0 	0.8 	False 	False 	True 	both 	(0, -1) 	0 	T 	A 	0 	-99 	-99 	-99 	-99 	0
+main	18 	alexh 	 T1 	 True 	 0.0 	2.0 	0.85 	False 	False 	False 	both 	(0, -1) 	0 	C 	C 	1 	-99 	-99 	-99 	-99 	0

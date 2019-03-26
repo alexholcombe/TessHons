@@ -1,0 +1,388 @@
+0.5365 	WARNING 	Monitor specification not found. Creating a temporary one...
+14.8359 	EXP 	Created window1 = Window(allowGUI=False, allowStencil=False, autoLog=True, bitsMode=UNKNOWN, blendMode='avg', color=array([-0.7, -0.7, -0.7]), colorSpace='rgb', fullscr=UNKNOWN, gamma=None, lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x1A84EE10>, name='window1', pos=[0, 0], screen=0, size=array([1920, 1080]), stereo=False, units='deg', useFBO=False, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=False, winType='pyglet')
+14.8360 	INFO 	Mouse: using default window
+14.8371 	EXP 	window1: units = 'norm'
+14.9155 	EXP 	Created unnamed ImageStim = ImageStim(autoLog=True, color=array([ 1.,  1.,  1.]), colorSpace='rgb', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, image=str(...), interpolate=False, mask=None, maskParams=None, name='unnamed ImageStim', opacity=1.0, ori=0.0, pos=array([-0.5,  0. ]), size=array([ 1.290625  ,  3.24814815]), texRes=128, units='norm', win=Window(...))
+14.9883 	EXP 	Created unnamed ImageStim = ImageStim(autoLog=True, color=array([ 1.,  1.,  1.]), colorSpace='rgb', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, image=str(...), interpolate=False, mask=None, maskParams=None, name='unnamed ImageStim', opacity=1.0, ori=0.0, pos=array([ 0.5,  0. ]), size=array([ 1.290625  ,  3.24814815]), texRes=128, units='norm', win=Window(...))
+15.0041 	EXP 	Created OKrespZone = GratingStim(autoDraw=False, autoLog=True, color=array([ 1. ,  0.5,  0.5]), colorSpace='rgb', contrast=1.0, depth=0, interpolate=False, mask='gauss', maskParams=None, name='OKrespZone', opacity=1.0, ori=0.0, phase=array([ 0.,  0.]), pos=array([-0.2 , -0.92]), rgbPedestal=array([ 0.,  0.,  0.]), sf=array([ 0.,  0.]), size=array([ 2.3,  0.2]), tex='sin', texRes=256, units='norm', win=Window(...))
+15.1475 	EXP 	unnamed ImageStim: size = (1, 2)
+15.1475 	EXP 	unnamed ImageStim: size = (1, 2)
+180.0876 	DATA 	Mouse: Left button down, pos=(1876,58)
+180.2342 	DATA 	Mouse:  Left button up, pos=(1876,58)
+182.8030 	DATA 	Mouse: Left button down, pos=(1839,21)
+182.8188 	EXP 	window1: units = 'deg'
+182.8194 	EXP 	window1: units = 'norm'
+182.8454 	EXP 	Created OKrespZone = GratingStim(autoDraw=False, autoLog=True, color=array([ 1. ,  0.5,  0.5]), colorSpace='rgb', contrast=1.0, depth=0, interpolate=False, mask='gauss', maskParams=None, name='OKrespZone', opacity=1.0, ori=0.0, phase=array([ 0.,  0.]), pos=array([-0.2 , -0.92]), rgbPedestal=array([ 0.,  0.,  0.]), sf=array([ 0.,  0.]), size=array([ 2.3,  0.2]), tex='sin', texRes=256, units='norm', win=Window(...))
+182.9229 	EXP 	Created unnamed ImageStim = ImageStim(autoLog=True, color=array([ 1.,  1.,  1.]), colorSpace='rgb', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, image='abgdj\\PISandConsentForm\\consentForm.png', interpolate=False, mask=None, maskParams=None, name='unnamed ImageStim', opacity=1.0, ori=0.0, pos=array([ 0.,  0.]), size=array([ 1.3375    ,  2.97407407]), texRes=128, units='norm', win=Window(...))
+182.9524 	EXP 	Created unnamed GratingStim = GratingStim(autoDraw=False, autoLog=True, color=array([ 1. ,  0.5,  0.5]), colorSpace='rgb', contrast=1.0, depth=0, interpolate=False, mask='gauss', maskParams=None, name='unnamed GratingStim', opacity=1.0, ori=0.0, phase=array([ 0.,  0.]), pos=array([-0.2 , -0.42]), rgbPedestal=array([ 0.,  0.,  0.]), sf=array([ 0.,  0.]), size=array([ 0.3,  0.2]), tex='sin', texRes=256, units='norm', win=Window(...))
+182.9792 	EXP 	Created unnamed GratingStim = GratingStim(autoDraw=False, autoLog=True, color=array([ 1. ,  0.5,  0.5]), colorSpace='rgb', contrast=1.0, depth=0, interpolate=False, mask='gauss', maskParams=None, name='unnamed GratingStim', opacity=1.0, ori=0.0, phase=array([ 0.,  0.]), pos=array([ 0.1 , -0.42]), rgbPedestal=array([ 0.,  0.,  0.]), sf=array([ 0.,  0.]), size=array([ 0.3,  0.2]), tex='sin', texRes=256, units='norm', win=Window(...))
+182.9995 	EXP 	Created unnamed GratingStim = GratingStim(autoDraw=False, autoLog=True, color=array([ 1. ,  0.5,  0.5]), colorSpace='rgb', contrast=1.0, depth=0, interpolate=False, mask='gauss', maskParams=None, name='unnamed GratingStim', opacity=1.0, ori=0.0, phase=array([ 0.,  0.]), pos=array([-0.2 , -0.72]), rgbPedestal=array([ 0.,  0.,  0.]), sf=array([ 0.,  0.]), size=array([ 0.3,  0.2]), tex='sin', texRes=256, units='norm', win=Window(...))
+183.0196 	EXP 	Created unnamed GratingStim = GratingStim(autoDraw=False, autoLog=True, color=array([ 1. ,  0.5,  0.5]), colorSpace='rgb', contrast=1.0, depth=0, interpolate=False, mask='gauss', maskParams=None, name='unnamed GratingStim', opacity=1.0, ori=0.0, phase=array([ 0.,  0.]), pos=array([ 0.1 , -0.72]), rgbPedestal=array([ 0.,  0.,  0.]), sf=array([ 0.,  0.]), size=array([ 0.3,  0.2]), tex='sin', texRes=256, units='norm', win=Window(...))
+183.0232 	DATA 	Mouse:  Left button up, pos=(1839,21)
+183.0289 	EXP 	unnamed ImageStim: size = (1.1, 2)
+185.5683 	DATA 	Mouse: Left button down, pos=(1814,529)
+185.7174 	DATA 	Mouse:  Left button up, pos=(1814,529)
+194.5177 	DATA 	Mouse: Left button down, pos=(1771,23)
+194.6341 	DATA 	Mouse:  Left button up, pos=(1771,23)
+195.1512 	DATA 	Mouse: Left button down, pos=(1745,36)
+195.3675 	DATA 	Mouse:  Left button up, pos=(1744,37)
+203.4181 	DATA 	Keypress: backspace
+216.3344 	DATA 	Keypress: escape
+239.0510 	DATA 	Mouse: Left button down, pos=(759,321)
+239.1676 	DATA 	Mouse:  Left button up, pos=(759,321)
+252.0511 	DATA 	Mouse: Left button down, pos=(783,144)
+252.1342 	DATA 	Mouse:  Left button up, pos=(783,144)
+257.7357 	DATA 	Mouse: Left button down, pos=(734,40)
+257.7506 	EXP 	window1: units = 'deg'
+257.7571 	EXP 	window1: mouseVisible = True
+278.1019 	EXP 	Created window1 = Window(allowGUI=False, allowStencil=False, autoLog=True, bitsMode=UNKNOWN, blendMode='avg', color=array([-0.7, -0.7, -0.7]), colorSpace='rgb', fullscr=UNKNOWN, gamma=None, lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x1A84EE10>, name='window1', pos=[0, 0], screen=0, size=array([1920, 1080]), stereo=False, units='deg', useFBO=False, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=False, winType='pyglet')
+282.2387 	INFO 	#[ PsychoPy2 RuntimeInfoStart ]
+  #[[ PsychoPy ]] #---------
+    psychopyVersion: 1.84.2
+    psychopyHaveExtRush: True
+  #[[ Experiment ]] #---------
+    experimentAuthor: None
+    experimentAuthVersion: None
+    experimentRunTime: 2018_08_01 12:45 (Year_Month_Day Hour:Min)
+    experimentRunTime.epoch: 1533091519
+    experimentScript: psyc1002.py
+    experimentScript.digestSHA1: 54192af97dd76e67dd8faf41f61890fe38fff5f8
+    experimentScript.directory: U:\PSYC1002\abgdj
+  #[[ System ]] #---------
+    systemHaveInternetAccess: True
+    systemHostName: W5FF2LG2
+    systemLocale: English_United States.1252
+    systemMemFreeRAM: 3883.703125
+    systemMemTotalRAM: 8076.9453125
+    systemPlatform: windowsversion=sys.getwindowsversion(major=6, minor=2, build=9200, platform=2, service_pack='')
+    systemPyo.InputDevices: {4: {'host api index': 2, 'latency': 0.008707483299076557, 'default sr': 44100, 'name': u'Realtek ASIO'}}
+    systemPyo.OutputDevices: {0: {'host api index': 0, 'latency': 0.09000000357627869, 'default sr': 44100, 'name': u'Microsoft Sound Mapper - Output'}, 1: {'host api index': 0, 'latency': 0.09000000357627869, 'default sr': 44100, 'name': u'Speakers / Headphones (Realtek '}, 2: {'host api index': 1, 'latency': 0.11999999731779099, 'default sr': 44100, 'name': u'Primary Sound Driver'}, 3: {'host api index': 1, 'latency': 0.11999999731779099, 'default sr': 44100, 'name': u'Speakers / Headphones (Realtek High Definition Audio)'}, 4: {'host api index': 2, 'latency': 0.008707483299076557, 'default sr': 44100, 'name': u'Realtek ASIO'}, 5: {'host api index': 3, 'latency': 0.003000000026077032, 'default sr': 48000, 'name': u'Speakers / Headphones (Realtek High Definition Audio)'}}
+    systemPyoVersion: 0.8.0
+    systemRebooted: System Boot Time:          7/31/2018, 2:19:26 AM
+    systemSec.pythonSSL: True
+    systemTimeNumpySD1000000_sec: 0.0070
+    systemUser: ivan8386
+    systemUserID: 1000
+    systemUserProcCmdPid: nimdnsResponder.exe OneDrive.exe nierserver.exe LabStatsUserSpace.exe ssonsvr.exe AGSService.exe dwm.exe nidevldu.exe System sihost.exe csrss.exe SmcGui.exe niauth_daemon.exe wininit.exe SISIDSService.exe CmRcService.exe server_admin.exe winlogon.exe LabStatsClient.exe ShellExperienceHost.exe tagsrv.exe SearchUI.exe ctfmon.exe TrustedInstaller.exe nidevmon.exe RAVBg64.exe SearchIndexer.exe TiWorker.exe ''Memory Compression'' explorer.exe ''intelliadmin idletime.exe'' server_runtime.exe RtkNGUI64.exe smss.exe WmiPrvSE.exe NIWebServiceContainer.exe ApplicationWebServer.exe nimxs.exe fontdrvhost.exe taskhostw.exe nipxism.exe dllhost.exe acrotray.exe redirector.exe nicitdl5.exe niLxiDiscovery.exe RtkAudioService64.exe cmd.exe chrome.exe SystemWebServer.exe unsecapp.exe tasklist.exe SecurityHealthService.exe sisipsutil.exe nidmsrv.exe Receiver.exe snowagent.exe wfcrun32.exe CcmExec.exe SISIPSService.exe concentr.exe lktsrv.exe nisvcloc.exe server_eventlog.exe pc-client.exe RuntimeBroker.exe conhost.exe lkcitdl.exe python.exe SCNotification.exe lkads.exe lsass.exe services.exe niDiscSvc.exe sqlwriter.exe AuthManSvr.exe MSASCuiL.exe spoolsv.exe svchost.exe ccSvcHst.exe SelfServicePlugin.exe ni_usbmon.exe AdobeUpdateService.exe armsvc.exe audiodg.exe
+    systemUserProcCount: 181
+    systemUserProcFlagged: Explorer
+    systemUsersCount: False
+  #[[ Window ]] #---------
+    windowWinType: pyglet
+    windowWaitBlanking: False
+    windowUseNativeGamma: True
+    windowUnits: deg
+    windowSize_pix: [1920 1080]
+    windowScreen: 0
+    windowRgb: [-0.7 -0.7 -0.7]
+    windowRefreshTimeSD_ms: 0.329
+    windowRefreshTimeMedian_ms: 16.670
+    windowRefreshTimeAvg_ms: 16.674
+    windowRefreshThreshold_sec: 0.0198
+    windowRecordFrameIntervals: False
+    windowPos_pix: [0, 0]
+    windowMonitor.name: testmonitor
+    windowMonitor.getWidth_cm: 57.0
+    windowMonitor.getLinearizeMethod: 1
+    windowMonitor.getGammaGrid: [[  0.   1.   1.  nan  nan  nan]
+ [  0.   1.   1.  nan  nan  nan]
+ [  0.   1.   1.  nan  nan  nan]
+ [  0.   1.   1.  nan  nan  nan]]
+    windowMonitor.getDistance_cm: 57.0
+    windowMonitor.gammaInterpolator2: None
+    windowMonitor.gammaInterpolator: None
+    windowMonitor.currentCalibName: 2018_08_01 12:40
+    windowIsFullScr: True
+    windowHaveShaders: True
+    windowAllowGUI: False
+  #[[ Python ]] #---------
+    pythonWxVersion: 3.0.2.0 msw (classic)
+    pythonVersion: 2.7.11
+    pythonScipyVersion: 0.17.1
+    pythonPygletVersion: 1.2.4
+    pythonPygameVersion: 1.9.2pre
+    pythonNumpyVersion: 1.11.0
+    pythonMatplotlibVersion: 1.5.1
+    pythonFullVersion: 2.7.11 (v2.7.11:6d1b6a68f775, Dec  5 2015, 20:32:19) [MSC v.1500 32 bit (Intel)]
+    pythonExecutable: C:\Program Files (x86)\PsychoPy2\python.exe
+  #[[ OpenGL ]] #---------
+    openGLVersion: 4.4.0 - Build 21.20.16.4627
+    openGLVendor: Intel
+    openGLRenderingEngine: Intel(R) HD Graphics 530
+    openGLmaxVerticesInVertexArray: 1048576
+    False: openGLext.GL_STEREO
+    True: openGLext.GL_EXT_framebuffer_object
+    True: openGLext.GL_ARB_vertex_shader
+    True: openGLext.GL_ARB_texture_non_power_of_two
+    True: openGLext.GL_ARB_texture_float
+    True: openGLext.GL_ARB_shader_objects
+    True: openGLext.GL_ARB_multitexture
+    True: openGLext.GL_ARB_fragment_program
+#[ PsychoPy2 RuntimeInfoEnd ]
+
+282.2842 	EXP 	window1: recordFrameIntervals = True
+283.1189 	EXP 	window1: recordFrameIntervals = False
+283.1196 	INFO 	Frames per second ~=59.9, which is close enough to desired val of 60.0
+283.2476 	EXP 	Created sequence: random, trialTypes=12, nReps=30, seed=None
+283.3608 	INFO 	Mouse: using default window
+283.3803 	EXP 	Created OKrespZone = GratingStim(autoDraw=False, autoLog=True, color=array([ 1.,  1.,  1.]), colorSpace='rgb', contrast=1.0, depth=0, interpolate=False, mask='gauss', maskParams=None, name='OKrespZone', opacity=1.0, ori=0.0, phase=array([ 0.,  0.]), pos=array([ 0.  ,  0.88]), rgbPedestal=array([ 0.,  0.,  0.]), sf=array([ 0.,  0.]), size=array([ 2. ,  0.2]), tex='sin', texRes=256, units='norm', win=Window(...))
+287.4554 	DATA 	Mouse: Left button down, pos=(99,958)
+287.5733 	DATA 	Mouse:  Left button up, pos=(99,958)
+288.4375 	DATA 	Mouse: Left button down, pos=(118,811)
+288.5654 	DATA 	Mouse:  Left button up, pos=(118,811)
+289.0391 	DATA 	Mouse: Left button down, pos=(113,739)
+289.1493 	DATA 	Mouse:  Left button up, pos=(113,739)
+290.2543 	DATA 	Mouse: Left button down, pos=(104,671)
+290.3413 	DATA 	Mouse:  Left button up, pos=(104,671)
+290.7274 	DATA 	Mouse: Left button down, pos=(107,612)
+290.8132 	DATA 	Mouse:  Left button up, pos=(107,612)
+292.0777 	DATA 	Mouse: Left button down, pos=(134,457)
+292.1813 	DATA 	Mouse:  Left button up, pos=(134,457)
+293.0303 	DATA 	Mouse: Left button down, pos=(154,403)
+293.1494 	DATA 	Mouse:  Left button up, pos=(154,403)
+293.9670 	DATA 	Mouse: Left button down, pos=(163,331)
+294.0932 	DATA 	Mouse:  Left button up, pos=(163,331)
+295.2233 	DATA 	Mouse: Left button down, pos=(123,195)
+295.3492 	DATA 	Mouse:  Left button up, pos=(123,195)
+298.3831 	DATA 	Mouse: Left button down, pos=(342,882)
+298.4853 	DATA 	Mouse:  Left button up, pos=(342,882)
+301.5434 	DATA 	Mouse: Left button down, pos=(314,591)
+301.6453 	DATA 	Mouse:  Left button up, pos=(314,591)
+302.0707 	DATA 	Mouse: Left button down, pos=(301,544)
+302.1579 	DATA 	Mouse:  Left button up, pos=(301,543)
+302.5589 	DATA 	Mouse: Left button down, pos=(304,475)
+302.6533 	DATA 	Mouse:  Left button up, pos=(304,475)
+304.4218 	DATA 	Mouse: Left button down, pos=(338,255)
+304.5172 	DATA 	Mouse:  Left button up, pos=(338,255)
+308.4230 	DATA 	Mouse: Left button down, pos=(318,54)
+308.5333 	DATA 	Mouse:  Left button up, pos=(318,54)
+310.0384 	DATA 	Mouse: Left button down, pos=(519,197)
+310.1253 	DATA 	Mouse:  Left button up, pos=(519,197)
+310.5030 	DATA 	Mouse: Left button down, pos=(528,266)
+310.5893 	DATA 	Mouse:  Left button up, pos=(528,266)
+311.3112 	DATA 	Mouse: Left button down, pos=(534,333)
+311.4213 	DATA 	Mouse:  Left button up, pos=(534,333)
+312.4148 	DATA 	Mouse: Left button down, pos=(516,469)
+312.5013 	DATA 	Mouse:  Left button up, pos=(516,469)
+313.7750 	DATA 	Mouse: Left button down, pos=(550,676)
+313.8453 	DATA 	Mouse:  Left button up, pos=(550,676)
+319.0230 	DATA 	Mouse: Left button down, pos=(697,689)
+319.1493 	DATA 	Mouse:  Left button up, pos=(697,689)
+319.6077 	DATA 	Mouse: Left button down, pos=(700,616)
+319.7493 	DATA 	Mouse:  Left button up, pos=(700,616)
+320.6946 	DATA 	Mouse: Left button down, pos=(761,531)
+320.7893 	DATA 	Mouse:  Left button up, pos=(761,531)
+321.0867 	DATA 	Mouse: Left button down, pos=(763,472)
+321.2053 	DATA 	Mouse:  Left button up, pos=(763,472)
+321.8951 	DATA 	Mouse: Left button down, pos=(767,394)
+321.9733 	DATA 	Mouse:  Left button up, pos=(767,394)
+322.6155 	DATA 	Mouse: Left button down, pos=(765,324)
+322.7413 	DATA 	Mouse:  Left button up, pos=(765,324)
+323.9593 	DATA 	Mouse: Left button down, pos=(757,184)
+324.0773 	DATA 	Mouse:  Left button up, pos=(757,184)
+325.6315 	DATA 	Mouse: Left button down, pos=(786,123)
+325.7573 	DATA 	Mouse:  Left button up, pos=(786,123)
+330.6226 	DATA 	Mouse: Left button down, pos=(940,472)
+330.7413 	DATA 	Mouse:  Left button up, pos=(940,472)
+332.3266 	DATA 	Mouse: Left button down, pos=(936,748)
+332.4133 	DATA 	Mouse:  Left button up, pos=(936,748)
+333.5591 	DATA 	Mouse: Left button down, pos=(946,896)
+333.6533 	DATA 	Mouse:  Left button up, pos=(946,896)
+334.5913 	DATA 	Mouse: Left button down, pos=(1106,950)
+334.7093 	DATA 	Mouse:  Left button up, pos=(1106,950)
+336.0065 	DATA 	Mouse: Left button down, pos=(1143,744)
+336.1333 	DATA 	Mouse:  Left button up, pos=(1143,744)
+336.9110 	DATA 	Mouse: Left button down, pos=(1137,686)
+337.0453 	DATA 	Mouse:  Left button up, pos=(1137,686)
+339.0231 	DATA 	Mouse: Left button down, pos=(1128,404)
+339.1254 	DATA 	Mouse:  Left button up, pos=(1128,404)
+344.5420 	DATA 	Mouse: Left button down, pos=(1328,878)
+344.6213 	DATA 	Mouse:  Left button up, pos=(1326,879)
+345.0869 	DATA 	Mouse: Left button down, pos=(1313,819)
+345.1894 	DATA 	Mouse:  Left button up, pos=(1313,818)
+345.6941 	DATA 	Mouse: Left button down, pos=(1325,742)
+345.8054 	DATA 	Mouse:  Left button up, pos=(1325,742)
+347.2712 	DATA 	Mouse: Left button down, pos=(1369,611)
+347.3973 	DATA 	Mouse:  Left button up, pos=(1369,611)
+355.6945 	DATA 	Mouse: Left button down, pos=(1342,47)
+355.7974 	DATA 	Mouse:  Left button up, pos=(1342,47)
+356.4947 	DATA 	Mouse: Left button down, pos=(1357,327)
+356.5530 	DATA 	Mouse:  Left button up, pos=(1357,327)
+357.1340 	DATA 	Mouse: Left button down, pos=(1349,406)
+357.2213 	DATA 	Mouse:  Left button up, pos=(1349,406)
+358.9041 	DATA 	Mouse: Left button down, pos=(1561,823)
+358.9626 	DATA 	Mouse:  Left button up, pos=(1561,823)
+359.9353 	DATA 	Mouse: Left button down, pos=(1549,748)
+360.0054 	DATA 	Mouse:  Left button up, pos=(1549,748)
+360.5258 	DATA 	Mouse: Left button down, pos=(1546,685)
+360.6299 	DATA 	Mouse:  Left button up, pos=(1546,685)
+361.9421 	DATA 	Mouse: Left button down, pos=(1557,397)
+362.0373 	DATA 	Mouse:  Left button up, pos=(1556,396)
+363.0146 	DATA 	Mouse: Left button down, pos=(1539,320)
+363.1094 	DATA 	Mouse:  Left button up, pos=(1539,320)
+363.4058 	DATA 	Mouse: Left button down, pos=(1534,255)
+363.5174 	DATA 	Mouse:  Left button up, pos=(1534,255)
+365.7030 	DATA 	Mouse: Left button down, pos=(1743,37)
+365.7736 	DATA 	Mouse:  Left button up, pos=(1745,54)
+366.2478 	DATA 	Mouse: Left button down, pos=(1730,203)
+366.3493 	DATA 	Mouse:  Left button up, pos=(1730,203)
+367.4714 	DATA 	Mouse: Left button down, pos=(1750,407)
+367.5814 	DATA 	Mouse:  Left button up, pos=(1750,407)
+367.9431 	DATA 	Mouse: Left button down, pos=(1755,460)
+368.0533 	DATA 	Mouse:  Left button up, pos=(1755,461)
+368.8389 	DATA 	Mouse: Left button down, pos=(1752,552)
+368.9493 	DATA 	Mouse:  Left button up, pos=(1752,552)
+369.7113 	DATA 	Mouse: Left button down, pos=(1747,680)
+369.8053 	DATA 	Mouse:  Left button up, pos=(1747,680)
+371.1193 	DATA 	Mouse: Left button down, pos=(1734,896)
+371.2214 	DATA 	Mouse:  Left button up, pos=(1734,896)
+371.7672 	DATA 	Mouse: Left button down, pos=(1743,953)
+371.8533 	DATA 	Mouse:  Left button up, pos=(1743,953)
+372.3827 	DATA 	Mouse: Left button down, pos=(1042,1039)
+372.4033 	INFO 	Experiment will have 360 trials. Letters will be drawn with superposed noise of 0.00%
+372.4178 	EXP 	New trial (rep=0, index=0): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+372.4179 	INFO 	Starting main part of experiment
+372.4857 	DATA 	Mouse:  Left button up, pos=(1042,1039)
+373.6011 	INFO 	numtrials=360 and this trialDurFrames=12 or 200.0 ms  task=T1
+375.4187 	EXP 	window1: recordFrameIntervals = False
+375.4359 	INFO 	Mouse: using default window
+378.9042 	DATA 	Keypress: d
+381.0861 	DATA 	Keypress: e
+382.8514 	DATA 	Keypress: e
+383.1167 	EXP 	New trial (rep=0, index=1): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+387.4369 	DATA 	Keypress: space
+388.6358 	INFO 	numtrials=360 and this trialDurFrames=8 or 133.333333333 ms  task=T1
+390.4022 	EXP 	window1: recordFrameIntervals = False
+390.4131 	INFO 	Mouse: using default window
+392.4393 	DATA 	Keypress: a
+393.9512 	DATA 	Keypress: y
+394.9853 	DATA 	Keypress: f
+395.1291 	EXP 	New trial (rep=0, index=2): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+395.1512 	INFO 	numtrials=360 and this trialDurFrames=5 or 83.3333333333 ms  task=T1
+396.7514 	EXP 	window1: recordFrameIntervals = False
+396.7610 	INFO 	Mouse: using default window
+398.8225 	DATA 	Keypress: f
+400.4035 	DATA 	Keypress: r
+401.1861 	DATA 	Keypress: n
+401.3310 	EXP 	New trial (rep=0, index=3): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+401.3503 	INFO 	numtrials=360 and this trialDurFrames=3 or 50.0 ms  task=T1
+402.4689 	EXP 	window1: recordFrameIntervals = False
+402.4778 	INFO 	Mouse: using default window
+403.7868 	DATA 	Keypress: g
+404.7023 	DATA 	Keypress: k
+405.6225 	DATA 	Keypress: l
+405.7807 	EXP 	New trial (rep=0, index=4): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+405.8005 	INFO 	numtrials=360 and this trialDurFrames=3 or 50.0 ms  task=T1
+406.9028 	EXP 	window1: recordFrameIntervals = False
+406.9231 	INFO 	Mouse: using default window
+409.5866 	DATA 	Keypress: f
+411.1520 	DATA 	Keypress: l
+411.5532 	DATA 	Keypress: g
+411.7026 	EXP 	New trial (rep=0, index=5): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+411.7171 	INFO 	numtrials=360 and this trialDurFrames=3 or 50.0 ms  task=T1
+412.8511 	EXP 	window1: recordFrameIntervals = False
+412.8602 	INFO 	Mouse: using default window
+414.3354 	DATA 	Keypress: e
+415.4035 	DATA 	Keypress: k
+416.1379 	DATA 	Keypress: c
+416.2816 	EXP 	New trial (rep=0, index=6): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+416.3004 	INFO 	numtrials=360 and this trialDurFrames=3 or 50.0 ms  task=T1
+417.4021 	EXP 	window1: recordFrameIntervals = False
+417.4181 	INFO 	Mouse: using default window
+419.8032 	DATA 	Keypress: g
+420.6863 	DATA 	Keypress: z
+421.4686 	DATA 	Keypress: x
+421.6121 	EXP 	New trial (rep=0, index=7): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+421.6337 	INFO 	numtrials=360 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+422.8193 	EXP 	window1: recordFrameIntervals = False
+422.8333 	INFO 	Mouse: using default window
+423.9865 	DATA 	Keypress: s
+426.0223 	DATA 	Keypress: k
+427.2547 	DATA 	Keypress: s
+427.4122 	EXP 	New trial (rep=0, index=8): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+427.4341 	INFO 	numtrials=360 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+428.6516 	EXP 	window1: recordFrameIntervals = False
+428.6588 	INFO 	Mouse: using default window
+430.8553 	DATA 	Keypress: y
+432.1533 	DATA 	Keypress: c
+433.3033 	DATA 	Keypress: t
+433.4500 	EXP 	New trial (rep=0, index=9): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+433.4690 	INFO 	numtrials=360 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+434.5861 	EXP 	window1: recordFrameIntervals = False
+434.6040 	INFO 	Mouse: using default window
+436.2037 	DATA 	Keypress: j
+437.3514 	DATA 	Keypress: i
+438.3367 	DATA 	Keypress: s
+438.4866 	EXP 	New trial (rep=0, index=10): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+438.5006 	INFO 	numtrials=360 and this trialDurFrames=3 or 50.0 ms  task=T1
+439.5192 	EXP 	window1: recordFrameIntervals = False
+439.5381 	INFO 	Mouse: using default window
+477.6042 	DATA 	Keypress: a
+478.3027 	DATA 	Keypress: s
+479.2875 	DATA 	Keypress: j
+479.4302 	EXP 	New trial (rep=0, index=11): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+479.4503 	INFO 	numtrials=360 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+480.5362 	EXP 	window1: recordFrameIntervals = False
+480.5569 	INFO 	Mouse: using default window
+482.3022 	DATA 	Keypress: c
+483.7201 	DATA 	Keypress: h
+484.3527 	DATA 	Keypress: a
+484.4986 	EXP 	New trial (rep=1, index=0): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+484.5171 	INFO 	numtrials=360 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+485.5191 	EXP 	window1: recordFrameIntervals = False
+485.5377 	INFO 	Mouse: using default window
+488.5364 	DATA 	Keypress: k
+489.8869 	DATA 	Keypress: f
+490.4705 	DATA 	Keypress: e
+490.6119 	EXP 	New trial (rep=1, index=1): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+490.6338 	INFO 	numtrials=360 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+491.6355 	EXP 	window1: recordFrameIntervals = False
+491.6511 	INFO 	Mouse: using default window
+493.3693 	DATA 	Keypress: u
+494.6189 	DATA 	Keypress: z
+495.3349 	DATA 	Keypress: a
+495.4785 	EXP 	New trial (rep=1, index=2): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+495.5005 	INFO 	numtrials=360 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+496.7192 	EXP 	window1: recordFrameIntervals = False
+496.7299 	INFO 	Mouse: using default window
+498.4352 	DATA 	Keypress: j
+499.7204 	DATA 	Keypress: m
+500.6355 	DATA 	Keypress: s
+500.7813 	EXP 	New trial (rep=1, index=3): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': True}
+500.8006 	INFO 	numtrials=360 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+501.9187 	EXP 	window1: recordFrameIntervals = False
+501.9280 	INFO 	Mouse: using default window
+534.0020 	DATA 	Keypress: s
+534.6202 	DATA 	Keypress: k
+535.4535 	DATA 	Keypress: j
+535.5969 	EXP 	New trial (rep=1, index=4): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+535.6174 	INFO 	numtrials=360 and this trialDurFrames=4 or 66.6666666667 ms  task=T1
+536.6863 	EXP 	window1: recordFrameIntervals = False
+536.6972 	INFO 	Mouse: using default window
+620.5541 	DATA 	Keypress: b
+621.8537 	DATA 	Keypress: c
+622.2689 	DATA 	Keypress: a
+622.4113 	EXP 	New trial (rep=1, index=5): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, 1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+622.4343 	INFO 	numtrials=360 and this trialDurFrames=5 or 83.3333333333 ms  task=T1
+623.6695 	EXP 	window1: recordFrameIntervals = False
+623.6877 	INFO 	Mouse: using default window
+625.6399 	DATA 	Keypress: y
+626.9215 	DATA 	Keypress: k
+627.3867 	DATA 	Keypress: u
+627.5306 	EXP 	New trial (rep=1, index=6): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+627.5507 	INFO 	numtrials=360 and this trialDurFrames=5 or 83.3333333333 ms  task=T1
+628.5854 	EXP 	window1: recordFrameIntervals = False
+628.5976 	INFO 	Mouse: using default window
+630.2037 	DATA 	Keypress: z
+631.4872 	DATA 	Keypress: k
+632.2704 	DATA 	Keypress: j
+632.4127 	EXP 	New trial (rep=1, index=7): {'leftStreamFlip': False, 'oneTarget': False, 'trialInstructionPos': (0, -1), 'probe': 'both', 'rightStreamFlip': False, 'horizVert': False, 'ISIframes': 1, 'rightResponseFirst': False}
+632.4342 	INFO 	numtrials=360 and this trialDurFrames=5 or 83.3333333333 ms  task=T1
+633.5032 	EXP 	window1: recordFrameIntervals = False
+633.5150 	INFO 	Mouse: using default window
+637.9866 	DATA 	Keypress: lctrl
+637.9873 	DATA 	Keypress: lshift
+638.6186 	DATA 	Keypress: z
+638.6398 	INFO 	Stopping at 12:51 on 01 Aug 2018
+638.6409 	ERROR 	user aborted experiment on keypress with trials done=19 of 361
+638.6564 	INFO 	Program terminating normally.

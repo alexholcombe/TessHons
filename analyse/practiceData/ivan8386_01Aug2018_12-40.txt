@@ -1,0 +1,20 @@
+experimentPhase	trialnum	subject	task	oneTarget	noisePercent	ISIframes	ltrColorThis	leftStreamFlip	rightStreamFlip	rightResponseFirst	probe	trialInstructionPos	responseOrder0	answer0	response0	correct0	responseOrder1	answer1	response1	correct1	responseOrder2	answer2	response2	correct2	timingBlips
+main	0 	ivan8386 	 T1 	 False 	 0.0 	10 	0.9 	False 	False 	True 	both 	(0, -1) 	1 	N 	E 	0 	2 	J 	D 	0 	0 	R 	E 	0 	0
+main	1 	ivan8386 	 T1 	 False 	 0.0 	6 	0.9 	False 	False 	False 	both 	(0, -1) 	2 	Y 	Y 	1 	0 	F 	F 	1 	1 	A 	A 	1 	0
+main	2 	ivan8386 	 T1 	 False 	 0.0 	3 	0.9 	False 	False 	False 	both 	(0, -1) 	0 	F 	F 	1 	2 	N 	N 	1 	1 	R 	R 	1 	0
+main	3 	ivan8386 	 T1 	 False 	 0.0 	1.0 	0.9 	False 	False 	True 	both 	(0, -1) 	0 	G 	G 	1 	1 	K 	K 	1 	2 	U 	L 	0 	0
+main	4 	ivan8386 	 T1 	 False 	 0.0 	1.0 	0.3 	False 	False 	True 	both 	(0, 1) 	0 	H 	F 	0 	2 	N 	G 	0 	1 	J 	L 	0 	0
+main	5 	ivan8386 	 T1 	 False 	 0.0 	1.0 	0.8 	False 	False 	False 	both 	(0, -1) 	0 	E 	E 	1 	1 	K 	K 	1 	2 	C 	C 	1 	0
+main	6 	ivan8386 	 T1 	 False 	 0.0 	1.0 	0.8 	False 	False 	True 	both 	(0, 1) 	0 	G 	G 	1 	2 	Z 	X 	0 	1 	Y 	Z 	0 	0
+main	7 	ivan8386 	 T1 	 False 	 0.0 	2.0 	0.3 	False 	False 	False 	both 	(0, 1) 	1 	S 	S 	1 	2 	M 	S 	0 	0 	K 	K 	1 	0
+main	8 	ivan8386 	 T1 	 False 	 0.0 	2.0 	0.3 	False 	False 	True 	both 	(0, 1) 	1 	T 	T 	1 	2 	Y 	Y 	1 	0 	C 	C 	1 	0
+main	9 	ivan8386 	 T1 	 False 	 0.0 	2.0 	0.3 	False 	False 	False 	both 	(0, 1) 	0 	J 	J 	1 	2 	S 	S 	1 	1 	J 	I 	0 	0
+main	10 	ivan8386 	 T1 	 False 	 0.0 	1.0 	0.9 	False 	False 	True 	both 	(0, -1) 	2 	T 	S 	0 	0 	K 	J 	0 	1 	T 	A 	0 	0
+main	11 	ivan8386 	 T1 	 False 	 0.0 	2.0 	0.2 	False 	False 	False 	both 	(0, 1) 	2 	H 	H 	1 	0 	A 	A 	1 	1 	C 	C 	1 	0
+main	12 	ivan8386 	 T1 	 False 	 0.0 	2.0 	0.2 	False 	False 	True 	both 	(0, 1) 	1 	E 	E 	1 	2 	E 	K 	0 	0 	K 	F 	0 	0
+main	13 	ivan8386 	 T1 	 False 	 0.0 	2.0 	0.5 	False 	False 	True 	both 	(0, -1) 	1 	Z 	Z 	1 	0 	U 	U 	1 	2 	A 	A 	1 	0
+main	14 	ivan8386 	 T1 	 False 	 0.0 	2.0 	0.5 	False 	False 	True 	both 	(0, -1) 	1 	M 	M 	1 	0 	J 	J 	1 	2 	S 	S 	1 	0
+main	15 	ivan8386 	 T1 	 False 	 0.0 	2.0 	0.5 	False 	False 	True 	both 	(0, 1) 	2 	Z 	K 	0 	0 	C 	J 	0 	1 	R 	S 	0 	0
+main	16 	ivan8386 	 T1 	 False 	 0.0 	2.0 	0.8 	False 	False 	False 	both 	(0, 1) 	1 	A 	A 	1 	2 	U 	B 	0 	0 	U 	C 	0 	0
+main	17 	ivan8386 	 T1 	 False 	 0.0 	3.0 	0.1 	False 	False 	False 	both 	(0, 1) 	0 	Y 	Y 	1 	2 	U 	U 	1 	1 	K 	K 	1 	0
+main	18 	ivan8386 	 T1 	 False 	 0.0 	3.0 	0.1 	False 	False 	False 	both 	(0, -1) 	1 	Z 	J 	0 	2 	Y 	Z 	0 	0 	T 	K 	0 	0
