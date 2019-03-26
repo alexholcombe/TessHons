@@ -39,7 +39,8 @@ output            : papaja::apa6_pdf
 <!--
 # Highlights (most should be worked into the Introduction somewhere, to tantalize)
 
-* Even when the original and replicating authors are in complete agreement regarding the quality of a replication experiment before the data come in, their views can diverge widely upon seeing the data, for good reasons.
+* Psyc1002 
+
 
 * The differing reactions of an original author and replicating authors are explained in a rational Bayesian framework.
 
@@ -53,23 +54,16 @@ output            : papaja::apa6_pdf
 -->
 
 <!--
-# Outline
+# Notes
 
-1. The original researcher knows things that others don't.
-2. After the data come in, motivated reasoning may contaminate researcher responses, impairing the ability to learn from the original authors' knowledge.
-  + (the bad kind or the rational kind)
-  + Enemies
-3. Subjective beliefs are important to the progress of science
-  + Trying to get objective probabilities of the hypotheses is not feasible.
-  + Humans do science, so subjective beliefs determine allocation of scientific resources.
+PSYC1002 experiment notes https://docs.google.com/document/d/1vPoKG5z4owBklNDH-XSm_Zhi2blA9WXCo4xyxyPKalU/edit
+OSF project with Preregistered method https://osf.io/6pa9s/
 
 
 @barrett_opinion_2015
 -->
 # Introduction
 
-> Science is organized skepticism in the reliability of expert opinion - R. P. Feynman, quoted by @smolin_trouble_2007, p.
-307 
 
 > Behavioral and neuroimaging evidence suggests that females have greater bilateral cerebral organization, particularly in language processing regions, whereas males show greater left-hemisphere dominance (Kansaku, Yamaura, & Kitazawa, 2000 Kansaku, K., Yamaura, A., & Kitazawa, S. (2000). Sex differences in lateralization revealed in the posterior language areas. Cerebral Cortex, 10, 866–872.10.1093/cercor/10.9.866
 [Crossref], [PubMed], [Web of Science ®], [Google Scholar]
@@ -77,11 +71,30 @@ output            : papaja::apa6_pdf
 [Crossref], [Web of Science ®], [Google Scholar]
 )
 
-```{r test-main1, child = 'misguided.Rmd'}
+# Methods
+
+OSF project with Preregistered method https://osf.io/6pa9s/
+
+Full set of conditions were:
+1.	Words, horizontally arrayed
+2.	Words, vertically arrayed
+3.	Letters (normal upright orientation), horizontally arrayed
+4.	Letters (normal upright orientation), vertically arrayed
+5.	Letters (mirror-reversed; that is, written backwards), horizontally arrayed
+6.	Letters (rotated 90 deg clockwise; that is, facing downwards), vertically arrayed
+7.	Letters (rotated 90 deg anticlockwise; that is, facing upwards), vertically arrayed
+
+```{r methods, child = 'methods.Rmd'}
 ```
 
-```{r test-main2, child = 'recommendations.Rmd'}
-```
+
+# Results
+
+Look for results in the analysis git folder
+
+From an email to Caleb: When participants saw (3 letter words) words oriented left to right the accuracy for the left word was 65.7% and the accuracy for the right word was 70.6%.
+
+When participants saw (3 letter words) words oriented left to right (but presented top and bottom) the accuracy for the top word was 71.0% and the accuracy for the bottom word was 37.6%.
 
 ```{r test-main2, child = 'conclusionsSummary.Rmd'}
 ```

@@ -11,14 +11,21 @@ library(plyr) #need to load because need it for Rmisc, and recommended load it b
 library(dplyr)
 ```
 
-FIRST RUN demographicsAndExclusions.Rmd
+```{r loadData, echo=FALSE}
+
+dataPath <- file.path("dataAnonymized")
+#read data file created by demographicsAndExclusions.Rmd to get dataframe after exclusions
+df<- readRDS(file = file.path(dataPath,"PSYC1_dfAfterConsentPracticeTrialsExclusions.rda"))
+
+```
+
 
 Load ggplot and dplyr
 ```{r j, echo=FALSE}
 library(ggplot2)
 library(dplyr)
 
-tb<- tb %>% mutate(leftTopBias = case_when(spatial == "horiz" ~ correct0 - correct1,
+tb<- df %>% mutate(leftTopBias = case_when(spatial == "horiz" ~ correct0 - correct1,
                                           spatial == "vert" ~ correct1 - correct0,   
                                           TRUE ~ as.integer(-99)   )) #else, but this shouldn't occur
 
@@ -102,8 +109,11 @@ tbTwo <- tbTwo %>% mutate(flippedTemp = substr(flipped,1,1)) #reduce to first le
 tbTwo <- tbTwo %>% mutate(cond = paste(stimType, spatial, ori, flipped, sep = '_'))
 tbTwo <- tbTwo %>% mutate(condExceptStim = paste(spatial, ori, flippedTemp, sep = '_'))
 gg<- ggplot(tbTwo, aes(x=condExceptStim,y=leftTopBias)) + stat_summary(fun.y="mean",geom="point",size=2, alpha=.5) + facet_grid(stimType~.)
+#xondition name is paste(numSimultaneousStim, stimType, spatial, ori, flipped, sep = '_'))
+gg<- gg + xlabel("horiz/vert_orientation_flippedT/F")
 gg<- gg+ stat_summary(fun.data="mean_cl_boot",fun.args=list(conf.int=0.95),geom="errorbar",width=.3,size=1) 
 show(gg)
+
 ```
 
 ```{r wordsByCond}
@@ -131,6 +141,7 @@ ltrs2<- ltrs2 %>% mutate(cond = case_when(condExceptStim == "vert_-90_F" ~ "faci
 
 
 vert<- ltrs2 %>% filter(spatial=="vert")
+library('beeswarm')
 papaja::apa_beeplot(data=vert, id="subject", dv="leftTopBias", factors="cond",
                     ylab = "upper - lower (proportion correct)", xlab = "orientation",
                     args_points = list(cex = 1, bg = c("black"),col="black"),
@@ -222,6 +233,7 @@ t_vert
 
 ```{r confidenceIntervalsVert}
 vert %>% group_by(cond) %>% summarise(upperCI = CI(leftTopBias)[1], mean=mean(leftTopBias), lower= CI(leftTopBias)[3])
+
 ```
 
 Correlate the bias of each participant with their author score.

@@ -52,12 +52,15 @@ table(firstTrial$Yconsent,firstTrial$YshareData, dnn=c("consent","shareData"), u
 Only 17 people either didn't consent or didn't consent to share data, so just exclude all of them.
 
 ```{r, echo=FALSE}
-tc <- tb %>% filter(Yconsent == TRUE, YshareData==TRUE)
+dfAfterConsentPracticeTrialsExclusions <- tb %>% filter(Yconsent == TRUE, YshareData==TRUE)
+
+pathToSave <- file.path("dataAnonymized")
+saveRDS(dfAfterConsentPracticeTrialsExclusions, file = file.path(pathToSave,"PSYC1_dfAfterConsentPracticeTrialsExclusions.rda"), compress="bzip2")
 
 ```
 
 ```{r lang, echo=FALSE}
-firstTrial <- tc %>% filter(trialnum==0)
+firstTrial <- dfAfterConsentPracticeTrialsExclusions %>% filter(trialnum==0)
 
 table(firstTrial$firstReadLang)
 ```

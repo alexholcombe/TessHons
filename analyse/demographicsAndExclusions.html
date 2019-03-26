@@ -91,6 +91,9 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
 }
@@ -147,12 +150,12 @@ practiceTrials = 5
 tb&lt;- tb %&gt;% mutate(practice= (trialnum&lt;practiceTrials))
 tb &lt;- tb %&gt;% mutate(cond = paste(numSimultaneousStim, stimType, spatial, ori, flipped, sep = '_'))</code></pre>
 <p>Install skimr</p>
+<pre><code>## Warning: package 'skimr' was built under R version 3.5.2</code></pre>
 <pre><code>## 
 ## Attaching package: 'skimr'</code></pre>
-<pre><code>## The following objects are masked from 'package:dplyr':
+<pre><code>## The following object is masked from 'package:stats':
 ## 
-##     contains, ends_with, everything, matches, num_range, one_of,
-##     starts_with</code></pre>
+##     filter</code></pre>
 </div>
 <div id="inspect-data" class="section level2">
 <h2>Inspect data</h2>
