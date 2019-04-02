@@ -5,6 +5,19 @@ TO-DO
 * confirm stim position for methods section
 * Write Draft methods 
 
+EXPERIMENT LIST 
+0. 2 words, horizontally arrayed, 1/3 of trials single target
+1. 2 words, vertically arrayed, 1/3 of trials single target
+2. 2 letters, horizontally arrayed, 1/3 of trials single target
+3. 2 letters, vertically arrayed, 1/3 of trials single target
+4. 3 letters, horizontally arrayed (no single-target trials)
+5. 2 letters, horizontally arrayed, flipped, 1/3 of trials single target
+6. 2 letters, vertically arrayed, rotated 90 deg clockwise, 1/3 of trials single target
+7. 2 letters, vertically arrayed, rotated -90 deg to face up, 1/3 of trials single target
+
+
+
+-------------NOTES WHEN GETTING IT GOING FOR PSYC1----------
 TIMING & DIFFICULTY LEVEL
 * Make letters half brightness, and postmask dynamic and add premask
 * With dynamic noise mask, 34 ms ISI is too easy and 17 might be too hard
