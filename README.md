@@ -4,6 +4,7 @@ TO-DO
 
 * confirm stim position for methods section
 * Write Draft methods 
+* checkAlignment. That turns on fixation drawing. Rotated letters very close to being aligned.
 
 EXPERIMENT LIST 
 0. 2 words, horizontally arrayed, 1/3 of trials single target

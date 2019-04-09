@@ -1,3 +1,4 @@
+from __future__ import print_function, division
 from psychopy import event, sound
 import numpy as np
 import string
@@ -125,17 +126,17 @@ def setupSoundsForResponse():
     try:
         clickSound=sound.Sound(fileName)
     except:
-        print 'Could not load the desired click sound file, instead using manually created inferior click'
+        print('Could not load the desired click sound file, instead using manually created inferior click')
         try:
             clickSound=sound.Sound('D',octave=3, sampleRate=22050, secs=0.015, bits=8)
         except:
             clickSound = None
-            print 'Could not create a click sound for typing feedback'
+            print('Could not create a click sound for typing feedback')
     try:
         badKeySound = sound.Sound('A',octave=5, sampleRate=22050, secs=0.03, bits=8)
     except:
         badKeySound = None
-        print 'Could not create an invalid key sound for typing feedback'
+        print('Could not create an invalid key sound for typing feedback')
         
     return clickSound, badKeySound
 
