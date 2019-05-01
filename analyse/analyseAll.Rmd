@@ -19,6 +19,8 @@ df<- readRDS(file = file.path(dataPath,"PSYC1_dfAfterConsentPracticeTrialsExclus
 
 ```
 
+demographicsAndExclusions created cond variable:
+cond = paste(numSimultaneousStim, stimType, spatial, ori, flipped) 
 
 Load ggplot and dplyr
 ```{r j, echo=FALSE}
@@ -110,7 +112,7 @@ tbTwo <- tbTwo %>% mutate(cond = paste(stimType, spatial, ori, flipped, sep = '_
 tbTwo <- tbTwo %>% mutate(condExceptStim = paste(spatial, ori, flippedTemp, sep = '_'))
 gg<- ggplot(tbTwo, aes(x=condExceptStim,y=leftTopBias)) + stat_summary(fun.y="mean",geom="point",size=2, alpha=.5) + facet_grid(stimType~.)
 #xondition name is paste(numSimultaneousStim, stimType, spatial, ori, flipped, sep = '_'))
-gg<- gg + xlabel("horiz/vert_orientation_flippedT/F")
+gg<- gg + xlab("horiz/vert_orientation_flippedT/F")
 gg<- gg+ stat_summary(fun.data="mean_cl_boot",fun.args=list(conf.int=0.95),geom="errorbar",width=.3,size=1) 
 show(gg)
 
@@ -152,17 +154,27 @@ abline(h=0)
 #apa_print() output looks horrible unless knit into PDF or Word as part of a papaja document
 #papaja::apa_print(t_vert)
 
+# rotatedOnly <- ltrs2 %>% filter(canonical==FALSE)
+# papaja::apa_beeplot(data=rotatedOnly, id="subject", dv="leftTopBias", factors="cond",
+#                     ylab = "upper - lower (proportion correct)", xlab = "orientation",
+#                     args_points = list(cex = 1, bg = c("black"),col="black"),
+#                     args_swarm = list(cex = .3, bg = c("white"),col="grey50"),
+#                     , args_error_bars = list(lwd=2.2,length = 0.13))
+# abline(h=0)
+
 ```
+
+Report number of Ss per condition
+```{r}
+trialsPerCondSubj <- vert %>% count(cond,subject)
+subjPerCond <- trialsPerCondSubj %>% count(cond)
+print(subjPerCond)
+```
+
 Above the effect of the orientation manipulation was pretty big, but the baseline bias (upper bias) is bigger than the left bias seen in the other plot.
 
 ```{r horizPlots}
-rotated <- ltrs2 %>% filter(canonical==FALSE)
-papaja::apa_beeplot(data=rotated, id="subject", dv="leftTopBias", factors="cond",
-                    ylab = "upper - lower (proportion correct)", xlab = "orientation",
-                    args_points = list(cex = 1, bg = c("black"),col="black"),
-                    args_swarm = list(cex = .3, bg = c("white"),col="grey50"),
-                    , args_error_bars = list(lwd=2.2,length = 0.13))
-abline(h=0)
+
 horiz <- ltrs2 %>% filter(spatial=="horiz")
 horiz<- horiz %>% mutate(cond = case_when(condExceptStim == "horiz_0_F" ~ "normal",
                                         condExceptStim == "horiz_0_T" ~ "mirror-reversed",   
@@ -176,6 +188,13 @@ papaja::apa_beeplot(data=horiz, id="subject", dv="leftTopBias", factors="cond",
                     args_swarm = list(cex = .3, bg = c("white"),col="grey50"),
                     , args_error_bars = list(lwd=2.2,length = 0.13))
 abline(h=0)
+```
+
+Number of Ss per condition
+```{r}
+trialsPerCondSubj <- horiz %>% count(cond,subject)
+subjPerCond <- trialsPerCondSubj %>% count(cond)
+print(subjPerCond)
 ```
 
 The horizontal t-test results are
@@ -223,9 +242,12 @@ t_horiz
 ```
 
 ```{r ttestVert}
+#First collapse within S
+vertCollapsed <- vert %>% group_by(cond,subject) %>% summarise(leftTopBias=mean(leftTopBias))
+  
 t_vert <- t.test(
-  x = (vert %>% filter(cond == "facing down"))$leftTopBias
-  , y = (vert %>% filter(cond == "facing up"))$leftTopBias
+  x = (vertCollapsed %>% filter(cond == "facing down"))$leftTopBias
+  , y = (vertCollapsed %>% filter(cond == "facing up"))$leftTopBias
   , paired = FALSE
 )
 t_vert
@@ -236,11 +258,40 @@ vert %>% group_by(cond) %>% summarise(upperCI = CI(leftTopBias)[1], mean=mean(le
 
 ```
 
-Correlate the bias of each participant with their author score.
+Correlate the left/top bias of each participant with their author score. This only good if letters offset by same amount, whereas difference between facing down and facing up addresses any orientation difference, but that can only be done across Ss.
+Should probably throw out the letter_vert_0_FALSE condition and word_vert_0_FALSE  because I think top was closer to fixation.
+
+So the right thing to do I guess is to look at degree of top bias in facing down and facing right (vert conditions) and canonical (horizontal condition). 
+
+Slopes are similar for different conditions, see plot:
 ```{r correlate}
 #install.packages('ggstatsplot')  #doesn't work
 #Probably need to reduce the dataframe to one data point per subject
-tbTwoSumm <- tbTwo %>% group_by(subject) %>% summarise_at(c("leftTopBias", "authorsPct", "authorsRaw", "authorsTotalChosen"),mean)
+tbTwoC <- tbTwo %>% filter(cond != "word_vert_0_FALSE", cond != "letter_vert_0_FALSE", cond != "letter_horiz_0_TRUE")
+tbTwoSumm <- tbTwoC %>% group_by(subject,cond) %>% summarise_at(c("leftTopBias", "authorsPct", "authorsRaw", "authorsTotalChosen"),mean)
+hh<- ggplot(tbTwoSumm, aes(y=leftTopBias, x=authorsPct, color=cond)) + geom_point() +   geom_smooth(method="lm",se=FALSE) +
+  geom_point() 
+
+lm_eqn = function(m) {
+
+  l <- list(a = format(coef(m)[1], digits = 2),
+      b = format(abs(coef(m)[2]), digits = 2),
+      r2 = format(summary(m)$r.squared, digits = 3));
+
+  if (coef(m)[2] >= 0)  {
+    eq <- substitute(italic(y) == a + b %.% italic(x)*","~~italic(r)^2~"="~r2,l)
+  } else {
+    eq <- substitute(italic(y) == a - b %.% italic(x)*","~~italic(r)^2~"="~r2,l)    
+  }
+
+  as.character(as.expression(eq));                 
+}
+hh = hh + geom_text(aes(x = .3, y = .64, label = lm_eqn(lm(leftTopBias ~ authorsPct, tbTwoSumm))), parse = TRUE)
+hh + theme_apa()
+#cor.test(
+```
+
+```{r }
 hh<- ggplot(tbTwoSumm, aes(y=leftTopBias, x=authorsPct)) + geom_point() +   geom_smooth(method="lm",se=FALSE) +
   geom_point() 
 
@@ -259,9 +310,10 @@ lm_eqn = function(m) {
   as.character(as.expression(eq));                 
 }
 hh = hh + geom_text(aes(x = .3, y = .64, label = lm_eqn(lm(leftTopBias ~ authorsPct, tbTwoSumm))), parse = TRUE)
-hh
-#cor.test(
+hh + theme_bw()
 ```
+
 change MEAN ABOVE TO INCLUDE FIRST LANGUAGE READ AND TAKES FIRST INSTNACE IF NOT NUMERIC
+
+
 Look at first language read.
-```

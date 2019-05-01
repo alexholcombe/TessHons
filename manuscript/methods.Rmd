@@ -12,3 +12,5 @@ Arial font
 
 wordEccentricity  0.9 deg
 ltrHeight   0.7 deg
+
+When one letter or word presented, dynamic noise post-mask was presented only over it. When two were presented, three post-masks were drawn, over each and in the middle, forming a continuous span. This was deliberate (line 728), but I don't know why.
