@@ -229,7 +229,7 @@ if demo or exportImages:
   logging.console.setLevel(logging.ERROR)  #only show this level  messages and higher
 logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nearly all messges, INFO next level, EXP, DATA, WARNING and ERROR 
 
-includeConsentDemographicsAuthor = True
+includeConsentDemographicsAuthor = False #AHdebug True
 if includeConsentDemographicsAuthor:
         # require password
         succeeded = False
@@ -728,6 +728,9 @@ def do_RSVP_stim(thisTrial, seq1, seq2, seq3, ltrColorThis, proportnNoise,trialN
         if seq1 and seq2: #if left or right (two stimuli presented), also draw middle noise (only don't draw it if only one stim presented)
             myNoise3.draw()
         #fixationPoint.draw()
+        if exportImages:
+            myWin.getMovieFrame(buffer='back') #for later saving
+            framesSaved +=1
         myWin.flip()
     #myWin.flip() #Need this
     if thisProbe == 'long':
