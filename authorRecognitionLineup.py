@@ -74,7 +74,7 @@ def drawRespOption(myWin,bgColor,xStart,namesPerColumn,possibleResps,color,drawB
 def drawAllRespOptions(myWin,bgColor,xStart,namesPerColumn,possibleResps,color,drawBoundingBox,relativeSize):
     #relativeSize multiplied by standard size to get desired size
     authorStims = list()
-    for i in xrange(len(possibleResps)):
+    for i in range(len(possibleResps)):
         x, y, w, h = calcRespXYandBoundingBox( namesPerColumn,possibleResps, i )
         option = visual.TextStim(myWin,colorSpace='rgb',color=color,alignHoriz=alignHorizOption, alignVert='center',
                                                                 height=h*relativeSize,units='norm',autoLog=False)
@@ -99,7 +99,7 @@ def drawResponseArray(myWin,bgColor,xStart,namesPerColumn,possibleResps,selected
         authorStims = drawAllRespOptions(myWin,bgColor,xStart,namesPerColumn,possibleResps,(1,1,1),drawBoundingBox,relativeHeight)
     myWin.flip()
     #Draw it vertically, from top to bottom, and left to right
-    for i in xrange(len(possibleResps)):
+    for i in range(len(possibleResps)):
         if todraw[i]: #only draw those that need drawing, otherwise this code takes too long
             if selected[i]:
                 color = selectedColor
@@ -322,7 +322,7 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
                 doAuthorLineup(myWin, bgColor,myMouse, clickSound, badClickSound, possibleResps, autopilot)
 
     print('Names of selected=',end='')
-    for i in xrange(len(selected)):
+    for i in range(len(selected)):
         if selected[i]:
             print(possibleResps[i],end=',')
     print('')

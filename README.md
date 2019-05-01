@@ -4,7 +4,7 @@ TO-DO
 
 * confirm stim position for methods section
 * Write Draft methods 
-* checkAlignment. That turns on fixation drawing. Rotated letters very close to being aligned.
+* checkAlignment. That turns on fixation drawing. Rotated letters very close to being aligned but upper still slightly lower. Fortunately rotating 90 versus -90 can't result in different distances from fixation.
 
 EXPERIMENT LIST 
 0. 2 words, horizontally arrayed, 1/3 of trials single target

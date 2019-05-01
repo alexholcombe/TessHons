@@ -381,7 +381,7 @@ def calcAndPredrawStimuli(stimList,i,j,k):
    #draw the stimuli that will be used on this trial, the first numWordsInStream of the shuffled list
    indices = [i,j,k]
    textStimuli = list()
-   for i in xrange(3):
+   for i in range(3):
         stim = visual.TextStim(myWin, text = stimList[indices[i]],
                                            height=ltrHeight,font=myFont,colorSpace='rgb',color=ltrColor, 
                                            ori=experiment['ori'],alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
@@ -507,7 +507,7 @@ maxNumRespsWanted = 3
 print('experimentPhase\ttrialnum\tsubject\ttask\toneTarget\t',file=dataFile,end='')
 print('noisePercent\tISIframes\tltrColorThis\tleftStreamFlip\trightStreamFlip\trightResponseFirst\tprobe\ttrialInstructionPos\t',end='',file=dataFile)
     
-for i in xrange( experiment['numSimultaneousStim'] ): #range(maxNumRespsWanted):
+for i in range( experiment['numSimultaneousStim'] ): #range(maxNumRespsWanted):
    dataFile.write('responseOrder'+str(i)+'\t')
    dataFile.write('answer'+str(i)+'\t')
    dataFile.write('response'+str(i)+'\t')
@@ -904,7 +904,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             #trialInstructionStim.setText('lum=' + str(ltrColorThis)+ ' f='+ str(howManyMoreFrames), log=False) #debug
     trialInstructionStim.setPos( thisTrial['trialInstructionPos'] )
     if nDoneMain <= 1: #extra long instruction
-        for i in xrange(70):
+        for i in range(70):
             trialInstructionStim.draw()
             if i > 30:
                 fixationPoint.draw()
@@ -943,7 +943,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             numToReport = 1
         else:
             numToReport =  experiment['numSimultaneousStim']
-        responseOrder = range(numToReport)
+        responseOrder = list( range(numToReport) )
         if (numToReport == 3): #not counterbalanced, so just shuffle
             random.shuffle(responseOrder)
         elif thisTrial['rightResponseFirst']: #change order of indices depending on rightResponseFirst. response0, answer0 etc refer to which one had to be reported first
@@ -1030,7 +1030,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             numToPrint = numRespsWanted
             if thisTrial['oneTarget']:
                 numToPrint = 1 #kludge, see line 993
-            for streami in xrange(numToPrint): #scored and printed to dataFile in left first, right second order even if collected in different order
+            for streami in range(numToPrint): #scored and printed to dataFile in left first, right second order even if collected in different order
                 print(responseOrder[streami],'\t', end='', file=dataFile)
                 if streami==0:
                     sequenceStream = idxsStream1; correctAnswerIdx = whichStim0
@@ -1050,7 +1050,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             
             #kludge to pad with null datafile spaces when only one target presented
             if thisTrial['oneTarget']:
-                for i in xrange(experiment['numSimultaneousStim']-1):
+                for i in range(experiment['numSimultaneousStim']-1):
                     print(-99, '\t', end='', file=dataFile) #responseOrderN
                     print(-99, '\t', end='', file=dataFile) #answerN
                     print(-99, '\t', end='', file=dataFile) #responseN

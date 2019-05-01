@@ -112,7 +112,7 @@ def doConsentForm(imgFilename, subjectName, myWin, myMouse, exportImages):
     
     #set up list of dictionaries. Each dictionary contains all the characteristics and stimuli associated with  the button
     choiceDicts= list(  )
-    for i in xrange(len(posList)):
+    for i in range(len(posList)):
         this = {}
         this['textStim'] = \
             visual.TextStim(myWin,pos=posList[i],colorSpace='rgb',color=choiceTextColor,alignHoriz='center', alignVert='center',height=choiceTextSz,units='norm',text=textList[i],autoLog=False)

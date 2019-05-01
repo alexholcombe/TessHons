@@ -1,0 +1,14 @@
+---
+title: "Methods"
+author: 
+  - "Alex O. Holcombe"
+date: "6/27/2017"
+output: github_document
+---
+
+# Methods
+
+Arial font
+
+wordEccentricity  0.9 deg
+ltrHeight   0.7 deg

@@ -121,7 +121,7 @@ if now.day==31 or now.day < 4:  #week 1, before 4 August, piloting
         experimentNum = knownMachinesForPilot.index(networkMachineName)
         experimentNum = experimentNum % len(experimentsList)
         otherData.update({'knownMachinesForPilot.index(networkMachineName)':knownMachinesForPilot.index(networkMachineName)})
-experimentNum = 7 #MANUAL SETTING
+experimentNum = 1 #MANUAL SETTING
 experiment = experimentsList[ experimentNum ]
 #print('experiment=',experiment)
 otherData.update(experiment)
