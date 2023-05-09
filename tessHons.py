@@ -385,7 +385,7 @@ checkAlignment = False
 if checkAlignment:
     alignmentCheck = visual.Line(myWin, start=(-1, 0), end=(1, 0), fillColor = (0,1,0)) 
 
-def calcAndPredrawStimuli(stimList,i,j,k):
+def calcAndPredrawStimuli(stimList,i,j,k,spacing):
    global stimuliStream1, stimuliStream2, stimuliStream3
    del stimuliStream1[:]
    del stimuliStream2[:]
@@ -393,9 +393,12 @@ def calcAndPredrawStimuli(stimList,i,j,k):
    #draw the stimuli that will be used on this trial, the first numWordsInStream of the shuffled list
    indices = [i,j,k]
    textStimuli = list()
-   for i in range(3):
-        #
-        stim = visual.TextStim(myWin, text = stimList[indices[i]],
+   for stimi in range(3):
+        trigram = stimList[indices[stimi]]
+        print(trigram)
+        if spacing:
+            text = trigram[0] + spacing*' ' + trigram[1] + spacing*' ' + trigram[2]
+        stim = visual.TextStim(myWin, text = text,
                                            height=ltrHeight,font=myFont,colorSpace='rgb',color=ltrColor, 
                                            ori=experiment['ori'],alignHoriz='center',alignVert='center',units='deg',autoLog=autoLogging)
         textStimuli.append( stim )
@@ -873,7 +876,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     whichStim1 = np.random.randint(0, len(stimList) ) 
     #check that whichStim0 and whichStim1 don't have letters in common. If they do generate a new pair
     whichStim2 = np.random.randint(0, len(stimList) ) #only used in Humby experiment
-    calcAndPredrawStimuli(stimList,whichStim0,whichStim1,whichStim2)
+    calcAndPredrawStimuli(stimList,whichStim0,whichStim1,whichStim2,spacing=6)
     trial = trials.next()
     thisTrial = copy.deepcopy(trial) #so that can change its values, otherwise messing with it screws up the trialhandler
     ltrColorThis = ltrColor
