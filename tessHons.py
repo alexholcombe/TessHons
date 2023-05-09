@@ -18,7 +18,10 @@ try:
     import stringResponse
 except ImportError:
     print('Could not import stringResponse.py (you need that file to be in the same directory)')
-
+#try:
+#    import letterLineupResponse
+#except ImportError:
+#    print('Could not import letterLineupResponse.py (you need that file to be in the same directory)')
 try:
     from authorRecognitionLineup import doAuthorLineup
 except ImportError:
@@ -56,14 +59,13 @@ if autopilot: subject='auto'
 cwd = os.getcwd()
 print('current working directory =',cwd)
 if sys.platform == "win32":  #this means running in PSYC computer labs
-    pathToData = 'Submissions'  # os.path.join('..',"Submissions")
+    pathToData = 'dataRaw'  
 else:
-    pathToData = 'Submissions'
-#if os.path.isdir('.'+os.sep+'Submissions'):
+    pathToData = 'dataRaw'
 if os.path.isdir(pathToData):
-    dataDir='Submissions'
+    dataDir='dataRaw'
 else:
-    print('"Submissions" directory does not exist, so saving data in abgdj directory')
+    print('"dataRaw" directory does not exist, so saving data in abgdj directory')
     dataDir='abgdj'
     if not os.path.isdir(dataDir):
         print("Error, can't even find the ",dataDir," directory")
@@ -82,8 +84,8 @@ numWordsInStream = 1
 myFont =  'Arial' # 'Sloan' # 
 
 #Set up the list of experiments, then allocate one to the subject
-experimentTypesStim = ['trigram']#,'word','letter']  #'digit']
-experimentTypesSpatial = ['vert']#,'vert']
+experimentTypesStim = ['word','letter']  #'digit']
+experimentTypesSpatial = ['horiz','vert']
 #experimentTypesNumletters
 #create dictionary of all combinations
 experimentsList = []
@@ -97,6 +99,8 @@ for stim in experimentTypesStim:
         ISIms = 34
     for spatial in experimentTypesSpatial:
         experimentsList.append( {'numSimultaneousStim': 2, 'stimType':stim, 'flipped':False, 'spatial':spatial, 'ori':0, 'ISIms':ISIms, 'oneTargetConditions':oneTargetConditions} )
+#add Tess' experiment to list, making it number 4
+experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'word', 'flipped':False, 'spatial':'vert', 'ori':0, 'ISIms':34, 'oneTargetConditions':[False,False,False] } )
 
 seed = int( np.floor( time.time() ) )
 random.seed(seed); np.random.seed(seed) #https://stackoverflow.com/a/48056075/302378
@@ -107,9 +111,16 @@ otherData.update( {'networkMachineName': networkMachineName} )
 otherData.update( {'datetime':now.isoformat()} )
 otherData.update( {'seed':seed} )
 
-experimentNum = 0
+experimentNum = 4 #abs(  hash(subject)   ) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
+knownMachinesForPilot = ['W5FB2LG2','W5FFZKG2','W5FGZKG2','W5FFXKG2','W5FF2LG2','W5FD1LG2','W5FDYKG2','W5B5LG2' ]
+if now.day==31 or now.day < 4:  #week 1, before 4 August, piloting
+    if networkMachineName in knownMachinesForPilot:
+        experimentNum = knownMachinesForPilot.index(networkMachineName)
+        experimentNum = experimentNum % len(experimentsList)
+        otherData.update({'knownMachinesForPilot.index(networkMachineName)':knownMachinesForPilot.index(networkMachineName)})
+#experimentNum = 0
 experiment = experimentsList[ experimentNum ]
-print('experiment=',experiment)
+#print('experiment=',experiment)
 otherData.update(experiment)
 
 #Determine stimuli for this participant
@@ -126,7 +137,7 @@ if experiment['stimType'] == 'trigram': #For Tess' experiment
                 if i != j and i != k and j != k:
                     # convert i, j, and k to their corresponding ASCII codes and add 97
                     # to get the lowercase letters a-z
-                    trigram = i + j + k #[i, j, k]
+                    trigram = [i, j, k]
                     stimList.append(trigram)
 if experiment['stimType'] == 'letter':
     stimList =  list(string.ascii_lowercase)
@@ -435,11 +446,11 @@ respPromptStim3 = visual.TextStim(myWin,colorSpace='rgb',color=(.8,.8,0),wrapWid
 #for s in stimList:
 #    respPromptStim2 = visual.TextStim(myWin,colorSpace='rgb',color=(.8,.8,0),wrapWidth=999,alignHoriz='center', alignVert='center',height=1.2,units='deg',autoLog=autoLogging)
     
-promptText =''  #Show entire array of possible responses to subject, unless trigram
+promptText =''  #Show entire array of possible responses to subject, unless words
 for s in stimList:
     promptText += s + '   '
 respPromptStim2.setText(promptText); respPromptStim3.setText(promptText)
-if experiment['stimType']=='trigram' or experiment['numSimultaneousStim']==3:
+if experiment['stimType']=='word' or experiment['numSimultaneousStim']==3:
     respPromptStim2.setText(''); respPromptStim3.setText(''); 
 respPromptStim2.ori = experiment['ori']; respPromptStim3.ori = experiment['ori']
 if experiment['flipped']:
