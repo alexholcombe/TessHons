@@ -231,7 +231,7 @@ if demo or exportImages:
   logging.console.setLevel(logging.ERROR)  #only show this level  messages and higher
 logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nearly all messges, INFO next level, EXP, DATA, WARNING and ERROR 
 
-includeConsentDemographicsAuthor = False #AHdebug True
+includeConsentDemographicsAuthor = True
 if includeConsentDemographicsAuthor:
         # require password
         succeeded = False
@@ -281,21 +281,15 @@ if includeConsentDemographicsAuthor:
     # Collect demographic variables
     # Use a gui.Dlg and so you can avoid labeling the cancel button , but can't avoid showing it
     # This approach gives more control, eg, text color.
-    questions = ['What is the first language you learned to read?','What is your age?','Which is your dominant hand for common tasks,\nlike writing, throwing, and brushing your teeth?\n\n',
-                         'What is your biological sex?']
+    questions = ['What is the first language you learned to read?']
     dlg = gui.Dlg(title="PSYC1002", labelButtonOK=u'         OK         ', labelButtonCancel=u'', pos=(200, 400)) # Cancel (decline to answer all)
     dlg.addField(questions[0], choices=[ 'English','Arabic','Pali','Hebrew','Farsi','Chinese','Korean','Japanese','Other','Decline to answer'])
-    dlg.addField(questions[1], choices = ['15 or under','16 or 17', '18 or 19', '20 or 21', '22, 23, or 24', '24 to 30', '30 to 50', 'over 50','Decline to answer'])
-    dlg.addField(questions[2], choices=['Decline to answer','Left','Right','Neither (able to use both hands equally well)'])
-    dlg.addField(questions[3], choices=['Decline to answer','Male','Female','Other'])
-    #dlg.addFixedField(label='', initial='', color='', choices=None, tip='') #Just to create some space
-    #dlg.addField('Your gender (as listed on birth certificate):', choices=["male", "female"])
     thisInfo = dlg.show()  # you have to call show() for a Dlg (automatic with a DlgFromDict)
     
     demographics = {q: 'Decline to answer (pressed unlabeled cancel button)' for q in questions}  #Assume pressed cancel unless get values
     if dlg.OK:
         print(thisInfo)
-        demographics = dict([        (questions[0], thisInfo[0]),   (questions[1], thisInfo[1]),   (questions[2], thisInfo[2]),   (questions[3], thisInfo[3])                ])
+        demographics = dict([ (questions[0], thisInfo[0]) ])
     otherData.update(demographics)
     print('otherData=',otherData)
     #end demographics collection
