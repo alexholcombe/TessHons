@@ -29,10 +29,7 @@ except ImportError:
 print('platform=')
 print(sys.platform)
 
-if sys.platform == "win32":  #this means running in PSYC computer labs
-    topDir = 'abgdj'
-else:
-    topDir = '.'
+topDir = '.'
 sys.path.append( os.path.join(topDir,'PISandConsentForm') )   #because current working directory ends up being the PSYC1002 grasp folder, NOT the folder with PSYC1002.py in it
 try:
     from PISandConsentForm import doParticipantInformationStatement, doConsentForm
@@ -100,27 +97,18 @@ for stim in experimentTypesStim:
     for spatial in experimentTypesSpatial:
         experimentsList.append( {'numSimultaneousStim': 2, 'stimType':stim, 'flipped':False, 'spatial':spatial, 'ori':0, 'ISIms':ISIms, 'oneTargetConditions':oneTargetConditions} )
 #add Tess' experiment to list, making it number 4
-experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'word', 'flipped':False, 'spatial':'vert', 'ori':0, 'ISIms':34, 'oneTargetConditions':[False,False,False] } )
+experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'word', 'flipped':False, 'spatial':'vert', 'ori':0, 'ISIms':34, 'oneTargetConditions':oneTargetConditions } )
 
 seed = int( np.floor( time.time() ) )
 random.seed(seed); np.random.seed(seed) #https://stackoverflow.com/a/48056075/302378
 import json
 otherData= {} #stuff to record in authors data file
 otherData.update( {'networkMachineName': networkMachineName} )
-#print('otherData=',otherData)
 otherData.update( {'datetime':now.isoformat()} )
 otherData.update( {'seed':seed} )
 
 experimentNum = 4 #abs(  hash(subject)   ) % len(experimentsList)   #https://stackoverflow.com/a/16008760/302378
-knownMachinesForPilot = ['W5FB2LG2','W5FFZKG2','W5FGZKG2','W5FFXKG2','W5FF2LG2','W5FD1LG2','W5FDYKG2','W5B5LG2' ]
-if now.day==31 or now.day < 4:  #week 1, before 4 August, piloting
-    if networkMachineName in knownMachinesForPilot:
-        experimentNum = knownMachinesForPilot.index(networkMachineName)
-        experimentNum = experimentNum % len(experimentsList)
-        otherData.update({'knownMachinesForPilot.index(networkMachineName)':knownMachinesForPilot.index(networkMachineName)})
-#experimentNum = 0
 experiment = experimentsList[ experimentNum ]
-#print('experiment=',experiment)
 otherData.update(experiment)
 
 #Determine stimuli for this participant
@@ -385,7 +373,7 @@ checkAlignment = False
 if checkAlignment:
     alignmentCheck = visual.Line(myWin, start=(-1, 0), end=(1, 0), fillColor = (0,1,0)) 
 
-def calcAndPredrawStimuli(stimList,i,j,k):
+def calcAndPredrawStimuli(stimList,spacing,i,j,k):
    global stimuliStream1, stimuliStream2, stimuliStream3
    del stimuliStream1[:]
    del stimuliStream2[:]
@@ -395,7 +383,6 @@ def calcAndPredrawStimuli(stimList,i,j,k):
    textStimuli = list()
    for i in range(3):
         mytext = stimList[indices[i]]
-        spacing=6
         if spacing:
             mytext = mytext[0] + spacing*' ' + mytext[1] + spacing*' ' + mytext[2]
         stim = visual.TextStim(myWin, text=mytext,
@@ -477,8 +464,9 @@ else: horizVert = False
 #Implement the fully factorial part of the design by creating every combination of the following conditions
 for rightResponseFirst in [False,True]:
   for trialInstructionPos in [(0,-1), (0,1)]: #half of trials instruction to fixate above fixation, half of trials below
-    for oneTarget in experiment['oneTargetConditions']:
-        conditionsList.append( {'rightResponseFirst':rightResponseFirst, 'leftStreamFlip':experiment['flipped'], 'trialInstructionPos':trialInstructionPos,
+    for oneTarget in experiment['oneTargetConditions']: #whether only one target presented
+      for spacing in [0,6]:
+        conditionsList.append( {'rightResponseFirst':rightResponseFirst, 'leftStreamFlip':experiment['flipped'], 'trialInstructionPos':trialInstructionPos,'spacing':spacing,
                                                'oneTarget':oneTarget, 'horizVert':horizVert, 'rightStreamFlip':experiment['flipped'], 'probe':'both', 'ISIframes':ISIframes} )
 
 trials = data.TrialHandler(conditionsList,trialsPerCondition) #method of constant stimuli
@@ -876,8 +864,8 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     whichStim1 = np.random.randint(0, len(stimList) ) 
     #check that whichStim0 and whichStim1 don't have letters in common. If they do generate a new pair
     whichStim2 = np.random.randint(0, len(stimList) ) #only used in Humby experiment
-    calcAndPredrawStimuli(stimList,whichStim0,whichStim1,whichStim2)
     trial = trials.next()
+    calcAndPredrawStimuli(stimList,trial['spacing'],whichStim0,whichStim1,whichStim2)
     thisTrial = copy.deepcopy(trial) #so that can change its values, otherwise messing with it screws up the trialhandler
     ltrColorThis = ltrColor
     if nDoneMain==0: #First trial
