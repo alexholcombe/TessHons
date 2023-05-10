@@ -97,7 +97,7 @@ for stim in experimentTypesStim:
     for spatial in experimentTypesSpatial:
         experimentsList.append( {'numSimultaneousStim': 2, 'stimType':stim, 'flipped':False, 'spatial':spatial, 'ori':0, 'ISIms':ISIms, 'oneTargetConditions':oneTargetConditions} )
 #add Tess' experiment to list, making it number 4
-experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'word', 'flipped':False, 'spatial':'vert', 'ori':0, 'ISIms':34, 'oneTargetConditions':oneTargetConditions } )
+experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'trigram', 'flipped':False, 'spatial':'vert', 'ori':0, 'ISIms':34, 'oneTargetConditions':oneTargetConditions } )
 
 seed = int( np.floor( time.time() ) )
 random.seed(seed); np.random.seed(seed) #https://stackoverflow.com/a/48056075/302378
@@ -119,13 +119,13 @@ if experiment['stimType'] == 'trigram': #For Tess' experiment
         ltrList.remove(ltr)
     
     stimList = list()
-    for i in ltrList:
-        for j in ltrList:
-            for k in ltrList:
+    for i in ltrList[0:1]:
+        for j in ltrList[0:5]:
+            for k in ltrList[0:10]:
                 if i != j and i != k and j != k:
                     # convert i, j, and k to their corresponding ASCII codes and add 97
                     # to get the lowercase letters a-z
-                    trigram = [i, j, k]
+                    trigram = i + j + k
                     stimList.append(trigram)
 if experiment['stimType'] == 'letter':
     stimList =  list(string.ascii_lowercase)
@@ -150,7 +150,7 @@ elif experiment['stimType'] == 'word':
         word = values[0]
         stimList.append( word )
         print(word,'\t')
-#print('stimlist=',stimList)
+print('stimlist=',stimList)
 bgColor = [-.7,-.7,-.7] # [-1,-1,-1]
 cueColor = [-.7,-.7,-.7] #originally [1.,1.,1.]
 ltrColor = .9 #[.9,.9,.9]# [-.3,-.3,-.3]
@@ -436,16 +436,13 @@ respPromptStim3 = visual.TextStim(myWin,colorSpace='rgb',color=(.8,.8,0),wrapWid
 #for s in stimList:
 #    respPromptStim2 = visual.TextStim(myWin,colorSpace='rgb',color=(.8,.8,0),wrapWidth=999,alignHoriz='center', alignVert='center',height=1.2,units='deg',autoLog=autoLogging)
     
-promptText =''  #Show entire array of possible responses to subject, unless words
-for s in stimList:
-    promptText += s + '   '
+promptText =''  #was originally usedd for line-up, now not used for nothin'
 respPromptStim2.setText(promptText); respPromptStim3.setText(promptText)
 if experiment['stimType']=='word' or experiment['numSimultaneousStim']==3:
     respPromptStim2.setText(''); respPromptStim3.setText(''); 
 respPromptStim2.ori = experiment['ori']; respPromptStim3.ori = experiment['ori']
 if experiment['flipped']:
     respPromptStim2.flipHoriz = True; respPromptStim3.flipHoriz = True
-print('promptText=',promptText)
 
 acceptTextStim = visual.TextStim(myWin,pos=(0, -.8),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.05,units='norm',autoLog=autoLogging)
 acceptTextStim.setText('Hit ENTER to accept. Backspace to edit')
