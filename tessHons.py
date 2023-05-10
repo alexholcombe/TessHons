@@ -119,14 +119,16 @@ if experiment['stimType'] == 'trigram': #For Tess' experiment
         ltrList.remove(ltr)
     
     stimList = list()
-    for i in ltrList[0:1]:
-        for j in ltrList[0:5]:
-            for k in ltrList[0:10]:
+    for i in ltrList: #[0:1]:
+        for j in ltrList: #[0:5]:
+            for k in ltrList: #[0:10]:
                 if i != j and i != k and j != k:
-                    # convert i, j, and k to their corresponding ASCII codes and add 97
-                    # to get the lowercase letters a-z
                     trigram = i + j + k
                     stimList.append(trigram)
+    #Each participant will get a different random subset, so permute and truncate
+    random.shuffle(stimList) 
+    #How many stimuli do we need?
+    stimList = stimList[0:500]
 if experiment['stimType'] == 'letter':
     stimList =  list(string.ascii_lowercase)
     toRemove = ['d','b','l','i','o','q','p','v','w','x'] #because symmetrical, see rotatedLettersAndSymbols.jpg 
