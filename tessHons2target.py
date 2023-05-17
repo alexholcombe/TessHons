@@ -1,11 +1,9 @@
 #Alex Holcombe alex.holcombe@sydney.edu.au
 #See the github repository for more information: https://github.com/alexholcombe/PSYC1002
 from __future__ import print_function, division
-from psychopy import monitors, visual, event, data, logging, core, gui
+from psychopy import monitors, visual, event, data, logging, core, gui, sound
 import psychopy.info
-useSound = False
-if useSound:
-    from psychopy import sound
+useSound = True
 import random, scipy
 import numpy as np
 from math import atan, log, ceil
@@ -18,10 +16,10 @@ try:
     import stringResponse
 except ImportError:
     print('Could not import stringResponse.py (you need that file to be in the same directory)')
-#try:
-#    import letterLineupResponse
-#except ImportError:
-#    print('Could not import letterLineupResponse.py (you need that file to be in the same directory)')
+try:
+    import letterLineupResponse
+except ImportError:
+    print('Could not import letterLineupResponse.py (you need that file to be in the same directory)')
 try:
     from authorRecognitionLineup import doAuthorLineup
 except ImportError:
@@ -168,8 +166,7 @@ if quitFinder and sys.platform != "win32":  #Don't know how to quitfinder on win
     shellCmd = 'osascript -e '+applescript
     os.system(shellCmd)
     
-#set location of stimuli
-#letter size 2.5 deg
+
 letterDurMs = 34
 ISIms =  experiment['ISIms']
 letterDurFrames = int( np.floor(letterDurMs / (1000./refreshRate)) )
@@ -213,7 +210,7 @@ if demo or exportImages:
   logging.console.setLevel(logging.ERROR)  #only show this level  messages and higher
 logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nearly all messges, INFO next level, EXP, DATA, WARNING and ERROR 
 
-includeConsentDemographics = True
+includeConsentDemographics = False #temp
 if includeConsentDemographics:
         # require password
         succeeded = False
@@ -329,17 +326,21 @@ logging.flush()
 def calcStimPos(trial,i):
     #i is position index, either 0, 1, or 2.  Just 0 or 1 unless Humby experimnet with 3 positions
     global experiment
+    offset = 0
+    meridianOrOffset = True
+    if meridianOrOffset:
+        offset = 3
     amountNeedToCompensateForRotation = 0.08 #when text rotated by 90 deg, not centered at x-coord any more
-    if trial['horizVert']:            # bottom,           top
+    if trial['horizVert']:  #vertically arrayed bottom,           top
         if experiment['ori'] == 90:
-            x = amountNeedToCompensateForRotation
+            x = offset+ amountNeedToCompensateForRotation
         elif experiment['ori'] == -90:
-            x = -amountNeedToCompensateForRotation
+            x = offset - amountNeedToCompensateForRotation
         elif experiment['ori'] == 0:
-            x = 0
+            x = offset
         positions = [ [x,-wordEccentricity], [x,wordEccentricity] ]
-    else:                                   #left      ,        right 
-        positions = [ [-wordEccentricity,0], [wordEccentricity,0] ]
+    else:  #horizontally arrayed     left      ,        right 
+        positions = [ [-wordEccentricity,offset], [wordEccentricity,offset] ]
     #insert 3rd position of 3 stimuli
     if experiment['numSimultaneousStim'] == 3:
         positions.insert( 1, [0,0] )  #put 0,0 into middle (index 1) of list, so will present a letter at fovea
@@ -384,14 +385,12 @@ if useSound:
     except: #in case file missing, create inferiro click manually
         logging.warn('Could not load the desired click sound file, instead using manually created inferior click')
         clickSound=sound.Sound('D',octave=4, sampleRate=22050, secs=0.015, bits=8)
-badSound = None
-if useSound:
+    badSound = None
     try:
-        badSound = sound.Sound('A',octave=5, sampleRate=22050, secs=0.08, bits=8)
+        badSound = sound.Sound('A', secs=0.02, stereo=True, hamming=True) #sound.Sound('A',octave=5, sampleRate=22050, secs=0.08, bits=8)
     except:
         badSound = None
         print('Could not create an invalid key sound for typing feedback')
-
 if showRefreshMisses:
     fixSizePix = 36 #2.6  #make fixation bigger so flicker more conspicuous
 else: fixSizePix = 36
@@ -976,13 +975,14 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 respPromptStim2.setPos( [0,-edge] ) #bottom
                 respPromptStim3.setPos( [0, edge] ) #top
                 
-            #expStop,passThisTrial,responses,buttons,responsesAutopilot = \
-            #        letterLineupResponse.doLineup(myWin,bgColor,myMouse,clickSound,badSound,possibleResps,showBothSides,sideFirstLeftRightCentral,autopilot) #CAN'T YET HANDLE MORE THAN 2 LINEUPS
-            changeToUpper = False
             fixationPoint.setColor([.7,.7,.7]) #white not red so person doesnt' feel they have to look at it
-            expStop[respI],passThisTrial[respI],responses[respI],responsesAutopilot[respI] = stringResponse.collectStringResponse(
-                                    numCharsInResponse,x,y,respPromptStim1,respPromptStim2,respPromptStim3,respStim,acceptTextStim,fixationPoint, (1 if experiment['stimType']=='digit' else 0), myWin,
-                                    clickSound,badSound, requireAcceptance,autopilot,changeToUpper,responseDebug=True )
+            print('badSound before calling doLineup=',badSound)
+            expStop,passThisTrial,responses,buttons,responsesAutopilot = \
+                    letterLineupResponse.doLineup(myWin,bgColor,myMouse,clickSound,badSound,possibleResps,showBothSides,sideFirstLeftRightCentral,autopilot) #CAN'T YET HANDLE MORE THAN 2 LINEUPS
+            #changeToUpper = False
+            #expStop[respI],passThisTrial[respI],responses[respI],responsesAutopilot[respI] = stringResponse.collectStringResponse(
+            #                        numCharsInResponse,x,y,respPromptStim1,respPromptStim2,respPromptStim3,respStim,acceptTextStim,fixationPoint, (1 if experiment['stimType']=='digit' else 0), myWin,
+            #                    clickSound,badSound, requireAcceptance,autopilot,changeToUpper,responseDebug=True )
             fixationPoint.setColor(fixColor)
             respI += 1
         expStop = np.array(expStop).any(); passThisTrial = np.array(passThisTrial).any()

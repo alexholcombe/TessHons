@@ -28,10 +28,9 @@ def drawRespOption(myWin,bgColor,constantCoord,horizVert,color,drawBoundingBox,r
         x = constantCoord if horizVert else coord
         y = coord if horizVert else constantCoord
         if relativeSize != 1: #erase bounding box so erase old letter before drawing new differently-sized letter 
-            print('drawing to erase')
             boundingBox = visual.Rect(myWin,width=w,height=h, pos=(x,y), fillColor=bgColor, lineColor=None, units='norm' ,autoLog=False) 
             boundingBox.draw()
-        option = visual.TextStim(myWin,colorSpace='rgb',color=color,alignHoriz='center', alignVert='center',
+        option = visual.TextStim(myWin,colorSpace='rgb',color=color,anchorHoriz='center', anchorVert='center',
                                                                     height=h*relativeSize,units='norm',autoLog=False)
         option.setText(possibleResps[i])
         option.pos = (x, y)
@@ -46,7 +45,7 @@ def drawArray(myWin,bgColor,possibleResps,horizVert,constCoord,lightness,drawBou
     '''
     #print("lightness in drawArray=",lightness," x=",x)
     #Draw it vertically, from top to bottom
-    for i in xrange(len(possibleResps)):
+    for i in range(len(possibleResps)):
         drawRespOption(myWin,bgColor,constCoord,horizVert,(lightness,lightness,lightness),drawBoundingBox,1,possibleResps,i)
 
 def drawResponseArrays(myWin,bgColor,horizVert,xOffset,possibleResps,bothSides,leftRightCentral):
@@ -118,7 +117,7 @@ def collectOneLineupResponse(myWin,bgColor,myMouse,drawBothSides,leftRightCentra
    sideIndicator = visual.Rect(myWin, width=.14, height=.04, fillColor=(1,1,1), fillColorSpace='rgb', lineColor=None, units='norm', autoLog=False)
    sideIndicatorCoord = .77*constCoord
    sideIndicator.setPos( [sideIndicatorCoord, 0] )
-   chosenLtr = visual.TextStim(myWin,colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.4,units='norm',autoLog=False)
+   chosenLtr = visual.TextStim(myWin,colorSpace='rgb',color=(1,1,1),anchorHoriz='center', anchorVert='center',height=.4,units='norm',autoLog=False)
    if horizVert: #vertical array
     chosenLtr.setPos( [sideIndicatorCoord,0] )  #big drawing of chosen letter, offset from lineup
    else: #horizontal array
@@ -242,7 +241,7 @@ def doLineup(myWin,bgColor,myMouse,clickSound,badClickSound,possibleResps,bothSi
         responsesAutopilot.append('Z')
     else:
         OKrespZone = visual.GratingStim(myWin, tex="sin", mask="gauss", texRes=64, units='norm', size=[.5, .5], sf=[0, 0], name='OKrespZone')
-        OKtextStim = visual.TextStim(myWin,pos=(0, 0),colorSpace='rgb',color=(-1,-1,-1),alignHoriz='center', alignVert='center',height=.13,units='norm',autoLog=False)
+        OKtextStim = visual.TextStim(myWin,pos=(0, 0),colorSpace='rgb',color=(-1,-1,-1),anchorHoriz='center', anchorVert='center',height=.13,units='norm',autoLog=False)
         OKtextStim.setText('OK')
         whichResp0, whichButtonResp0, expStop = \
                 collectOneLineupResponse(myWin,bgColor,myMouse,bothSides,leftRightCentral,OKtextStim,OKrespZone,possibleResps, xOffset, clickSound, badClickSound)
@@ -271,12 +270,14 @@ def setupSoundsForResponse():
             clickSound = None
             print('Could not create a click sound for typing feedback')
     try:
-        badKeySound = sound.Sound('A',octave=5, sampleRate=22050, secs=0.08, bits=8)
+        badSound = sound.Sound('A', secs=0.02, stereo=True, hamming=True)
+        badSound.setVolume(1.0)
+        #badKeySound = sound.Sound('A',octave=5, sampleRate=22050, secs=0.08, bits=8)
     except:
-        badKeySound = None
+        badSound = None
         print('Could not create an invalid key sound for typing feedback')
-        
-    return clickSound, badKeySound
+    badSound.play()    
+    return clickSound, badSound
 
 if __name__=='__main__':  #Running this file directly, must want to test functions in this file
     from psychopy import monitors
