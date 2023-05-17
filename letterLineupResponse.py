@@ -186,6 +186,7 @@ def collectOneLineupResponse(myWin,bgColor,myMouse,drawBothSides,leftRightCentra
                 yValid = vertBounds[0] <= mousePos[1] <= vertBounds[1]  #clicked in a valid y-position
                 if xValid and yValid:
                         clickSound.play()
+                        print('Tried to play clickSound')
                         relToBtm = mousePos[1] - vertBounds[0] #mouse coordinates go up from -1 to +1
                         relToLeft = mousePos[0] - horizBounds[0]
                         if horizVert: #vertical
@@ -201,6 +202,7 @@ def collectOneLineupResponse(myWin,bgColor,myMouse,drawBothSides,leftRightCentra
                         state = 'waitingForClick' 
                 else: 
                     badClickSound.play()
+                    print('Tried to play badClickSound')
             for key in event.getKeys(): #only checking keyboard if mouse was clicked, hoping to improve performance
                 key = key.upper()
                 if key in ['ESCAPE']:
@@ -276,7 +278,6 @@ def setupSoundsForResponse():
     except:
         badSound = None
         print('Could not create an invalid key sound for typing feedback')
-    badSound.play()    
     return clickSound, badSound
 
 if __name__=='__main__':  #Running this file directly, must want to test functions in this file
@@ -315,6 +316,8 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     
     bothSides = True
     leftRightFirst = False
+    print('clickSound before second luneup =',clickSound)
+    print('badSound before second luneup =',badClickSound)
     expStop,passThisTrial,responses,buttons,responsesAutopilot = \
                 doLineup(myWin, bgColor,myMouse, clickSound, badClickSound, possibleResps, bothSides, leftRightFirst, autopilot)
 

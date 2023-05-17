@@ -902,7 +902,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     ts  =  do_RSVP_stim(thisTrial, idxsStream1, idxsStream2, idxsStream3, ltrColorThis, noisePercent/100.,nDoneMain,thisProbe)
     numCasesInterframeLong = timingCheckAndLog(ts,nDoneMain)
     #call for each response
-    myMouse = event.Mouse(visible=False)
+    myMouse = event.Mouse(visible=True)
     possibleResps = stimList
     showBothSides = True
     sideFirstLeftRightCentral = 0
