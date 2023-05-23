@@ -261,7 +261,7 @@ def doLineup(myWin,bgColor,myMouse,clickSound,badClickSound,possibleResps,bothSi
     return expStop,passThisTrial,responses,buttons,responsesAutopilot
 
 def setupSoundsForResponse():
-    fileName = '406__tictacshutup__click-1-d.wav'
+    fileName = 'click.wav' #'406__tictacshutup__click-1-d.wav'
     try:
         clickSound=sound.Sound(fileName)
     except:
@@ -272,8 +272,9 @@ def setupSoundsForResponse():
             clickSound = None
             print('Could not create a click sound for typing feedback')
     try:
-        badSound = sound.Sound('A', secs=0.02, stereo=True, hamming=True)
-        badSound.setVolume(1.0)
+    	badSound = sound.Sound('bad.wav')
+        #badSound = sound.Sound('A', secs=0.02, stereo=True, hamming=True)
+        #badSound.setVolume(1.0)
         #badKeySound = sound.Sound('A',octave=5, sampleRate=22050, secs=0.08, bits=8)
     except:
         badSound = None
