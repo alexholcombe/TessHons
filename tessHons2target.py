@@ -44,7 +44,7 @@ tasks=['T1']; task = tasks[0]
 #same screen or external screen? Set scrn=0 if one screen. scrn=1 means display stimulus on second screen.
 #widthPix, heightPix
 quitFinder = False 
-autopilot=False
+autopilot=True
 demo=False #False
 exportImages= False #quits after one trial
 subject=getuser()  #https://stackoverflow.com/a/842096/302378
@@ -384,10 +384,10 @@ if useSound:
         clickSound=sound.Sound('406__tictacshutup__click-1-d.wav')
     except: #in case file missing, create inferiro click manually
         logging.warn('Could not load the desired click sound file, instead using manually created inferior click')
-        clickSound=sound.Sound('D',octave=4, sampleRate=22050, secs=0.015, bits=8)
+        clickSound=sound.Sound('D',octave=4, sampleRate=22050, secs=0.015)
     badSound = None
     try:
-        badSound = sound.Sound('A', secs=0.02, stereo=True, hamming=True) #sound.Sound('A',octave=5, sampleRate=22050, secs=0.08, bits=8)
+        badSound = sound.Sound('A', secs=0.02, stereo=True, hamming=True) #sound.Sound('A',octave=5, sampleRate=22050, secs=0.08)
     except:
         badSound = None
         print('Could not create an invalid key sound for typing feedback')
@@ -759,14 +759,14 @@ def handleAndScoreResponse(passThisTrial,response,responseAutopilot,task,correct
     return correct
     #end handleAndScoreResponses
 def play_high_tone_correct_low_incorrect(correct, passThisTrial=False):
-    highA = sound.Sound('G',octave=5, sampleRate=6000, secs=.3, bits=8)
-    low = sound.Sound('F',octave=3, sampleRate=6000, secs=.3, bits=8)
+    highA = sound.Sound('G',octave=5, sampleRate=6000, secs=.3)
+    low = sound.Sound('F',octave=3, sampleRate=6000, secs=.3)
     highA.setVolume(0.9)
     low.setVolume(1.0)
     if correct:
         highA.play()
     elif passThisTrial:
-        high= sound.Sound('G',octave=4, sampleRate=2000, secs=.08, bits=8)
+        high= sound.Sound('G',octave=4, sampleRate=2000, secs=.08)
         for i in range(2): 
             high.play();  low.play(); 
     else: #incorrect
@@ -1001,7 +1001,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 
             eachCorrect = np.ones(numRespsWanted)*-999
 
-            #print("numRespsWanted = ",numRespsWanted, 'getting ready to score response')
+            print("numRespsWanted = ",numRespsWanted, 'getting ready to score response')
             numToPrint = numRespsWanted
             if thisTrial['oneTarget']:
                 numToPrint = 1 #kludge, see line 993
@@ -1013,13 +1013,14 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                     sequenceStream = idxsStream2; correctAnswerIdx = whichStim1
                 elif streami==2:
                     sequenceStream = idxsStream2; correctAnswerIdx = whichStim2
-                #print ("stimList = ", stimList, " correctAnswer = stimList[correctAnswerIdx] = ",stimList[correctAnswerIdx])
+                print ("stimList = ", stimList, " correctAnswer = stimList[correctAnswerIdx] = ",stimList[correctAnswerIdx])
                 if thisTrial['oneTarget'] and streami==1: #only streami==0 is used
                     correct = -99
                 else:
                     respThisStreamI = responseOrder.index(streami)
+                    print('respThisStreamI = ',respThisStreamI, 'responses=',responses)
                     respThisStream = responses[respThisStreamI]
-                #print ("responses = ", responses, 'respThisStream = ', respThisStream)   #responseOrder
+                    print ("responses = ", responses, 'respThisStream = ', respThisStream)   #responseOrder
                     correct = ( handleAndScoreResponse(passThisTrial,respThisStream,responsesAutopilot,task,stimList[correctAnswerIdx]) )
                 eachCorrect[streami] = correct
             
@@ -1034,7 +1035,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             print(numCasesInterframeLong, file=dataFile) #timingBlips, last thing recorded on each line of dataFile
             #Don't want to feed allCorrect into staircase because then for e.g. a staircase targeting 70% correct, they will get 84% correct on each if two letters but even higher if 3 letters
             #Instead, average and round. This means that if get 1 out of 2 correct, counts as correct. If get 2 out of 3 correct, counts as correct but one is not enough.
-            correctForStaircase = round( scipy.mean(eachCorrect) )
+            correctForStaircase = round( np.mean(eachCorrect) )
             if thisTrial['oneTarget']:
                 not99idx = np.where(eachCorrect != -99)[0][0]
                 #not99idx = not eachCorrect.index(-99)

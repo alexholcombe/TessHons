@@ -252,6 +252,7 @@ def doAuthorLineup(myWin,bgColor,myMouse,clickSound,badClickSound,possibleResps,
     selectedAutopilot = [0]*len(possibleResps);  selectedAutopilot[0]=1
     if autopilot: #I haven't bothered to make autopilot display the response screen
         selected = [0]*len(possibleResps) #won't be used anyway but have to give it a value
+        timedout = False
     else:
         OKrespZone = visual.GratingStim(myWin, tex="sin", mask="gauss", texRes=256, color=[1,1,1], units='norm', size=[2, .2], sf=[0, 0], pos=(0,.88), name='OKrespZone')
         OKtextStim = visual.TextStim(myWin,pos=(0, .88),colorSpace='rgb',color=(.5,-1,-1),alignText='center', anchorVert='center',height=.10,units='norm',autoLog=False)

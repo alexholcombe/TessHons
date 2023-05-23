@@ -293,6 +293,8 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     logging.console.setLevel(logging.WARNING)
     autopilot = False
     clickSound, badClickSound = setupSoundsForResponse()
+    quit()
+    print('HELLO!!!!!')
     alphabet = list(string.ascii_uppercase)
     possibleResps = alphabet
     #possibleResps.remove('C'); possibleResps.remove('V') #per Goodbourn & Holcombe, including backwards-ltrs experiments
@@ -314,7 +316,6 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     #Do vertical lineups
     responseDebug=False; responses = list(); responsesAutopilot = list();
     expStop = False
-    
     bothSides = True
     leftRightFirst = False
     print('clickSound before second luneup =',clickSound)

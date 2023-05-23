@@ -3,7 +3,7 @@
 from __future__ import print_function, division
 from psychopy import monitors, visual, event, data, logging, core, gui
 import psychopy.info
-useSound = False
+useSound = True
 if useSound:
     from psychopy import sound
 import random, scipy
@@ -46,7 +46,7 @@ tasks=['T1']; task = tasks[0]
 #same screen or external screen? Set scrn=0 if one screen. scrn=1 means display stimulus on second screen.
 #widthPix, heightPix
 quitFinder = False 
-autopilot=False
+autopilot=True
 demo=False #False
 exportImages= False #quits after one trial
 subject=getuser()  #https://stackoverflow.com/a/842096/302378
@@ -54,7 +54,6 @@ networkMachineName = gethostname()
 #subject = 'abajjjjd8333763' #debug
 if autopilot: subject='auto'
 cwd = os.getcwd()
-print('current working directory =',cwd)
 if sys.platform == "win32":  #this means running in PSYC computer labs
     pathToData = 'dataRaw'  
 else:
@@ -398,11 +397,11 @@ if useSound:
         clickSound=sound.Sound('406__tictacshutup__click-1-d.wav')
     except: #in case file missing, create inferiro click manually
         logging.warn('Could not load the desired click sound file, instead using manually created inferior click')
-        clickSound=sound.Sound('D',octave=4, sampleRate=22050, secs=0.015, bits=8)
+        clickSound=sound.Sound('D',octave=4, sampleRate=22050, secs=0.015)
 badSound = None
 if useSound:
     try:
-        badSound = sound.Sound('A',octave=5, sampleRate=22050, secs=0.08, bits=8)
+        badSound = sound.Sound('A',octave=5, sampleRate=22050, secs=0.08)
     except:
         badSound = None
         print('Could not create an invalid key sound for typing feedback')
@@ -775,14 +774,14 @@ def handleAndScoreResponse(passThisTrial,response,responseAutopilot,task,correct
     return correct
     #end handleAndScoreResponses
 def play_high_tone_correct_low_incorrect(correct, passThisTrial=False):
-    highA = sound.Sound('G',octave=5, sampleRate=6000, secs=.3, bits=8)
-    low = sound.Sound('F',octave=3, sampleRate=6000, secs=.3, bits=8)
+    highA = sound.Sound('G',octave=5, sampleRate=6000, secs=.3)
+    low = sound.Sound('F',octave=3, sampleRate=6000, secs=.3)
     highA.setVolume(0.9)
     low.setVolume(1.0)
     if correct:
         highA.play()
     elif passThisTrial:
-        high= sound.Sound('G',octave=4, sampleRate=2000, secs=.08, bits=8)
+        high= sound.Sound('G',octave=4, sampleRate=2000, secs=.08)
         for i in range(2): 
             high.play();  low.play(); 
     else: #incorrect
@@ -799,7 +798,7 @@ def doAuthorRecognitionTest(autopilot):
     expStop,timedout,selected,selectedAutopilot = \
                 doAuthorLineup(myWin, bgColor,myMouse, clickSound, badSound, possibleResps, autopilot)
     if autopilot:
-        selected = selectedAutopilot
+        selected = selectedAutopilot; timedout = False
     return expStop,timedout,selected
 
 expStop=False
