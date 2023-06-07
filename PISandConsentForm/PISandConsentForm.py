@@ -73,6 +73,10 @@ def doParticipantInformationStatement(img1filename, img2filename, myWin, myMouse
 
 def doConsentForm(imgFilename, subjectName, myWin, myMouse, exportImages):
     #do Consent form
+    showClickedRegion = True    #Optionally show location of most recent click
+    clickedRegion = visual.Circle(myWin, radius=0.01, edges=32, colorSpace='rgb',lineColor=(-1,1,-1),fillColor=(-1,1,-1),autoLog=False) #to show clickable zones
+    clickedRegion.setColor((.5,.5,-1)) #show in yellow
+   
     #In theory can override the window units for each thing drawn, but it seems like this could cause the mouse to have different units
     originalUnits =  myWin.units
     myWin.setUnits('norm')
@@ -115,13 +119,13 @@ def doConsentForm(imgFilename, subjectName, myWin, myMouse, exportImages):
     for i in range(len(posList)):
         this = {}
         this['textStim'] = \
-            visual.TextStim(myWin,pos=posList[i],colorSpace='rgb',color=choiceTextColor,alignText='center', anchorVert='center',height=choiceTextSz,units='norm',text=textList[i],autoLog=False)
+            visual.TextStim(myWin,pos=posList[i],colorSpace='rgb',color=choiceTextColor,alignText='center', anchorVert='center',height=choiceTextSz, \
+                            units='norm',text=textList[i],autoLog=False)
         this['respZone'] = \
             visual.GratingStim(myWin, tex="sin", mask="gauss", texRes=256, color=[1,.5,.5], units='norm', size=[.3, .2], sf=[0, 0], pos=posList[i])
         this['checked'] = False
-        this['checkmarkStim'] = \
-            visual.TextStim(myWin,pos=posList[i]+np.array([.06,0]),colorSpace='rgb',color=choiceTextColor,alignText='right', anchorVert='center',height=choiceTextSz*2,units='norm',
-                                    text=checkmarkText,autoLog=False)
+        this['checkmarkStim'] = visual.TextStim(myWin, pos=posList[i]+[.01,0], colorSpace='rgb', color=choiceTextColor, alignText='center', \
+                                                anchorVert='center',height=choiceTextSz*2,units='norm',text=checkmarkText,autoLog=False)
         this['name'] = names[i]
         choiceDicts.append(this)
         
@@ -148,12 +152,15 @@ def doConsentForm(imgFilename, subjectName, myWin, myMouse, exportImages):
         pressed, times = myMouse.getPressed(getTime=True)
         if pressed[0]:
             timeSinceLast = times[0]
-            #print('presssed and timeSinceLast=',timeSinceLast)
+            #print('pressed and timeSinceLast=',timeSinceLast)
             event.clearEvents(); myMouse.clickReset()  #Because sometimes I'd click and it both selected and deselected, as if clicked twice
         if timeSinceLast < doubleClickingGuard: #apparently trapped a double-click, or bug masquerading as it, so don't count as pressed
             pressed = [0,0,0]
         mousePos = myMouse.getPos()
         if pressed[0]:
+            if showClickedRegion:
+                clickedRegion.setPos( mousePos )
+                clickedRegion.draw()
             for idx, d in enumerate(choiceDicts):
                 if d['respZone'].contains(mousePos):
                     d['checked'] = not d['checked']

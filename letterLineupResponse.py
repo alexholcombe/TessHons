@@ -84,24 +84,24 @@ def checkForOKclick(mousePos,respZone):
     return OK
 
 def convertXYtoNormUnits(XY,currUnits,win):
+    factorProbablyToCorrectForMacRetinaScreen = 2
     if currUnits == 'norm':
-        return XY
+        return (XY * factorProbablyToCorrectForMacRetinaScreen)
     else:
         widthPix = win.size[0]
         heightPix = win.size[1]
         if currUnits == 'pix':
-            factorProbablyToCorrectForMacRetinaScreen = 2
             xNorm = XY[0]/ (widthPix )   * factorProbablyToCorrectForMacRetinaScreen
             yNorm = XY[1]/ (heightPix )  * factorProbablyToCorrectForMacRetinaScreen
         elif currUnits== 'deg':
             xPix = tools.monitorunittools.deg2pix(XY[0], win.monitor, correctFlat=False)
             yPix = tools.monitorunittools.deg2pix(XY[1], win.monitor, correctFlat=False)
-            xNorm = xPix / (widthPix/2)
-            yNorm = yPix / (heightPix/2)
+            xNorm = xPix / (widthPix) * factorProbablyToCorrectForMacRetinaScreen
+            yNorm = yPix / (heightPix) * factorProbablyToCorrectForMacRetinaScreen
             #print("Converted ",XY," from ",currUnits," units first to pixels: ",xPix,yPix," then to norm: ",xNorm,yNorm)
     return xNorm, yNorm
 
-def collectOneLineupResponse(myWin,bgColor,myMouse,drawBothSides,leftRightCentral,OKtextStim,OKrespZone,possibleResps,xOffset,clickSound,badClickSound,showClickedRegion):
+def collectOneLineupResponse(myWin,bgColor,myMouse,drawBothSides,leftRightCentral,OKtextStim,OKrespZone,possibleResps,xOffset,useSound,clickSound,badClickSound,showClickedRegion):
    if leftRightCentral == 0: #left
         constCoord = -1*xOffset
         horizVert = 1 #vertical
@@ -121,7 +121,7 @@ def collectOneLineupResponse(myWin,bgColor,myMouse,drawBothSides,leftRightCentra
    
    #Optionally show location of most recent click
    clickedRegion = visual.Circle(myWin, radius=0.5, edges=32, colorSpace='rgb',lineColor=(-1,1,-1),fillColor=(-1,1,-1),autoLog=False) #to show clickable zones
-   clickedRegion.setColor((0,1,-1)) #show in yellow
+   clickedRegion.setColor((.5,.5,-1)) #show in yellow
 
    chosenLtr = visual.TextStim(myWin,colorSpace='rgb',color=(1,1,1),anchorHoriz='center', anchorVert='center',height=.4,units='norm',autoLog=False)
    if horizVert: #vertical array
@@ -191,8 +191,8 @@ def collectOneLineupResponse(myWin,bgColor,myMouse,drawBothSides,leftRightCentra
                 xValid = horizBounds[0] <= mousePos[0] <= horizBounds[1]  #clicked in a valid x-position
                 yValid = vertBounds[0] <= mousePos[1] <= vertBounds[1]  #clicked in a valid y-position
                 if xValid and yValid:
-                        clickSound.play()
-                        print('Tried to play clickSound')
+                        if useSound:
+                            clickSound.play(); print('Tried to play clickSound')
                         relToBtm = mousePos[1] - vertBounds[0] #mouse coordinates go up from -1 to +1
                         relToLeft = mousePos[0] - horizBounds[0]
                         if horizVert: #vertical
@@ -207,11 +207,14 @@ def collectOneLineupResponse(myWin,bgColor,myMouse,drawBothSides,leftRightCentra
                         print('lastValidClickButtons=',lastValidClickButtons)
                         state = 'waitingForClick' 
                 else: 
-                    badClickSound.play()
-                    print('Tried to play badClickSound')
+                    if useSound:
+                        badClickSound.play(); print('Tried to play badClickSound')
                 factorProbablyToCorrectForMacRetinaScreen = 0.5
                 clickedRegion.setPos([mousePosRaw[0] * factorProbablyToCorrectForMacRetinaScreen, mousePosRaw[1] * factorProbablyToCorrectForMacRetinaScreen])
                 clickedRegion.draw()
+                print('clicked at x,y= ',mousePosRaw[0]*factorProbablyToCorrectForMacRetinaScreen, mousePosRaw[1]*factorProbablyToCorrectForMacRetinaScreen, \
+                        )
+
             for key in event.getKeys(): #only checking keyboard if mouse was clicked, hoping to improve performance
                 key = key.upper()
                 if key in ['ESCAPE']:
@@ -230,7 +233,7 @@ def collectOneLineupResponse(myWin,bgColor,myMouse,drawBothSides,leftRightCentra
    #print('Returning with response=',response,'button=',button,' expStop=',expStop)
    return response, button, expStop
         
-def doLineup(myWin,bgColor,myMouse,clickSound,badClickSound,possibleResps,bothSides,leftRightCentral,showClickedRegion,autopilot):
+def doLineup(myWin,bgColor,myMouse,useSound,clickSound,badClickSound,possibleResps,bothSides,leftRightCentral,showClickedRegion,autopilot):
     #leftRightCentral is 0 if draw on left side first (or only), 1 if draw right side first (or only), 2 if draw centrally only
     if type(leftRightCentral) is str: #convert to 0/1
         if leftRightCentral == 'right':
@@ -255,7 +258,7 @@ def doLineup(myWin,bgColor,myMouse,clickSound,badClickSound,possibleResps,bothSi
         OKtextStim = visual.TextStim(myWin,pos=(0, 0),colorSpace='rgb',color=(-1,-1,-1),anchorHoriz='center', anchorVert='center',height=.13,units='norm',autoLog=False)
         OKtextStim.setText('OK')
         whichResp0, whichButtonResp0, expStop = \
-                collectOneLineupResponse(myWin,bgColor,myMouse,bothSides,leftRightCentral,OKtextStim,OKrespZone,possibleResps, xOffset, clickSound, badClickSound,showClickedRegion)
+                collectOneLineupResponse(myWin,bgColor,myMouse,bothSides,leftRightCentral,OKtextStim,OKrespZone,possibleResps, xOffset, useSound, clickSound, badClickSound,showClickedRegion)
         responses.append(whichResp0)
         buttons.append(whichButtonResp0)
     if not expStop and bothSides:
@@ -264,7 +267,7 @@ def doLineup(myWin,bgColor,myMouse,clickSound,badClickSound,possibleResps,bothSi
         else:
             #Draw arrays again, with that one dim, to collect the other response
             whichResp1, whichButtonResp1, expStop =  \
-                collectOneLineupResponse(myWin,bgColor,myMouse,bothSides,not leftRightCentral,OKtextStim,OKrespZone,possibleResps, xOffset, clickSound, badClickSound,showClickedRegion)
+                collectOneLineupResponse(myWin,bgColor,myMouse,bothSides,not leftRightCentral,OKtextStim,OKrespZone,possibleResps, xOffset, useSound, clickSound, badClickSound,showClickedRegion)
             responses.append(whichResp1)
             buttons.append(whichButtonResp0)
     return expStop,passThisTrial,responses,buttons,responsesAutopilot
@@ -305,8 +308,11 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     logging.console.setLevel(logging.WARNING)
     autopilot = False
     showClickedRegion = True
+    useSound = True
     
-    clickSound, badClickSound = setupSoundsForResponse()
+    clickSound = None; badClickSound = None;
+    if useSound:
+        clickSound, badClickSound = setupSoundsForResponse()
     alphabet = list(string.ascii_uppercase)
     possibleResps = alphabet
     #possibleResps.remove('C'); possibleResps.remove('V') #per Goodbourn & Holcombe, including backwards-ltrs experiments
@@ -320,7 +326,7 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     bothSides = False
     leftRightCentral = 2 #central
     expStop,passThisTrial,responses,buttons,responsesAutopilot = \
-                doLineup(myWin, bgColor, myMouse, clickSound, badClickSound, possibleResps, bothSides, leftRightCentral, showClickedRegion, autopilot)
+                doLineup(myWin, bgColor, myMouse, useSound, clickSound, badClickSound, possibleResps, bothSides, leftRightCentral, showClickedRegion, autopilot)
 
     #print('autopilot=',autopilot, 'responses=',responses)
     #print('expStop=',expStop,' passThisTrial=',passThisTrial,' responses=',responses, ' responsesAutopilot =', responsesAutopilot)
@@ -333,7 +339,7 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     print('clickSound before second luneup =',clickSound)
     print('badSound before second luneup =',badClickSound)
     expStop,passThisTrial,responses,buttons,responsesAutopilot = \
-                doLineup(myWin, bgColor,myMouse, clickSound, badClickSound, possibleResps, bothSides, leftRightFirst, showClickedRegion, autopilot)
+                doLineup(myWin, bgColor,myMouse, useSound, clickSound, badClickSound, possibleResps, bothSides, leftRightFirst, showClickedRegion, autopilot)
 
     #print('autopilot=',autopilot, 'responses=',responses)
     #print('expStop=',expStop,' passThisTrial=',passThisTrial,' responses=',responses, ' responsesAutopilot =', responsesAutopilot)

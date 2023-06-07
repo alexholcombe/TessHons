@@ -3,7 +3,7 @@
 from __future__ import print_function, division
 from psychopy import monitors, visual, event, data, logging, core, gui, sound
 import psychopy.info
-useSound = True
+useSound = False
 import random, scipy
 import numpy as np
 from math import atan, log, ceil
@@ -18,9 +18,10 @@ except ImportError:
     print('Could not import stringResponse.py (you need that file to be in the same directory)')
 try:
     import letterLineupResponse
-showClickedRegion= True
 except ImportError:
     print('Could not import letterLineupResponse.py (you need that file to be in the same directory)')
+showClickedRegion= True
+
 try:
     from authorRecognitionLineup import doAuthorLineup
 except ImportError:
@@ -211,7 +212,7 @@ if demo or exportImages:
   logging.console.setLevel(logging.ERROR)  #only show this level  messages and higher
 logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nearly all messges, INFO next level, EXP, DATA, WARNING and ERROR 
 
-includeConsentDemographics = False #temp
+includeConsentDemographics = True #temp
 if includeConsentDemographics:
         # require password
         succeeded = False
@@ -379,7 +380,7 @@ def calcAndPredrawStimuli(stimList,spacing,i,j,k):
 #end calcAndPredrawStimuli
    
 #create click sound for keyboard
-clickSound = None
+clickSound = None; badSound = None
 if useSound:
     try:
         clickSound=sound.Sound('406__tictacshutup__click-1-d.wav')
@@ -977,9 +978,9 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 respPromptStim3.setPos( [0, edge] ) #top
                 
             fixationPoint.setColor([.7,.7,.7]) #white not red so person doesnt' feel they have to look at it
-            print('badSound before calling doLineup=',badSound)
+            if useSound:   print('badSound before calling doLineup=',badSound)
             expStop,passThisTrial,responses,buttons,responsesAutopilot = \
-                    letterLineupResponse.doLineup(myWin,bgColor,myMouse,clickSound,badSound,possibleResps,showBothSides,sideFirstLeftRightCentral,autopilot,showClickedRegion) #CAN'T YET HANDLE MORE THAN 2 LINEUPS
+                    letterLineupResponse.doLineup(myWin,bgColor,myMouse,useSound,clickSound,badSound,possibleResps,showBothSides,sideFirstLeftRightCentral,showClickedRegion,autopilot) #CAN'T YET HANDLE MORE THAN 2 LINEUPS
             #changeToUpper = False
             #expStop[respI],passThisTrial[respI],responses[respI],responsesAutopilot[respI] = stringResponse.collectStringResponse(
             #                        numCharsInResponse,x,y,respPromptStim1,respPromptStim2,respPromptStim3,respStim,acceptTextStim,fixationPoint, (1 if experiment['stimType']=='digit' else 0), myWin,
