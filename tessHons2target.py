@@ -978,7 +978,6 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 respPromptStim3.setPos( [0, edge] ) #top
                 
             fixationPoint.setColor([.7,.7,.7]) #white not red so person doesnt' feel they have to look at it
-            if useSound:   print('badSound before calling doLineup=',badSound)
             expStop,passThisTrial,responses,buttons,responsesAutopilot = \
                     letterLineupResponse.doLineup(myWin,bgColor,myMouse,useSound,clickSound,badSound,possibleResps,showBothSides,sideFirstLeftRightCentral,showClickedRegion,autopilot) #CAN'T YET HANDLE MORE THAN 2 LINEUPS
             #changeToUpper = False

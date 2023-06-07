@@ -131,9 +131,14 @@ def convertXYtoNormUnits(XY,currUnits,win):
             #print("Converted ",XY," from ",currUnits," units first to pixels: ",xPix,yPix," then to norm: ",xNorm,yNorm)
     return xNorm, yNorm
 
-def collectLineupResponses(myWin,bgColor,myMouse,timeLimit,minMustClick,maxCanClick,instructionStim,OKtextStim,OKrespZone,continueTextStim,mustDeselectMsgStim,possibleResps,clickSound,badClickSound):
+def collectLineupResponses(myWin,bgColor,myMouse,timeLimit,minMustClick,maxCanClick,instructionStim,OKtextStim,OKrespZone,
+                            continueTextStim,mustDeselectMsgStim,possibleResps,showClickedRegion,clickSound,badClickSound):
    minMustClick = round(minMustClick); 
    myMouse.clickReset()
+   if showClickedRegion:
+        #Optionally show location of most recent click
+        clickedRegion = visual.Circle(myWin, radius=0.5, edges=32, colorSpace='rgb',lineColor=(-1,1,-1),fillColor=(-1,1,-1),autoLog=False) #to show clickable zones
+        clickedRegion.setColor((1,0,1)) #
    state = 'waitingForAnotherSelection' 
    #waitingForAnotherSelection means Finished is  not on the screen, so must click a lineup item
    expStop = False;
@@ -197,7 +202,6 @@ def collectLineupResponses(myWin,bgColor,myMouse,timeLimit,minMustClick,maxCanCl
                     #print('modifiers=',modifiers)
                     earlyOut = True
         mousePosRaw = myMouse.getPos()
-        #print('timeSinceLast=',timeSinceLast)
 
         event.clearEvents(); myMouse.clickReset()  #Because sometimes I'd click and it both selected and deselected, as if clicked twice
         mousePos = convertXYtoNormUnits(mousePosRaw,myWin.units,myWin)
@@ -206,6 +210,11 @@ def collectLineupResponses(myWin,bgColor,myMouse,timeLimit,minMustClick,maxCanCl
         OK = False
         if not expStop and not earlyOut and any(pressed):
             #print('pressed=',pressed)
+            factorProbablyToCorrectForMacRetinaScreen = 1
+            clickedRegion.setPos([mousePosRaw[0] * factorProbablyToCorrectForMacRetinaScreen, mousePosRaw[1] * factorProbablyToCorrectForMacRetinaScreen])
+            clickedRegion.draw()
+            print('clicked at x,y= ',mousePosRaw[0]*factorProbablyToCorrectForMacRetinaScreen, mousePosRaw[1]*factorProbablyToCorrectForMacRetinaScreen, \
+                    )
             if state == 'waitingForAnotherSelection':
                 OK = False
                 #print('selected=',selected)
@@ -246,6 +255,8 @@ def collectLineupResponses(myWin,bgColor,myMouse,timeLimit,minMustClick,maxCanCl
 
 def doAuthorLineup(myWin,bgColor,myMouse,clickSound,badClickSound,possibleResps,autopilot):
     expStop = False
+    showClickedRegion = True
+   
     minMustClick = 10# len(possibleResps) / 2 -1
     maxCanClick = len(possibleResps) / 2 +1
     print('minMustClick=',minMustClick, 'maxCanClick=',maxCanClick)
@@ -269,7 +280,7 @@ def doAuthorLineup(myWin,bgColor,myMouse,clickSound,badClickSound,possibleResps,
         timeLimit = 200 #sec
         selected, expStop, timedout = \
                 collectLineupResponses(myWin,bgColor,myMouse,timeLimit,minMustClick,maxCanClick,instructionStim,
-                                                        OKtextStim,OKrespZone,continueTextStim,mustDeselectMsgStim,possibleResps,clickSound,badClickSound)
+                                        OKtextStim,OKrespZone,continueTextStim,mustDeselectMsgStim,possibleResps,showClickedRegion,clickSound,badClickSound)
     return expStop,timedout,selected,selectedAutopilot
 
 def setupSoundsForResponse():
