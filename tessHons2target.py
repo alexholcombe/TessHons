@@ -18,6 +18,7 @@ except ImportError:
     print('Could not import stringResponse.py (you need that file to be in the same directory)')
 try:
     import letterLineupResponse
+showClickedRegion= True
 except ImportError:
     print('Could not import letterLineupResponse.py (you need that file to be in the same directory)')
 try:
@@ -44,7 +45,7 @@ tasks=['T1']; task = tasks[0]
 #same screen or external screen? Set scrn=0 if one screen. scrn=1 means display stimulus on second screen.
 #widthPix, heightPix
 quitFinder = False 
-autopilot=True
+autopilot=False
 demo=False #False
 exportImages= False #quits after one trial
 subject=getuser()  #https://stackoverflow.com/a/842096/302378
@@ -141,7 +142,7 @@ cueRadius = 7 #6 deg in Goodbourn & Holcombe
 widthPix= 1920 #monitor width in pixels of Agosta  [1280]
 heightPix= 1080 #800 #monitor height in pixels [800]
 monitorwidth = 57 #38.7 #monitor width in cm [was 38.7]
-scrn=0 #0 to use main screen, 1 to use external screen connected to computer
+scrn=0 #1 to use main screen, 1 to use external screen connected to computer
 fullscr=True #True to use fullscreen, False to not. Timing probably won't be quite right if fullscreen = False
 allowGUI = False
 if demo: monitorwidth = 23#18.0
@@ -978,7 +979,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             fixationPoint.setColor([.7,.7,.7]) #white not red so person doesnt' feel they have to look at it
             print('badSound before calling doLineup=',badSound)
             expStop,passThisTrial,responses,buttons,responsesAutopilot = \
-                    letterLineupResponse.doLineup(myWin,bgColor,myMouse,clickSound,badSound,possibleResps,showBothSides,sideFirstLeftRightCentral,autopilot) #CAN'T YET HANDLE MORE THAN 2 LINEUPS
+                    letterLineupResponse.doLineup(myWin,bgColor,myMouse,clickSound,badSound,possibleResps,showBothSides,sideFirstLeftRightCentral,autopilot,showClickedRegion) #CAN'T YET HANDLE MORE THAN 2 LINEUPS
             #changeToUpper = False
             #expStop[respI],passThisTrial[respI],responses[respI],responsesAutopilot[respI] = stringResponse.collectStringResponse(
             #                        numCharsInResponse,x,y,respPromptStim1,respPromptStim2,respPromptStim3,respStim,acceptTextStim,fixationPoint, (1 if experiment['stimType']=='digit' else 0), myWin,
