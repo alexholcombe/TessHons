@@ -212,7 +212,7 @@ if demo or exportImages:
   logging.console.setLevel(logging.ERROR)  #only show this level  messages and higher
 logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nearly all messges, INFO next level, EXP, DATA, WARNING and ERROR 
 
-includeConsentDemographics = True #temp
+includeConsentDemographics = False
 if includeConsentDemographics:
         # require password
         succeeded = False
@@ -708,9 +708,9 @@ def do_RSVP_stim(thisTrial, seq1, seq2, seq3, ltrColorThis, proportnNoise,trialN
             myNoise1.draw(); 
         if seq2:
             myNoise2.draw()
-        if seq1 and seq2: #if left or right (two stimuli presented), also draw middle noise (only don't draw it if only one stim presented)
-            myNoise3.draw()
-        #fixationPoint.draw()
+        #if seq1 and seq2: #if left or right (two stimuli presented), also draw middle noise (only don't draw it if only one stim presented)
+        #    myNoise3.draw()
+        fixationPoint.draw()
         if exportImages:
             myWin.getMovieFrame(buffer='back') #for later saving
             framesSaved +=1
@@ -800,21 +800,21 @@ expTimeLimit = 60*17
 expTimedOut = False
 nDoneMain = -1 #change to zero once start main part of experiment
 if doStaircase:
-        #create the staircase handler
-        stepSizesLinear = [.6,.6,.5,.5,.4,.3,.3,.1,.1,.1,.1,.05]
-        minVal = bgColor[0]+.15
-        maxMoreFramesAllowed = 6
-        #lumRange = 1 - minVal
-        staircase = data.StairHandler(
-            startVal=ltrColor,
-            stepType='lin',
-            stepSizes=stepSizesLinear,  # reduce step size every two reversals
-            minVal=minVal, 
-            maxVal=maxMoreFramesAllowed + .99, 
-            nUp=1, nDown=2,  # 1-up 3-down homes in on the 80% threshold. Gravitates toward a value that has an equal probability of getting easier and getting harder.
-            #See Wetherill & Levitt 1965, 1 up 2 down goes for 71% correct. And if 2 letters are independent, each correct = sqrt(.71) = 84% correct.
-            nTrials=500)
-        print('created conventional staircase')
+    #create the staircase handler
+    stepSizesLinear = [.6,.6,.5,.5,.4,.3,.3,.1,.1,.1,.1,.05]
+    minVal = bgColor[0]+.15
+    maxMoreFramesAllowed = 6
+    #lumRange = 1 - minVal
+    staircase = data.StairHandler(
+        startVal=ltrColor,
+        stepType='lin',
+        stepSizes=stepSizesLinear,  # reduce step size every two reversals
+        minVal=minVal, 
+        maxVal=maxMoreFramesAllowed + .99, 
+        nUp=1, nDown=2,  # 1-up 3-down homes in on the 80% threshold. Gravitates toward a value that has an equal probability of getting easier and getting harder.
+        #See Wetherill & Levitt 1965, 1 up 2 down goes for 71% correct. And if 2 letters are independent, each correct = sqrt(.71) = 84% correct.
+        nTrials=500)
+    print('created conventional staircase')
         
     #phasesMsg = ('Doing '+str(prefaceStaircaseTrialsN)+'trials with noisePercent= '+str(prefaceStaircaseNoise)+' then doing a max '+str(staircaseTrials)+'-trial staircase')
     #print(phasesMsg); logging.info(phasesMsg)
@@ -890,7 +890,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
       numRespsWanted = experiment['numSimultaneousStim']
     else: numRespsWanted = 1
     
-    #Determine which words will be drawn
+    #Determine which letters/words will be drawn
     idxsStream1 = [0]; idxsStream2 = [0]
     if thisTrial['oneTarget']:
         idxsStream3 = None #no middle target (3-letter condition)
@@ -926,6 +926,8 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             responseOrder.reverse()
         #print('responseOrder=',responseOrder)
         respI = 0
+        print("thisTrial = ",thisTrial)
+        print("numRespsWanted = ",numRespsWanted, " numToReport=",numToReport)
         while respI < numToReport and not np.array(expStop).any():
             if numToReport ==1:
                 side = thisTrial['rightResponseFirst'] * 2 - 1
@@ -979,7 +981,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 
             fixationPoint.setColor([.7,.7,.7]) #white not red so person doesnt' feel they have to look at it
             expStop,passThisTrial,responses,buttons,responsesAutopilot = \
-                    letterLineupResponse.doLineup(myWin,bgColor,myMouse,useSound,clickSound,badSound,possibleResps,showBothSides,sideFirstLeftRightCentral,showClickedRegion,autopilot) #CAN'T YET HANDLE MORE THAN 2 LINEUPS
+                    letterLineupResponse.doLineup(myWin,bgColor,myMouse,useSound,clickSound,badSound,possibleResps,showBothSides,sideFirstLeftRightCentral,showClickedRegion,autopilot) 
             #changeToUpper = False
             #expStop[respI],passThisTrial[respI],responses[respI],responsesAutopilot[respI] = stringResponse.collectStringResponse(
             #                        numCharsInResponse,x,y,respPromptStim1,respPromptStim2,respPromptStim3,respStim,acceptTextStim,fixationPoint, (1 if experiment['stimType']=='digit' else 0), myWin,
@@ -1002,7 +1004,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 
             eachCorrect = np.ones(numRespsWanted)*-999
 
-            print("numRespsWanted = ",numRespsWanted, 'getting ready to score response')
+            print( 'getting ready to score response')
             numToPrint = numRespsWanted
             if thisTrial['oneTarget']:
                 numToPrint = 1 #kludge, see line 993
