@@ -101,7 +101,8 @@ def convertXYtoNormUnits(XY,currUnits,win):
             #print("Converted ",XY," from ",currUnits," units first to pixels: ",xPix,yPix," then to norm: ",xNorm,yNorm)
     return xNorm, yNorm
 
-def collectOneLineupResponse(myWin,bgColor,myMouse,drawBothSides,leftRightCentral,OKtextStim,OKrespZone,possibleResps,xOffset,useSound,clickSound,badClickSound,showClickedRegion):
+def collectOneLineupResponse(myWin,bgColor,myMouse,drawBothSides,leftRightCentral,OKtextStim,OKrespZone,possibleResps,xOffset,useSound,
+                             clickSound,badClickSound,showClickedRegion,clickedRegion):
    if leftRightCentral == 0: #left
         constCoord = -1*xOffset
         horizVert = 1 #vertical
@@ -118,10 +119,6 @@ def collectOneLineupResponse(myWin,bgColor,myMouse,drawBothSides,leftRightCentra
    sideIndicator = visual.Rect(myWin, width=.14, height=.04, fillColor=(1,1,1), fillColorSpace='rgb', lineColor=None, units='norm', autoLog=False)
    sideIndicatorCoord = .77*constCoord
    sideIndicator.setPos( [sideIndicatorCoord, 0] )
-   
-   #Optionally show location of most recent click
-   clickedRegion = visual.Circle(myWin, radius=0.5, edges=32, colorSpace='rgb',lineColor=(-1,1,-1),fillColor=(-1,1,-1),autoLog=False) #to show clickable zones
-   clickedRegion.setColor((.5,.5,-1)) #show in yellow
 
    chosenLtr = visual.TextStim(myWin,colorSpace='rgb',color=(1,1,1),anchorHoriz='center', anchorVert='center',height=.4,units='norm',autoLog=False)
    if horizVert: #vertical array
@@ -257,8 +254,13 @@ def doLineup(myWin,bgColor,myMouse,useSound,clickSound,badClickSound,possibleRes
         OKrespZone = visual.GratingStim(myWin, tex="sin", mask="gauss", texRes=64, units='norm', size=[.5, .5], sf=[0, 0], name='OKrespZone')
         OKtextStim = visual.TextStim(myWin,pos=(0, 0),colorSpace='rgb',color=(-1,-1,-1),anchorHoriz='center', anchorVert='center',height=.13,units='norm',autoLog=False)
         OKtextStim.setText('OK')
+        if showClickedRegion: #Optionally show location of most recent click
+            clickedRegion = visual.Circle(myWin, radius=0.5, edges=32, colorSpace='rgb',lineColor=(-1,1,-1),fillColor=(-1,1,-1),autoLog=False) #to show clickable zones
+            clickedRegion.setColor((.5,.5,-1)) #show in yellow
+   
         whichResp0, whichButtonResp0, expStop = \
-                collectOneLineupResponse(myWin,bgColor,myMouse,bothSides,leftRightCentral,OKtextStim,OKrespZone,possibleResps, xOffset, useSound, clickSound, badClickSound,showClickedRegion)
+                collectOneLineupResponse(myWin,bgColor,myMouse,bothSides,leftRightCentral,OKtextStim,OKrespZone,possibleResps, xOffset,
+                                         useSound, clickSound, badClickSound,showClickedRegion,clickedRegion)
         responses.append(whichResp0)
         buttons.append(whichButtonResp0)
     if not expStop and bothSides:
@@ -267,7 +269,8 @@ def doLineup(myWin,bgColor,myMouse,useSound,clickSound,badClickSound,possibleRes
         else:
             #Draw arrays again, with that one dim, to collect the other response
             whichResp1, whichButtonResp1, expStop =  \
-                collectOneLineupResponse(myWin,bgColor,myMouse,bothSides,not leftRightCentral,OKtextStim,OKrespZone,possibleResps, xOffset, useSound, clickSound, badClickSound,showClickedRegion)
+                collectOneLineupResponse(myWin,bgColor,myMouse,bothSides,not leftRightCentral,OKtextStim,OKrespZone,possibleResps, xOffset,
+                                         useSound, clickSound, badClickSound,showClickedRegion,clickedRegion)
             responses.append(whichResp1)
             buttons.append(whichButtonResp0)
     return expStop,passThisTrial,responses,buttons,responsesAutopilot
