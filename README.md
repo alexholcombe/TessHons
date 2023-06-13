@@ -1,6 +1,15 @@
 
 TO-DO
-* recover right correct
+
+thisTrial['rightResponseFirst']
+* For Tess, switched from typing responses to using mouse to click on lineup, to accommodate eyetracking
+
+
+
+
+-------------NOTES RELATED TO PSYC1002----------
+
+* recover right correct so can write up PSYC1002 data
 
 * confirm stim position for methods section
 * Write Draft methods 
@@ -17,8 +26,6 @@ EXPERIMENT LIST
 7. 2 letters, vertically arrayed, rotated -90 deg to face up, 1/3 of trials single target
 
 
-
--------------NOTES WHEN GETTING IT GOING FOR PSYC1----------
 TIMING & DIFFICULTY LEVEL
 * Make letters half brightness, and postmask dynamic and add premask
 * With dynamic noise mask, 34 ms ISI is too easy and 17 might be too hard

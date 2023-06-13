@@ -90,7 +90,7 @@ experimentsList = []
 #Implement the fully factorial part of the design by creating every combination of the following conditions
 oneTargetConditions = [False,False,True] #1/3 of trials single-target
 for stim in experimentTypesStim:
-    ISIms = 34
+    ISIms = 51
     for spatial in experimentTypesSpatial:
         experimentsList.append( {'numSimultaneousStim': 2, 'stimType':stim, 'flipped':False, 'spatial':spatial, 'ori':0, 'ISIms':ISIms, 'oneTargetConditions':oneTargetConditions} )
 #add Tess' experiment to list, making it number 4
@@ -168,7 +168,6 @@ if quitFinder and sys.platform != "win32":  #Don't know how to quitfinder on win
     shellCmd = 'osascript -e '+applescript
     os.system(shellCmd)
     
-
 letterDurMs = 34
 ISIms =  experiment['ISIms']
 letterDurFrames = int( np.floor(letterDurMs / (1000./refreshRate)) )
@@ -212,7 +211,7 @@ if demo or exportImages:
   logging.console.setLevel(logging.ERROR)  #only show this level  messages and higher
 logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nearly all messges, INFO next level, EXP, DATA, WARNING and ERROR 
 
-includeConsentDemographics = False
+includeConsentDemographics = True
 if includeConsentDemographics:
         # require password
         succeeded = False
@@ -242,14 +241,14 @@ def openMyStimWindow(): #make it a function because if do it multiple times, wan
     myWin = visual.Window(monitor=mon,size=(widthPix,heightPix),allowGUI=allowGUI,units=units,color=bgColor,colorSpace='rgb',fullscr=fullscr,screen=scrn,waitBlanking=waitBlank) #Holcombe lab monitor
     return myWin
 myWin = openMyStimWindow()
-
+myMouse= None
 if includeConsentDemographics:
     myMouse = event.Mouse(visible=True) #the mouse absolutely needs to be reset, it seems, otherwise maybe it returns coordinates in wrong units or with wrong scaling?
     dir = os.path.join(topDir,'PISandConsentForm')
     page1 = os.path.join(dir,'PIS2underlined.png') #"PISandConsentForm/PIS2underlined.png" 
     page2 = os.path.join(dir,'PIS2underlined_p2.png')  #  PISandConsentForm/PIS2underlined_p2.png   
     clickedContinue = doParticipantInformationStatement(page1,page2, myWin, myMouse, exportImages)
-    #myMouse = event.Mouse(visible=True) #the mouse absolutely needs to be reset, it seems, otherwise maybe it returns coordinates in wrong units or with wrong scaling?
+
     page = os.path.join(dir,'consentForm.png') #"PISandConsentForm/'consentForm.png'
     secretKeyPressed, choiceDicts = doConsentForm(page, subject, myWin, myMouse, exportImages)
     for c in choiceDicts:
@@ -760,6 +759,7 @@ def handleAndScoreResponse(passThisTrial,response,responseAutopilot,task,correct
     print(correct, '\t', end='',file=dataFile)  #correctN
     return correct
     #end handleAndScoreResponses
+    
 def play_high_tone_correct_low_incorrect(correct, passThisTrial=False):
     highA = sound.Sound('G',octave=5, sampleRate=6000, secs=.3)
     low = sound.Sound('F',octave=3, sampleRate=6000, secs=.3)
@@ -904,11 +904,11 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     ts  =  do_RSVP_stim(thisTrial, idxsStream1, idxsStream2, idxsStream3, ltrColorThis, noisePercent/100.,nDoneMain,thisProbe)
     numCasesInterframeLong = timingCheckAndLog(ts,nDoneMain)
     #call for each response
-    myMouse = event.Mouse(visible=True)
+    #if myMouse == None:
+    myMouse = event.Mouse(visible=True,win=myWin)
     possibleResps = stimList
-    showBothSides = True
-    sideFirstLeftRightCentral = 0
-    #possibleResps.remove('C'); possibleResps.remove('V
+    doLineupBothSides = True
+    sideFirstLeftRightCentral = 'right'
     
     expStop = list(); passThisTrial = list(); responses=list(); responsesAutopilot=list()
     numCharsInResponse = len(stimList[0])
@@ -917,17 +917,18 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     if thisProbe == 'both': #Either have word on both sides or letter on both sides
         if thisTrial['oneTarget']:
             numToReport = 1
+            doLineupBothSides = False
         else:
             numToReport =  experiment['numSimultaneousStim']
+            doLineupBothSides = True
         responseOrder = list( range(numToReport) )
         if (numToReport == 3): #not counterbalanced, so just shuffle
             random.shuffle(responseOrder)
         elif thisTrial['rightResponseFirst']: #change order of indices depending on rightResponseFirst. response0, answer0 etc refer to which one had to be reported first
             responseOrder.reverse()
-        #print('responseOrder=',responseOrder)
         respI = 0
         print("thisTrial = ",thisTrial)
-        print("numRespsWanted = ",numRespsWanted, " numToReport=",numToReport)
+        print("numRespsWanted = ",numRespsWanted, " numToReport=",numToReport, "thisTrial[rightResponseFirst] =",thisTrial['rightResponseFirst'],'responseOrder= ',responseOrder)
         while respI < numToReport and not np.array(expStop).any():
             if numToReport ==1:
                 side = thisTrial['rightResponseFirst'] * 2 - 1
@@ -980,14 +981,20 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 respPromptStim3.setPos( [0, edge] ) #top
                 
             fixationPoint.setColor([.7,.7,.7]) #white not red so person doesnt' feel they have to look at it
+            print('respI = ',respI, ' about to call doLineup')
             expStop,passThisTrial,responses,buttons,responsesAutopilot = \
-                    letterLineupResponse.doLineup(myWin,bgColor,myMouse,useSound,clickSound,badSound,possibleResps,showBothSides,sideFirstLeftRightCentral,showClickedRegion,autopilot) 
+                    letterLineupResponse.doLineup(myWin,bgColor,myMouse,useSound,clickSound,badSound,possibleResps,doLineupBothSides,
+                                                    sideFirstLeftRightCentral,showClickedRegion,autopilot)
+            if doLineupBothSides:
+                respI += 2
+            else:
+                respI += 1
+            print('Finished one doLineup', " responses=", responses)
             #changeToUpper = False
             #expStop[respI],passThisTrial[respI],responses[respI],responsesAutopilot[respI] = stringResponse.collectStringResponse(
             #                        numCharsInResponse,x,y,respPromptStim1,respPromptStim2,respPromptStim3,respStim,acceptTextStim,fixationPoint, (1 if experiment['stimType']=='digit' else 0), myWin,
             #                    clickSound,badSound, requireAcceptance,autopilot,changeToUpper,responseDebug=True )
             fixationPoint.setColor(fixColor)
-            respI += 1
         expStop = np.array(expStop).any(); passThisTrial = np.array(passThisTrial).any()
     
     if not expStop:
