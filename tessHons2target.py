@@ -45,8 +45,8 @@ wordEccentricity=  0.9
 tasks=['T1']; task = tasks[0]
 #same screen or external screen? Set scrn=0 if one screen. scrn=1 means display stimulus on second screen.
 #widthPix, heightPix
-quitFinder = False 
-autopilot=False
+quitFinder=False 
+autopilot=True
 demo=False #False
 exportImages= False #quits after one trial
 subject=getuser()  #https://stackoverflow.com/a/842096/302378
@@ -185,7 +185,7 @@ mon = monitors.Monitor(monitorname,width=monitorwidth, distance=viewdist)#relyin
 mon.setSizePix( (widthPix,heightPix) )
 units='deg' #'cm'
 
-trialsPerCondition = 30
+trialsPerCondition = 1
 defaultNoiseLevel = 0
 if not demo:
     allowGUI = False
@@ -331,8 +331,10 @@ def calcStimPos(trial,i):
     meridianOrOffset = True
     if meridianOrOffset:
         offset = 3
+        if not trial['whichSide']: #To vary in vertically arrayed case whether left or right side, and in horizontally arrayed case whether top or bottom side
+            offset *= -1
     amountNeedToCompensateForRotation = 0.08 #when text rotated by 90 deg, not centered at x-coord any more
-    if trial['horizVert']:  #vertically arrayed bottom,           top
+    if trial['horizVert']:  #vertically arrayed
         if experiment['ori'] == 90:
             x = offset+ amountNeedToCompensateForRotation
         elif experiment['ori'] == -90:
@@ -443,9 +445,11 @@ else: horizVert = False
 for rightResponseFirst in [False,True]:
   for trialInstructionPos in [(0,-1), (0,1)]: #half of trials instruction to fixate above fixation, half of trials below
     for oneTarget in experiment['oneTargetConditions']: #whether only one target presented
-      for spacing in [0,6]:
+     for horizVert in [0,1]:
+      for whichSide in [0,1]: #To vary in vertically arrayed case whether left or right side, and in horizontally arrayed case whether top or bottom side
+       for spacing in [0]: #spacing NOT WORKING
         conditionsList.append( {'rightResponseFirst':rightResponseFirst, 'leftStreamFlip':experiment['flipped'], 'trialInstructionPos':trialInstructionPos,'spacing':spacing,
-                                               'oneTarget':oneTarget, 'horizVert':horizVert, 'rightStreamFlip':experiment['flipped'], 'probe':'both', 'ISIframes':ISIframes} )
+                                'oneTarget':oneTarget, 'horizVert':horizVert, 'whichSide':whichSide, 'rightStreamFlip':experiment['flipped'], 'probe':'both', 'ISIframes':ISIframes} )
 
 trials = data.TrialHandler(conditionsList,trialsPerCondition) #method of constant stimuli
 
@@ -836,6 +840,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     calcAndPredrawStimuli(stimList,trial['spacing'],whichStim0,whichStim1,whichStim2)
     thisTrial = copy.deepcopy(trial) #so that can change its values, otherwise messing with it screws up the trialhandler
     ltrColorThis = ltrColor
+    print('trial loop, doStaircase=',doStaircase)
     if nDoneMain==0: #First trial
         msg='Starting main part of experiment'
         howManyMoreFrames =0
@@ -861,23 +866,24 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             keyPressed = event.getKeys() #keyList=list(string.ascii_lowercase))        
     else:
         if doStaircase:
+            print('HELLLLLLLLLOOOOOOOOOOOOOOOOOOOOOO')
             print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity, 'howManyMoreFrames=',howManyMoreFrames)
             ltrColorThis = staircase.next()
             #if ltrColorThis <= 1:
             #    howManyMoreFrames = 0
             #elif ltrColorThis > howManyMoreFrames + 1: #can't have lum greater than 1, so instead increase duration
                 #print('thisTrial[ISIframes]=', thisTrial['ISIframes'])
-            howManyMoreFrames = scipy.floor(ltrColorThis)
-            #    print('changed howManyMoreFrames to ', howManyMoreFrames)
+            howManyMoreFrames = np.floor(ltrColorThis)
+            print('changed howManyMoreFrames to ', howManyMoreFrames)
             thisTrial['ISIframes'] += howManyMoreFrames #increase duration by however much it is greater than 1
             if howManyMoreFrames>0:
                 #need the base brightness when longer frames to be pretty high, otherwise they might never get back to lower number of frames
                 ltrColorThis = min(1,   0 + (ltrColorThis - howManyMoreFrames)   ) #For each bit greater 1, increase luminance
                 print('thisTrial[ISIframes]=', thisTrial['ISIframes'], ' and now ltrColorThis =',ltrColorThis)
             ltrColorThis = round(ltrColorThis,2)
-            #print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity)
-            #print('ltrColorThis=',ltrColorThis)
-            #trialInstructionStim.setText('lum=' + str(ltrColorThis)+ ' f='+ str(howManyMoreFrames), log=False) #debug
+            print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity)
+            print('ltrColorThis=',ltrColorThis)
+            trialInstructionStim.setText('lum=' + str(ltrColorThis)+ ' f='+ str(howManyMoreFrames), log=False) #debug
     trialInstructionStim.setPos( thisTrial['trialInstructionPos'] )
     if nDoneMain <= 1: #extra long instruction
         for i in range(70):
@@ -908,7 +914,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     myMouse = event.Mouse(visible=True,win=myWin)
     possibleResps = stimList
     doLineupBothSides = True
-    sideFirstLeftRightCentral = 'right'
+    sideFirstLeftRightCentral = 1
     
     expStop = list(); passThisTrial = list(); responses=list(); responsesAutopilot=list()
     numCharsInResponse = len(stimList[0])
@@ -927,12 +933,12 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
         elif thisTrial['rightResponseFirst']: #change order of indices depending on rightResponseFirst. response0, answer0 etc refer to which one had to be reported first
             responseOrder.reverse()
         respI = 0
-        print("thisTrial = ",thisTrial)
-        print("numRespsWanted = ",numRespsWanted, " numToReport=",numToReport, "thisTrial[rightResponseFirst] =",thisTrial['rightResponseFirst'],'responseOrder= ',responseOrder)
+        #print("thisTrial = ",thisTrial)
+        #print("numRespsWanted = ",numRespsWanted, " numToReport=",numToReport, "thisTrial[rightResponseFirst] =",thisTrial['rightResponseFirst'],'responseOrder= ',responseOrder)
         while respI < numToReport and not np.array(expStop).any():
             if numToReport ==1:
-                side = thisTrial['rightResponseFirst'] * 2 - 1
-                sideFirstLeftRightCentral = side #HELLLO  
+                sideFirstLeftRightCentral = thisTrial['rightResponseFirst']
+                side = thisTrial['rightResponseFirst'] * 2 - 1 #-1 for left, 1 for right
             elif numToReport == 2:
                 side = responseOrder[respI] * 2 -1  #-1 for left/top, 1 for right/bottom
             elif numToReport == 3:
@@ -982,7 +988,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 respPromptStim3.setPos( [0, edge] ) #top
                 
             fixationPoint.setColor([.7,.7,.7]) #white not red so person doesnt' feel they have to look at it
-            print('respI = ',respI, ' about to call doLineup')
+            print('respI = ',respI, ' about to call doLineup with doLineupBothSides= ',doLineupBothSides,', sideFirstLeftRightCentral=', sideFirstLeftRightCentral)
             expStop,passThisTrial,responses,buttons,responsesAutopilot = \
                     letterLineupResponse.doLineup(myWin,bgColor,myMouse,useSound,clickSound,badSound,possibleResps,doLineupBothSides,
                                                     sideFirstLeftRightCentral,showClickedRegion,autopilot)
@@ -991,6 +997,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             else:
                 respI += 1
             print('Finished one doLineup', " responses=", responses)
+            if autopilot: print("responsesAutopilot = ",responsesAutopilot)
             #changeToUpper = False
             #expStop[respI],passThisTrial[respI],responses[respI],responsesAutopilot[respI] = stringResponse.collectStringResponse(
             #                        numCharsInResponse,x,y,respPromptStim1,respPromptStim2,respPromptStim3,respStim,acceptTextStim,fixationPoint, (1 if experiment['stimType']=='digit' else 0), myWin,
@@ -999,7 +1006,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
         expStop = np.array(expStop).any(); passThisTrial = np.array(passThisTrial).any()
     
     if not expStop:
-            print('main\t', end='', file=dataFile) #first thing printed on each line of dataFile to indicate main part of experiment, not staircase
+            print('main\t', end='', file=dataFile) #first thing printed on each line of dataFile to indicate main part of experiment
             print(nDoneMain,'\t', end='', file=dataFile)
             print(subject,'\t',task,'\t', thisTrial['oneTarget'], '\t', round(noisePercent,3),'\t', end='', file=dataFile)
             print(thisTrial['ISIframes'],'\t', end='', file=dataFile)
@@ -1030,8 +1037,11 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 else:
                     respThisStreamI = responseOrder.index(streami)
                     print('respThisStreamI = ',respThisStreamI, 'responses=',responses)
-                    respThisStream = responses[respThisStreamI]
-                    print ("responses = ", responses, 'respThisStream = ', respThisStream)   #responseOrder
+                    if autopilot:
+                        respThisStream = responsesAutopilot[respThisStreamI]
+                    else:
+                        respThisStream = responses[respThisStreamI]
+                    print ("responses = ", responses, " responsesAutopilot=", responsesAutopilot, ' respThisStream = ', respThisStream)   #responseOrder
                     correct = ( handleAndScoreResponse(passThisTrial,respThisStream,responsesAutopilot,task,stimList[correctAnswerIdx]) )
                 eachCorrect[streami] = correct
             

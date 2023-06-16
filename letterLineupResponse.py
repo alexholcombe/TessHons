@@ -114,7 +114,7 @@ def collectOneLineupResponse(myWin,bgColor,myMouse,drawBothSides,leftRightCentra
         OKrespZone.pos += [0,-.6]
         OKtextStim.pos+= [0,-.6]
         horizVert = 0 #horizontal
-   
+   else: print("Unexpected leftRightCentral value of ",leftRightCentral)
    myMouse.clickReset()
    sideIndicator = visual.Rect(myWin, width=.14, height=.04, fillColor=(1,1,1), fillColorSpace='rgb', lineColor=None, units='norm', autoLog=False)
    sideIndicatorCoord = .77*constCoord
@@ -309,7 +309,7 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     #myWin = visual.Window(monitor=mon,size=(widthPix,heightPix),allowGUI=allowGUI,units=units,color=bgColor,colorSpace='rgb',fullscr=fullscr,screen=scrn,waitBlanking=waitBlank) #Holcombe lab monitor
 
     logging.console.setLevel(logging.WARNING)
-    autopilot = False
+    autopilot = True
     showClickedRegion = True
     useSound = True
     
@@ -331,21 +331,21 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     expStop,passThisTrial,responses,buttons,responsesAutopilot = \
                 doLineup(myWin, bgColor, myMouse, useSound, clickSound, badClickSound, possibleResps, bothSides, leftRightCentral, showClickedRegion, autopilot)
 
-    #print('autopilot=',autopilot, 'responses=',responses)
-    #print('expStop=',expStop,' passThisTrial=',passThisTrial,' responses=',responses, ' responsesAutopilot =', responsesAutopilot)
+    print('autopilot=',autopilot, 'responses=',responses)
+    print('expStop=',expStop,' passThisTrial=',passThisTrial,' responses=',responses, ' responsesAutopilot =', responsesAutopilot)
     
     #Do vertical lineups
     responseDebug=False; responses = list(); responsesAutopilot = list();
     expStop = False
     bothSides = True
     leftRightFirst = False
-    print('clickSound before second luneup =',clickSound)
-    print('badSound before second luneup =',badClickSound)
+    print('clickSound before second lineup =',clickSound)
+    print('badSound before second lineup =',badClickSound)
     expStop,passThisTrial,responses,buttons,responsesAutopilot = \
                 doLineup(myWin, bgColor,myMouse, useSound, clickSound, badClickSound, possibleResps, bothSides, leftRightFirst, showClickedRegion, autopilot)
 
-    #print('autopilot=',autopilot, 'responses=',responses)
-    #print('expStop=',expStop,' passThisTrial=',passThisTrial,' responses=',responses, ' responsesAutopilot =', responsesAutopilot)
+    print('autopilot=',autopilot, 'responses=',responses)
+    print('expStop=',expStop,' passThisTrial=',passThisTrial,' responses=',responses, ' responsesAutopilot =', responsesAutopilot)
     
     
     print('Finished') 
