@@ -932,6 +932,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
         while respI < numToReport and not np.array(expStop).any():
             if numToReport ==1:
                 side = thisTrial['rightResponseFirst'] * 2 - 1
+                sideFirstLeftRightCentral = side #HELLLO  
             elif numToReport == 2:
                 side = responseOrder[respI] * 2 -1  #-1 for left/top, 1 for right/bottom
             elif numToReport == 3:
