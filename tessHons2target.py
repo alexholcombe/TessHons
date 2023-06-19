@@ -1,6 +1,6 @@
 #Alex Holcombe alex.holcombe@sydney.edu.au
 #See the github repository for more information: https://github.com/alexholcombe/PSYC1002
-from __future__ import print_function, division
+#from __future__ import print_function, division
 from psychopy import monitors, visual, event, data, logging, core, gui, sound
 import psychopy.info
 useSound = False
@@ -908,11 +908,10 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     ts  =  do_RSVP_stim(thisTrial, idxsStream1, idxsStream2, idxsStream3, ltrColorThis, noisePercent/100.,nDoneMain,thisProbe)
     numCasesInterframeLong = timingCheckAndLog(ts,nDoneMain)
     #call for each response
-    #if myMouse == None:
+    #if myMouse == None:  #mouse sometimes freezes if don't call event.Mouse certain number of times I think, no idea why
     myMouse = event.Mouse(visible=True,win=myWin)
     possibleResps = stimList
     doLineupBothSides = True
-    sideFirstLeftRightCentral = 1
     
     expStop = list(); passThisTrial = list(); responses=list(); responsesAutopilot=list()
     numCharsInResponse = len(stimList[0])
@@ -934,13 +933,13 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
         #print("thisTrial = ",thisTrial)
         #print("numRespsWanted = ",numRespsWanted, " numToReport=",numToReport, "thisTrial[rightResponseFirst] =",thisTrial['rightResponseFirst'],'responseOrder= ',responseOrder)
         while respI < numToReport and not np.array(expStop).any():
+            leftRightCentralBottomTop = thisTrial['horizVert']*3  + thisTrial['rightResponseFirst']
             if numToReport ==1:
-                sideFirstLeftRightCentral = thisTrial['rightResponseFirst']
-                side = thisTrial['rightResponseFirst'] * 2 - 1 #-1 for left, 1 for right
+                side = thisTrial['rightResponseFirst'] * 2 - 1 #-1 for left/bottom, 1 for right/top
             elif numToReport == 2:
-                side = responseOrder[respI] * 2 -1  #-1 for left/top, 1 for right/bottom
+                side = responseOrder[respI] * 2 -1  #-1 for left/bottm, 1 for right/top
             elif numToReport == 3:
-                side = (responseOrder[respI] - 1)  #-1 for left/top, 0 for middle, 1 for right/bottom
+                side = (responseOrder[respI] - 1)  #-1 for left/bottom, 0 for middle, 1 for right/top
                 
             devRespPrompt = 2*wordEccentricity * side #put response prompt farther out than stimulus, so participant is sure which is left and which right
             
@@ -986,16 +985,18 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 respPromptStim3.setPos( [0, edge] ) #top
                 
             fixationPoint.setColor([.7,.7,.7]) #white not red so person doesnt' feel they have to look at it
-            print('respI = ',respI, ' about to call doLineup with doLineupBothSides= ',doLineupBothSides,', sideFirstLeftRightCentral=', sideFirstLeftRightCentral, 'side=',side)
+            print("thisTrial['horizVert']=",thisTrial['horizVert'],'respI = ',respI, ' about to call doLineup with doLineupBothSides= ',doLineupBothSides,', leftRightCentralBottomTop=', leftRightCentralBottomTop, 'side=',side)
             expStop,passThisTrial,responses,buttons,responsesAutopilot = \
                     letterLineupResponse.doLineup(myWin,bgColor,myMouse,useSound,clickSound,badSound,possibleResps,doLineupBothSides,
-                                                    sideFirstLeftRightCentral,showClickedRegion,autopilot)
+                                                    leftRightCentralBottomTop,showClickedRegion,autopilot)
             if doLineupBothSides:
                 respI += 2
             else:
                 respI += 1
-            print('Finished one doLineup', " responses=", responses)
+            #print('Finished one doLineup', " responses=", responses)
             if autopilot: print("responsesAutopilot = ",responsesAutopilot)
+            
+            #stringReponse was used for psyc1002, but Tess uses lineups
             #changeToUpper = False
             #expStop[respI],passThisTrial[respI],responses[respI],responsesAutopilot[respI] = stringResponse.collectStringResponse(
             #                        numCharsInResponse,x,y,respPromptStim1,respPromptStim2,respPromptStim3,respStim,acceptTextStim,fixationPoint, (1 if experiment['stimType']=='digit' else 0), myWin,

@@ -48,34 +48,42 @@ def drawArray(myWin,bgColor,possibleResps,horizVert,constCoord,lightness,drawBou
     for i in range(len(possibleResps)):
         drawRespOption(myWin,bgColor,constCoord,horizVert,(lightness,lightness,lightness),drawBoundingBox,1,possibleResps,i)
 
-def drawResponseArrays(myWin,bgColor,horizVert,xOffset,possibleResps,bothSides,leftRightCentral):
+def drawResponseArrays(myWin,bgColor,horizVert,offsetAmount,possibleResps,bothSides,leftRightCentralBottomTop):
     '''If bothSides, draw array on both sides, with one side dimmed
-    If leftRight=0, collect response from left side, and draw other side dim. Otherwise if =1, from right side.
+    If leftRight=0, collect response from left side, and draw other side dim (if bothSides True). Otherwise if =1, from right side.
     possibleResps is usually an array of all the letters to populate the array with.
-    xOffset is offset of center of response array relative to center of screen, in norm units
+    offset is offset of center of response array relative to center of screen, in norm units
     '''
-    #print("leftRight=",leftRight, "xOffset=",xOffset)
+    print("leftRightCentralBottomTop=",leftRightCentralBottomTop, "horizVert=",horizVert, "offsetAmount=",offsetAmount)
     numResps = len(possibleResps)
     dimRGB = -.3
     drawBoundingBox = False #to debug to visualise response regions, make True
     if bothSides:
-        if leftRightCentral == 0:
-            lightnessLR = (1,dimRGB) #lightness on left and right sides
-        elif leftRightCentral ==1:
-            lightnessLR = (dimRGB,1) 
-        drawArray(myWin,bgColor,possibleResps,horizVert, xOffset*-1, lightnessLR[0],drawBoundingBox)
-        drawArray(myWin,bgColor,possibleResps,horizVert, xOffset, lightnessLR[1],drawBoundingBox)
+        if leftRightCentralBottomTop == 0:
+            lightnessEachSide = (1,dimRGB) #lightness on left and right sides
+        elif leftRightCentralBottomTop ==1:
+            lightnessEachSide = (dimRGB,1)
+        elif leftRightCentralBottomTop ==2:
+            print("ERROR: Doesn't make sense to have bothSides=True if want lineup central (leftRightCentralTopBottom")
+            quit()
+        elif leftRightCentralBottomTop ==3:
+            lightnessEachSide = (1,dimRGB)
+        elif leftRightCentralBottomTop ==4:
+            lightnessEachSide = (dimRGB,1)      
+            
+        drawArray(myWin,bgColor,possibleResps,horizVert, offsetAmount*-1, lightnessEachSide[0],drawBoundingBox)
+        drawArray(myWin,bgColor,possibleResps,horizVert, offsetAmount, lightnessEachSide[1],drawBoundingBox)
+        
     else: #only draw one side
-        lightness = 1
-        x = xOffset if leftRightCentral==1 else -1*xOffset
-        if leftRightCentral ==0:
-            x = -1*xOffset
-        elif leftRightCentral ==1:
-            x = xOffset
-            lightnessLR = (dimRGB,1) 
-        elif leftRightCentral==2:
-            x = 0
-        drawArray(myWin,bgColor,possibleResps,horizVert, x, lightness,drawBoundingBox)
+        lightness = 1        
+        if leftRightCentralBottomTop ==0 or leftRightCentralBottomTop==3:
+            offset = -1*offsetAmount
+        elif leftRightCentralBottomTop ==1 or leftRightCentralBottomTop==4:
+            offset = offsetAmount
+        elif leftRightCentralBottomTop==2:
+            offset = 0
+            
+        drawArray(myWin,bgColor,possibleResps,horizVert, offset, lightness,drawBoundingBox)
 
 def checkForOKclick(mousePos,respZone):
     OK = False
@@ -101,30 +109,42 @@ def convertXYtoNormUnits(XY,currUnits,win):
             #print("Converted ",XY," from ",currUnits," units first to pixels: ",xPix,yPix," then to norm: ",xNorm,yNorm)
     return xNorm, yNorm
 
-def collectOneLineupResponse(myWin,bgColor,myMouse,drawBothSides,leftRightCentral,OKtextStim,OKrespZone,possibleResps,xOffset,useSound,
+def collectOneLineupResponse(myWin,bgColor,myMouse,drawBothSides,leftRightCentralBottomTop,OKtextStim,OKrespZone,possibleResps,offset,useSound,
                              clickSound,badClickSound,showClickedRegion,clickedRegion):
-   if leftRightCentral == 0: #left
-        constCoord = -1*xOffset
+   if leftRightCentralBottomTop == 0: #left
         horizVert = 1 #vertical
-   elif leftRightCentral == 1: #right
-        constCoord = xOffset
+        constCoord = -1*offset
+   elif leftRightCentralBottomTop == 1: #right
         horizVert = 1 #vertical
-   elif leftRightCentral == 2: #central
+        constCoord = offset
+   elif leftRightCentralBottomTop == 2: #central
         constCoord = 0
         OKrespZone.pos += [0,-.6]
         OKtextStim.pos+= [0,-.6]
         horizVert = 0 #horizontal
-   else: print("Unexpected leftRightCentral value of ",leftRightCentral)
+   elif leftRightCentralBottomTop == 3: #bottom
+        horizVert = 0 #horizontal
+        constCoord = -1*offset
+   elif leftRightCentralBottomTop == 4: #top
+        horizVert = 0 #horizontal
+        constCoord = offset    
+   else: print("Unexpected leftRightCentralBottomTop value of ",leftRightCentralBottomTop)
    myMouse.clickReset()
-   sideIndicator = visual.Rect(myWin, width=.14, height=.04, fillColor=(1,1,1), fillColorSpace='rgb', lineColor=None, units='norm', autoLog=False)
+   
+   showSideIndicator = False
+   sideIndicator = visual.Rect(myWin, width=.14,height=.04,ori=90,fillColor=(1,1,1),fillColorSpace='rgb',lineColor=None,units='norm', autoLog=False)
    sideIndicatorCoord = .77*constCoord
-   sideIndicator.setPos( [sideIndicatorCoord, 0] )
+   if horizVert:  #not working for vert for some reason
+        sideIndicator.setPos(  [0, sideIndicatorCoord] )
+        sideIndicator.ori=90
+   else: 
+        sideIndicator.setPos( [sideIndicatorCoord, 0] )
+        sideIndicator.ori=0
 
    chosenLtr = visual.TextStim(myWin,colorSpace='rgb',color=(1,1,1),anchorHoriz='center', anchorVert='center',height=.4,units='norm',autoLog=False)
    if horizVert: #vertical array
     chosenLtr.setPos( [sideIndicatorCoord,0] )  #big drawing of chosen letter, offset from lineup
    else: #horizontal array
-    sideIndicatorCoord = -.3
     chosenLtr.setPos( [0,sideIndicatorCoord] )  #big drawing of chosen letter, offset from lineup
    
    whichResp = -1
@@ -134,9 +154,9 @@ def collectOneLineupResponse(myWin,bgColor,myMouse,drawBothSides,leftRightCentra
    expStop = False
    while state != 'finished' and not expStop:
         #draw everything corresponding to this state
-        drawResponseArrays(myWin,bgColor,horizVert,xOffset,possibleResps,drawBothSides,leftRightCentral=leftRightCentral)
+        drawResponseArrays(myWin,bgColor,horizVert,offset,possibleResps,drawBothSides,leftRightCentralBottomTop)
         if state == 'waitingForClick':
-            #draw selected one in green, and bigly
+            #draw selected one in green
             selectedColor = (-1,1,-1) #green
             buttonThis = np.where(pressed)[0] #assume only one button can be recorded as pressed
             if buttonThis == 0:
@@ -148,7 +168,7 @@ def collectOneLineupResponse(myWin,bgColor,myMouse,drawBothSides,leftRightCentra
             OKrespZone.draw()
             OKtextStim.draw()
         else:
-            if leftRightCentral != 2:
+            if showSideIndicator and leftRightCentralBottomTop != 2:
                 sideIndicator.draw()
             
         myWin.flip()
@@ -199,9 +219,8 @@ def collectOneLineupResponse(myWin,bgColor,myMouse,drawBothSides,leftRightCentra
                         else: #horizontal
                             whichResp = int(relToLeft / w)
                             #print("whichResp from left hopefully = ",whichResp, " corresponding to ", possibleResps[whichResp])
-                        #print("whichResp from top = ",whichResp, "xOffsetThis=",xOffsetThis, " About to redraw and draw one item in red")
+                        #print("whichResp from top = ",whichResp, "offsetThis=",offsetThis, " About to redraw and draw one item in red")
                         lastValidClickButtons = deepcopy(pressed) #record which buttons pressed. Have to make copy, otherwise will change when pressd changes later
-                        print('lastValidClickButtons=',lastValidClickButtons)
                         state = 'waitingForClick' 
                 else: 
                     if useSound:
@@ -209,8 +228,7 @@ def collectOneLineupResponse(myWin,bgColor,myMouse,drawBothSides,leftRightCentra
                 factorProbablyToCorrectForMacRetinaScreen = 0.5
                 clickedRegion.setPos([mousePosRaw[0] * factorProbablyToCorrectForMacRetinaScreen, mousePosRaw[1] * factorProbablyToCorrectForMacRetinaScreen])
                 clickedRegion.draw()
-                print('clicked at x,y= ',mousePosRaw[0]*factorProbablyToCorrectForMacRetinaScreen, mousePosRaw[1]*factorProbablyToCorrectForMacRetinaScreen, \
-                        )
+                #print('clicked at x,y= ',mousePosRaw[0]*factorProbablyToCorrectForMacRetinaScreen, mousePosRaw[1]*factorProbablyToCorrectForMacRetinaScreen)
 
             for key in event.getKeys(): #only checking keyboard if mouse was clicked, hoping to improve performance
                 key = key.upper()
@@ -230,24 +248,28 @@ def collectOneLineupResponse(myWin,bgColor,myMouse,drawBothSides,leftRightCentra
    #print('Returning with response=',response,'button=',button,' expStop=',expStop)
    return response, button, expStop
         
-def doLineup(myWin,bgColor,myMouse,useSound,clickSound,badClickSound,possibleResps,bothSides,leftRightCentral,showClickedRegion,autopilot):
-    #leftRightCentral is 0 if draw on left side first (or only), 1 if draw right side first (or only), 2 if draw centrally only
-    if type(leftRightCentral) is str: #convert to 0/1
-        if leftRightCentral == 'right':
-            leftRightCentral = 1
-        elif leftRightCentral == 'left':
-            leftRightCentral = 0
-        elif leftRightCentral == 'central':
-            leftRightCentral = 2
+def doLineup(myWin,bgColor,myMouse,useSound,clickSound,badClickSound,possibleResps,bothSides,leftRightCentralBottomTop,showClickedRegion,autopilot):
+    #leftRightCentralBottomTop is 0 if draw on left side first (or only), 1 if draw right side first (or only), 2 if draw centrally only
+    if type(leftRightCentralBottomTop) is str: #convert to 0,1,2,3,4
+        if leftRightCentralBottomTop == 'right':
+            leftRightCentralBottomTop = 1
+        elif leftRightCentralBottomTop == 'left':
+            leftRightCentralBottomTop = 0
+        elif leftRightCentralBottomTop == 'central':
+            leftRightCentralBottomTop = 2
+        elif leftRightCentralBottomTop == 'bottom':
+            leftRightCentralBottomTop = 3
+        elif leftRightCentralBottomTop == 'top':
+            leftRightCentralBottomTop = 4
         else:
-            print("unrecognized leftRightCentral value")
+            print("unrecognized leftRightCentralBottomTop value")
     expStop = False
     passThisTrial = False
     responsesAutopilot = []
     responses = []
     buttons = []
     #First collect one, then dim that one and collect the other
-    xOffset = 0.7
+    offset = 0.7
     if autopilot: #I haven't bothered to make autopilot display the response screen
         responsesAutopilot.append('Z')
     else:
@@ -259,7 +281,7 @@ def doLineup(myWin,bgColor,myMouse,useSound,clickSound,badClickSound,possibleRes
             clickedRegion.setColor((.5,.5,-1)) #show in yellow
    
         whichResp0, whichButtonResp0, expStop = \
-                collectOneLineupResponse(myWin,bgColor,myMouse,bothSides,leftRightCentral,OKtextStim,OKrespZone,possibleResps, xOffset,
+                collectOneLineupResponse(myWin,bgColor,myMouse,bothSides,leftRightCentralBottomTop,OKtextStim,OKrespZone,possibleResps,offset,
                                          useSound, clickSound, badClickSound,showClickedRegion,clickedRegion)
         responses.append(whichResp0)
         buttons.append(whichButtonResp0)
@@ -268,8 +290,16 @@ def doLineup(myWin,bgColor,myMouse,useSound,clickSound,badClickSound,possibleRes
             responsesAutopilot.append('Z')
         else:
             #Draw arrays again, with that one dim, to collect the other response
+            if leftRightCentralBottomTop == 0:
+                lrcbtThis = 1
+            elif leftRightCentralBottomTop == 1:
+                lrcbtThis = 0
+            elif leftRightCentralBottomTop == 3:
+                lrcbtThis = 4
+            elif leftRightCentralBottomTop == 4:
+                lrcbtThis = 3           
             whichResp1, whichButtonResp1, expStop =  \
-                collectOneLineupResponse(myWin,bgColor,myMouse,bothSides,not leftRightCentral,OKtextStim,OKrespZone,possibleResps, xOffset,
+                collectOneLineupResponse(myWin,bgColor,myMouse,bothSides,lrcbtThis,OKtextStim,OKrespZone,possibleResps,offset,
                                          useSound, clickSound, badClickSound,showClickedRegion,clickedRegion)
             responses.append(whichResp1)
             buttons.append(whichButtonResp0)
@@ -327,13 +357,39 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     if autopilot:
         print("autopilot TRUE so you WON'T SEE ANYTHING=") 
 
-    #Do horizontal lineups
+    #Do horiz top and bottom lineups
+    responseDebug=False; responses = list(); responsesAutopilot = list();
+    expStop = False
+    bothSides = True
+    leftRightCentralBottomTop = 4 #top first
+    print('clickSound before second lineup =',clickSound)
+    print('badSound before second lineup =',badClickSound)
+    expStop,passThisTrial,responses,buttons,responsesAutopilot = \
+        doLineup(myWin, bgColor,myMouse, useSound, clickSound, badClickSound, possibleResps, bothSides, leftRightCentralBottomTop, showClickedRegion, autopilot)
+
+    print('autopilot=',autopilot, 'responses=',responses)
+    print('expStop=',expStop,' passThisTrial=',passThisTrial,' responses=',responses, ' responsesAutopilot =', responsesAutopilot)
+
+    #Do horiz top lineup only
     responseDebug=False; responses = list(); responsesAutopilot = list();
     expStop = False
     bothSides = False
-    leftRightCentral = 2 #central
+    leftRightCentralBottomTop = 4 #top
+    print('clickSound before second lineup =',clickSound)
+    print('badSound before second lineup =',badClickSound)
     expStop,passThisTrial,responses,buttons,responsesAutopilot = \
-                doLineup(myWin, bgColor, myMouse, useSound, clickSound, badClickSound, possibleResps, bothSides, leftRightCentral, showClickedRegion, autopilot)
+        doLineup(myWin, bgColor,myMouse, useSound, clickSound, badClickSound, possibleResps, bothSides, leftRightCentralBottomTop, showClickedRegion, autopilot)
+
+    print('autopilot=',autopilot, 'responses=',responses)
+    print('expStop=',expStop,' passThisTrial=',passThisTrial,' responses=',responses, ' responsesAutopilot =', responsesAutopilot)
+
+    #Do central horizontal lineup
+    responseDebug=False; responses = list(); responsesAutopilot = list();
+    expStop = False
+    bothSides = False
+    leftRightCentralBottomTop = 2 #central
+    expStop,passThisTrial,responses,buttons,responsesAutopilot = \
+        doLineup(myWin, bgColor, myMouse, useSound, clickSound, badClickSound, possibleResps, bothSides, leftRightCentralBottomTop, showClickedRegion, autopilot)
     
     print('responses=',responses)
     print('expStop=',expStop,' passThisTrial=',passThisTrial,' responses=',responses, ' responsesAutopilot =', responsesAutopilot)
@@ -342,11 +398,11 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     responseDebug=False; responses = list(); responsesAutopilot = list();
     expStop = False
     bothSides = True
-    leftRightFirst = False
+    leftRightCentralBottomTop = 0 #left first
     print('clickSound before second lineup =',clickSound)
     print('badSound before second lineup =',badClickSound)
     expStop,passThisTrial,responses,buttons,responsesAutopilot = \
-                doLineup(myWin, bgColor,myMouse, useSound, clickSound, badClickSound, possibleResps, bothSides, leftRightFirst, showClickedRegion, autopilot)
+        doLineup(myWin, bgColor,myMouse, useSound, clickSound, badClickSound, possibleResps, bothSides, leftRightCentralBottomTop, showClickedRegion, autopilot)
 
     print('autopilot=',autopilot, 'responses=',responses)
     print('expStop=',expStop,' passThisTrial=',passThisTrial,' responses=',responses, ' responsesAutopilot =', responsesAutopilot)
