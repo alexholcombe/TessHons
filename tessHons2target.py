@@ -46,7 +46,7 @@ tasks=['T1']; task = tasks[0]
 #same screen or external screen? Set scrn=0 if one screen. scrn=1 means display stimulus on second screen.
 #widthPix, heightPix
 quitFinder=False 
-autopilot=True
+autopilot=False
 demo=False #False
 exportImages= False #quits after one trial
 subject=getuser()  #https://stackoverflow.com/a/842096/302378
@@ -866,7 +866,6 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             keyPressed = event.getKeys() #keyList=list(string.ascii_lowercase))        
     else:
         if doStaircase:
-            print('HELLLLLLLLLOOOOOOOOOOOOOOOOOOOOOO')
             print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity, 'howManyMoreFrames=',howManyMoreFrames)
             ltrColorThis = staircase.next()
             #if ltrColorThis <= 1:
@@ -881,8 +880,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 ltrColorThis = min(1,   0 + (ltrColorThis - howManyMoreFrames)   ) #For each bit greater 1, increase luminance
                 print('thisTrial[ISIframes]=', thisTrial['ISIframes'], ' and now ltrColorThis =',ltrColorThis)
             ltrColorThis = round(ltrColorThis,2)
-            print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity)
-            print('ltrColorThis=',ltrColorThis)
+            print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity,'ltrColorThis=',ltrColorThis)
             trialInstructionStim.setText('lum=' + str(ltrColorThis)+ ' f='+ str(howManyMoreFrames), log=False) #debug
     trialInstructionStim.setPos( thisTrial['trialInstructionPos'] )
     if nDoneMain <= 1: #extra long instruction
@@ -944,7 +942,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             elif numToReport == 3:
                 side = (responseOrder[respI] - 1)  #-1 for left/top, 0 for middle, 1 for right/bottom
                 
-            dev = 2*wordEccentricity * side #put response prompt farther out than stimulus, so participant is sure which is left and which right
+            devRespPrompt = 2*wordEccentricity * side #put response prompt farther out than stimulus, so participant is sure which is left and which right
             
             if numToReport == 1 or numToReport == 2:
                 locationNames= [ 'the left', 'the right',  'the bottom','top' ]
@@ -961,19 +959,19 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 respPromptString += ' that was on ' +  locationName
             respPromptStim1.setText(respPromptString,log=False)
             if thisTrial['horizVert']:
-                x=0; y=dev
+                x=0; y=devRespPrompt
                 if numToReport == 3: #need an orthogonal offset, so doesn't overlap when at fixation
                     x = -wordEccenticity
+                #x coordinate have to compensate if rotated, use calcStimPos to check
+                pos  = calcStimPos(thisTrial,0)
+                x = pos[0]                               
             else:
-                x=dev; y=0
+                x=devRespPrompt; y=0
                 if numToReport == 3: #need an orthogonal offset, so doesn't overlap when at fixation
                     y = -wordEccentricity
-            if thisTrial['horizVert']: #x coordinate have to compensate if rotated, use calcStimPos to check
-                 pos  = calcStimPos(thisTrial,0)
-                 x = pos[0]
             respStim.setPos([x,y])
-
             respStim.flipHoriz = experiment['flipped']
+            
             #Set position of respPromptStim
             xPrompt =  x*2 if thisTrial['horizVert'] else x*4  #needs to be further out if horizontal to fit the text
             respPromptStim1.setPos([xPrompt, y*2])
@@ -988,7 +986,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 respPromptStim3.setPos( [0, edge] ) #top
                 
             fixationPoint.setColor([.7,.7,.7]) #white not red so person doesnt' feel they have to look at it
-            print('respI = ',respI, ' about to call doLineup with doLineupBothSides= ',doLineupBothSides,', sideFirstLeftRightCentral=', sideFirstLeftRightCentral)
+            print('respI = ',respI, ' about to call doLineup with doLineupBothSides= ',doLineupBothSides,', sideFirstLeftRightCentral=', sideFirstLeftRightCentral, 'side=',side)
             expStop,passThisTrial,responses,buttons,responsesAutopilot = \
                     letterLineupResponse.doLineup(myWin,bgColor,myMouse,useSound,clickSound,badSound,possibleResps,doLineupBothSides,
                                                     sideFirstLeftRightCentral,showClickedRegion,autopilot)

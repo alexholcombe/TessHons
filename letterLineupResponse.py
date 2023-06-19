@@ -276,6 +276,7 @@ def doLineup(myWin,bgColor,myMouse,useSound,clickSound,badClickSound,possibleRes
     return expStop,passThisTrial,responses,buttons,responsesAutopilot
 
 def setupSoundsForResponse():
+    print('Using %s (with %s) for sounds' % (sound.audioLib, sound.audioDriver))
     fileName = 'click.wav' #'406__tictacshutup__click-1-d.wav'
     try:
         clickSound=sound.Sound(fileName, secs=0.2)
@@ -309,9 +310,9 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     #myWin = visual.Window(monitor=mon,size=(widthPix,heightPix),allowGUI=allowGUI,units=units,color=bgColor,colorSpace='rgb',fullscr=fullscr,screen=scrn,waitBlanking=waitBlank) #Holcombe lab monitor
 
     logging.console.setLevel(logging.WARNING)
-    autopilot = True
+    autopilot = False
     showClickedRegion = True
-    useSound = True
+    useSound = False
     
     clickSound = None; badClickSound = None;
     if useSound:
@@ -323,6 +324,9 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     passThisTrial = False
     myMouse = event.Mouse()
 
+    if autopilot:
+        print("autopilot TRUE so you WON'T SEE ANYTHING=") 
+
     #Do horizontal lineups
     responseDebug=False; responses = list(); responsesAutopilot = list();
     expStop = False
@@ -330,8 +334,8 @@ if __name__=='__main__':  #Running this file directly, must want to test functio
     leftRightCentral = 2 #central
     expStop,passThisTrial,responses,buttons,responsesAutopilot = \
                 doLineup(myWin, bgColor, myMouse, useSound, clickSound, badClickSound, possibleResps, bothSides, leftRightCentral, showClickedRegion, autopilot)
-
-    print('autopilot=',autopilot, 'responses=',responses)
+    
+    print('responses=',responses)
     print('expStop=',expStop,' passThisTrial=',passThisTrial,' responses=',responses, ' responsesAutopilot =', responsesAutopilot)
     
     #Do vertical lineups
