@@ -829,6 +829,7 @@ if doStaircase:
 noisePercent = defaultNoiseLevel
 phasesMsg = 'Experiment will have '+str(trials.nTotal)+' trials. Letters will be drawn with superposed noise of ' + "{:.2%}".format(defaultNoiseLevel)
 print(phasesMsg); logging.info(phasesMsg)
+myMouse = event.Mouse(visible=True,win=myWin)
 nDoneMain =0
 while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     #print('nDoneMain=',nDoneMain)
@@ -883,6 +884,8 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity,'ltrColorThis=',ltrColorThis)
             trialInstructionStim.setText('lum=' + str(ltrColorThis)+ ' f='+ str(howManyMoreFrames), log=False) #debug
     trialInstructionStim.setPos( thisTrial['trialInstructionPos'] )
+    myMouse.setVisible(False) #because showing the stimulus is next
+
     if nDoneMain <= 1: #extra long instruction
         for i in range(70):
             trialInstructionStim.draw()
@@ -909,7 +912,9 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     numCasesInterframeLong = timingCheckAndLog(ts,nDoneMain)
     #call for each response
     #if myMouse == None:  #mouse sometimes freezes if don't call event.Mouse certain number of times I think, no idea why
-    myMouse = event.Mouse(visible=True,win=myWin)
+        #myMouse = event.Mouse(visible=True,win=myWin) #debugAH
+    myMouse.setVisible(True)
+
     possibleResps = stimList
     doLineupBothSides = True
     
