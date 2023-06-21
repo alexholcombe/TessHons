@@ -491,7 +491,7 @@ maxNumRespsWanted = 3
 
 #print header for data file
 print('experimentPhase\ttrialnum\tsubject\ttask\toneTarget\t',file=dataFile,end='')
-print('noisePercent\tISIframes\tltrColorThis\tleftStreamFlip\trightStreamFlip\trightResponseFirst\tprobe\ttrialInstructionPos\t',end='',file=dataFile)
+print('noisePercent\tISIframes\tltrColorThis\tleftStreamFlip\trightStreamFlip\toneTarget\thorizVert\twhichSide\trightResponseFirst\tprobe\ttrialInstructionPos\t',end='',file=dataFile)
     
 for i in range( experiment['numSimultaneousStim'] ): #range(maxNumRespsWanted):
    dataFile.write('responseOrder'+str(i)+'\t')
@@ -1017,6 +1017,9 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             print(ltrColorThis,'\t', end='', file=dataFile)
             print(thisTrial['leftStreamFlip'],'\t', end='', file=dataFile)
             print(thisTrial['rightStreamFlip'],'\t', end='', file=dataFile)
+            print(thisTrial['oneTarget'],'\t', end='', file=dataFile)
+            print(thisTrial['horizVert'],'\t', end='', file=dataFile)
+            print(thisTrial['whichSide'],'\t', end='', file=dataFile)
             print(thisTrial['rightResponseFirst'],'\t', end='', file=dataFile)
             print(thisTrial['probe'],'\t', end='', file=dataFile)
             print(thisTrial['trialInstructionPos'],'\t', end='', file=dataFile)
