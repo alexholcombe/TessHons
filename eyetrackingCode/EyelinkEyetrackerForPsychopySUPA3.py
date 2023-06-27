@@ -232,7 +232,7 @@ class Tracker_EyeLink():
                         #self.tracker.applyDriftCorrect
                         break
                     else:
-                        self.tracker.doTrackerSetup()
+                        self.tracker.doTrackerSetup() #this does the actual calibration?
                 except:
                     print("Exception")
                     break

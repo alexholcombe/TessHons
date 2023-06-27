@@ -48,7 +48,10 @@ except ImportError:
 trackEyes = False
 eyetracker_dummy_mode = True # Set this variable to True to run eyetracking in "Dummy Mode"
 if trackEyes:
-    edf_fname = 'TEST'
+    timeAndDateStr = time.strftime("%H:%M on %d %b %Y", time.localtime())
+    subject = 'subjectNameUnknownSetLater'
+    edf_fname='EyeTrack_'+subject+'_'+timeAndDateStr+'.EDF'
+
     # Step 1: Connect to the EyeLink Host PC
     # The Host IP address, by default, is "100.1.1.1".
     # the "el_tracker" objected created here can be accessed through the Pylink
@@ -64,10 +67,9 @@ if trackEyes:
             core.quit()
             sys.exit()
     
-    # Step 2: Open an EDF data file on the Host PC
-    edf_file = edf_fname + ".EDF"
+    # Step 2: Open an EDF data file on the EyeLink PC
     try:
-        el_tracker.openDataFile(edf_file)
+        el_tracker.openDataFile(edf_fname)
     except RuntimeError as err:
         print('ERROR:', err)
         # close the link if we have one open
@@ -141,9 +143,9 @@ quitFinder=False
 autopilot=False
 demo=False #False
 exportImages= False #quits after one trial
-subject=getuser()  #https://stackoverflow.com/a/842096/302378
+user=getuser()  #In PSYC1002, participant logged into computer so subject was their username https://stackoverflow.com/a/842096/302378
 networkMachineName = gethostname()
-#subject = 'abajjjjd8333763' #debug
+subject = 'Bertie' #debug
 if autopilot: subject='auto'
 cwd = os.getcwd()
 print('current working directory =',cwd)
@@ -192,6 +194,7 @@ seed = int( np.floor( time.time() ) )
 random.seed(seed); np.random.seed(seed) #https://stackoverflow.com/a/48056075/302378
 import json
 otherData= {} #stuff to record in authors data file
+otherData.update( {'user': user} )
 otherData.update( {'networkMachineName': networkMachineName} )
 otherData.update( {'datetime':now.isoformat()} )
 otherData.update( {'seed':seed} )
@@ -417,6 +420,26 @@ if checkRefreshEtc and (not demo):
     else: logging.info(refreshMsg1+refreshMsg2)
 logging.flush()
 
+def closeEyeTracker(tracker):
+    #Clean everything up, save data and close connection to tracker
+    if tracker != None:
+        # File transfer and cleanup!
+        tracker.setOfflineMode();
+        core.wait(0.5)
+
+        tracker.close();
+        #Close the experiment graphics
+        pylink.closeGraphics()
+        return "Eyelink connection closed."
+    else:
+        return "Tried to close eyetracker but Eyelink not available"
+
+def stopEyeTracking(tracker):
+    #Stop recording: adds 100 msec of data to catch final events
+    pylink.endRealTimeMode()
+    pylink.pumpDelay(100)
+    tracker.stopRecording()
+
 if trackEyes:
     # get the native screen resolution used by PsychoPy
     scn_width, scn_height = myWin.size
@@ -517,14 +540,14 @@ if trackEyes:
     # skip this step if running the script in Dummy Mode
     if not eyetracker_dummy_mode:
         try:
-            el_tracker.doTrackerSetup() #calibrate tracker?
+            el_tracker.doTrackerSetup() #calibrate tracker
         except RuntimeError as err:
-            print('ERROR:', err)
+            print('When trying to calibrate eyetracker, ERROR:', err)
             el_tracker.exitCalibration()
+    
+    #WHY IS VALIDATION NOT WORKING PROPERLY?
 
-    # Close the link to the tracker.
-    el_tracker.close()
-
+        
     # close the PsychoPy window
     #myWin.close()
 
@@ -1094,7 +1117,48 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     trialInstructionStim.setPos( thisTrial['trialInstructionPos'] )
     myMouse.setVisible(False) #because showing the stimulus is next
 
-    if nDoneMain <= 1: #extra long instruction
+    if trackEyes:
+        doDriftCorrect = False
+        if doDriftCorrect:
+            # we recommend drift correction at the beginning of each trial
+            # the doDriftCorrect() function requires target position in integers
+            # the last two arguments:
+            # draw_target (1-default, 0-draw the target then call doDriftCorrect)
+            # allow_setup (1-press ESCAPE to recalibrate, 0-not allowed)        
+            while not dummy_mode: # Skip drift-check if running the script in Dummy Mode
+                # terminate the task if no longer connected to the tracker or
+                # user pressed Ctrl-C to terminate the task
+                if not el_tracker.isConnected():
+                    terminate_task()
+                    print('Eyetracker not connected')
+                if el_tracker.breakPressed():
+                    print('CTRL-C pressed to terminate')
+        
+                # drift-check and re-do camera setup if ESCAPE is pressed
+                try:
+                    error = el_tracker.doDriftCorrect(int(scn_width/2.0),
+                                                      int(scn_height/2.0), 1, 1)
+                    # break following a successful drift-check, which I guess just continues? IF so, bad coding practice I think
+                    if error is not pylink.ESC_KEY:
+                        break
+                except:
+                    pass
+    
+        # put tracker in idle/offline mode before recording, maybe helps stop skipping trials due to not recording
+        el_tracker.setOfflineMode()
+    
+        # Start recording
+        # arguments: sample_to_file, events_to_file, sample_over_link,
+        # event_over_link (1-yes, 0-no)
+        try:
+            el_tracker.startRecording(1, 1, 1, 1)
+        except RuntimeError as error:
+            print("ERROR:", error)
+    
+        # Allocate some time for the tracker to cache some samples
+        pylink.pumpDelay(100)
+
+    if nDoneMain <= 1: #For first trial, give extra long instruction
         for i in range(70):
             trialInstructionStim.draw()
             if i > 30:
@@ -1118,6 +1182,12 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
        idxsStream3 = [0]
     ts  =  do_RSVP_stim(thisTrial, idxsStream1, idxsStream2, idxsStream3, ltrColorThis, noisePercent/100.,nDoneMain,thisProbe)
     numCasesInterframeLong = timingCheckAndLog(ts,nDoneMain)
+
+    if trackEyes:
+        #Send a 'TRIAL_RESULT' message to mark the end of trial, see Data Viewer User Manual, "Protocol for EyeLink Data to Viewer Integration"
+        el_tracker.sendMessage('TRIAL_RESULT %d' % pylink.TRIAL_OK)
+        stopEyetracking(el_tracker)
+
     #call for each response
     #if myMouse == None:  #mouse sometimes freezes if don't call event.Mouse certain number of times I think, no idea why
         #myMouse = event.Mouse(visible=True,win=myWin) #debugAH
@@ -1318,6 +1388,27 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 expTimedOut = True
             print('got to end of loop')
         #end main trials loop
+
+if trackEyes:
+  tracker.closeDataFile()
+  if eyetrackFileGetFromEyelinkMachine:
+    eyetrackerFileWaitingText = visual.TextStim(myWin,pos=(-.1,0),colorSpace='rgb',color = (1,1,1),anchorHoriz='center', anchorVert='center', units='norm',autoLog=autoLogging)
+    eyetrackerFileWaitingText.setText('Waiting for eyetracking file from Eyelink computer. Do not abort eyetracking machine or file will not be saved?')
+    eyetrackerFileWaitingText.draw()
+    myWin.flip()
+    try:
+        # Download the EDF data file from the Host PC to a local data folder
+        # parameters: source_file_on_the_host, destination_file_on_local_drive
+        tracker.receiveDataFile(edf_fname,edf_fname) 
+    except RuntimeError as error:
+        print('when trying to get EDF file from eyetracker computer, ERROR:', error)
+  else: 
+    print('You will have to get the Eyelink EDF file off the eyetracking machine by hand')
+        
+  msg = closeEyeTracker(mtracker)
+  print(msg); print(msg,file=logF) #""Eyelink connection closed successfully" or "Eyelink not available, not closed properly"
+
+
 timeAndDateStr = time.strftime("%H:%M on %d %b %Y", time.localtime())
 msg = 'Stopping at '+timeAndDateStr
 print(msg); logging.info(msg)
