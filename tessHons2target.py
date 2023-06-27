@@ -7,11 +7,17 @@ useSound = False
 import random, scipy
 import numpy as np
 from math import atan, log, ceil
-import copy, time, datetime, sys, os, string, shutil
+import copy, time, datetime, sys, os, string, shutil, platform
 #try:
 #    from noiseStaircaseHelpers import printStaircase, toStaircase, outOfStaircase, createNoise, plotDataAndPsychometricCurve
 #except ImportError:
 #    print('Could not import from noiseStaircaseHelpers.py (you need that file to be in the same directory)')
+try:
+    import pylink
+    from eyetrackingCode import EyeLinkCoreGraphicsPsychoPyAlex #imports from subfolder
+except Exception as e:
+    print(f"An exception occurred: {str(e)}")
+    print('Could not import EyeLinkCoreGraphicsPsychoPyAlex.py (you need that file to be in the eyetrackingCode subdirectory, which needs an __init__.py file in it too)')
 try:
     import stringResponse
 except ImportError:
@@ -26,8 +32,6 @@ try:
     from authorRecognitionLineup import doAuthorLineup
 except ImportError:
     print('Could not import authorRecognitionLineup.py (you need that file to be in the same directory)')
-print('platform=')
-print(sys.platform)
 
 topDir = '.'
 sys.path.append( os.path.join(topDir,'PISandConsentForm') )   #because current working directory ends up being the PSYC1002 grasp folder, NOT the folder with PSYC1002.py in it
@@ -40,6 +44,94 @@ try:
     from socket import gethostname
 except ImportError:
     print('ERROR Could not import getpass')
+
+trackEyes = False
+eyetracker_dummy_mode = True # Set this variable to True to run eyetracking in "Dummy Mode"
+if trackEyes:
+    edf_fname = 'TEST'
+    # Step 1: Connect to the EyeLink Host PC
+    # The Host IP address, by default, is "100.1.1.1".
+    # the "el_tracker" objected created here can be accessed through the Pylink
+    # Set the Host PC address to "None" (without quotes) to run the script
+    # in "Dummy Mode"
+    if eyetracker_dummy_mode:
+        el_tracker = pylink.EyeLink(None)
+    else:
+        try:
+            el_tracker = pylink.EyeLink("100.1.1.1")
+        except RuntimeError as error:
+            print('ERROR:', error)
+            core.quit()
+            sys.exit()
+    
+    # Step 2: Open an EDF data file on the Host PC
+    edf_file = edf_fname + ".EDF"
+    try:
+        el_tracker.openDataFile(edf_file)
+    except RuntimeError as err:
+        print('ERROR:', err)
+        # close the link if we have one open
+        if el_tracker.isConnected():
+            el_tracker.close()
+        core.quit()
+        sys.exit()
+        
+    # We download EDF data file from the EyeLink Host PC to the local hard
+    # drive at the end of each testing session, here we rename the EDF to
+    # include session start date/time
+    time_str = time.strftime("_%Y_%m_%d_%H_%M", time.localtime())
+    session_identifier = edf_fname + time_str
+
+    # Add a header text to the EDF file to identify the current experiment name
+    # This is optional. If your text starts with "RECORDED BY " it will be
+    # available in DataViewer's Inspector window by clicking
+    # the EDF session node in the top panel and looking for the "Recorded By:"
+    # field in the bottom panel of the Inspector.
+    preamble_text = 'RECORDED BY %s' % os.path.basename(__file__)
+    el_tracker.sendCommand("add_file_preamble_text '%s'" % preamble_text)
+    
+    # Step 3: Configure the tracker
+    #
+    # Put the tracker in offline mode before we change tracking parameters
+    el_tracker.setOfflineMode()
+
+    # Get the software version:  1-EyeLink I, 2-EyeLink II, 3/4-EyeLink 1000,
+    # 5-EyeLink 1000 Plus, 6-Portable DUO
+    eyelink_ver = 0  # set version to 0, in case running in Dummy mode
+    if not eyetracker_dummy_mode:
+        vstr = el_tracker.getTrackerVersionString()
+        eyelink_ver = int(vstr.split()[-1].split('.')[0])
+        # print out some version info in the shell
+        print('Running experiment on %s, version %d' % (vstr, eyelink_ver))
+    
+    # File and Link data control
+    # what eye events to save in the EDF file, include everything by default
+    file_event_flags = 'LEFT,RIGHT,FIXATION,SACCADE,BLINK,MESSAGE,BUTTON,INPUT'
+    # what eye events to make available over the link, include everything by default
+    link_event_flags = 'LEFT,RIGHT,FIXATION,SACCADE,BLINK,BUTTON,FIXUPDATE,INPUT'
+    # what sample data to save in the EDF data file and to make available
+    # over the link, include the 'HTARGET' flag to save head target sticker
+    # data for supported eye trackers
+    if eyelink_ver > 3:
+        file_sample_flags = 'LEFT,RIGHT,GAZE,HREF,RAW,AREA,HTARGET,GAZERES,BUTTON,STATUS,INPUT'
+        link_sample_flags = 'LEFT,RIGHT,GAZE,GAZERES,AREA,HTARGET,STATUS,INPUT'
+    else:
+        file_sample_flags = 'LEFT,RIGHT,GAZE,HREF,RAW,AREA,GAZERES,BUTTON,STATUS,INPUT'
+        link_sample_flags = 'LEFT,RIGHT,GAZE,GAZERES,AREA,STATUS,INPUT'
+    el_tracker.sendCommand("file_event_filter = %s" % file_event_flags)
+    el_tracker.sendCommand("file_sample_data = %s" % file_sample_flags)
+    el_tracker.sendCommand("link_event_filter = %s" % link_event_flags)
+    el_tracker.sendCommand("link_sample_data = %s" % link_sample_flags)
+    
+    # Optional tracking parameters
+    # Sample rate, 250, 500, 1000, or 2000, check your tracker specification
+    # if eyelink_ver > 2:
+    #     el_tracker.sendCommand("sample_rate 1000")
+    # Choose a calibration type, H3, HV3, HV5, HV13 (HV = horizontal/vertical),
+    el_tracker.sendCommand("calibration_type = HV9")
+    # Set a gamepad button to accept calibration/drift check target
+    # You need a supported gamepad/button box that is connected to the Host PC
+    el_tracker.sendCommand("button_function 5 'accept_target_fixation'")
 
 wordEccentricity=  0.9 
 tasks=['T1']; task = tasks[0]
@@ -55,17 +147,17 @@ networkMachineName = gethostname()
 if autopilot: subject='auto'
 cwd = os.getcwd()
 print('current working directory =',cwd)
-if sys.platform == "win32":  #this means running in PSYC computer labs
+if sys.platform == "win32":
     pathToData = 'dataRaw'  
 else:
     pathToData = 'dataRaw'
 if os.path.isdir(pathToData):
     dataDir='dataRaw'
 else:
-    print('"dataRaw" directory does not exist, so saving data in abgdj directory')
+    print('"dataRaw" directory does not exist, so trying to save to a directory called abgdj')
     dataDir='abgdj'
     if not os.path.isdir(dataDir):
-        print("Error, can't even find the ",dataDir," directory")
+        print("Error, no ",dataDir," directory")
         core.quit()
 timeDateStart = time.strftime("%d%b%Y_%H-%M-%S", time.localtime()) #used for filename
 now = datetime.datetime.now() #used for JSON
@@ -213,29 +305,30 @@ logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nea
 
 includeConsentDemographics = True
 if includeConsentDemographics:
-        # require password
-        succeeded = False
-        attempts = 0
-        while attempts < 3 and not succeeded:
-                info = {'\n\n\n\nPassword\n\n\n':'', '':''}
-                infoDlg = gui.DlgFromDict(dictionary=info, title='Research Report Experiment',
-                    tip={'\n\n\n\n\nPassword\n\n\n': 'Famous psychologist'}, 
-                    fixed=['']
-                )
-                word = ''
-                if infoDlg.OK:  # this will be True (user hit OK) or False (cancelled)
-                    word = info['\n\n\n\nPassword\n\n\n']
-                    word = word.upper()
-                    if word == 'LOFTUS':
-                        succeeded = True
+        requirePassword = False
+        if requirePassword:
+            succeeded = False
+            attempts = 0
+            while attempts < 3 and not succeeded:
+                    info = {'\n\n\n\nPassword\n\n\n':'', '':''}
+                    infoDlg = gui.DlgFromDict(dictionary=info, title='Research Report Experiment',
+                        tip={'\n\n\n\n\nPassword\n\n\n': 'Famous psychologist'}, 
+                        fixed=['']
+                    )
+                    word = ''
+                    if infoDlg.OK:  # this will be True (user hit OK) or False (cancelled)
+                        word = info['\n\n\n\nPassword\n\n\n']
+                        word = word.upper()
+                        if word == 'LOFTUS':
+                            succeeded = True
+                        else:
+                            print('Password incorrect.')
                     else:
-                        print('Password incorrect.')
-                else:
-                    print('User cancelled')
-                    core.quit()
-                attempts += 1
-        if not succeeded:
-            core.quit()
+                        print('User cancelled')
+                        core.quit()
+                    attempts += 1
+            if not succeeded:
+                core.quit()
     
 def openMyStimWindow(): #make it a function because if do it multiple times, want to be sure is identical each time
     myWin = visual.Window(monitor=mon,size=(widthPix,heightPix),allowGUI=allowGUI,units=units,color=bgColor,colorSpace='rgb',fullscr=fullscr,screen=scrn,waitBlanking=waitBlank) #Holcombe lab monitor
@@ -323,6 +416,121 @@ if checkRefreshEtc and (not demo):
         logging.error(refreshMsg1+refreshMsg2)
     else: logging.info(refreshMsg1+refreshMsg2)
 logging.flush()
+
+if trackEyes:
+    # get the native screen resolution used by PsychoPy
+    scn_width, scn_height = myWin.size
+    # Set this variable to True if you use the built-in retina screen as your
+    # primary display device on macOS. If have an external monitor, set this
+    # variable True if you choose to "Optimize for Built-in Retina Display"
+    # in the Displays preference settings.
+    use_retina = True
+    # resolution fix for Mac retina displays
+    if 'Darwin' in platform.system():
+        if use_retina:
+            scn_width = int(scn_width/2.0)
+            scn_height = int(scn_height/2.0)
+
+    # Pass the display pixel coordinates (left, top, right, bottom) to the tracker
+    # see the EyeLink Installation Guide, "Customizing Screen Settings"
+    el_coords = "screen_pixel_coords = 0 0 %d %d" % (scn_width - 1, scn_height - 1)
+    print("myWin screen_pixel_coords being sent to eyetracker =",el_coords)
+    el_tracker.sendCommand(el_coords)
+
+    # Write a DISPLAY_COORDS message to the EDF file
+    # Data Viewer needs this piece of info for proper visualization, see Data
+    # Viewer User Manual, "Protocol for EyeLink Data to Viewer Integration"
+    dv_coords = "DISPLAY_COORDS  0 0 %d %d" % (scn_width - 1, scn_height - 1)
+    el_tracker.sendMessage(dv_coords)
+    
+    # Configure a graphics environment (genv) for tracker calibration
+    genv = EyeLinkCoreGraphicsPsychoPyAlex.EyeLinkCoreGraphicsPsychoPy(el_tracker, myWin)
+    print(genv)  #It's a class with a print method so this prints out the info including version number of the CoreGraphics library
+    
+    # Set background and foreground colors for the calibration target
+    # in PsychoPy, (-1, -1, -1)=black, (1, 1, 1)=white, (0, 0, 0)=mid-gray
+    foreground_color = (-1, -1, -1)
+    background_color = myWin.color
+    genv.setCalibrationColors(foreground_color, background_color)
+    
+    # Set up the calibration target
+    #
+    # The target could be a "circle" (default), a "picture", a "movie" clip,
+    # or a rotating "spiral". To configure the type of calibration target, set
+    # genv.setTargetType to "circle", "picture", "movie", or "spiral", e.g.,
+    # genv.setTargetType('picture')
+    #
+    # Use gen.setPictureTarget() to set a "picture" target
+    # genv.setPictureTarget(os.path.join('images', 'fixTarget.bmp'))
+    #
+    # Use genv.setMovieTarget() to set a "movie" target
+    # genv.setMovieTarget(os.path.join('videos', 'calibVid.mov'))
+    
+    # Use a picture as the calibration target
+    genv.setTargetType('picture')
+    genv.setPictureTarget(os.path.join('eyetrackingCode','images', 'fixTarget.bmp'))
+
+    # Configure the size of the calibration target (in pixels)
+    # this option applies only to "circle" and "spiral" targets
+    # genv.setTargetSize(24)
+    
+    # Beeps to play during calibration, validation and drift correction
+    # parameters: target, good, error
+    #     target -- sound to play when target moves
+    #     good -- sound to play on successful operation
+    #     error -- sound to play on failure or interruption
+    # Each parameter could be ''--default sound, 'off'--no sound, or a wav file
+    genv.setCalibrationSounds('', '', '')
+    
+    # resolution fix for macOS retina display issues
+    if use_retina:
+        genv.fixMacRetinaDisplay()
+    
+    # Request Pylink to use the PsychoPy window we opened above for calibration
+    pylink.openGraphicsEx(genv)
+
+    # Step 5: Set up the camera and calibrate the tracker
+    
+    # Show the task instructions
+    task_msg = 'I think the calibration is meant to start next, but maybe have to ENTER twice'
+    if eyetracker_dummy_mode:
+        task_msg = task_msg + '\nNow, press ENTER to start the task'
+    else:
+        task_msg = task_msg + '\nNow, press ENTER twice to calibrate tracker'
+
+    msg = visual.TextStim(myWin, task_msg,
+                          color=genv.getForegroundColor(),
+                          wrapWidth=scn_width/2)
+    myWin.fillColor = genv.getBackgroundColor()
+    myWin.flip()
+    msg.draw()
+    myWin.flip()
+
+    # wait indefinitely, terminates upon any key press
+    event.waitKeys()
+    #clear screen
+    myWin.fillColor = genv.getBackgroundColor()
+    myWin.flip()
+    msg.draw()
+    myWin.flip()
+            
+    # skip this step if running the script in Dummy Mode
+    if not eyetracker_dummy_mode:
+        try:
+            el_tracker.doTrackerSetup() #calibrate tracker?
+        except RuntimeError as err:
+            print('ERROR:', err)
+            el_tracker.exitCalibration()
+
+    # Close the link to the tracker.
+    el_tracker.close()
+
+    # close the PsychoPy window
+    #myWin.close()
+
+    # quit PsychoPy
+    #core.quit()
+    #sys.exit()
 
 def calcStimPos(trial,i):
     #i is position index, either 0, 1, or 2.  Just 0 or 1 unless Humby experimnet with 3 positions

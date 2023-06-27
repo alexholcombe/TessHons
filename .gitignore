@@ -1,0 +1,5 @@
+*.pyc
+.Rproj.user
+analyse/subjectEncryptionKeyNotIndexedByGit/
+analyse/dataRaw_notPutOnGitHubBecauseNotAnonymized/
+dataRaw/
