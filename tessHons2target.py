@@ -1,6 +1,5 @@
 #Alex Holcombe alex.holcombe@sydney.edu.au
-#See the github repository for more information: https://github.com/alexholcombe/PSYC1002
-#from __future__ import print_function, division
+#See the github repository for more information: https://github.com/alexholcombe/
 from psychopy import monitors, visual, event, data, logging, core, gui, sound
 import psychopy.info
 useSound = True
@@ -140,7 +139,7 @@ tasks=['T1']; task = tasks[0]
 #same screen or external screen? Set scrn=0 if one screen. scrn=1 means display stimulus on second screen.
 #widthPix, heightPix
 quitFinder=False 
-autopilot=True
+autopilot=False
 demo=False #False
 exportImages= False #quits after one trial
 user=getuser()  #In PSYC1002, participant logged into computer so subject was their username https://stackoverflow.com/a/842096/302378
@@ -1335,6 +1334,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 eachCorrect[streami] = correct
         else: #thisTrial['oneTarget'] so only one response so there's only one response to score, but need to print out both to datafile still
                 print('HELLO')
+                print(responseOrder[0],'\t', end='', file=dataFile)
                 if autopilot:
                     respThisStream = responsesAutopilot[0]
                 else:
@@ -1439,8 +1439,8 @@ if expTimedOut:
     print(msg); logging.info(msg)
 if nDoneMain >0:
     print('Of ',nDoneMain,' trials, on ',numTrialsCorrect*1.0/nDoneMain*100., '% of all trials all targets reported exactly correct',sep='')
-    for i in range(numRespsWanted):
-        print('stream',i,': ',round(numTrialsEachCorrect[i]*1.0/nDoneMain*100.,2), '% correct',sep='')
+    #for i in range(numRespsWanted): #Doesn't work because oneTarget trials screws up numTrialsEachCorrect
+    #    print('stream',i,': ',round(numTrialsEachCorrect[i]*1.0/nDoneMain*100.,2), '% correct',sep='')
 dataFile.flush(); logging.flush(); dataFile.close()
 
 logging.info("Program terminating normally."); print("Terminated normally.")
