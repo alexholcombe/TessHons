@@ -1202,6 +1202,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     #if myMouse == None:  #mouse sometimes freezes if don't call event.Mouse certain number of times I think, no idea why
         #myMouse = event.Mouse(visible=True,win=myWin) #debugAH
     myMouse.setVisible(True)
+    fixationPoint.setColor([.6,.6,.6]) #white not red so person doesnt' feel they have to look at it
 
     possibleResps = stimList
     doLineupBothSides = True
@@ -1226,6 +1227,21 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
         #print("thisTrial = ",thisTrial)
         #print("numRespsWanted = ",numRespsWanted, " numToReport=",numToReport, "thisTrial[rightResponseFirst] =",thisTrial['rightResponseFirst'],'responseOrder= ',responseOrder)
         while respI < numToReport and not np.array(expStop).any():
+          lineupResponse = True #Tess experiments
+          if lineupResponse:
+            leftRightCentralBottomTop = thisTrial['horizVert']*3  + thisTrial['rightResponseFirst']
+            print("thisTrial['horizVert']=",thisTrial['horizVert'],'respI = ',respI, ' about to call doLineup with doLineupBothSides= ',doLineupBothSides,', leftRightCentralBottomTop=', leftRightCentralBottomTop)
+            
+            expStop,passThisTrial,responses,buttons,responsesAutopilot = \
+                    letterLineupResponse.doLineup(myWin,bgColor,myMouse,useSound,clickSound,badSound,possibleResps,doLineupBothSides,
+                                                    leftRightCentralBottomTop,showClickedRegion,autopilot)
+            if doLineupBothSides:
+                respI += 2
+            else:
+                respI += 1
+            #print('Finished one doLineup', " responses=", responses)
+            if autopilot: print("responsesAutopilot = ",responsesAutopilot)
+
             if numToReport ==1:
                 side = thisTrial['rightResponseFirst'] * 2 - 1 #-1 for left/bottom, 1 for right/top
             elif numToReport == 2:
@@ -1234,7 +1250,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 side = (responseOrder[respI] - 1)  #-1 for left/bottom, 0 for middle, 1 for right/top
                 
             devRespPrompt = 2*wordEccentricity * side #put response prompt farther out than stimulus, so participant is sure which is left and which right
-            
+          else: #type in response rather than click on lineup
             if numToReport == 1 or numToReport == 2:
                 locationNames= [ 'the left', 'the right',  'the bottom','top' ]
                 numLocations = 2
@@ -1275,27 +1291,12 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             else:
                 respPromptStim2.setPos( [0,-edge] ) #bottom
                 respPromptStim3.setPos( [0, edge] ) #top
-                
-            fixationPoint.setColor([.7,.7,.7]) #white not red so person doesnt' feel they have to look at it
-
-            leftRightCentralBottomTop = thisTrial['horizVert']*3  + thisTrial['rightResponseFirst']
-            print("thisTrial['horizVert']=",thisTrial['horizVert'],'respI = ',respI, ' about to call doLineup with doLineupBothSides= ',doLineupBothSides,', leftRightCentralBottomTop=', leftRightCentralBottomTop, 'side=',side)
-            expStop,passThisTrial,responses,buttons,responsesAutopilot = \
-                    letterLineupResponse.doLineup(myWin,bgColor,myMouse,useSound,clickSound,badSound,possibleResps,doLineupBothSides,
-                                                    leftRightCentralBottomTop,showClickedRegion,autopilot)
-            if doLineupBothSides:
-                respI += 2
-            else:
-                respI += 1
-            #print('Finished one doLineup', " responses=", responses)
-            if autopilot: print("responsesAutopilot = ",responsesAutopilot)
-            
             #stringReponse was used for psyc1002, but Tess uses lineups so the below is commented out and not updated for whichIfOneTarget
             #changeToUpper = False
-            #expStop[respI],passThisTrial[respI],responses[respI],responsesAutopilot[respI] = stringResponse.collectStringResponse(
-            #                        numCharsInResponse,x,y,respPromptStim1,respPromptStim2,respPromptStim3,respStim,acceptTextStim,fixationPoint, (1 if experiment['stimType']=='digit' else 0), myWin,
-            #                    clickSound,badSound, requireAcceptance,autopilot,changeToUpper,responseDebug=True )
-            fixationPoint.setColor(fixColor)
+            expStop[respI],passThisTrial[respI],responses[respI],responsesAutopilot[respI] = stringResponse.collectStringResponse(
+                                    numCharsInResponse,x,y,respPromptStim1,respPromptStim2,respPromptStim3,respStim,acceptTextStim,fixationPoint, (1 if experiment['stimType']=='digit' else 0), myWin,
+                                clickSound,badSound, requireAcceptance,autopilot,changeToUpper,responseDebug=True )
+        fixationPoint.setColor(fixColor)
         expStop = np.array(expStop).any(); passThisTrial = np.array(passThisTrial).any()
     
     if not expStop:
