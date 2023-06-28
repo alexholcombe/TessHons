@@ -140,7 +140,7 @@ tasks=['T1']; task = tasks[0]
 #same screen or external screen? Set scrn=0 if one screen. scrn=1 means display stimulus on second screen.
 #widthPix, heightPix
 quitFinder=False 
-autopilot=False
+autopilot=True
 demo=False #False
 exportImages= False #quits after one trial
 user=getuser()  #In PSYC1002, participant logged into computer so subject was their username https://stackoverflow.com/a/842096/302378
@@ -1228,11 +1228,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             expStop,passThisTrial,responses,buttons,responsesAutopilot = \
                     letterLineupResponse.doLineup(myWin,bgColor,myMouse,useSound,clickSound,badSound,possibleResps,doLineupBothSides,
                                                     leftRightCentralBottomTop,showClickedRegion,autopilot)
-            if doLineupBothSides:
-                respI += 2
-            else:
-                respI += 1
-            #print('Finished one doLineup', " responses=", responses)
+            print('Finished one doLineup', " responses=", responses)
             if autopilot: print("responsesAutopilot = ",responsesAutopilot)
             if numToReport ==1:
                 side = thisTrial['rightResponseFirst'] * 2 - 1 #-1 for left/bottom, 1 for right/top
@@ -1240,7 +1236,11 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 side = responseOrder[respI] * 2 -1  #-1 for left/bottm, 1 for right/top
             elif numToReport == 3:
                 side = (responseOrder[respI] - 1)  #-1 for left/bottom, 0 for middle, 1 for right/top
-                
+            
+            if doLineupBothSides: #doLineup collected two responses already
+                respI += 2
+            else: #doLineup collected only one response
+                respI += 1
           else: #type in response rather than click on lineup
             devRespPrompt = 2*wordEccentricity * side #put response prompt farther out than stimulus, so participant is sure which is left and which right
             if numToReport == 1 or numToReport == 2:
@@ -1335,9 +1335,10 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 eachCorrect[streami] = correct
         else: #thisTrial['oneTarget'] so only one response so there's only one response to score, but need to print out both to datafile still
                 print('HELLO')
-                respThisStream = responses[0]
                 if autopilot:
                     respThisStream = responsesAutopilot[0]
+                else:
+                    respThisStream = responses[0]
                 
                 if thisTrial['rightResponseFirst']==0:
                     correctAnswerIdx = whichStim0
