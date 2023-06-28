@@ -573,14 +573,8 @@ def calcStimPos(trial,i):
         elif experiment['ori'] == 0: #normal unrotated condition
             x = offset
         positions =     [ [x,-wordEccentricity], [x,wordEccentricity] ]
-        #In case oneTarget, need to swap positions. BUT THIS WILL SCREW UP THE SCORING PROBABLY
-        #if trial['whichIfOneTarget']==0: #swap positions so that oneTarget is in the other of the two positions
-        #    positions = [ positions[1], positions[0] ]
     else:  #horizontally arrayed     left      ,        right 
         positions = [ [-wordEccentricity,offset], [wordEccentricity,offset] ]
-        #In case oneTarget, need to swap positions. BUT THIS WILL SCREW UP THE SCORING PROBABLY        
-        #if trial['whichIfOneTarget']==0: #get oneTarget in the other of the two positions
-        #    positions = [ positions[1], positions[0] ]       #by swapping positions 
         
     #insert 3rd position of 3 stimuli
     if experiment['numSimultaneousStim'] == 3:
@@ -686,10 +680,9 @@ for rightResponseFirst in [False,True]: #does double-duty as which position when
    for horizVert in [0,1]:
     for whichSide in [0,1]: #To vary in vertically arrayed case whether left or right side, and in horizontally arrayed case whether top or bottom side
      for spacing in [0]: #spacing NOT WORKING
-      for whichIfOneTarget in [0,1]: #0=lower if vert, or left if horiz
-        oneTarget=True; horizVert=1;whichSide=1; whichIfOneTarget=0; rightResponseFirst=False
+        oneTarget=True; horizVert=1;whichSide=1; rightResponseFirst=True
         conditionsList.append( {'rightResponseFirst':rightResponseFirst, 'leftStreamFlip':experiment['flipped'], 'trialInstructionPos':trialInstructionPos,'spacing':spacing,
-                                'oneTarget':oneTarget, 'horizVert':horizVert, 'whichSide':whichSide, 'whichIfOneTarget':whichIfOneTarget, 'rightStreamFlip':experiment['flipped'], 'probe':'both', 'ISIframes':ISIframes} )
+                                'oneTarget':oneTarget, 'horizVert':horizVert, 'whichSide':whichSide, 'rightStreamFlip':experiment['flipped'], 'probe':'both', 'ISIframes':ISIframes} )
 
 trials = data.TrialHandler(conditionsList,trialsPerCondition) #method of constant stimuli
 
@@ -731,7 +724,7 @@ maxNumRespsWanted = 3
 
 #print header for data file
 print('experimentPhase\ttrialnum\tsubject\ttask\toneTarget\t',file=dataFile,end='')
-print('noisePercent\tISIframes\tltrColorThis\tleftStreamFlip\trightStreamFlip\toneTarget\thorizVert\twhichSide\twhichIfOneTarget\trightResponseFirst\tprobe\ttrialInstructionPos\t',end='',file=dataFile)
+print('noisePercent\tISIframes\tltrColorThis\tleftStreamFlip\trightStreamFlip\toneTarget\thorizVert\twhichSide\trightResponseFirst\tprobe\ttrialInstructionPos\t',end='',file=dataFile)
     
 for i in range( experiment['numSimultaneousStim'] ): #range(maxNumRespsWanted):
    dataFile.write('responseOrder'+str(i)+'\t')
@@ -1225,8 +1218,8 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             responseOrder.reverse()
         respI = 0
         #print("thisTrial = ",thisTrial)
-        #print("numRespsWanted = ",numRespsWanted, " numToReport=",numToReport, "thisTrial[rightResponseFirst] =",thisTrial['rightResponseFirst'],'responseOrder= ',responseOrder)
-        while respI < numToReport and not np.array(expStop).any():
+        print(" numToReport=",numToReport, "thisTrial[rightResponseFirst] =",thisTrial['rightResponseFirst'],'responseOrder= ',responseOrder)
+        while respI < numToReport and not np.array(expStop).any(): #iterate through number of responses needed
           lineupResponse = True #Tess experiments
           if lineupResponse:
             leftRightCentralBottomTop = thisTrial['horizVert']*3  + thisTrial['rightResponseFirst']
@@ -1241,7 +1234,6 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 respI += 1
             #print('Finished one doLineup', " responses=", responses)
             if autopilot: print("responsesAutopilot = ",responsesAutopilot)
-
             if numToReport ==1:
                 side = thisTrial['rightResponseFirst'] * 2 - 1 #-1 for left/bottom, 1 for right/top
             elif numToReport == 2:
@@ -1249,8 +1241,8 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             elif numToReport == 3:
                 side = (responseOrder[respI] - 1)  #-1 for left/bottom, 0 for middle, 1 for right/top
                 
-            devRespPrompt = 2*wordEccentricity * side #put response prompt farther out than stimulus, so participant is sure which is left and which right
           else: #type in response rather than click on lineup
+            devRespPrompt = 2*wordEccentricity * side #put response prompt farther out than stimulus, so participant is sure which is left and which right
             if numToReport == 1 or numToReport == 2:
                 locationNames= [ 'the left', 'the right',  'the bottom','top' ]
                 numLocations = 2
@@ -1291,8 +1283,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             else:
                 respPromptStim2.setPos( [0,-edge] ) #bottom
                 respPromptStim3.setPos( [0, edge] ) #top
-            #stringReponse was used for psyc1002, but Tess uses lineups so the below is commented out and not updated for whichIfOneTarget
-            #changeToUpper = False
+            #stringReponse was used for psyc1002
             expStop[respI],passThisTrial[respI],responses[respI],responsesAutopilot[respI] = stringResponse.collectStringResponse(
                                     numCharsInResponse,x,y,respPromptStim1,respPromptStim2,respPromptStim3,respStim,acceptTextStim,fixationPoint, (1 if experiment['stimType']=='digit' else 0), myWin,
                                 clickSound,badSound, requireAcceptance,autopilot,changeToUpper,responseDebug=True )
@@ -1300,109 +1291,108 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
         expStop = np.array(expStop).any(); passThisTrial = np.array(passThisTrial).any()
     
     if not expStop:
-            print('main\t', end='', file=dataFile) #first thing printed on each line of dataFile to indicate main part of experiment
-            print(nDoneMain,'\t', end='', file=dataFile)
-            print(subject,'\t',task,'\t', thisTrial['oneTarget'], '\t', round(noisePercent,3),'\t', end='', file=dataFile)
-            print(thisTrial['ISIframes'],'\t', end='', file=dataFile)
-            print(ltrColorThis,'\t', end='', file=dataFile)
-            print(thisTrial['leftStreamFlip'],'\t', end='', file=dataFile)
-            print(thisTrial['rightStreamFlip'],'\t', end='', file=dataFile)
-            print(thisTrial['oneTarget'],'\t', end='', file=dataFile)
-            print(thisTrial['horizVert'],'\t', end='', file=dataFile)
-            print(thisTrial['whichSide'],'\t', end='', file=dataFile)
-            print(thisTrial['whichIfOneTarget'],'\t', end='', file=dataFile)            
-            print(thisTrial['rightResponseFirst'],'\t', end='', file=dataFile)
-            print(thisTrial['probe'],'\t', end='', file=dataFile)
-            print(thisTrial['trialInstructionPos'],'\t', end='', file=dataFile)
-                
-            eachCorrect = np.ones(numRespsWanted)*-999
+        print('main\t', end='', file=dataFile) #first thing printed on each line of dataFile to indicate main part of experiment
+        print(nDoneMain,'\t', end='', file=dataFile)
+        print(subject,'\t',task,'\t', thisTrial['oneTarget'], '\t', round(noisePercent,3),'\t', end='', file=dataFile)
+        print(thisTrial['ISIframes'],'\t', end='', file=dataFile)
+        print(ltrColorThis,'\t', end='', file=dataFile)
+        print(thisTrial['leftStreamFlip'],'\t', end='', file=dataFile)
+        print(thisTrial['rightStreamFlip'],'\t', end='', file=dataFile)
+        print(thisTrial['oneTarget'],'\t', end='', file=dataFile)
+        print(thisTrial['horizVert'],'\t', end='', file=dataFile)
+        print(thisTrial['whichSide'],'\t', end='', file=dataFile)
+        print(thisTrial['rightResponseFirst'],'\t', end='', file=dataFile)
+        print(thisTrial['probe'],'\t', end='', file=dataFile)
+        print(thisTrial['trialInstructionPos'],'\t', end='', file=dataFile)
+            
+        eachCorrect = np.ones(numRespsWanted)*-999
 
-            print( 'getting ready to score response')
-            numToPrint = numRespsWanted
-            if thisTrial['oneTarget']:
-                numToPrint = 1 #kludge, see line 993
-            for streami in range(numToPrint): #scored and printed to dataFile in left first, right second order even if collected in different order
-                print(responseOrder[streami],'\t', end='', file=dataFile)
-                if streami==0:
-                    sequenceStream = idxsStream1; correctAnswerIdx = whichStim0
-                elif streami==1: 
-                    sequenceStream = idxsStream2; correctAnswerIdx = whichStim1
-                elif streami==2:
-                    sequenceStream = idxsStream2; correctAnswerIdx = whichStim2
-                    
-                correctAnswer = stimList[correctAnswerIdx]
-                print(" correctAnswer =",correctAnswer, ", stimList = ", stimList)
+        print( 'getting ready to score response')
+        numToPrint = numRespsWanted
+        if thisTrial['oneTarget']:
+            numToPrint = 1 #kludge, see line 993
+        for streami in range(numToPrint): #scored and printed to dataFile in left first, right second order even if collected in different order
+            print(responseOrder[streami],'\t', end='', file=dataFile)
+            if streami==0:
+                sequenceStream = idxsStream1; correctAnswerIdx = whichStim0
+            elif streami==1: 
+                sequenceStream = idxsStream2; correctAnswerIdx = whichStim1
+            elif streami==2:
+                sequenceStream = idxsStream2; correctAnswerIdx = whichStim2
                 
-                if thisTrial['oneTarget'] and streami==1: #only streami==0 is used
-                    correct = -99
+            correctAnswer = stimList[correctAnswerIdx]
+            print(" correctAnswer =",correctAnswer, ", correctAnswerIdx = ", correctAnswerIdx, ' streami=',streami,' whichStim0/1= ',whichStim0,',',whichStim1)
+            
+            if thisTrial['oneTarget'] and streami==1: #only streami==0 is used
+                correct = -99
+            else:
+                respThisStreamI = responseOrder.index(streami)
+                print('respThisStreamI = ',respThisStreamI, 'responses=',responses)
+                if autopilot:
+                    respThisStream = responsesAutopilot[respThisStreamI]
                 else:
-                    respThisStreamI = responseOrder.index(streami)
-                    print('respThisStreamI = ',respThisStreamI, 'responses=',responses)
-                    if autopilot:
-                        respThisStream = responsesAutopilot[respThisStreamI]
-                    else:
-                        respThisStream = responses[respThisStreamI]
-                    print ("responses = ", responses, " responsesAutopilot=", responsesAutopilot, ' respThisStream = ', respThisStream)   #responseOrder
-                    correct = ( handleAndScoreResponse(passThisTrial,respThisStream,responsesAutopilot,task,correctAnswer) )
-                eachCorrect[streami] = correct
+                    respThisStream = responses[respThisStreamI]
+                print ("responses = ", responses, " responsesAutopilot=", responsesAutopilot, ' respThisStream = ', respThisStream)   #responseOrder
+                correct = ( handleAndScoreResponse(passThisTrial,respThisStream,responsesAutopilot,task,correctAnswer) )
+            eachCorrect[streami] = correct
+        
+        #kludge to pad with null datafile spaces when only one target presented
+        if thisTrial['oneTarget']:
+            for i in range(experiment['numSimultaneousStim']-1):
+                print(-99, '\t', end='', file=dataFile) #responseOrderN
+                print(-99, '\t', end='', file=dataFile) #answerN
+                print(-99, '\t', end='', file=dataFile) #responseN
+                print(-99, '\t', end='',file=dataFile)  #correctN
+        
+        print(numCasesInterframeLong, file=dataFile) #timingBlips, last thing recorded on each line of dataFile
+        #Don't want to feed allCorrect into staircase because then for e.g. a staircase targeting 70% correct, they will get 84% correct on each if two letters but even higher if 3 letters
+        #Instead, average and round. This means that if get 1 out of 2 correct, counts as correct. If get 2 out of 3 correct, counts as correct but one is not enough.
+        correctForStaircase = round( np.mean(eachCorrect) )
+        if thisTrial['oneTarget']:
+            not99idx = np.where(eachCorrect != -99)[0][0]
+            #not99idx = not eachCorrect.index(-99)
+            correctForStaircase = eachCorrect[not99idx]
+        print('eachCorrect=',eachCorrect, 'correctForStaircase=',correctForStaircase)
+        if doStaircase and nDoneMain>4:
+            staircase.addResponse( correctForStaircase )
+        numTrialsCorrect += eachCorrect.all() #so count -1 as 0
+        numTrialsEachCorrect += eachCorrect #list numRespsWanted long
             
-            #kludge to pad with null datafile spaces when only one target presented
-            if thisTrial['oneTarget']:
-                for i in range(experiment['numSimultaneousStim']-1):
-                    print(-99, '\t', end='', file=dataFile) #responseOrderN
-                    print(-99, '\t', end='', file=dataFile) #answerN
-                    print(-99, '\t', end='', file=dataFile) #responseN
-                    print(-99, '\t', end='',file=dataFile)  #correctN
-            
-            print(numCasesInterframeLong, file=dataFile) #timingBlips, last thing recorded on each line of dataFile
-            #Don't want to feed allCorrect into staircase because then for e.g. a staircase targeting 70% correct, they will get 84% correct on each if two letters but even higher if 3 letters
-            #Instead, average and round. This means that if get 1 out of 2 correct, counts as correct. If get 2 out of 3 correct, counts as correct but one is not enough.
-            correctForStaircase = round( np.mean(eachCorrect) )
-            if thisTrial['oneTarget']:
-                not99idx = np.where(eachCorrect != -99)[0][0]
-                #not99idx = not eachCorrect.index(-99)
-                correctForStaircase = eachCorrect[not99idx]
-            print('eachCorrect=',eachCorrect, 'correctForStaircase=',correctForStaircase)
-            if doStaircase and nDoneMain>4:
-                staircase.addResponse( correctForStaircase )
-            numTrialsCorrect += eachCorrect.all() #so count -1 as 0
-            numTrialsEachCorrect += eachCorrect #list numRespsWanted long
-                
-            if exportImages:  #catches one frame of response
-                 myWin.getMovieFrame() #I cant explain why another getMovieFrame, and core.wait is needed
-                 framesSaved +=1; core.wait(.1)
-                 myWin.saveMovieFrames('images_sounds_movies/frames.png') #mov not currently supported 
-                 expStop=True
-            #core.wait(.1)
-            if feedback and useSound: 
-                play_high_tone_correct_low_incorrect(correctForStaircase, passThisTrial=False)
-            nDoneMain+=1
-            dataFile.flush(); logging.flush()
-            print('nDoneMain=', nDoneMain,' trials.nTotal=',trials.nTotal, 'expStop=',expStop) #' trials.thisN=',trials.thisN
-            #check whether time for break
-            if (trials.nTotal > 6 and nDoneMain > 2 and nDoneMain %
-                 ( trials.nTotal*pctCompletedBreak/100. ) ==1 ):  #dont modulus 0 because then will do it for last trial
-                    nextText.setText('Press "SPACE" to continue!')
-                    nextText.draw()
-                    progressMsg = 'Completed ' + str(nDoneMain) + ' of ' + str(trials.nTotal) + ' trials'
-                    NextRemindCountText.setText(progressMsg)
-                    NextRemindCountText.draw()
-                    myWin.flip() # myWin.flip(clearBuffer=True) 
-                    waiting=True
-                    while waiting:
-                       if autopilot: break
-                       elif expStop == True:break
-                       for key in event.getKeys():      #check if pressed abort-type key
-                             if key in ['space','ESCAPE']: 
-                                waiting=False
-                             if key in ['ESCAPE']:
-                                expStop = True
-                    myWin.clearBuffer()
-            #end break
-            core.wait(.05);  time.sleep(.05)
-            if experimentClock.getTime() > expTimeLimit:
-                expTimedOut = True
-            print('got to end of loop')
+        if exportImages:  #catches one frame of response
+             myWin.getMovieFrame() #I cant explain why another getMovieFrame, and core.wait is needed
+             framesSaved +=1; core.wait(.1)
+             myWin.saveMovieFrames('images_sounds_movies/frames.png') #mov not currently supported 
+             expStop=True
+        #core.wait(.1)
+        if feedback and useSound: 
+            play_high_tone_correct_low_incorrect(correctForStaircase, passThisTrial=False)
+        nDoneMain+=1
+        dataFile.flush(); logging.flush()
+        print('nDoneMain=', nDoneMain,' trials.nTotal=',trials.nTotal, 'expStop=',expStop) #' trials.thisN=',trials.thisN
+        #check whether time for break
+        if (trials.nTotal > 6 and nDoneMain > 2 and nDoneMain %
+             ( trials.nTotal*pctCompletedBreak/100. ) ==1 ):  #dont modulus 0 because then will do it for last trial
+                nextText.setText('Press "SPACE" to continue!')
+                nextText.draw()
+                progressMsg = 'Completed ' + str(nDoneMain) + ' of ' + str(trials.nTotal) + ' trials'
+                NextRemindCountText.setText(progressMsg)
+                NextRemindCountText.draw()
+                myWin.flip() # myWin.flip(clearBuffer=True) 
+                waiting=True
+                while waiting:
+                   if autopilot: break
+                   elif expStop == True:break
+                   for key in event.getKeys():      #check if pressed abort-type key
+                         if key in ['space','ESCAPE']: 
+                            waiting=False
+                         if key in ['ESCAPE']:
+                            expStop = True
+                myWin.clearBuffer()
+        #end break
+        core.wait(.05);  time.sleep(.05)
+        if experimentClock.getTime() > expTimeLimit:
+            expTimedOut = True
+        print('got to end of loop')
         #end main trials loop
 
 if trackEyes:
