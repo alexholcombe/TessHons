@@ -3,7 +3,7 @@
 #from __future__ import print_function, division
 from psychopy import monitors, visual, event, data, logging, core, gui, sound
 import psychopy.info
-useSound = False
+useSound = True
 import random, scipy
 import numpy as np
 from math import atan, log, ceil
@@ -263,7 +263,7 @@ if quitFinder and sys.platform != "win32":  #Don't know how to quitfinder on win
     shellCmd = 'osascript -e '+applescript
     os.system(shellCmd)
     
-letterDurMs = 34
+letterDurMs = 400 # 34
 ISIms =  experiment['ISIms']
 letterDurFrames = int( np.floor(letterDurMs / (1000./refreshRate)) )
 cueDurFrames = letterDurFrames
@@ -570,11 +570,18 @@ def calcStimPos(trial,i):
             x = offset+ amountNeedToCompensateForRotation
         elif experiment['ori'] == -90:
             x = offset - amountNeedToCompensateForRotation
-        elif experiment['ori'] == 0:
+        elif experiment['ori'] == 0: #normal unrotated condition
             x = offset
-        positions = [ [x,-wordEccentricity], [x,wordEccentricity] ]
+        positions =     [ [x,-wordEccentricity], [x,wordEccentricity] ]
+        #In case oneTarget, need to swap positions. BUT THIS WILL SCREW UP THE SCORING PROBABLY
+        #if trial['whichIfOneTarget']==0: #swap positions so that oneTarget is in the other of the two positions
+        #    positions = [ positions[1], positions[0] ]
     else:  #horizontally arrayed     left      ,        right 
         positions = [ [-wordEccentricity,offset], [wordEccentricity,offset] ]
+        #In case oneTarget, need to swap positions. BUT THIS WILL SCREW UP THE SCORING PROBABLY        
+        #if trial['whichIfOneTarget']==0: #get oneTarget in the other of the two positions
+        #    positions = [ positions[1], positions[0] ]       #by swapping positions 
+        
     #insert 3rd position of 3 stimuli
     if experiment['numSimultaneousStim'] == 3:
         positions.insert( 1, [0,0] )  #put 0,0 into middle (index 1) of list, so will present a letter at fovea
@@ -673,14 +680,16 @@ if experiment['spatial'] == 'vert':
 else: horizVert = False
 #SETTING THE CONDITIONS
 #Implement the fully factorial part of the design by creating every combination of the following conditions
-for rightResponseFirst in [False,True]:
-  for trialInstructionPos in [(0,-1), (0,1)]: #half of trials instruction to fixate above fixation, half of trials below
-    for oneTarget in experiment['oneTargetConditions']: #whether only one target presented
-     for horizVert in [0,1]:
-      for whichSide in [0,1]: #To vary in vertically arrayed case whether left or right side, and in horizontally arrayed case whether top or bottom side
-       for spacing in [0]: #spacing NOT WORKING
+for rightResponseFirst in [False,True]: #does double-duty as which position when one-target. Don't forget that means each position effectively half as often
+ for trialInstructionPos in [(0,-1), (0,1)]: #half of trials instruction to fixate above fixation, half of trials below
+  for oneTarget in experiment['oneTargetConditions']: #whether only one target presented
+   for horizVert in [0,1]:
+    for whichSide in [0,1]: #To vary in vertically arrayed case whether left or right side, and in horizontally arrayed case whether top or bottom side
+     for spacing in [0]: #spacing NOT WORKING
+      for whichIfOneTarget in [0,1]: #0=lower if vert, or left if horiz
+        oneTarget=True; horizVert=1;whichSide=1; whichIfOneTarget=0; rightResponseFirst=False
         conditionsList.append( {'rightResponseFirst':rightResponseFirst, 'leftStreamFlip':experiment['flipped'], 'trialInstructionPos':trialInstructionPos,'spacing':spacing,
-                                'oneTarget':oneTarget, 'horizVert':horizVert, 'whichSide':whichSide, 'rightStreamFlip':experiment['flipped'], 'probe':'both', 'ISIframes':ISIframes} )
+                                'oneTarget':oneTarget, 'horizVert':horizVert, 'whichSide':whichSide, 'whichIfOneTarget':whichIfOneTarget, 'rightStreamFlip':experiment['flipped'], 'probe':'both', 'ISIframes':ISIframes} )
 
 trials = data.TrialHandler(conditionsList,trialsPerCondition) #method of constant stimuli
 
@@ -722,7 +731,7 @@ maxNumRespsWanted = 3
 
 #print header for data file
 print('experimentPhase\ttrialnum\tsubject\ttask\toneTarget\t',file=dataFile,end='')
-print('noisePercent\tISIframes\tltrColorThis\tleftStreamFlip\trightStreamFlip\toneTarget\thorizVert\twhichSide\trightResponseFirst\tprobe\ttrialInstructionPos\t',end='',file=dataFile)
+print('noisePercent\tISIframes\tltrColorThis\tleftStreamFlip\trightStreamFlip\toneTarget\thorizVert\twhichSide\twhichIfOneTarget\trightResponseFirst\tprobe\ttrialInstructionPos\t',end='',file=dataFile)
     
 for i in range( experiment['numSimultaneousStim'] ): #range(maxNumRespsWanted):
    dataFile.write('responseOrder'+str(i)+'\t')
@@ -815,7 +824,7 @@ cue = visual.Circle(myWin,
      interpolate=True,
      autoLog=False)#this stim changes too much for autologging to be useful
      
-ltrHeight =  0.7 #Martini letters were 2.5deg high
+ltrHeight =  1 #0.7 
 #All noise dot coordinates ultimately in pixels, so can specify each dot is one pixel 
 noiseFieldWidthDeg=ltrHeight *1.0
 noiseFieldWidthPix = int( round( noiseFieldWidthDeg*pixelperdegree ) )
@@ -1177,6 +1186,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             idxsStream1 = None 
         else:
             idxsStream2 = None
+        print('oneTarget and idxsStream1=',idxsStream1,' idxsStream2=',idxsStream2)
     idxsStream3 = None
     if experiment['numSimultaneousStim'] == 3:
        idxsStream3 = [0]
@@ -1184,7 +1194,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     numCasesInterframeLong = timingCheckAndLog(ts,nDoneMain)
 
     if trackEyes:
-        #Send a 'TRIAL_RESULT' message to mark the end of trial, see Data Viewer User Manual, "Protocol for EyeLink Data to Viewer Integration"
+        #Send a 'TRIAL_RESULT' message to mark the end of trial. See Data Viewer User Manual, "Protocol for EyeLink Data to Viewer Integration"
         el_tracker.sendMessage('TRIAL_RESULT %d' % pylink.TRIAL_OK)
         stopEyetracking(el_tracker)
 
@@ -1216,7 +1226,6 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
         #print("thisTrial = ",thisTrial)
         #print("numRespsWanted = ",numRespsWanted, " numToReport=",numToReport, "thisTrial[rightResponseFirst] =",thisTrial['rightResponseFirst'],'responseOrder= ',responseOrder)
         while respI < numToReport and not np.array(expStop).any():
-            leftRightCentralBottomTop = thisTrial['horizVert']*3  + thisTrial['rightResponseFirst']
             if numToReport ==1:
                 side = thisTrial['rightResponseFirst'] * 2 - 1 #-1 for left/bottom, 1 for right/top
             elif numToReport == 2:
@@ -1268,6 +1277,8 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 respPromptStim3.setPos( [0, edge] ) #top
                 
             fixationPoint.setColor([.7,.7,.7]) #white not red so person doesnt' feel they have to look at it
+
+            leftRightCentralBottomTop = thisTrial['horizVert']*3  + thisTrial['rightResponseFirst']
             print("thisTrial['horizVert']=",thisTrial['horizVert'],'respI = ',respI, ' about to call doLineup with doLineupBothSides= ',doLineupBothSides,', leftRightCentralBottomTop=', leftRightCentralBottomTop, 'side=',side)
             expStop,passThisTrial,responses,buttons,responsesAutopilot = \
                     letterLineupResponse.doLineup(myWin,bgColor,myMouse,useSound,clickSound,badSound,possibleResps,doLineupBothSides,
@@ -1279,7 +1290,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             #print('Finished one doLineup', " responses=", responses)
             if autopilot: print("responsesAutopilot = ",responsesAutopilot)
             
-            #stringReponse was used for psyc1002, but Tess uses lineups
+            #stringReponse was used for psyc1002, but Tess uses lineups so the below is commented out and not updated for whichIfOneTarget
             #changeToUpper = False
             #expStop[respI],passThisTrial[respI],responses[respI],responsesAutopilot[respI] = stringResponse.collectStringResponse(
             #                        numCharsInResponse,x,y,respPromptStim1,respPromptStim2,respPromptStim3,respStim,acceptTextStim,fixationPoint, (1 if experiment['stimType']=='digit' else 0), myWin,
@@ -1298,6 +1309,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             print(thisTrial['oneTarget'],'\t', end='', file=dataFile)
             print(thisTrial['horizVert'],'\t', end='', file=dataFile)
             print(thisTrial['whichSide'],'\t', end='', file=dataFile)
+            print(thisTrial['whichIfOneTarget'],'\t', end='', file=dataFile)            
             print(thisTrial['rightResponseFirst'],'\t', end='', file=dataFile)
             print(thisTrial['probe'],'\t', end='', file=dataFile)
             print(thisTrial['trialInstructionPos'],'\t', end='', file=dataFile)
@@ -1316,7 +1328,10 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                     sequenceStream = idxsStream2; correctAnswerIdx = whichStim1
                 elif streami==2:
                     sequenceStream = idxsStream2; correctAnswerIdx = whichStim2
-                print ("stimList = ", stimList, " correctAnswer = stimList[correctAnswerIdx] = ",stimList[correctAnswerIdx])
+                    
+                correctAnswer = stimList[correctAnswerIdx]
+                print(" correctAnswer =",correctAnswer, ", stimList = ", stimList)
+                
                 if thisTrial['oneTarget'] and streami==1: #only streami==0 is used
                     correct = -99
                 else:
@@ -1327,7 +1342,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                     else:
                         respThisStream = responses[respThisStreamI]
                     print ("responses = ", responses, " responsesAutopilot=", responsesAutopilot, ' respThisStream = ', respThisStream)   #responseOrder
-                    correct = ( handleAndScoreResponse(passThisTrial,respThisStream,responsesAutopilot,task,stimList[correctAnswerIdx]) )
+                    correct = ( handleAndScoreResponse(passThisTrial,respThisStream,responsesAutopilot,task,correctAnswer) )
                 eachCorrect[streami] = correct
             
             #kludge to pad with null datafile spaces when only one target presented
