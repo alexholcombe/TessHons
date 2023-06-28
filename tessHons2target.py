@@ -1438,7 +1438,8 @@ if expTimedOut:
     msg = 'Experiment timed out with trials done=' + str(nDoneMain) + ' of ' + str(trials.nTotal+1)
     print(msg); logging.info(msg)
 if nDoneMain >0:
-    print('Of ',nDoneMain,' trials, on ',numTrialsCorrect*1.0/nDoneMain*100., '% of all trials all targets reported exactly correct',sep='')
+    trialsExactlyCorrectPct = numTrialsCorrect*1.0/nDoneMain*100.
+    print('Of ',nDoneMain,' trials, on ',round(trialsExactlyCorrectPct,2), '% of all trials all targets reported exactly correct',sep='')
     #for i in range(numRespsWanted): #Doesn't work because oneTarget trials screws up numTrialsEachCorrect
     #    print('stream',i,': ',round(numTrialsEachCorrect[i]*1.0/nDoneMain*100.,2), '% correct',sep='')
 dataFile.flush(); logging.flush(); dataFile.close()
