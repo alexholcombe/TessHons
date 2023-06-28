@@ -680,7 +680,7 @@ for rightResponseFirst in [False,True]: #does double-duty as which position when
    for horizVert in [0,1]:
     for whichSide in [0,1]: #To vary in vertically arrayed case whether left or right side, and in horizontally arrayed case whether top or bottom side
      for spacing in [0]: #spacing NOT WORKING
-        oneTarget=True; horizVert=1;whichSide=1; rightResponseFirst=True
+        #oneTarget=True; horizVert=1;whichSide=1; rightResponseFirst=True
         conditionsList.append( {'rightResponseFirst':rightResponseFirst, 'leftStreamFlip':experiment['flipped'], 'trialInstructionPos':trialInstructionPos,'spacing':spacing,
                                 'oneTarget':oneTarget, 'horizVert':horizVert, 'whichSide':whichSide, 'rightStreamFlip':experiment['flipped'], 'probe':'both', 'ISIframes':ISIframes} )
 
@@ -1307,25 +1307,22 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             
         eachCorrect = np.ones(numRespsWanted)*-999
 
-        print( 'getting ready to score response')
         numToPrint = numRespsWanted
-        if thisTrial['oneTarget']:
-            numToPrint = 1 #kludge, see line 993
-        for streami in range(numToPrint): #scored and printed to dataFile in left first, right second order even if collected in different order
-            print(responseOrder[streami],'\t', end='', file=dataFile)
-            if streami==0:
-                sequenceStream = idxsStream1; correctAnswerIdx = whichStim0
-            elif streami==1: 
-                sequenceStream = idxsStream2; correctAnswerIdx = whichStim1
-            elif streami==2:
-                sequenceStream = idxsStream2; correctAnswerIdx = whichStim2
+        print('getting ready to score response, numToPrint=',numToPrint, "thisTrial[oneTarget]=",thisTrial['oneTarget'])
+        
+        if not thisTrial['oneTarget']: #normal case of more than one target
+            for streami in range(numToPrint): #scored and printed to dataFile in left first, right second order even if collected in different order
+                print(responseOrder[streami],'\t', end='', file=dataFile)
+                if streami==0:
+                    sequenceStream = idxsStream1; correctAnswerIdx = whichStim0
+                elif streami==1: 
+                    sequenceStream = idxsStream2; correctAnswerIdx = whichStim1
+                elif streami==2:
+                    sequenceStream = idxsStream2; correctAnswerIdx = whichStim2
+                    
+                correctAnswer = stimList[correctAnswerIdx]
+                print(" correctAnswer =",correctAnswer, ", correctAnswerIdx = ", correctAnswerIdx, ' streami=',streami,' whichStim0/1= ',whichStim0,',',whichStim1)
                 
-            correctAnswer = stimList[correctAnswerIdx]
-            print(" correctAnswer =",correctAnswer, ", correctAnswerIdx = ", correctAnswerIdx, ' streami=',streami,' whichStim0/1= ',whichStim0,',',whichStim1)
-            
-            if thisTrial['oneTarget'] and streami==1: #only streami==0 is used
-                correct = -99
-            else:
                 respThisStreamI = responseOrder.index(streami)
                 print('respThisStreamI = ',respThisStreamI, 'responses=',responses)
                 if autopilot:
@@ -1333,17 +1330,32 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 else:
                     respThisStream = responses[respThisStreamI]
                 print ("responses = ", responses, " responsesAutopilot=", responsesAutopilot, ' respThisStream = ', respThisStream)   #responseOrder
-                correct = ( handleAndScoreResponse(passThisTrial,respThisStream,responsesAutopilot,task,correctAnswer) )
-            eachCorrect[streami] = correct
-        
-        #kludge to pad with null datafile spaces when only one target presented
-        if thisTrial['oneTarget']:
-            for i in range(experiment['numSimultaneousStim']-1):
-                print(-99, '\t', end='', file=dataFile) #responseOrderN
-                print(-99, '\t', end='', file=dataFile) #answerN
-                print(-99, '\t', end='', file=dataFile) #responseN
-                print(-99, '\t', end='',file=dataFile)  #correctN
-        
+    
+                correct = handleAndScoreResponse(passThisTrial,respThisStream,responsesAutopilot,task,correctAnswer)
+                eachCorrect[streami] = correct
+        else: #thisTrial['oneTarget'] so only one response so there's only one response to score, but need to print out both to datafile still
+                print('HELLO')
+                respThisStream = responses[0]
+                if autopilot:
+                    respThisStream = responsesAutopilot[0]
+                
+                if thisTrial['rightResponseFirst']==0:
+                    correctAnswerIdx = whichStim0
+                if thisTrial['rightResponseFirst']==1:
+                    correctAnswerIdx = whichStim1
+                correctAnswer = stimList[correctAnswerIdx]
+                
+                correct = handleAndScoreResponse(passThisTrial,respThisStream,responsesAutopilot,task,correctAnswer)
+                eachCorrect = np.array([correct, -99]) #correct always first, unlike when 2 targets where position tells you something
+                print('correct= ',correct, 'responses=',responses, 'correctAnswer=',correctAnswer, ", correctAnswerIdx = ", correctAnswerIdx, ' whichStim0/1= ',whichStim0,',',whichStim1)
+
+                #kludge to pad with null datafile spaces when only one target presented
+                for i in range(experiment['numSimultaneousStim']-1):
+                    print(-99, '\t', end='', file=dataFile) #responseOrderN
+                    print(-99, '\t', end='', file=dataFile) #answerN
+                    print(-99, '\t', end='', file=dataFile) #responseN
+                    print(-99, '\t', end='',file=dataFile)  #correctN
+    
         print(numCasesInterframeLong, file=dataFile) #timingBlips, last thing recorded on each line of dataFile
         #Don't want to feed allCorrect into staircase because then for e.g. a staircase targeting 70% correct, they will get 84% correct on each if two letters but even higher if 3 letters
         #Instead, average and round. This means that if get 1 out of 2 correct, counts as correct. If get 2 out of 3 correct, counts as correct but one is not enough.
