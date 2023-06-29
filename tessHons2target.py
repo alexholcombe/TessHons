@@ -45,8 +45,9 @@ except ImportError:
     print('ERROR Could not import getpass')
 
 trackEyes = False
-eyetracker_dummy_mode = True # Set this variable to True to run eyetracking in "Dummy Mode"
 if trackEyes:
+    eyetracker_dummy_mode = False # Set this variable to True to run eyetracking in "Dummy Mode"
+    eyetrackFileGetFromEyelinkMachine = True
     timeAndDateStr = time.strftime("%H:%M on %d %b %Y", time.localtime())
     subject = 'subjectNameUnknownSetLater'
     edf_fname='EyeTrack_'+subject+'_'+timeAndDateStr+'.EDF'
@@ -301,7 +302,7 @@ if not demo and not exportImages:
         filemode='w',#if you set this to 'a' it will append instead of overwriting
         level=logging.INFO)#errors, data and warnings will be sent to this logfile
 if demo or exportImages: 
-  dataFile = sys.stdout; logF = sys.stdout
+  dataFile = sys.stdout; logFname = sys.stdout
   logging.console.setLevel(logging.ERROR)  #only show this level  messages and higher
 logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nearly all messges, INFO next level, EXP, DATA, WARNING and ERROR 
 
@@ -1063,6 +1064,7 @@ myMouse = event.Mouse(visible=True,win=myWin)
 nDoneMain =0
 while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     #print('nDoneMain=',nDoneMain)
+    expStop = False
     whichStim0 = np.random.randint(0, len(stimList) )
     whichStim1 = np.random.randint(0, len(stimList) ) 
     #check that whichStim0 and whichStim1 don't have letters in common. If they do generate a new pair
@@ -1124,14 +1126,15 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             # the last two arguments:
             # draw_target (1-default, 0-draw the target then call doDriftCorrect)
             # allow_setup (1-press ESCAPE to recalibrate, 0-not allowed)        
-            while not dummy_mode: # Skip drift-check if running the script in Dummy Mode
+            while not eyetracker_dummy_mode: # Skip drift-check if running the script in Dummy Mode
                 # terminate the task if no longer connected to the tracker or
                 # user pressed Ctrl-C to terminate the task
                 if not el_tracker.isConnected():
-                    terminate_task()
                     print('Eyetracker not connected')
+                    expStop = True
                 if el_tracker.breakPressed():
                     print('CTRL-C pressed to terminate')
+                    expStop = True
         
                 # drift-check and re-do camera setup if ESCAPE is pressed
                 try:
@@ -1139,16 +1142,19 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                                                       int(scn_height/2.0), 1, 1)
                     # break following a successful drift-check, which I guess just continues? IF so, bad coding practice I think
                     if error is not pylink.ESC_KEY:
-                        break
+                        print('Something went wrong with doDriftCorrect')
+                        expStop = True
+                        #break
                 except:
-                    pass
+                    print('Something except-ional went wrong with doDriftCorrect')
+                    expStop = True
     
-        # put tracker in idle/offline mode before recording, maybe helps stop skipping trials due to not recording
+        # put tracker in idle/offline mode before recording, which is what they recommend.
+        # Maybe helps stop skipping trials due to not recording?
         el_tracker.setOfflineMode()
     
         # Start recording
-        # arguments: sample_to_file, events_to_file, sample_over_link,
-        # event_over_link (1-yes, 0-no)
+        # arguments: sample_to_file, events_to_file, sample_over_link, event_over_link (1-yes, 0-no)
         try:
             el_tracker.startRecording(1, 1, 1, 1)
         except RuntimeError as error:
@@ -1186,21 +1192,21 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     if trackEyes:
         #Send a 'TRIAL_RESULT' message to mark the end of trial. See Data Viewer User Manual, "Protocol for EyeLink Data to Viewer Integration"
         el_tracker.sendMessage('TRIAL_RESULT %d' % pylink.TRIAL_OK)
-        stopEyeTracking(el_tracker)
+        stopEyeTracking(el_tracker) #just until the next trial
 
     #call for each response
     #if myMouse == None:  #mouse sometimes freezes if don't call event.Mouse certain number of times I think, no idea why
         #myMouse = event.Mouse(visible=True,win=myWin) #debugAH
     myMouse.setVisible(True)
-    fixationPoint.setColor([.6,.6,.6]) #white not red so person doesnt' feel they have to look at it
+    fixationPoint.setColor([.6,.6,.6]) #white not red so person doesn't feel they have to look at it
 
     possibleResps = stimList
     doLineupBothSides = True
     
-    expStop = list(); passThisTrial = list(); responses=list(); responsesAutopilot=list()
     numCharsInResponse = len(stimList[0])
-    dL = [None]*numRespsWanted #dummy list for null values
-    expStop = copy.deepcopy(dL); responses = copy.deepcopy(dL); responsesAutopilot = copy.deepcopy(dL); passThisTrial=copy.deepcopy(dL)
+    dL = [None]*numRespsWanted #dummy list for null values, because want one per response
+    expStop = [expStop]*numRespsWanted
+    expStop = copy.deepcopy(expStop); responses = copy.deepcopy(dL); responsesAutopilot = copy.deepcopy(dL); passThisTrial=copy.deepcopy(dL)
     if thisProbe == 'both': #Either have word on both sides or letter on both sides
         if thisTrial['oneTarget']:
             numToReport = 1
@@ -1222,7 +1228,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             leftRightCentralBottomTop = thisTrial['horizVert']*3  + thisTrial['rightResponseFirst']
             print("thisTrial['horizVert']=",thisTrial['horizVert'],'respI = ',respI, ' about to call doLineup with doLineupBothSides= ',doLineupBothSides,', leftRightCentralBottomTop=', leftRightCentralBottomTop)
             
-            expStop,passThisTrial,responses,buttons,responsesAutopilot = \
+            expStop[0],passThisTrial,responses,buttons,responsesAutopilot = \
                     letterLineupResponse.doLineup(myWin,bgColor,myMouse,useSound,clickSound,badSound,possibleResps,doLineupBothSides,
                                                     leftRightCentralBottomTop,showClickedRegion,autopilot)
             print('Finished one doLineup', " responses=", responses)
@@ -1407,7 +1413,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
         #end main trials loop
 
 if trackEyes:
-  tracker.closeDataFile()
+  el_tracker.closeDataFile()
   if eyetrackFileGetFromEyelinkMachine:
     eyetrackerFileWaitingText = visual.TextStim(myWin,pos=(-.1,0),colorSpace='rgb',color = (1,1,1),anchorHoriz='center', anchorVert='center', units='norm',autoLog=autoLogging)
     eyetrackerFileWaitingText.setText('Waiting for eyetracking file from Eyelink computer. Do not abort eyetracking machine or file will not be saved?')
@@ -1422,9 +1428,8 @@ if trackEyes:
   else: 
     print('You will have to get the Eyelink EDF file off the eyetracking machine by hand')
         
-  msg = closeEyeTracker(mtracker)
-  print(msg); print(msg,file=logF) #""Eyelink connection closed successfully" or "Eyelink not available, not closed properly"
-
+  msg = closeEyeTracker(el_tracker)
+  print(msg); logging.info(msg) #""Eyelink connection closed successfully" or "Eyelink not available, not closed properly"
 
 timeAndDateStr = time.strftime("%H:%M on %d %b %Y", time.localtime())
 msg = 'Stopping at '+timeAndDateStr
