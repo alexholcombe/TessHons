@@ -51,7 +51,7 @@ if trackEyes:
     timeAndDateStr = time.strftime("%H:%M on %d %b %Y", time.localtime())
     subject = 'subjectNameUnknownSetLater'
     edf_fname='EyeTrack_'+subject+'_'+timeAndDateStr+'.EDF'
-
+    edf_fname_8chars = timeAndDateStr[0:8] + '.EDF' #on eyetracker PC, filename is limited to 8 chars!!
     # Step 1: Connect to the EyeLink Host PC
     # The Host IP address, by default, is "100.1.1.1".
     # the "el_tracker" objected created here can be accessed through the Pylink
@@ -69,7 +69,7 @@ if trackEyes:
     
     # Step 2: Open an EDF data file on the EyeLink PC
     try:
-        el_tracker.openDataFile(edf_fname)
+        el_tracker.openDataFile(edf_fname_8chars)
     except RuntimeError as err:
         print('ERROR:', err)
         # close the link if we have one open
@@ -79,10 +79,7 @@ if trackEyes:
         sys.exit()
         
     # We download EDF data file from the EyeLink Host PC to the local hard
-    # drive at the end of each testing session, here we rename the EDF to
-    # include session start date/time
-    time_str = time.strftime("_%Y_%m_%d_%H_%M", time.localtime())
-    session_identifier = edf_fname + time_str
+    # drive at the end of each testing session
 
     # Add a header text to the EDF file to identify the current experiment name
     # This is optional. If your text starts with "RECORDED BY " it will be
@@ -1422,7 +1419,7 @@ if trackEyes:
     try:
         # Download the EDF data file from the Host PC to a local data folder
         # parameters: source_file_on_the_host, destination_file_on_local_drive
-        tracker.receiveDataFile(edf_fname,edf_fname) 
+        tracker.receiveDataFile(edf_fname_8chars,edf_fname) 
     except RuntimeError as error:
         print('when trying to get EDF file from eyetracker computer, ERROR:', error)
   else: 
