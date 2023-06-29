@@ -514,7 +514,7 @@ if trackEyes:
     # Step 5: Set up the camera and calibrate the tracker
     
     # Show the task instructions
-    task_msg = 'I think the calibration is meant to start next, but maybe have to ENTER twice'
+    task_msg = 'I think the calibration is meant to start next, but maybe have to press ENTER twice'
     if eyetracker_dummy_mode:
         task_msg = task_msg + '\nNow, press ENTER to start the task'
     else:
@@ -539,14 +539,12 @@ if trackEyes:
     # skip this step if running the script in Dummy Mode
     if not eyetracker_dummy_mode:
         try:
-            el_tracker.doTrackerSetup() #calibrate tracker
+            el_tracker.doTrackerSetup() #calibrate and validate tracker
+            #Why does calibrate work but sometimes validation fail by not showing the stimulus at right place on display PC?
         except RuntimeError as err:
             print('When trying to calibrate eyetracker, ERROR:', err)
             el_tracker.exitCalibration()
-    
-    #WHY IS VALIDATION NOT WORKING PROPERLY?
-
-        
+           
     # close the PsychoPy window
     #myWin.close()
 
@@ -1188,7 +1186,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     if trackEyes:
         #Send a 'TRIAL_RESULT' message to mark the end of trial. See Data Viewer User Manual, "Protocol for EyeLink Data to Viewer Integration"
         el_tracker.sendMessage('TRIAL_RESULT %d' % pylink.TRIAL_OK)
-        stopEyetracking(el_tracker)
+        stopEyeTracking(el_tracker)
 
     #call for each response
     #if myMouse == None:  #mouse sometimes freezes if don't call event.Mouse certain number of times I think, no idea why
