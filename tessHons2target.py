@@ -48,9 +48,9 @@ trackEyes = False
 if trackEyes:
     eyetracker_dummy_mode = False # Set this variable to True to run eyetracking in "Dummy Mode"
     eyetrackFileGetFromEyelinkMachine = True
-    timeAndDateStr = time.strftime("%H:%M on %d %b %Y", time.localtime())
-    subject = 'subjectNameUnknownSetLater'
-    edf_fname='EyeTrack_'+subject+'_'+timeAndDateStr+'.EDF'
+    timeAndDateStr = time.strftime("%Mm%Hh%d%b%Y", time.localtime())
+    subject = 'unknwn'
+    edf_fname= subject+'_'+timeAndDateStr+'.EDF'
     edf_fname_8chars = timeAndDateStr[0:8] + '.EDF' #on eyetracker PC, filename is limited to 8 chars!!
     # Step 1: Connect to the EyeLink Host PC
     # The Host IP address, by default, is "100.1.1.1".
@@ -144,12 +144,7 @@ user=getuser()  #In PSYC1002, participant logged into computer so subject was th
 networkMachineName = gethostname()
 subject = 'Bertie' #debug
 if autopilot: subject='auto'
-cwd = os.getcwd()
-print('current working directory =',cwd)
-if sys.platform == "win32":
-    pathToData = 'dataRaw'  
-else:
-    pathToData = 'dataRaw'
+pathToData = 'dataRaw'
 if os.path.isdir(pathToData):
     dataDir='dataRaw'
 else:
@@ -269,7 +264,9 @@ ISIframes = int( np.floor(ISIms / (1000./refreshRate)) )
 rateInfo = 'base total SOA=' + str(round(  (ISIframes + letterDurFrames)*1000./refreshRate, 2)) + ' or ' + str(ISIframes + letterDurFrames) + ' frames, comprising\n'
 rateInfo+=  'base ISIframes ='+str(ISIframes)+' or '+str(ISIframes*(1000./refreshRate))+' ms and letterDurFrames ='+str(letterDurFrames)+' or '+str(round( letterDurFrames*(1000./refreshRate), 2))+'ms'
 logging.info(rateInfo); #print(rateInfo)
+cwd = os.getcwd()
 logging.info('current working directory is ' + cwd)
+logging.info(sys.platform)
 
 monitorname = 'testmonitor'
 waitBlank = False
