@@ -12,10 +12,10 @@ import copy, time, datetime, sys, os, string, shutil, platform
 #except ImportError:
 #    print('Could not import from noiseStaircaseHelpers.py (you need that file to be in the same directory)')
 try:
-    import pylink
+    import pylink  
     from eyetrackingCode import EyeLinkCoreGraphicsPsychoPyAlex #imports from subfolder
 except Exception as e:
-    print(f"An exception occurred: {str(e)}")
+    print("An exception occurred: {str(e)}")
     print('Could not import EyeLinkCoreGraphicsPsychoPyAlex.py (you need that file to be in the eyetrackingCode subdirectory, which needs an __init__.py file in it too)')
 try:
     import stringResponse
@@ -48,10 +48,10 @@ trackEyes = False
 if trackEyes:
     eyetracker_dummy_mode = False # Set this variable to True to run eyetracking in "Dummy Mode"
     eyetrackFileGetFromEyelinkMachine = True
-    timeAndDateStr = time.strftime("%Mm%Hh%d%b%Y", time.localtime())
-    subject = 'unknwn'
-    edf_fname= subject+'_'+timeAndDateStr+'.EDF'
-    edf_fname_8chars = timeAndDateStr[0:8] + '.EDF' #on eyetracker PC, filename is limited to 8 chars!!
+    timeAndDateStr = time.strftime("%H:%M on %d %b %Y", time.localtime())
+    subject = 'subjectNameUnknownSetLater'
+    edf_fname= 'unknwn' #tesschange from EyeTrack_'+subject+'_'+timeAndDateStr+'.EDF'
+    edf_fname_8chars = 'unknwn'#tess change from timeAndDateStr[0:8] #+ '.EDF' #on eyetracker PC, filename is limited to 8 chars!!
     # Step 1: Connect to the EyeLink Host PC
     # The Host IP address, by default, is "100.1.1.1".
     # the "el_tracker" objected created here can be accessed through the Pylink
@@ -132,19 +132,24 @@ if trackEyes:
     # You need a supported gamepad/button box that is connected to the Host PC
     el_tracker.sendCommand("button_function 5 'accept_target_fixation'")
 
-wordEccentricity=  0.9 
+wordEccentricity= 3 #tesschange from 0.9
 tasks=['T1']; task = tasks[0]
 #same screen or external screen? Set scrn=0 if one screen. scrn=1 means display stimulus on second screen.
 #widthPix, heightPix
 quitFinder=False 
-autopilot=False
+autopilot=True #tesschange temp
 demo=False #False
 exportImages= False #quits after one trial
 user=getuser()  #In PSYC1002, participant logged into computer so subject was their username https://stackoverflow.com/a/842096/302378
 networkMachineName = gethostname()
 subject = 'Bertie' #debug
 if autopilot: subject='auto'
-pathToData = 'dataRaw'
+cwd = os.getcwd()
+print('current working directory =',cwd)
+if sys.platform == "win32":
+    pathToData = 'dataRaw'  
+else:
+    pathToData = 'dataRaw'
 if os.path.isdir(pathToData):
     dataDir='dataRaw'
 else:
@@ -264,9 +269,7 @@ ISIframes = int( np.floor(ISIms / (1000./refreshRate)) )
 rateInfo = 'base total SOA=' + str(round(  (ISIframes + letterDurFrames)*1000./refreshRate, 2)) + ' or ' + str(ISIframes + letterDurFrames) + ' frames, comprising\n'
 rateInfo+=  'base ISIframes ='+str(ISIframes)+' or '+str(ISIframes*(1000./refreshRate))+' ms and letterDurFrames ='+str(letterDurFrames)+' or '+str(round( letterDurFrames*(1000./refreshRate), 2))+'ms'
 logging.info(rateInfo); #print(rateInfo)
-cwd = os.getcwd()
 logging.info('current working directory is ' + cwd)
-logging.info(sys.platform)
 
 monitorname = 'testmonitor'
 waitBlank = False
@@ -337,7 +340,9 @@ if includeConsentDemographics:
     dir = os.path.join(topDir,'PISandConsentForm')
     page1 = os.path.join(dir,'PIS2underlined.png') #"PISandConsentForm/PIS2underlined.png" 
     page2 = os.path.join(dir,'PIS2underlined_p2.png')  #  PISandConsentForm/PIS2underlined_p2.png   
+    page3 = os.path.join(dir,'PIS2underlined_p3.png')  #  PISandConsentForm/PIS2underlined_p3.png    tesschange
     clickedContinue = doParticipantInformationStatement(page1,page2, myWin, myMouse, exportImages)
+    clickedContinue = doParticipantInformationStatement(page3,page3, myWin, myMouse, exportImages)
 
     page = os.path.join(dir,'consentForm.png') #"PISandConsentForm/'consentForm.png'
     secretKeyPressed, choiceDicts = doConsentForm(page, subject, myWin, myMouse, exportImages)
@@ -550,10 +555,10 @@ if trackEyes:
 def calcStimPos(trial,i):
     #i is position index, either 0, 1, or 2.  Just 0 or 1 unless Humby experimnet with 3 positions
     global experiment
-    offset = 0
+    offset = 3 #tesschange from 0
     meridianOrOffset = True
     if meridianOrOffset:
-        offset = 3
+        offset = 3 #tesschange from 3, this is the distance from fixation point 
         if not trial['whichSide']: #To vary in vertically arrayed case whether left or right side, and in horizontally arrayed case whether top or bottom side
             offset *= -1
     amountNeedToCompensateForRotation = 0.08 #when text rotated by 90 deg, not centered at x-coord any more
@@ -1113,7 +1118,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     myMouse.setVisible(False) #because showing the stimulus is next
 
     if trackEyes:
-        doDriftCorrect = False
+        doDriftCorrect = True
         if doDriftCorrect:
             # we recommend drift correction at the beginning of each trial
             # the doDriftCorrect() function requires target position in integers
