@@ -253,6 +253,8 @@ viewdist = 57 #50. #cm
 pixelperdegree = widthPix/ (atan(monitorwidth/viewdist) /np.pi*180)
     
 doStaircase = True
+stopStaircaseAfterFirstBlock = True #If your experiment uses staircasing (doStaircase=True), only do it for the first block (which will be practice trials) because otherwise
+    #different conditions might have different average duration/luminances, because the staircase adjusts after potentially every trial
 checkRefreshEtc = True 
 if quitFinder and sys.platform != "win32":  #Don't know how to quitfinder on windows
     import os
@@ -680,7 +682,8 @@ for rightResponseFirst in [False,True]: #does double-duty as which position when
         #oneTarget=True; horizVert=1;whichSide=1; rightResponseFirst=True
         conditionsList.append( {'rightResponseFirst':rightResponseFirst, 'leftStreamFlip':experiment['flipped'], 'trialInstructionPos':trialInstructionPos,'spacing':spacing,
                                 'oneTarget':oneTarget, 'horizVert':horizVert, 'whichSide':whichSide, 'rightStreamFlip':experiment['flipped'], 'probe':'both', 'ISIframes':ISIframes} )
-
+numConditions = len(conditionsList)
+print('numConditions = ',numConditions,' trialsPerCondition=',trialsPerCondition)
 trials = data.TrialHandler(conditionsList,trialsPerCondition) #method of constant stimuli
 
 def numberToLetter(number): #0 = A, 25 = Z
@@ -1048,7 +1051,7 @@ if doStaircase:
         nUp=1, nDown=2,  # 1-up 3-down homes in on the 80% threshold. Gravitates toward a value that has an equal probability of getting easier and getting harder.
         #See Wetherill & Levitt 1965, 1 up 2 down goes for 71% correct. And if 2 letters are independent, each correct = sqrt(.71) = 84% correct.
         nTrials=500)
-    print('created conventional staircase')
+    print('Created conventional staircase')
         
     #phasesMsg = ('Doing '+str(prefaceStaircaseTrialsN)+'trials with noisePercent= '+str(prefaceStaircaseNoise)+' then doing a max '+str(staircaseTrials)+'-trial staircase')
     #print(phasesMsg); logging.info(phasesMsg)
@@ -1072,7 +1075,6 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     calcAndPredrawStimuli(stimList,trial['spacing'],whichStim0,whichStim1,whichStim2)
     thisTrial = copy.deepcopy(trial) #so that can change its values, otherwise messing with it screws up the trialhandler
     ltrColorThis = ltrColor
-    print('trial loop, doStaircase=',doStaircase)
     if nDoneMain==0: #First trial
         msg='Starting main part of experiment'
         howManyMoreFrames =0
@@ -1098,6 +1100,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             keyPressed = event.getKeys() #keyList=list(string.ascii_lowercase))        
     else:
         if doStaircase:
+          if (not stopStaircaseAfterFirstBlock) or (nDoneMain >= numConditions):
             print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity, 'howManyMoreFrames=',howManyMoreFrames)
             ltrColorThis = staircase.next()
             #if ltrColorThis <= 1:
@@ -1113,7 +1116,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 print('thisTrial[ISIframes]=', thisTrial['ISIframes'], ' and now ltrColorThis =',ltrColorThis)
             ltrColorThis = round(ltrColorThis,2)
             print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity,'ltrColorThis=',ltrColorThis)
-            trialInstructionStim.setText('lum=' + str(ltrColorThis)+ ' f='+ str(howManyMoreFrames), log=False) #debug
+            #trialInstructionStim.setText('lum=' + str(ltrColorThis)+ ' f='+ str(howManyMoreFrames), log=False) #debug
     trialInstructionStim.setPos( thisTrial['trialInstructionPos'] )
     myMouse.setVisible(False) #because showing the stimulus is next
 

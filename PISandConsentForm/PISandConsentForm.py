@@ -20,7 +20,6 @@ def convertXYtoNormUnits(XY,currUnits,win):
     return xNorm, yNorm
 #mousePos = convertXYtoNormUnits(mousePosRaw,myWin.units,myWin)
 
-
 def doParticipantInformationStatement(img1filename, img2filename, myWin, myMouse, exportImages):
     
     #In theory can override the window units for each thing drawn, but it seems like this could cause the mouse to have different units
