@@ -262,7 +262,7 @@ if quitFinder and sys.platform != "win32":  #Don't know how to quitfinder on win
     shellCmd = 'osascript -e '+applescript
     os.system(shellCmd)
     
-letterDurMs = 400 # 34
+letterDurMs = 34
 ISIms =  experiment['ISIms']
 letterDurFrames = int( np.floor(letterDurMs / (1000./refreshRate)) )
 cueDurFrames = letterDurFrames
