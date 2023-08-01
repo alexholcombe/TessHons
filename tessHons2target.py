@@ -674,8 +674,9 @@ else: horizVert = False
 #SETTING THE CONDITIONS
 #Implement the fully factorial part of the design by creating every combination of the following conditions
 for rightResponseFirst in [False,True]: #does double-duty as which position when one-target. Don't forget that means each position effectively half as often
- for trialInstructionPos in [(0,-1), (0,1)]: #half of trials instruction to fixate above fixation, half of trials below
-  for oneTarget in experiment['oneTargetConditions']: #whether only one target presented
+ #for trialInstructionPos in [(0,-1), (0,1)]: #half of trials instruction to fixate above fixation, half of trials below
+ trialInstructionPos = -99 #not counterbalancing, just choose randomly on each trial
+ for oneTarget in experiment['oneTargetConditions']: #whether only one target presented
    for horizVert in [0,1]:
     for whichSide in [0,1]: #To vary in vertically arrayed case whether left or right side, and in horizontally arrayed case whether top or bottom side
      for spacing in [0]: #spacing NOT WORKING
@@ -1117,6 +1118,10 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             ltrColorThis = round(ltrColorThis,2)
             print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity,'ltrColorThis=',ltrColorThis)
             #trialInstructionStim.setText('lum=' + str(ltrColorThis)+ ' f='+ str(howManyMoreFrames), log=False) #debug
+    if thisTrial['trialInstructionPos']==-99: #pick randomly
+        trialInstructionPositions = [(0,-1), (0,1)]
+        random.shuffle(trialInstructionPositions)
+        thisTrial['trialInstructionPos'] = trialInstructionPositions[0]
     trialInstructionStim.setPos( thisTrial['trialInstructionPos'] )
     myMouse.setVisible(False) #because showing the stimulus is next
 
@@ -1339,7 +1344,6 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
                 correct = handleAndScoreResponse(passThisTrial,respThisStream,responsesAutopilot,task,correctAnswer)
                 eachCorrect[streami] = correct
         else: #thisTrial['oneTarget'] so only one response so there's only one response to score, but need to print out both to datafile still
-                print('HELLO')
                 print(responseOrder[0],'\t', end='', file=dataFile)
                 if autopilot:
                     respThisStream = responsesAutopilot[0]
