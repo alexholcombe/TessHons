@@ -279,7 +279,7 @@ mon = monitors.Monitor(monitorname,width=monitorwidth, distance=viewdist)#relyin
 mon.setSizePix( (widthPix,heightPix) )
 units='deg' #'cm'
 
-trialsPerCondition = 1
+trialsPerCondition = 3
 defaultNoiseLevel = 0
 if not demo:
     allowGUI = False
@@ -342,9 +342,10 @@ if includeConsentDemographics:
     dir = os.path.join(topDir,'PISandConsentForm')
     page1 = os.path.join(dir,'PIS2underlined.png') #"PISandConsentForm/PIS2underlined.png" 
     page2 = os.path.join(dir,'PIS2underlined_p2.png')  #  PISandConsentForm/PIS2underlined_p2.png   
-    page3 = os.path.join(dir,'PIS2underlined_p3.png')  #  PISandConsentForm/PIS2underlined_p3.png    tesschange
+    page3 = os.path.join(dir,'PIS2underlined_p3.png')  #  PISandConsentForm/PIS2underlined_p3.png  
+    page4 = os.path.join(dir,'PIS2underlined_p4.png')  #  PISandConsentForm/PIS2underlined_p4.png    tesschange
     clickedContinue = doParticipantInformationStatement(page1,page2, myWin, myMouse, exportImages)
-    clickedContinue = doParticipantInformationStatement(page3,page3, myWin, myMouse, exportImages)
+    clickedContinue = doParticipantInformationStatement(page3,page4, myWin, myMouse, exportImages)
 
     page = os.path.join(dir,'consentForm.png') #"PISandConsentForm/'consentForm.png'
     secretKeyPressed, choiceDicts = doConsentForm(page, subject, myWin, myMouse, exportImages)
@@ -1101,8 +1102,8 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             keyPressed = event.getKeys() #keyList=list(string.ascii_lowercase))        
     else:
         if doStaircase:
-          if (not stopStaircaseAfterFirstBlock) or (nDoneMain >= numConditions):
-            print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity, 'howManyMoreFrames=',howManyMoreFrames)
+          if (nDoneMain <= numConditions*2) or (not stopStaircaseAfterFirstBlock):
+            print('STAIRCASE.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity, 'howManyMoreFrames=',howManyMoreFrames)
             ltrColorThis = staircase.next()
             #if ltrColorThis <= 1:
             #    howManyMoreFrames = 0
