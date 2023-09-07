@@ -2,13 +2,13 @@
 #See the github repository for more information: https://github.com/alexholcombe/
 from psychopy import monitors, visual, event, data, logging, core, gui, sound
 import psychopy.info
-useSound = True
+useSound = False
 import random, scipy
 import numpy as np
 from math import atan, log, ceil
 import copy, time, datetime, sys, os, string, shutil, platform
 #try:
-#    from noiseStaircaseHelpers import printStaircase, toStaircase, outOfStaircase, createNoise, plotDataAndPsychometricCurve
+#    from noiseStaircaseHeapers import printStaircase, toStaircase, outOfStaircase, createNoise, plotDataAndPsychometricCurve
 #except ImportError:
 #    print('Could not import from noiseStaircaseHelpers.py (you need that file to be in the same directory)')
 try:
@@ -44,14 +44,15 @@ try:
 except ImportError:
     print('ERROR Could not import getpass')
 
-trackEyes = False
+trackEyes = True
 if trackEyes:
     eyetracker_dummy_mode = False # Set this variable to True to run eyetracking in "Dummy Mode"
     eyetrackFileGetFromEyelinkMachine = True
-    timeAndDateStr = time.strftime("%H:%M on %d %b %Y", time.localtime())
+    timeAndDateStr = time.strftime("%H%M_%d%b%Y", time.localtime())
     subject = 'subjectNameUnknownSetLater'
-    edf_fname= 'unknwn' #tesschange from EyeTrack_'+subject+'_'+timeAndDateStr+'.EDF'
-    edf_fname_8chars = 'unknwn'#tess change from timeAndDateStr[0:8] #+ '.EDF' #on eyetracker PC, filename is limited to 8 chars!!
+    #edf_fname= 'results' #EyeTrack_'+subject+'_'+timeAndDateStr+'.EDF'  #Too long, on eyetracker PC, filename is limited to 8 chars!!
+    edf_fname_short = timeAndDateStr[0:8] #tesschange from timeAndDateStr[0:8] #+ '.EDF' #on eyetracker PC, filename is limited to 8 chars!!
+    print('Eyetracking file will be called',edf_fname_short)
     # Step 1: Connect to the EyeLink Host PC
     # The Host IP address, by default, is "100.1.1.1".
     # the "el_tracker" objected created here can be accessed through the Pylink
@@ -69,7 +70,7 @@ if trackEyes:
     
     # Step 2: Open an EDF data file on the EyeLink PC
     try:
-        el_tracker.openDataFile(edf_fname_8chars)
+        el_tracker.openDataFile(edf_fname_short)
     except RuntimeError as err:
         print('ERROR:', err)
         # close the link if we have one open
@@ -137,7 +138,7 @@ tasks=['T1']; task = tasks[0]
 #same screen or external screen? Set scrn=0 if one screen. scrn=1 means display stimulus on second screen.
 #widthPix, heightPix
 quitFinder=False 
-autopilot=True #tesschange temp
+autopilot=False #tesschange temp
 demo=False #False
 exportImages= False #quits after one trial
 user=getuser()  #In PSYC1002, participant logged into computer so subject was their username https://stackoverflow.com/a/842096/302378
@@ -279,7 +280,7 @@ mon = monitors.Monitor(monitorname,width=monitorwidth, distance=viewdist)#relyin
 mon.setSizePix( (widthPix,heightPix) )
 units='deg' #'cm'
 
-trialsPerCondition = 3
+trialsPerCondition = 17 #tesschange from 23 
 defaultNoiseLevel = 0
 if not demo:
     allowGUI = False
@@ -1102,8 +1103,8 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
             keyPressed = event.getKeys() #keyList=list(string.ascii_lowercase))        
     else:
         if doStaircase:
-          if (nDoneMain <= numConditions*2) or (not stopStaircaseAfterFirstBlock):
-            print('STAIRCASE.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity, 'howManyMoreFrames=',howManyMoreFrames)
+          if (not stopStaircaseAfterFirstBlock) or (nDoneMain <= numConditions*3):
+            print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity, 'howManyMoreFrames=',howManyMoreFrames)
             ltrColorThis = staircase.next()
             #if ltrColorThis <= 1:
             #    howManyMoreFrames = 0
@@ -1127,7 +1128,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     myMouse.setVisible(False) #because showing the stimulus is next
 
     if trackEyes:
-        doDriftCorrect = True
+        doDriftCorrect = False
         if doDriftCorrect:
             # we recommend drift correction at the beginning of each trial
             # the doDriftCorrect() function requires target position in integers
@@ -1429,7 +1430,7 @@ if trackEyes:
     try:
         # Download the EDF data file from the Host PC to a local data folder
         # parameters: source_file_on_the_host, destination_file_on_local_drive
-        tracker.receiveDataFile(edf_fname_8chars,edf_fname) 
+        el_tracker.receiveDataFile(edf_fname_short,edf_fname_short) 
     except RuntimeError as error:
         print('when trying to get EDF file from eyetracker computer, ERROR:', error)
   else: 
