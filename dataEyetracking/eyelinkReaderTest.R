@@ -13,7 +13,7 @@ library(eyelinkReader)
 EDF_example <- "../dataEyetracking/results for p14 10.15am aug10.EDF"
 EDF_example <- "../dataEyetracking/results for p15 11.30am aug10.EDF"
 
-gaze <- read_edf(EDF_example)
+gaze <- eyelinkReader::read_edf(EDF_example)
 
 if (length(gaze)>0) {
   cat('Success!')
@@ -102,14 +102,4 @@ library(readr)
 outputFilename = paste0( EDF_example, ".csv" )
 readr::write_excel_csv( perTrial, outputFilename )
 
-
-# whatIwantToKnowEachTrial<- 
-#   eyelinkReportSummarise(inputFilename,df,widthPix,heightPix,centralZoneWidthPix,centralZoneHeightPix)
-# head(whatIwantToKnowEachTrial)
-# proportnTrialsOutOfCentralArea = sum(whatIwantToKnowEachTrial$outOfCentralArea != 0) / nrow(whatIwantToKnowEachTrial)
-# msg=paste0(" fixation broken on ",as.character(round(proportnTrialsOutOfCentralArea*100,1)), "% of trials")
-# print(msg)
-# #write.table(whatIwantToKnowEachTrialAboutEye, paste0(inputDir, outputFilename,".txt"), sep="\t", row.names=FALSE)
-
-
-
+#See summariseEyelinkData.R for most of this in a function
