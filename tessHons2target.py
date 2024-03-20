@@ -3,7 +3,7 @@
 from psychopy import monitors, visual, event, data, logging, core, gui, sound
 import psychopy.info
 useSound = False
-import random, scipy
+import random
 import numpy as np
 from math import atan, log, ceil
 import copy, time, datetime, sys, os, string, shutil, platform
@@ -44,7 +44,7 @@ try:
 except ImportError:
     print('ERROR Could not import getpass')
 
-trackEyes = True
+trackEyes = False
 if trackEyes:
     eyetracker_dummy_mode = False # Set this variable to True to run eyetracking in "Dummy Mode"
     eyetrackFileGetFromEyelinkMachine = True
@@ -886,7 +886,7 @@ def do_RSVP_stim(thisTrial, seq1, seq2, seq3, ltrColorThis, proportnNoise,trialN
     logging.info( 'numtrials=' + str(trials.nTotal) + ' and this trialDurFrames='+str(trialDurFrames)+' or '+str(trialDurFrames*(1000./refreshRate))+ \
                ' ms' + '  task=' + task)
                
-    noiseTexture = scipy.random.rand(8,8)*2.0-1
+    noiseTexture = np.random.rand(8,8)*2.0-1
     myNoise1 = visual.GratingStim(myWin, tex=noiseTexture, size=(1.5,1), units='deg', interpolate=False,
              pos = calcStimPos(thisTrial,0), autoLog=False)#this stim changes too much for autologging to be useful
     myNoise2 = visual.GratingStim(myWin, tex=noiseTexture, size=(1.5,1), units='deg', interpolate=False,
@@ -942,7 +942,7 @@ def do_RSVP_stim(thisTrial, seq1, seq2, seq3, ltrColorThis, proportnNoise,trialN
         
     noiseMaskFrames = int(noiseMaskMin *refreshRate)
     for i in range(noiseMaskFrames):
-        myNoise1.phase = scipy.random.rand(1); myNoise2.phase = scipy.random.rand(1); myNoise3.phase = scipy.random.rand(1)
+        myNoise1.phase = np.random.rand(1); myNoise2.phase = np.random.rand(1); myNoise3.phase = np.random.rand(1)
         if seq1:
             myNoise1.draw(); 
         if seq2:
