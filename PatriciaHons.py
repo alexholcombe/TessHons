@@ -169,9 +169,9 @@ now = datetime.datetime.now() #used for JSON
 showRefreshMisses=True #flicker fixation at refresh rate, to visualize if frames missed
 feedback=True 
 autoLogging=False
-refreshRate = 60
+refreshRate = 85
 if demo:
-   refreshRate = 60.;  #100
+   refreshRate = 85.;  #100
 
 numWordsInStream = 1
 myFont =  'Arial' # 'Sloan' # 
