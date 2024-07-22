@@ -238,7 +238,11 @@ def collectOneLineupResponse(myWin,bgColor,myMouse,drawBothSides,leftRightCentra
    response = possibleResps[whichResp]
    
    #Determine which button was pressed
-   whichPressed = np.where(lastValidClickButtons)[0]
+   if not ('lastValidClickButtons' in locals()): #variable doesn't exist, which can happen if participant presses ESC
+       whichPressed = [-1]
+       logging.warning('lastValidClickButtons not defined, maybe because participant pressed ESC')
+   else:
+       whichPressed = np.where(lastValidClickButtons)[0]
    if len(whichPressed)>1:
         print("Thought it was impossible to have pressed both buttons")
         print('whichPressed=',whichPressed)
