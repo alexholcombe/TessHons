@@ -44,10 +44,10 @@ try:
 except ImportError:
     print('ERROR Could not import getpass')
 
-pointsEachCond = [ [3,3], [2,4], [1,5] ]
+pointsEachCond = [ [3,3], [1,5] ]
 
 #Change the following number to match the participant's condition
-condNum = 1
+condNum = 0
     
 trackEyes = False
 if trackEyes:
@@ -84,8 +84,7 @@ if trackEyes:
         core.quit()
         sys.exit()
         
-    # We download EDF data file from the EyeLink Host PC to the local hard
-    # drive at the end of each testing session
+    # We download EDF data file from the EyeLink Host PC to the local hard drive at the end of each testing session
 
     # Add a header text to the EDF file to identify the current experiment name
     # This is optional. If your text starts with "RECORDED BY " it will be
@@ -143,12 +142,12 @@ tasks=['T1']; task = tasks[0]
 #same screen or external screen? Set scrn=0 if one screen. scrn=1 means display stimulus on second screen.
 #widthPix, heightPix
 quitFinder=False 
-autopilot=False #tesschange temp
+autopilot= False  #tesschange temp
 demo=False #False
 exportImages= False #quits after one trial
 user=getuser()  #In PSYC1002, participant logged into computer so subject was their username https://stackoverflow.com/a/842096/302378
 networkMachineName = gethostname()
-subject = 'Bertie' #debug
+subject = 'participantID_prac' #debug #for pat: change before practice trial & for each part of the experiment
 if autopilot: subject='auto'
 cwd = os.getcwd()
 print('current working directory =',cwd)
@@ -187,11 +186,11 @@ experimentsList = []
 #Implement the fully factorial part of the design by creating every combination of the following conditions
 oneTargetConditions = [False] #[False,False,True] #1/3 of trials single-target
 for stim in experimentTypesStim:
-    ISIms = 51
+    ISIms = 100 # 100 for Pat #51 for Tess
     for spatial in experimentTypesSpatial:
         experimentsList.append( {'numSimultaneousStim': 2, 'stimType':stim, 'flipped':False, 'spatial':spatial, 'ori':0, 'ISIms':ISIms, 'oneTargetConditions':oneTargetConditions} )
 #add Patricia's experiment to list, making it number 2
-experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':False, 'spatial':'horiz', 'ori':0, 'ISIms':34, 'oneTargetConditions':oneTargetConditions } )
+experimentsList.append( {'numSimultaneousStim': 2, 'stimType':'letter', 'flipped':False, 'spatial':'horiz', 'ori':0, 'ISIms':ISIms, 'oneTargetConditions':oneTargetConditions } )
 
 seed = int( np.floor( time.time() ) )
 random.seed(seed); np.random.seed(seed) #https://stackoverflow.com/a/48056075/302378
@@ -237,7 +236,7 @@ elif experiment['stimType'] == 'digit':
 print('stimlist=',stimList)
 bgColor = [-.7,-.7,-.7] # [-1,-1,-1]
 cueColor = [-.7,-.7,-.7] #originally [1.,1.,1.]
-ltrColor = .9 #[.9,.9,.9]# [-.3,-.3,-.3]
+ltrColor = .9 # .9for Pat #[.9,.9,.9]# [-.3,-.3,-.3] 
 cueRadius = 7 #6 deg in Goodbourn & Holcombe
 #1920 x 1080 for psyc lab OTC machines
 widthPix= 1920 #monitor width in pixels of Agosta  [1280]
@@ -261,7 +260,7 @@ viewdist = 57 #50. #cm
 pixelperdegree = widthPix/ (atan(monitorwidth/viewdist) /np.pi*180)
     
 doStaircase = True
-stopStaircaseAfterFirstBlock = True #If your experiment uses staircasing (doStaircase=True), only do it for the first block (which will be practice trials) because otherwise
+stopStaircaseAfterFirstBlock = False #If your experiment uses staircasing (doStaircase=True), only do it for the first block (which will be practice trials) because otherwise
     #different conditions might have different average duration/luminances, because the staircase adjusts after potentially every trial
 checkRefreshEtc = True 
 if quitFinder and sys.platform != "win32":  #Don't know how to quitfinder on windows
@@ -271,15 +270,14 @@ if quitFinder and sys.platform != "win32":  #Don't know how to quitfinder on win
     os.system(shellCmd)
     
 letterDurMs = 34
-ISIms =  experiment['ISIms']
+ISIms = experiment['ISIms'] # change to the last value in the output after break ISIms = value
 letterDurFrames = int( np.floor(letterDurMs / (1000./refreshRate)) )
 cueDurFrames = letterDurFrames
 ISIframes = int( np.floor(ISIms / (1000./refreshRate)) )
 #have set ISIframes and letterDurFrames to integer that corresponds as close as possible to originally intended ms
 rateInfo = 'base total SOA=' + str(round(  (ISIframes + letterDurFrames)*1000./refreshRate, 2)) + ' or ' + str(ISIframes + letterDurFrames) + ' frames, comprising\n'
 rateInfo+=  'base ISIframes ='+str(ISIframes)+' or '+str(ISIframes*(1000./refreshRate))+' ms and letterDurFrames ='+str(letterDurFrames)+' or '+str(round( letterDurFrames*(1000./refreshRate), 2))+'ms'
-logging.info(rateInfo); #print(rateInfo)
-logging.info('current working directory is ' + cwd)
+#rateInfo logged down below after set up logfile
 
 monitorname = 'testmonitor'
 waitBlank = False
@@ -287,7 +285,7 @@ mon = monitors.Monitor(monitorname,width=monitorwidth, distance=viewdist)#relyin
 mon.setSizePix( (widthPix,heightPix) )
 units='deg' #'cm'
 
-trialsPerCondition = 17 #tesschange from 23 
+trialsPerCondition = 200 #tesschange from 23, patriciachange from Tess's 17
 defaultNoiseLevel = 0
 if not demo:
     allowGUI = False
@@ -312,6 +310,8 @@ if demo or exportImages:
   dataFile = sys.stdout; logFname = sys.stdout
   logging.console.setLevel(logging.ERROR)  #only show this level  messages and higher
 logging.console.setLevel(logging.ERROR) #DEBUG means set  console to receive nearly all messges, INFO next level, EXP, DATA, WARNING and ERROR 
+logging.info(rateInfo); #print(rateInfo)
+logging.info('current working directory is ' + cwd)
 
 includeConsentDemographics = False
 if includeConsentDemographics:
@@ -461,7 +461,7 @@ if trackEyes:
     # primary display device on macOS. If have an external monitor, set this
     # variable True if you choose to "Optimize for Built-in Retina Display"
     # in the Displays preference settings.
-    use_retina = True
+    use_retina = False
     # resolution fix for Mac retina displays
     if 'Darwin' in platform.system():
         if use_retina:
@@ -471,6 +471,7 @@ if trackEyes:
     # Pass the display pixel coordinates (left, top, right, bottom) to the tracker
     # see the EyeLink Installation Guide, "Customizing Screen Settings"
     el_coords = "screen_pixel_coords = 0 0 %d %d" % (scn_width - 1, scn_height - 1)
+    logging.info("screen coords being sent to eyetrakcer = " + el_coords); #print(rateInfo)
     print("myWin screen_pixel_coords being sent to eyetracker =",el_coords)
     el_tracker.sendCommand(el_coords)
 
@@ -656,16 +657,14 @@ trialInstructionPos = (0,1)
 trialInstructionStim = visual.TextStim(myWin,pos=trialInstructionPos,colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.5,units='deg',autoLog=autoLogging)
 trialInstructionStim.setText(trialInstructionString,log=False)
 respPromptStim1 = visual.TextStim(myWin,pos=(0, -.9),colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.5,units='deg',autoLog=autoLogging)
-respPromptStim2 = visual.TextStim(myWin,colorSpace='rgb',color=(.8,.8,0),wrapWidth=999,alignHoriz='center', alignVert='center',height=.09,units='norm',autoLog=autoLogging)
-respPromptStim3 = visual.TextStim(myWin,colorSpace='rgb',color=(.8,.8,0),wrapWidth=999,alignHoriz='center', alignVert='center',height=.09,units='norm',autoLog=autoLogging)
-feedbackPointsReminder = visual.TextStim(myWin, colorSpace='rgb',color=(.8,.8,0),wrapWidth=999,alignHoriz='center', alignVert='center',height=.09,units='norm',autoLog=autoLogging)
-totalPointsText = visual.TextStim(myWin, colorSpace='rgb',color=(.8,.8,0),wrapWidth=999,alignHoriz='center', alignVert='center',height=.09,units='norm',autoLog=autoLogging)
+respPromptStim2 = visual.TextStim(myWin,colorSpace='rgb',color=(.8,.8,0),wrapWidth=999,alignHoriz='center', alignVert='center',height=.1,units='norm',autoLog=autoLogging)
+respPromptStim3 = visual.TextStim(myWin,colorSpace='rgb',color=(.8,.8,0),wrapWidth=999,alignHoriz='center', alignVert='center',height=.1,units='norm',autoLog=autoLogging)
+feedbackPointsReminder = visual.TextStim(myWin, colorSpace='rgb',color=(.8,.8,0),wrapWidth=999,alignHoriz='center', alignVert='center',height=.1,units='norm',autoLog=autoLogging)
+totalPointsText = visual.TextStim(myWin, colorSpace='rgb',color=(.8,.8,0),wrapWidth=999,alignHoriz='center', alignVert='center',height=.1,units='norm',autoLog=autoLogging)
 
 if condNum == 0:
     experimentInstructionMsg = 'If you get the left letter correct, you will receive 3 points.\n\n If you get the right letter correct, you will receive 3 points. \n\n Your points for each trial and your total points at the end will be shown.'
 elif condNum == 1:
-    experimentInstructionMsg = 'If you get the left letter correct, you will receive 2 points. \n\n If you get the right letter correct, you will receive 4 points. \n\n Your points for each trial and your total points at the end will be shown.'
-elif condNum == 2:
     experimentInstructionMsg = 'If you get the left letter correct, you will receive 1 points. \n\n If you get the right letter correct, you will receive 5 points. \n\n Your points for each trial and your total points at the end will be shown.'
 
 experimentInstructionText = visual.TextStim(myWin, text=experimentInstructionMsg,colorSpace='rgb',color=(1,1,1),alignHoriz='center', alignVert='center',height=.3,units='deg',autoLog=autoLogging)
@@ -702,7 +701,7 @@ for rightResponseFirst in [False,True]: #does double-duty as which position when
  #for trialInstructionPos in [(0,-1), (0,1)]: #half of trials instruction to fixate above fixation, half of trials below
  trialInstructionPos = -99 #not counterbalancing, just choose randomly on each trial
  for oneTarget in experiment['oneTargetConditions']: #whether only one target presented
-    for whichSide in [0,1]: #To vary in vertically arrayed case whether left or right side, and in horizontally arrayed case whether top or bottom side
+    for whichSide in [0]: #[0,1] To vary in vertically arrayed case whether stimuli are on left or right side, and in horizontally arrayed case whether top or bottom side
      for spacing in [0]: #spacing NOT WORKING
         #oneTarget=True; horizVert=1;whichSide=1; rightResponseFirst=True
         conditionsList.append( {'rightResponseFirst':rightResponseFirst, 'leftStreamFlip':experiment['flipped'], 'trialInstructionPos':trialInstructionPos,'spacing':spacing,
@@ -750,7 +749,7 @@ maxNumRespsWanted = 3
 #print header for data file
 print('experimentPhase\ttrialnum\tsubject\ttask\toneTarget\t',file=dataFile,end='')
 print('noisePercent\tISIframes\tltrColorThis\tleftStreamFlip\trightStreamFlip\toneTarget\thorizVert\twhichSide\trightResponseFirst\tprobe\ttrialInstructionPos\t',end='',file=dataFile)
-    
+print('totalFramesBeforeStim',end='\t',file=dataFile)
 for i in range( experiment['numSimultaneousStim'] ): #range(maxNumRespsWanted):
    dataFile.write('responseOrder'+str(i)+'\t')
    dataFile.write('answer'+str(i)+'\t')
@@ -892,6 +891,7 @@ def do_RSVP_stim(thisTrial, seq1, seq2, seq3, ltrColorThis, proportnNoise,trialN
     #relies on global variables:
     #   textStimuli, logging, bgColor, trialInstructionStim
     global framesSaved #because change this variable. Can only change a global variable if you declare it
+    global totalFramesBeforeStim
     cuesPos = [] #will contain the positions in the stream of all the cues (targets)
     cuesPos.append(0)
     cuesPos = np.array(cuesPos)
@@ -920,8 +920,8 @@ def do_RSVP_stim(thisTrial, seq1, seq2, seq3, ltrColorThis, proportnNoise,trialN
     
     core.wait(.1)
     trialClock.reset()
-    fixatnPeriodMin = 0.
-    fixatnPeriodFrames = int(   (np.random.rand(1)/4.+fixatnPeriodMin)   *refreshRate)  #random interval between 0 and 1/4 seconds
+    fixatnPeriodMin = 0
+    fixatnPeriodFrames = int(   (np.random.rand(1)/4.+fixatnPeriodMin)   *refreshRate)  #random interval between fixatnPeriodMin and 1/4 seconds
     ts = list(); #to store time of each drawing, to check whether skipped frames
     instructionFrames = 50
     if trialN > 2: 
@@ -945,6 +945,9 @@ def do_RSVP_stim(thisTrial, seq1, seq2, seq3, ltrColorThis, proportnNoise,trialN
     for i in range(midDelayFrames):
         if i%4 > 1: fixationPoint.draw()
         myWin.flip()
+    totalFramesBeforeStim = midDelayFrames + fixatnPeriodFrames + instructionFrames
+    if trackEyes:
+        el_tracker.sendMessage('totalFramesBeforeStim='+str(totalFramesBeforeStim))
 
     for n in range(trialDurFrames): #this is the loop for this trial's stimulus!
             worked = oneFrameOfStim( n,cue,seq1,seq2,seq3,cueDurFrames,letterDurFrames,thisTrial,stimuliStream1,stimuliStream2,stimuliStream3,
@@ -959,8 +962,8 @@ def do_RSVP_stim(thisTrial, seq1, seq2, seq3, ltrColorThis, proportnNoise,trialN
     #draw the noise mask
     thisProbe = thisTrial['probe']
     if thisProbe == 'long':
-        noiseMaskMin = 0.1 #.2
-    else: noiseMaskMin = 0.1 # .2
+        noiseMaskMin = .2
+    else: noiseMaskMin = .2
         
     noiseMaskFrames = int(noiseMaskMin *refreshRate)
     for i in range(noiseMaskFrames):
@@ -1063,7 +1066,8 @@ expTimedOut = False
 nDoneMain = -1 #change to zero once start main part of experiment
 if doStaircase:
     #create the staircase handler
-    stepSizesLinear = [.6,.6,.5,.5,.4,.3,.3,.1,.1,.1,.1,.05]
+    #Change the activated bracket depending on practice/actual experiment
+    stepSizesLinear = [.6,.6,.5,.5,.4,.3,.3,.1,.1,.1,.1,.05] #for practice trials, use [.001]
     minVal = bgColor[0]+.15
     maxMoreFramesAllowed = 6
     #lumRange = 1 - minVal
@@ -1081,7 +1085,7 @@ if doStaircase:
     #phasesMsg = ('Doing '+str(prefaceStaircaseTrialsN)+'trials with noisePercent= '+str(prefaceStaircaseNoise)+' then doing a max '+str(staircaseTrials)+'-trial staircase')
     #print(phasesMsg); logging.info(phasesMsg)
 
-    #printStaircase(staircase, descendingPsycho, briefTrialUpdate=True, printInternalVal=True, alsoLog=False)
+    #printStaircase(staircase, descendingPsycho, briefTrialUpdate=True, printInternalVal=True, alsoLog=False) 
     #print('staircase.quantile=',round(staircase.quantile(),2),' sd=',round(staircase.sd(),2))
 
 noisePercent = defaultNoiseLevel
@@ -1107,45 +1111,28 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     calcAndPredrawStimuli(stimList,trial['spacing'],whichStim0,whichStim1,whichStim2)
     thisTrial = copy.deepcopy(trial) #so that can change its values, otherwise messing with it screws up the trialhandler
     ltrColorThis = ltrColor
-    if nDoneMain==0: #First trial
-        msg='Starting main part of experiment'
-        howManyMoreFrames =0
-        logging.info(msg)
-        thisTrial['ISIframes'] *= 13 #ease the participants into it
-    elif nDoneMain == 1:  #Show instructions
-        thisTrial['ISIframes'] *= 10
-        event.clearEvents(); keyPressed = False; f =0
+    howManyMoreFrames = 0
+    event.clearEvents(); keyPressed = False; f =0
+    if nDoneMain <=1:
         while f < 500 and not keyPressed:
-            taskInstructionStim1.draw()
+            if nDoneMain == 0:
+                taskInstructionStim1.draw()
+            elif nDoneMain ==1:
+                taskInstructionStim2.draw()
             myWin.flip(); f += 1
             keyPressed = event.getKeys() #keyList=list(string.ascii_lowercase))
-    elif nDoneMain ==2:
-        thisTrial['ISIframes'] *= 8
-    elif nDoneMain ==3:
-        thisTrial['ISIframes'] *= 8
-    elif nDoneMain ==4:
-        thisTrial['ISIframes'] *= 6
-        event.clearEvents(); keyPressed = False; f =0
-        while f < 500 and not keyPressed:
-            taskInstructionStim2.draw()
-            myWin.flip(); f += 1
-            keyPressed = event.getKeys() #keyList=list(string.ascii_lowercase))        
-    else:
-        if doStaircase:
-          if (not stopStaircaseAfterFirstBlock) or (nDoneMain <= numConditions*3):
+    if doStaircase:
+        if (not stopStaircaseAfterFirstBlock) or (nDoneMain <= numConditions*3):
             print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity, 'howManyMoreFrames=',howManyMoreFrames)
             ltrColorThis = staircase.next()
-            #if ltrColorThis <= 1:
-            #    howManyMoreFrames = 0
-            #elif ltrColorThis > howManyMoreFrames + 1: #can't have lum greater than 1, so instead increase duration
-                #print('thisTrial[ISIframes]=', thisTrial['ISIframes'])
+
             howManyMoreFrames = np.floor(ltrColorThis)
             print('changed howManyMoreFrames to ', howManyMoreFrames)
             thisTrial['ISIframes'] += howManyMoreFrames #increase duration by however much it is greater than 1
             if howManyMoreFrames>0:
                 #need the base brightness when longer frames to be pretty high, otherwise they might never get back to lower number of frames
                 ltrColorThis = min(1,   0 + (ltrColorThis - howManyMoreFrames)   ) #For each bit greater 1, increase luminance
-                print('thisTrial[ISIframes]=', thisTrial['ISIframes'], ' and now ltrColorThis =',ltrColorThis)
+                print('staircase has changed number of frames to thisTrial[ISIframes]=', thisTrial['ISIframes'], ' and now ltrColorThis =',ltrColorThis)
             ltrColorThis = round(ltrColorThis,2)
             print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity,'ltrColorThis=',ltrColorThis)
             #trialInstructionStim.setText('lum=' + str(ltrColorThis)+ ' f='+ str(howManyMoreFrames), log=False) #debug
@@ -1234,7 +1221,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
 
     #call for each response
     #if myMouse == None:  #mouse sometimes freezes if don't call event.Mouse certain number of times I think, no idea why
-        #myMouse = event.Mouse(visible=True,win=myWin) #debugAH
+        #myMouse = event.Mouse(visible=True,win=myWin)
     myMouse.setVisible(True)
     fixationPoint.setColor([.6,.6,.6]) #white not red so person doesn't feel they have to look at it
 
@@ -1345,7 +1332,7 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
         print(thisTrial['rightResponseFirst'],'\t', end='', file=dataFile)
         print(thisTrial['probe'],'\t', end='', file=dataFile)
         print(thisTrial['trialInstructionPos'],'\t', end='', file=dataFile)
-            
+        print(totalFramesBeforeStim,end='\t',file=dataFile)
         eachCorrect = np.ones(numRespsWanted)*-999
 
         numToPrint = numRespsWanted
