@@ -147,7 +147,7 @@ demo=False #False
 exportImages= False #quits after one trial
 user=getuser()  #In PSYC1002, participant logged into computer so subject was their username https://stackoverflow.com/a/842096/302378
 networkMachineName = gethostname()
-subject = 'participantID_prac' #debug #for pat: change before practice trial & for each part of the experiment
+subject = '38_prac' #for pat: change before practice trial & for each part of the experiment (e.g., exp1 or exp2)
 if autopilot: subject='auto'
 cwd = os.getcwd()
 print('current working directory =',cwd)
@@ -236,7 +236,7 @@ elif experiment['stimType'] == 'digit':
 print('stimlist=',stimList)
 bgColor = [-.7,-.7,-.7] # [-1,-1,-1]
 cueColor = [-.7,-.7,-.7] #originally [1.,1.,1.]
-ltrColor = .9 # .9for Pat #[.9,.9,.9]# [-.3,-.3,-.3] 
+ltrColor = .9 # .9 for Pat #[.9,.9,.9]# [-.3,-.3,-.3] 
 cueRadius = 7 #6 deg in Goodbourn & Holcombe
 #1920 x 1080 for psyc lab OTC machines
 widthPix= 1920 #monitor width in pixels of Agosta  [1280]
@@ -270,7 +270,7 @@ if quitFinder and sys.platform != "win32":  #Don't know how to quitfinder on win
     os.system(shellCmd)
     
 letterDurMs = 34
-ISIms = experiment['ISIms'] # change to the last value in the output after break ISIms = value
+ISIms = experiment['ISIms'] #multiply the last value for ISIframes with 11.76 to get the value for ISIms AFTER the break
 letterDurFrames = int( np.floor(letterDurMs / (1000./refreshRate)) )
 cueDurFrames = letterDurFrames
 ISIframes = int( np.floor(ISIms / (1000./refreshRate)) )
@@ -1067,7 +1067,7 @@ nDoneMain = -1 #change to zero once start main part of experiment
 if doStaircase:
     #create the staircase handler
     #Change the activated bracket depending on practice/actual experiment
-    stepSizesLinear = [.6,.6,.5,.5,.4,.3,.3,.1,.1,.1,.1,.05] #for practice trials, use [.001]
+    stepSizesLinear = [.001] #[.6,.6,.5,.5,.4,.3,.3,.1,.1,.1,.1,.05] #for practice trials, use [.001]
     minVal = bgColor[0]+.15
     maxMoreFramesAllowed = 6
     #lumRange = 1 - minVal
@@ -1493,7 +1493,9 @@ if expTimedOut:
     print(msg); logging.info(msg)
 if nDoneMain >0:
     trialsExactlyCorrectPct = numTrialsCorrect*1.0/nDoneMain*100.
-    print('Of ',nDoneMain,' trials, on ',round(trialsExactlyCorrectPct,2), '% of all trials all targets reported exactly correct',sep='')
+    proportnCorrectMsg =  'Of '+str(nDoneMain)+' trials, on '+str(round(trialsExactlyCorrectPct,2))+ '% of all trials all targets reported exactly correct'
+    print(proportnCorrectMsg)
+    logging.info(proportnCorrectMsg)
     #for i in range(numRespsWanted): #Doesn't work because oneTarget trials screws up numTrialsEachCorrect
     #    print('stream',i,': ',round(numTrialsEachCorrect[i]*1.0/nDoneMain*100.,2), '% correct',sep='')
 dataFile.flush(); logging.flush(); dataFile.close()
