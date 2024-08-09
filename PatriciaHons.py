@@ -1124,12 +1124,13 @@ while nDoneMain < trials.nTotal and expStop!=True: #MAIN EXPERIMENT LOOP
     if doStaircase:
         if (not stopStaircaseAfterFirstBlock) or (nDoneMain <= numConditions*3):
             print('staircase.stepSizeCurrent = ',staircase.stepSizeCurrent, 'staircase._nextIntensity=',staircase._nextIntensity, 'howManyMoreFrames=',howManyMoreFrames)
-            ltrColorThis = staircase.next()
-
-            howManyMoreFrames = np.floor(ltrColorThis)
+            howManyMoreFrames = np.floor( staircase.next() )
             print('changed howManyMoreFrames to ', howManyMoreFrames)
+            #I THINK THE BELOW IS NOT WORKING PROPERLY, using change rather than absolute value
+            #Why is this in terms of a change rather than the absolute value suggested by the staircase output?
             thisTrial['ISIframes'] += howManyMoreFrames #increase duration by however much it is greater than 1
             if howManyMoreFrames>0:
+                #Just change the brightness of the letter because need the base brightness when longer frames to be pretty high
                 #need the base brightness when longer frames to be pretty high, otherwise they might never get back to lower number of frames
                 ltrColorThis = min(1,   0 + (ltrColorThis - howManyMoreFrames)   ) #For each bit greater 1, increase luminance
                 print('staircase has changed number of frames to thisTrial[ISIframes]=', thisTrial['ISIframes'], ' and now ltrColorThis =',ltrColorThis)
